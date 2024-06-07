@@ -1,8 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
+import IowaGames from "./games";
 
 const Navigation = () => (
     <nav>
       <ul>
+        <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
         <li><NavLink to='./games'>Games</NavLink></li>
       </ul>
@@ -10,10 +12,17 @@ const Navigation = () => (
   );
 
 export default function IowaGamblingPage() {
+    const location = useLocation();
+    const hideNavigation = location.pathname !== '/igt';
+
     return (
         <>
-            <h1>Iowa</h1>
-            <Navigation />
+
+            {!hideNavigation && <h1>Iowa</h1>}
+            {!hideNavigation && <Navigation />}
+            <Routes>
+              <Route path='games' element={<IowaGames />}></Route>
+            </Routes>
         </>
     )
 }

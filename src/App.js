@@ -30,8 +30,8 @@ const Main = () => {
       {!hideNavigation && <Navigation />}
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='/cognitive' element={<CognitivePage />}></Route>
-        <Route path='/igt' element={<IowaGamblingPage />}></Route>
+        <Route path='/cognitive/*' element={<CognitivePage />}></Route>
+        <Route path='/igt/*' element={<IowaGamblingPage />}></Route>
       </Routes>
     </>
 );
