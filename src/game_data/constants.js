@@ -1,0 +1,1 @@
+export const FORTUNE_NAME = "projectseed-iowa-production"
