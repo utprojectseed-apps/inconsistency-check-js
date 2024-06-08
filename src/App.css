@@ -41,3 +41,7 @@ p {
   margin-bottom: 15px;
 }
 
+.gameparticipantreport {
+  margin-bottom: 20px;
+  page-break-after: always;
+}

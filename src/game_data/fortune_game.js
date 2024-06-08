@@ -18,7 +18,7 @@ export default class FortuneGame extends Game {
                 let session = sessions[j]
                 let sess_df = df.loc({rows: df['session_uuid'].eq(session)});
                 let count = sess_df.shape[0]
-                this.completionsDays[i] = Math.max(this.completionsDays[i], count/EXPECTED_TRIALS);
+                this.completionsDays[i] = Math.max(this.completionsDays[i], (count/EXPECTED_TRIALS * 100).toFixed(2));
             }
         }
     }

@@ -1,9 +1,11 @@
+import GamesParticipantReport from "./gamesparticipantreport"
+
 export default function GameFullReport({participantList}) {
+    const participants = participantList !== null && participantList.participants.map(
+        participant => <GamesParticipantReport key={participant.id} participant={participant}/>)
     return (
         <div>
-            <h1>TODO</h1>
-            <p>{participantList !== null && participantList.getIds()}</p>
-            <div>{participantList !== null && participantList.getCompletions().map((c, i) => <p key={i}>{c + " "}</p>)}</div>
+            {participants}
         </div>
     )
 }
