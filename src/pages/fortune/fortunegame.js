@@ -1,26 +1,28 @@
 import CSVReader from "./csvread";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 
-export default function IowaGames() {
+export default function FortuneGame() {
     const [data, setData] = React.useState(undefined)
-    const [participants, setParticipants] = React.useState([])
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const participantList = useRef(null)
     const handleUpload = d => {
         setData(d)
     }
     useEffect(() => {
         if(data !== undefined) {
             let participants = new dfd.Series(data['subject_id'].values).unique()
-            var participantList = new ParticipantList(participants, data)
-            setParticipants(participantList.getIds());
+            participantList.current = new ParticipantList(participants, data)
+            forceUpdate()
         }
     }, [data])
     return (
         <div className='games'>
-            <h1>TODO Games Code</h1>
+            <h1>Enter data</h1>
             <CSVReader parentCallback={handleUpload}/>
-            <p>{participants}</p>
+            <p>{participantList.current !== null && participantList.current.getIds()}</p>
+            <p>{participantList.current !== null && participantList.current.getCompletions()}</p>
         </div>
     )
 }

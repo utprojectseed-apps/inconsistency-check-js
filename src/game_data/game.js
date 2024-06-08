@@ -16,7 +16,6 @@ export default class Game {
     static get TotalDays() {return 14; }
 
     #splitDays() {
-
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.data.loc({ rows: this.data["day"].eq(i + 1)});
             this.days[i] = df;

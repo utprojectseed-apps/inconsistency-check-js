@@ -22,5 +22,12 @@ export default class Participant {
         }
     }
 
+    getCompletions() {
+        if (this.game === null) {
+            throw new Error('game is null');
+        }
+        return this.game.getCompletedDays();
+    }
+
 
 }

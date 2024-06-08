@@ -13,11 +13,12 @@ export default class FortuneGame extends Game {
             //in case there are multiple sessions
             let df = this.days[i];
             let sessions = new dfd.Series(df['session_uuid'].values).unique().values
-            for(let i = 0; i < sessions.length; ++i) {
-                let session = sessions[i]
+            this.completionsDays[i] = 0
+            for(let j = 0; j < sessions.length; ++j) {
+                let session = sessions[j]
                 let sess_df = df.loc({rows: df['session_uuid'].eq(session)});
                 let count = sess_df.shape[0]
-                this.completionsDays[i] = count/EXPECTED_TRIALS;
+                this.completionsDays[i] = Math.max(this.completionsDays[i], count/EXPECTED_TRIALS);
             }
         }
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { NavLink, Routes, Route, useLocation } from 'react-router-dom';
-import IowaGamblingPage from './pages/igt';
+import FortuneHome from './pages/fortune';
 import CognitivePage from './pages/cognitive';
 import Home from './pages/home';
 
@@ -15,7 +15,7 @@ const Navigation = () => (
   <nav>
     <ul>
       <li><NavLink to='/cognitive'>Cogntive Games</NavLink></li>
-      <li><NavLink to='/igt'>Iowa Gambling Task</NavLink></li>
+      <li><NavLink to='/fortune'>Fortune Task</NavLink></li>
     </ul>
   </nav>
 );
@@ -31,7 +31,7 @@ const Main = () => {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/cognitive/*' element={<CognitivePage />}></Route>
-        <Route path='/igt/*' element={<IowaGamblingPage />}></Route>
+        <Route path='/fortune/*' element={<FortuneHome />}></Route>
       </Routes>
     </>
 );

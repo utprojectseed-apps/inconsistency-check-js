@@ -34,4 +34,8 @@ export default class ParticipantList {
         }
         return this.ids.values;
     }
+
+    getCompletions() {
+        return this.participants.map(participant => participant.getCompletions());
+    }
 }
