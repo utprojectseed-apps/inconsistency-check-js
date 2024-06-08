@@ -2,6 +2,7 @@ import CSVReader from "./csvread";
 import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
+import GamesFullReport from "../../components/gamesfullreport";
 
 export default function FortuneGame() {
     const [data, setData] = React.useState(undefined)
@@ -21,8 +22,7 @@ export default function FortuneGame() {
         <div className='games'>
             <h1>Enter data</h1>
             <CSVReader parentCallback={handleUpload}/>
-            <p>{participantList.current !== null && participantList.current.getIds()}</p>
-            <p>{participantList.current !== null && participantList.current.getCompletions()}</p>
+            <GamesFullReport participantList={participantList.current}/>
         </div>
     )
 }
