@@ -18,7 +18,7 @@ export default class Participant {
                     this.game = new FortuneGame(this.data);
                     break;
                 default:
-                    break;
+                    throw new Error("Unknown experiment: " + games[i]);
             }
         }
     }
