@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-export default function CSVReader({parentCallback}) {
+export default function CSVReader({parentCallback, gameId}) {
   const { CSVReader } = useCSVReader();
   
 
@@ -46,7 +46,7 @@ export default function CSVReader({parentCallback}) {
           array.push(dict);
         }
         let df = new dfd.DataFrame(array)
-        parentCallback(df)
+        parentCallback(df, gameId)
       }}
     >
       {({

@@ -6,7 +6,7 @@ const Navigation = () => (
       <ul>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
-        <li><NavLink to='./fortunegame'>Games</NavLink></li>
+        <li><NavLink to='./game'>Games</NavLink></li>
       </ul>
     </nav>
   );
@@ -21,7 +21,7 @@ export default function FortuneHome() {
             {!hideNavigation && <h1>Fortune Game</h1>}
             {!hideNavigation && <Navigation />}
             <Routes>
-              <Route path='fortunegame' element={<FortuneGame />}></Route>
+              <Route path='game' element={<FortuneGame />}></Route>
             </Routes>
         </>
     )
