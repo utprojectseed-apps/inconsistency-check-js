@@ -45,3 +45,13 @@ p {
   margin-bottom: 20px;
   page-break-after: always;
 }
+
+.participant-header {
+  margin-bottom: 20px;
+  background-color: lightgray;
+}
+
+.participant-id {
+  display: flex;
+  justify-content: center;
+}

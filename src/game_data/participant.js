@@ -14,6 +14,7 @@ export default class Participant {
         for(let i = 0; i < games.length; ++i) {
             switch(games[i]) {
                 case FORTUNE_NAME:
+                    this.gameName = "Fortune Decks";
                     this.game = new FortuneGame(this.data);
                     break;
                 default:
@@ -27,6 +28,10 @@ export default class Participant {
             throw new Error('game is null');
         }
         return this.game.getCompletedDays();
+    }
+
+    getGameName() {
+        return this.gameName;
     }
 
 

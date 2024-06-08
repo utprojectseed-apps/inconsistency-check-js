@@ -29,4 +29,8 @@ export default class Game {
     getCompletedDays() {
         return this.completionsDays;
     }
+
+    getCycleStartDate() {
+        return this.data["cycle_start_date"].values[0];
+    }
 }

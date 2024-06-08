@@ -1,13 +1,23 @@
 import GamesDayInformation from "./gamesdayinformation";
 
 export default function GamesParticipantReport({participant}) {
-    const days = participant !== null && participant.getCompletions().map(
-        (c, i) => <GamesDayInformation key={i} day={i+1} completion={c}/>)
     if(participant === null) { return null }
+    const days = participant.getCompletions().map(
+        (c, i) => <GamesDayInformation key={i} day={i+1} completion={c}/>)
     return (
         <div className='gameparticipantreport'>
-            <h1>Participant ID: {participant !== null && participant.id}</h1>
+            <ParticipantHeader participant={participant}/>
             {days}
         </div>
     )
+}
+
+function ParticipantHeader({participant}) {
+    if(participant === null) { return null }
+    return (
+        <div className='participant-header'>
+            <h1 className='participant-id'>Participant ID: {participant.id}</h1>
+            <h2>Game: {participant.getGameName()}</h2>
+            <h3>Cycle start date: {participant.game.getCycleStartDate()}</h3>
+        </div>)
 }
