@@ -4,7 +4,7 @@ import CognitiveGame from "./cognitivegame";
 const Navigation = () => (
     <nav>
       <ul>
-        <li><NavLink to='/'>Home</NavLink></li>
+        <li><NavLink to={process.env.PUBLIC_URL}>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
         <li><NavLink to='./game'>Games</NavLink></li>
       </ul>
