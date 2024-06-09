@@ -13,7 +13,7 @@ const Navigation = () => (
 
 export default function CognitivePage() {
     const location = useLocation();
-    const hideNavigation = location.pathname !== '/cognitive';
+    const hideNavigation = location.pathname !== process.env.PUBLIC_URL + '/cognitive';
 
     return (
         <>

@@ -13,7 +13,7 @@ const Navigation = () => (
 
 export default function FortuneHome() {
     const location = useLocation();
-    const hideNavigation = location.pathname !== '/fortune';
+    const hideNavigation = location.pathname !== process.env.PUBLIC_URL + '/fortune';
 
     return (
         <>
