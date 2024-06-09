@@ -1,9 +1,14 @@
-import GamesDayInformation from "./gamesdayinformation";
+import FortuneGameDayInfo from "./fortunegamedayinfo";
 
 export default function GamesParticipantReport({participant}) {
     if(participant === null) { return null }
     const days = participant.getCompletions().map(
-        (c, i) => <GamesDayInformation key={i} day={i+1} completion={c}/>)
+        (c, i) => {
+            if (participant.getGameName() === "Fortune Decks") {
+                return <FortuneGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game} score={c}/>
+            }
+            return null
+        })
     return (
         <div className='gameparticipantreport'>
             <ParticipantHeader participant={participant}/>

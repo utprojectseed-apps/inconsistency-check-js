@@ -55,3 +55,16 @@ p {
   display: flex;
   justify-content: center;
 }
+
+.day-details {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 20%;
+}
+
+.day-details > p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
