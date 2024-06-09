@@ -2,7 +2,7 @@ import Game from "./game";
 import * as dfd from 'danfojs';
 
 
-export default class FortuneGame extends Game {
+export default class FortuneDeck extends Game {
     constructor(data) {
         super(data);
         this.calculateScore();
