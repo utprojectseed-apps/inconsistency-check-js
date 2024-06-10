@@ -4,7 +4,7 @@ import FortuneGame from "./fortunegame";
 const Navigation = () => (
     <nav>
       <ul>
-        <li><NavLink to={process.env.PUBLIC_URL}>Home</NavLink></li>
+        <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
         <li><NavLink to='./game'>Games</NavLink></li>
       </ul>
@@ -13,7 +13,7 @@ const Navigation = () => (
 
 export default function FortuneHome() {
     const location = useLocation();
-    const hideNavigation = location.pathname !== process.env.PUBLIC_URL + '/fortune';
+    const hideNavigation = location.pathname !== '/fortune';
 
     return (
         <>
