@@ -3,13 +3,17 @@ import * as dfd from 'danfojs';
 
 
 export default class FortuneDeck extends Game {
-    constructor(data) {
+    constructor(data, participant_id) {
         super(data);
+        this.participant_id = participant_id;
+        this.calculateCompletionsDays()
         this.calculateScore();
     }  
 
     calculateCompletionsDays() {
-        const EXPECTED_TRIALS = 100
+        const POSSIBLE_TRIALS = [100, 80]
+        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
+        console.log(EXPECTED_TRIALS, this.participant_id)
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
             //in case there are multiple sessions //TODO fix multiple sessions by removing it from df? or can find a way to display all?

@@ -15,7 +15,7 @@ export default class Participant {
             switch(games[i]) {
                 case FORTUNE_NAME:
                     this.gameName = "Fortune Decks";
-                    this.game = new FortuneDeck(this.data);
+                    this.game = new FortuneDeck(this.data, this.id);
                     break;
                 default:
                     throw new Error("Unknown experiment: " + games[i]);
