@@ -1,6 +1,5 @@
-import * as dfd from 'danfojs';
+//import * as dfd from 'danfojs';
 import Participant from "./participant";
-import {FORTUNE_NAME, BDS_NAME} from "./constants";
 
 
 export default class ParticipantList {
@@ -23,18 +22,16 @@ export default class ParticipantList {
             if(id === undefined || id === null) {
                 continue;
             }
-            const gameNames = new dfd.Series(this.data['experiment_name'].values).unique().values
+
             let df;
-            switch(gameNames[0]) {
-                case FORTUNE_NAME:
-                    df = this.data.loc({ rows: this.data["subject_id"].eq(id)});
-                    break;
-                case BDS_NAME:
-                    df = this.data.loc({ rows: this.data["Subject"].eq(id)});
-                    break;
-                default:
-                    throw new Error("Unknown experiment: " + gameNames[0]);
+            if (this.data.columns.includes("subject_id")) {
+                df = this.data.loc({ rows: this.data["subject_id"].eq(id)});
+            } else if (this.data.columns.includes("Subject")) {
+                df = this.data.loc({ rows: this.data["Subject"].eq(id)});
+            } else {
+                throw new Error("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.");
             }
+            
             const participant = new Participant(id, df);
             this.participants.push(participant);
         }
