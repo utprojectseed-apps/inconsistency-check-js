@@ -1,6 +1,7 @@
 import * as dfd from 'danfojs';
 import FortuneDeck from './fortunedecks';
-import {FORTUNE_NAME} from "./constants";
+import BDS from './bds';
+import {FORTUNE_NAME, BDS_NAME} from "./constants";
 
 export default class Participant {
     constructor(id, data) {
@@ -16,6 +17,10 @@ export default class Participant {
                 case FORTUNE_NAME:
                     this.gameName = "Fortune Decks";
                     this.game = new FortuneDeck(this.data, this.id);
+                    break;
+                case BDS_NAME:
+                    this.gameName = "BDS";
+                    this.game = new BDS(this.data, this.id);
                     break;
                 default:
                     throw new Error("Unknown experiment: " + games[i]);

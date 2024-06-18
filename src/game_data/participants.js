@@ -1,5 +1,6 @@
-// import * as dfd from 'danfojs';
+import * as dfd from 'danfojs';
 import Participant from "./participant";
+import {FORTUNE_NAME, BDS_NAME} from "./constants";
 
 
 export default class ParticipantList {
@@ -22,7 +23,18 @@ export default class ParticipantList {
             if(id === undefined || id === null) {
                 continue;
             }
-            const df = this.data.loc({ rows: this.data["subject_id"].eq(id)});
+            const gameNames = new dfd.Series(this.data['experiment_name'].values).unique().values
+            let df;
+            switch(gameNames[0]) {
+                case FORTUNE_NAME:
+                    df = this.data.loc({ rows: this.data["subject_id"].eq(id)});
+                    break;
+                case BDS_NAME:
+                    df = this.data.loc({ rows: this.data["Subject"].eq(id)});
+                    break;
+                default:
+                    throw new Error("Unknown experiment: " + gameNames[0]);
+            }
             const participant = new Participant(id, df);
             this.participants.push(participant);
         }
