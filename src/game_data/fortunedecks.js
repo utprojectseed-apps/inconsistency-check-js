@@ -39,6 +39,7 @@ export default class FortuneDeck extends Game {
         // score is calculated [(C + D) - (A + B)]/count
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
+                this.score[i] = undefined
                 continue;
             }
             let df = this.days[i]

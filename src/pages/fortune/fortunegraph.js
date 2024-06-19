@@ -2,6 +2,7 @@ import CSVReader from "../../components/csvread";
 import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
+import GraphFortuneData from "../../components/graph/graphfortunedata";
 
 export default function FortuneGraph() {
     const [data, setData] = React.useState(undefined)
@@ -30,6 +31,7 @@ export default function FortuneGraph() {
             <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
             {errorMessage && <h2>{errorMessage}</h2>}
             <div>Test</div>
+            {!errorMessage && <GraphFortuneData participantList={participantList.current}/>}
         </div>
     )
 }

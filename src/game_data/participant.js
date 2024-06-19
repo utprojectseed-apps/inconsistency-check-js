@@ -34,5 +34,9 @@ export default class Participant {
         return this.gameName;
     }
 
+    getId() {
+        return this.id;
+    }
+
 
 }
