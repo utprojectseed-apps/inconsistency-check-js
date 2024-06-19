@@ -8,8 +8,10 @@ export default class BDS extends Game {
         this.calculateCompletionsDays()
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
-        this.maxCorrectSpanDays = Array(Game.TotalDays).fill().map(() => []);
+        this.maxCorrectDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.calculateAverageDigitSpanDays();
+        this.calculateMaxDigitSpanDays();
+        this.calculateMaxCorrectDigitSpanDays();
     }
 
     calculateCompletionsDays() {
@@ -59,10 +61,24 @@ export default class BDS extends Game {
     }
 
     calculateMaxDigitSpanDays() {
-        
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+
+            // now we need to loop thru the testing_df
+            let maxSpan = 0;
+            let listValues = testing_df['List'].values;
+            for (let j = 0; j < listValues.length; ++j) {
+                let currSpan = parseInt(listValues[j]);
+                if (currSpan > maxSpan) {
+                    maxSpan = currSpan;
+                }
+            }
+            this.maxDigitSpanDays[i] = maxSpan;
+        }
     }
 
-    calculateMaxCorrectSpanDays() {
+    calculateMaxCorrectDigitSpanDays() {
         
     }
 
@@ -74,7 +90,7 @@ export default class BDS extends Game {
         return this.maxDigitSpanDays;
     }
 
-    getMaxCorrectSpanDays() {
-        return this.maxCorrectSpanDays;
+    getMaxCorrectDigitSpanDays() {
+        return this.maxCorrectDigitSpanDays;
     }
 }

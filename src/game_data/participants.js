@@ -51,4 +51,12 @@ export default class ParticipantList {
     getAverageDigitSpans() {
         return this.participants.map(participant => participant.getAverageDigitSpans());
     }
+
+    getMaxDigitSpans() {
+        return this.participants.map(participant => participant.getMaxDigitSpans());
+    }
+
+    getMaxCorrectDigitSpans() {
+        return this.participants.map(participant => participant.getMaxCorrectDigitSpans());
+    }
 }

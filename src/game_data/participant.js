@@ -53,4 +53,20 @@ export default class Participant {
         }
     }
 
+    getMaxDigitSpans() {
+        if(this.gameName === "BDS Task") {
+            return this.game.getMaxDigitSpanDays();
+        } else {
+            throw new Error("getMaxDigitSpans not implemented for this game.");
+        }
+    }
+
+    getMaxCorrectDigitSpans() {
+        if(this.gameName === "BDS Task") {
+            return this.game.getMaxCorrectDigitSpanDays();
+        } else {
+            throw new Error("getMaxCorrectDigitSpans not implemented for this game.");
+        }
+    }
+
 }
