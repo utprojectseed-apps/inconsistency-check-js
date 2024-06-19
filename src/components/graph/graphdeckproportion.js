@@ -11,23 +11,33 @@ export default function GraphDeckProportion( {participant} ) {
     const rawData = participant.game.getBlockProportions()
     const data = [] 
     for (let i = 0; i < rawData.length; i++) {
+        let day = []
         for (let j = 0; j < rawData[i].length; j++) {
             let curr = {
                 day: i,
-                block: i * rawData[i].length + j,
+                block: j,
                 deckA: rawData[i][j]["A"]/rawData[i][j]["total"],
                 deckB: rawData[i][j]["B"]/rawData[i][j]["total"],
                 deckC: rawData[i][j]["C"]/rawData[i][j]["total"],
                 deckD: rawData[i][j]["D"]/rawData[i][j]["total"]
             }
-            data.push(curr)
+            day.push(curr)
         }
+        data.push(day)
     }
     console.log(rawData.length, rawData[0].length)
+    const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()}/>)
+    return (
+        <div className="proportion-graph">
+            {daysGraphs}
+        </div>
+    )
+}
 
+const GraphSingleDay = ({data, day, id}) => {
     return (
         <div>
-            <h3>{participant.getId()} Deck Proportion</h3>
+            <h3>{id} Deck Proportion Day: {day}</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart           
                     width={500}
