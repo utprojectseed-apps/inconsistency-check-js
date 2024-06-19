@@ -45,5 +45,12 @@ export default class Participant {
         return this.gameName;
     }
 
+    getAverageDigitSpans() {
+        if(this.gameName === "BDS Task") {
+            return this.game.getAverageDigitSpanDays();
+        } else {
+            throw new Error("getAverageDigitSpans not implemented for this game.");
+        }
+    }
 
 }

@@ -6,7 +6,7 @@ export default class FortuneDeck extends Game {
     constructor(data, participant_id) {
         super(data);
         this.participant_id = participant_id;
-        this.calculateCompletionsDays()
+        this.calculateCompletionsDays();
         this.calculateScore();
     }  
 

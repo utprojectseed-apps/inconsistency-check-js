@@ -31,7 +31,7 @@ export default class ParticipantList {
             } else {
                 throw new Error("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.");
             }
-            
+
             const participant = new Participant(id, df);
             this.participants.push(participant);
         }
@@ -46,5 +46,9 @@ export default class ParticipantList {
 
     getCompletions() {
         return this.participants.map(participant => participant.getCompletions());
+    }
+
+    getAverageDigitSpans() {
+        return this.participants.map(participant => participant.getAverageDigitSpans());
     }
 }

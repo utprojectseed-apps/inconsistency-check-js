@@ -6,7 +6,8 @@ export default class BDS extends Game {
         super(data);
         this.participant_id = participant_id
         this.calculateCompletionsDays()
-        //this.calculateScore();
+        this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
+        this.calculateAverageDigitSpanDays();
     }
 
     calculateCompletionsDays() {
@@ -27,10 +28,35 @@ export default class BDS extends Game {
                 let completionRate = (count/12 * 100).toFixed(2)
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
-                    this.count[i] = count;
+                    this.count[i] = count; // conatins the number of test trials 
                     this.days[i] = sess_df;
                 }
             }
         }   
-    }       
+    }
+
+    calculateAverageDigitSpanDays() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+
+            let numTrials = 12;
+            if (testing_df.shape[0] !== 0) {
+                numTrials = testing_df.shape[0];
+            }
+
+            let sumLengths = 0;
+            let listValues = testing_df['List'].values;
+            for (let j = 0; j < listValues.length; ++j) {
+                sumLengths += parseFloat(listValues[j]);
+            }
+
+            let avgLength = testing_df.shape[0] !== 0 ? (sumLengths / numTrials).toFixed(2) : sumLengths > 0 ? sumLengths / numTrials : 0;
+            this.averageDigitSpanDays[i] = avgLength;
+        }
+    }
+
+    getAverageDigitSpanDays() {
+        return this.averageDigitSpanDays
+    }
 }
