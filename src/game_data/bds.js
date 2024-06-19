@@ -7,6 +7,8 @@ export default class BDS extends Game {
         this.participant_id = participant_id
         this.calculateCompletionsDays()
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
+        this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
+        this.maxCorrectSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.calculateAverageDigitSpanDays();
     }
 
@@ -56,7 +58,23 @@ export default class BDS extends Game {
         }
     }
 
+    calculateMaxDigitSpanDays() {
+        
+    }
+
+    calculateMaxCorrectSpanDays() {
+        
+    }
+
     getAverageDigitSpanDays() {
-        return this.averageDigitSpanDays
+        return this.averageDigitSpanDays;
+    }
+
+    getMaxDigitSpanDays() {
+        return this.maxDigitSpanDays;
+    }
+
+    getMaxCorrectSpanDays() {
+        return this.maxCorrectSpanDays;
     }
 }
