@@ -79,7 +79,25 @@ export default class BDS extends Game {
     }
 
     calculateMaxCorrectDigitSpanDays() {
-        
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let day = this.days[i];
+            let testing_df = day.loc({rows: day['task_section'].eq('test')});
+
+            let maxCorrectSpan = 0;
+            let listValues = testing_df['List'].values;
+            let accuracyValues = testing_df['accuracy'].values;
+            for (let j = 0; j < listValues.length; ++j) {
+                if (accuracyValues[j] === 'TRUE') { // TODO: make sure it is correct
+                    let currSpan = parseInt(listValues[j]);
+                    if (currSpan > maxCorrectSpan) {
+                        maxCorrectSpan = currSpan;
+                    }
+                }
+            }
+            this.maxCorrectDigitSpanDays[i] = maxCorrectSpan;
+
+        }
+            
     }
 
     getAverageDigitSpanDays() {

@@ -18,7 +18,7 @@ export default function BDSGameDayInfo({day, participant}) {
             <div className="day-details">
                 <p>BDS Completion: {completion}%</p>
                 <p>Average digit span length: {averageDigitSpan}</p>
-                <p>Max correct digit span length: {}</p>
+                <p>Max correct digit span length: {maxCorrectDigitSpanLength}</p>
                 <p>Max digit span length: {maxDigitSpanLength}</p>
             </div>
         </div>
