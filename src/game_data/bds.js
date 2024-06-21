@@ -21,6 +21,7 @@ export default class BDS extends Game {
             let df = this.days[i];
             let sessions = new dfd.Series(df['session_uuid'].values).unique().values;
             this.completionsDays[i] = 0;
+            this.numberSessionsDays[i] = sessions.length;
 
             for(let j = 0; j < sessions.length; ++j) {
                 let session = sessions[j];
@@ -95,9 +96,7 @@ export default class BDS extends Game {
                 }
             }
             this.maxCorrectDigitSpanDays[i] = maxCorrectSpan;
-
-        }
-            
+        }     
     }
 
     getAverageDigitSpanDays() {

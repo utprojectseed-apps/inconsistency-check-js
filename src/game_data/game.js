@@ -9,6 +9,7 @@ export default class Game {
         this.data = this.data.asType("day", "int32")
         this.days = Array(Game.TotalDays).fill().map(() => []);
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
+        this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
     }
@@ -24,6 +25,10 @@ export default class Game {
 
     calculateCompletionsDays() {
         throw new Error("abstract method");
+    }
+
+    getNumberSessionsDays() {
+        return this.numberSessionsDays;
     }
 
     getCompletedDays() {

@@ -41,6 +41,13 @@ export default class Participant {
         return this.game.getCompletedDays();
     }
 
+    getNumberSessions(){
+        if (this.game === null) {
+            throw new Error('game is null');
+        }
+        return this.game.getNumberSessionsDays();
+    }
+
     getGameName() {
         return this.gameName;
     }
