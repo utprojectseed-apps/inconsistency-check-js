@@ -48,6 +48,13 @@ export default class Participant {
         return this.game.getNumberSessionsDays();
     }
 
+    getLanguages() {
+        if (this.game === null) {
+            throw new Error('game is null');
+        }
+        return this.game.getLanguagePlayedForSessions();
+    }
+
     getGameName() {
         return this.gameName;
     }

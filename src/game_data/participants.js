@@ -52,6 +52,10 @@ export default class ParticipantList {
         return this.participants.map(participant => participant.getNumberSessions());
     }
 
+    getLanguages() {
+        return this.participants.map(participant => participant.getLanguages());
+    }
+
     getAverageDigitSpans() {
         return this.participants.map(participant => participant.getAverageDigitSpans());
     }

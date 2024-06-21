@@ -7,10 +7,12 @@
 
 export default function BDSGameDayInfo({day, participant}) {
     const completion = participant.getCompletions()[day - 1]
+    const numberSessions = participant.getNumberSessions()[day -1]
+    const languageOfSession = participant.getLanguages()[day -1]
     const averageDigitSpan = participant.getAverageDigitSpans()[day -1]
     const maxDigitSpanLength = participant.getMaxDigitSpans()[day -1]
     const maxCorrectDigitSpanLength = participant.getMaxCorrectDigitSpans()[day -1]
-    const numberSessions = participant.getNumberSessions()[day -1]
+    
     const header_color = (completion) => {
         if (completion >= 100) { return "lightgreen" };
         if (completion === 0) { return "lightcoral"};
@@ -30,7 +32,7 @@ export default function BDSGameDayInfo({day, participant}) {
                 <p>Average digit span length: {averageDigitSpan}</p>
                 <p>Max correct digit span length: {maxCorrectDigitSpanLength}</p>
                 <p>Max digit span length: {maxDigitSpanLength}</p>
-                <p>Language: {}</p>
+                <p>Language: {languageOfSession}</p>
             </div>
         </div>
     )

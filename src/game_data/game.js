@@ -13,6 +13,7 @@ export default class Game {
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
+        this.storeLanguagePlayedForSessions();
     }
 
     static get TotalDays() {return 14; }
@@ -24,6 +25,16 @@ export default class Game {
         }
     }
 
+    storeLanguagePlayedForSessions() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let language = df['lang'].values[0];
+            if (!language) {
+                language = "---"
+            }
+            this.languagePlayedForSessions[i] = language;
+        }
+    }
     calculateCompletionsDays() {
         throw new Error("abstract method");
     }
@@ -40,9 +51,7 @@ export default class Game {
         return this.data["cycle_start_date"].values[0];
     }
 
-    // might give language its own method to find the language
-    // the participant played in
     getLanguagePlayedForSessions() {
-        return this.languagePlayedForSessions;
+        return this.languagePlayedForSessions
     }
 }
