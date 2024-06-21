@@ -10,6 +10,7 @@ export default class Game {
         this.days = Array(Game.TotalDays).fill().map(() => []);
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
+        this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
     }
@@ -37,5 +38,11 @@ export default class Game {
 
     getCycleStartDate() {
         return this.data["cycle_start_date"].values[0];
+    }
+
+    // might give language its own method to find the language
+    // the participant played in
+    getLanguagePlayedForSessions() {
+        return this.languagePlayedForSessions;
     }
 }
