@@ -8,6 +8,7 @@
 export default function BDSGameDayInfo({day, participant}) {
     const completion = participant.getCompletions()[day - 1]
     const numberSessions = participant.getNumberSessions()[day -1]
+    const practiceTrialsAmount = participant.getPracticeTrialsAmount()[day -1]
     const languageOfSession = participant.getLanguages()[day -1]
     const averageDigitSpan = participant.getAverageDigitSpans()[day -1]
     const maxDigitSpanLength = participant.getMaxDigitSpans()[day -1]
@@ -27,7 +28,7 @@ export default function BDSGameDayInfo({day, participant}) {
                 <p>Sessions started: {numberSessions}</p>
                 <p>Mean Session accuracy: {}</p>
                 <p>Practice trials accuracy: {}</p>
-                <p>Practice trials amount: {}</p>
+                <p>Practice trials amount: {practiceTrialsAmount}</p>
                 <p>(BDS) session completion: {completion} %</p>
                 <p>Average digit span length: {averageDigitSpan}</p>
                 <p>Max correct digit span length: {maxCorrectDigitSpanLength}</p>

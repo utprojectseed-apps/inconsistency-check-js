@@ -56,6 +56,10 @@ export default class ParticipantList {
         return this.participants.map(participant => participant.getLanguages());
     }
 
+    getPracticeTrialsAmount() {
+        return this.participants.map(participant => participant.getPracticeTrialsAmount());
+    }
+
     getAverageDigitSpans() {
         return this.participants.map(participant => participant.getAverageDigitSpans());
     }

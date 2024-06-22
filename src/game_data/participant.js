@@ -83,4 +83,12 @@ export default class Participant {
         }
     }
 
+    getPracticeTrialsAmount() {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getPracticrlTrialsAmountDays();
+        } else {
+            throw new Error("getPracticeTrials not implemented for this game.");
+        }
+    }
+
 }
