@@ -60,6 +60,10 @@ export default class ParticipantList {
         return this.participants.map(participant => participant.getPracticeTrialsAmount());
     }
 
+    getPracticeTrialsAccuracy() {
+        return this.participants.map(participant => participant.getPracticeTrialsAccuracy());
+    }
+
     getAverageDigitSpans() {
         return this.participants.map(participant => participant.getAverageDigitSpans());
     }

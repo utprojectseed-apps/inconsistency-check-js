@@ -10,10 +10,12 @@ export default class BDS extends Game {
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxCorrectDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
+        this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.calculateAverageDigitSpanDays();
         this.calculateMaxDigitSpanDays();
         this.calculateMaxCorrectDigitSpanDays();
         this.countPracticeTrialsAmountDays();
+        this.calculatePracticeTrialsAccuracys();
     }
 
     calculateCompletionsDays() {
@@ -111,6 +113,22 @@ export default class BDS extends Game {
         }
     }
 
+    calculatePracticeTrialsAccuracys() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let practice_df = df.loc({rows: df['task_section'].eq('training')});
+            let accuracyValues = practice_df['accuracy'].values;
+            let count = 0.0;
+            
+            for (let j = 0; j < accuracyValues.length; ++j) {
+                if (accuracyValues[j] === 'TRUE') {
+                    count++;
+                }
+            }
+            this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
+        }
+    } 
+
     getAverageDigitSpanDays() {
         return this.averageDigitSpanDays;
     }
@@ -125,5 +143,9 @@ export default class BDS extends Game {
 
     getPracticrlTrialsAmountDays() {
         return this.practiceTrialsAmount;
+    }
+
+    getPracticeTrialsAccuracyDays() {
+        return this.practiceTrialsAccuracys;
     }
 }

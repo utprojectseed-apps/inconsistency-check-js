@@ -91,4 +91,12 @@ export default class Participant {
         }
     }
 
+    getPracticeTrialsAccuracy() {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getPracticeTrialsAccuracyDays();
+        } else {
+            throw new Error("getPracticeTrialsAccouracy not implemented for this game.");
+        }
+    }
+
 }
