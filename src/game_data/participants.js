@@ -64,6 +64,10 @@ export default class ParticipantList {
         return this.participants.map(participant => participant.getPracticeTrialsAccuracy());
     }
 
+    getMeanSessionAccuracy() {
+        return this.participants.map(participant => participant.getMeanSessionAccuracy());
+    }
+
     getAverageDigitSpans() {
         return this.participants.map(participant => participant.getAverageDigitSpans());
     }

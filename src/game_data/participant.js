@@ -99,4 +99,12 @@ export default class Participant {
         }
     }
 
+    getMeanSessionAccuracy() {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getSessionAccuracyDays();
+        } else {
+            throw new Error("getMeanSessionAccuracy not implemented for this game.");
+        }
+    }
+
 }

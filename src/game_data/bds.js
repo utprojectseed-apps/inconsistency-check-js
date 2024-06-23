@@ -11,6 +11,8 @@ export default class BDS extends Game {
         this.maxCorrectDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
+        this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
+        this.calculateSessionAccuracyDays();
         this.calculateAverageDigitSpanDays();
         this.calculateMaxDigitSpanDays();
         this.calculateMaxCorrectDigitSpanDays();
@@ -42,6 +44,24 @@ export default class BDS extends Game {
                 }
             }
         }   
+    }
+
+    calculateSessionAccuracyDays() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+
+            let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 12;
+            let accuracyValues = testing_df['accuracy'].values;
+            let count = 0.0;
+
+            for (let j = 0; j < accuracyValues.length; ++j) {
+                if (accuracyValues[j] === 'TRUE') {
+                    count++;
+                }
+            } 
+            this.meanSessionsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / numTrials * 100).toFixed(2);
+        }
     }
 
     calculateAverageDigitSpanDays() {
@@ -119,7 +139,7 @@ export default class BDS extends Game {
             let practice_df = df.loc({rows: df['task_section'].eq('training')});
             let accuracyValues = practice_df['accuracy'].values;
             let count = 0.0;
-            
+
             for (let j = 0; j < accuracyValues.length; ++j) {
                 if (accuracyValues[j] === 'TRUE') {
                     count++;
@@ -128,6 +148,10 @@ export default class BDS extends Game {
             this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
         }
     } 
+
+    getSessionAccuracyDays() {
+        return this.meanSessionsAccuracys;
+    }
 
     getAverageDigitSpanDays() {
         return this.averageDigitSpanDays;
