@@ -1,5 +1,5 @@
 import FortuneGameDayInfo from "./fortunegamedayinfo";
-import BDSGameDayInfo from "./bdstaskinfo";
+import BDSGameDayInfo from "./bdstaskdayinfo";
 
 export default function GamesParticipantReport({participant}) {
     if(participant === null) { return null }
