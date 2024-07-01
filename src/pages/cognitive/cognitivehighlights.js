@@ -55,6 +55,7 @@ export default function CognitiveHighlights() {
             {!errorMessage && <h2>{"No error"}</h2>}
             {!errorMessage && bdsList.current !== undefined && <ParticipantListHighlights participantList={bdsList.current} game="Digit Span"/>}
             {!errorMessage && simonList.current !== undefined && <ParticipantListHighlights participantList={simonList.current} game="Simon"/>}
+            {!errorMessage && csList.current !== undefined && <ParticipantListHighlights participantList={csList.current} game="Color Shape"/>}
         </div>
     )
 }

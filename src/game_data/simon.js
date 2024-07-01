@@ -87,5 +87,6 @@ export default class Simon extends Game {
         let minReactionTimeMessage = `Your fastest day average reaction time: ${minReactionTime}ms`;
         let improvementTimeMessage = `Your best improvement from the first day: ${improvement}ms (${improvementPercentage}% improvement)`;
 
-        return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];}
+        return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];
+    }
 }

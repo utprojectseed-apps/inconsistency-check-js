@@ -6,6 +6,11 @@ export default class ColorShape extends Game {
         super(data);
         this.participant_id = participant_id
         this.calculateCompletionsDays()
+        this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
+        this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);
+        this.calculateSessionAccuracyDays();
+        this.calculateMeanReactionTime();
+        this.getHighlights();
     }
     calculateCompletionsDays() {
         this.count = Array(Game.TotalDays).fill(0);
@@ -31,5 +36,59 @@ export default class ColorShape extends Game {
                 }
             }
         }   
+    }
+
+    calculateSessionAccuracyDays() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+
+            let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 33;
+            let accuracyValues = testing_df['CriticalSlide.ACC'].values;
+            let count = 0.0;
+
+            for (let j = 0; j < accuracyValues.length; ++j) {
+                if (accuracyValues[j] === 'True') {
+                    count++;
+                }
+            } 
+            this.meanSessionsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / numTrials * 100).toFixed(2);
+        }
+        console.log(this.meanSessionsAccuracys)
+    }
+
+    calculateMeanReactionTime() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            let reactionTimes = testing_df['CriticalSlide.RT'].values;
+            let count = 0;
+            let sum = 0;
+            for (let j = 0; j < reactionTimes.length; ++j) {
+                let currentReactionTime = parseInt(reactionTimes[j]);
+                if(currentReactionTime === 0) continue;
+                sum += currentReactionTime;
+                count++;
+            }
+            this.meanReactionTime[i] = count === 0 ? 0 : (sum / count).toFixed(2);
+        }
+        console.log(this.meanReactionTime)
+    }
+
+    getHighlights() {
+        let maxAccuracy = Math.max(...this.meanSessionsAccuracys);
+        let countNotZero = this.meanReactionTime.filter(Boolean).length;
+        let averageAccuracy = this.meanSessionsAccuracys.reduce((a, b) => a + parseFloat(b), 0) / countNotZero;
+        let minReactionTime = Math.min.apply(null, this.meanReactionTime.filter(Boolean));
+        let firstDayReactionTime = this.meanReactionTime.find(rt => rt !== 0) || 0;
+        let improvement = (firstDayReactionTime - minReactionTime).toFixed(2);
+        let improvementPercentage = (improvement / firstDayReactionTime * 100).toFixed(2);
+        let maxAccuracyMessage = `Your maximum accuracy: ${maxAccuracy}%`;
+        let averageAccuracyMessage = `Your average accuracy: ${parseFloat(averageAccuracy).toFixed(2)}%`;
+        let firstDayReactionTimeMessage = `Your first day average reaction time: ${firstDayReactionTime}ms`;
+        let minReactionTimeMessage = `Your fastest day average reaction time: ${minReactionTime}ms`;
+        let improvementTimeMessage = `Your best improvement from the first day: ${improvement}ms (${improvementPercentage}% improvement)`;
+
+        return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];
     }
 }
