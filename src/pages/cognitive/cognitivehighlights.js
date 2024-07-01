@@ -53,6 +53,27 @@ export default function CognitiveHighlights() {
             <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
             {errorMessage && <h2>{errorMessage}</h2>}
             {!errorMessage && <h2>{"No error"}</h2>}
+            {!errorMessage && bdsList.current !== undefined && <ParticipantListHighlights participantList={bdsList.current}/>}
+        </div>
+    )
+}
+
+function ParticipantListHighlights(props) {
+    let participantList = props.participantList
+    const participants = (participantList !== null && participantList !== undefined) && participantList.participants.map(
+        participant => <ParticipantHighlights key={participant.id} participant={participant}/>)
+    return (
+        participants
+    )
+}
+
+function ParticipantHighlights(props) {
+    let participant = props.participant
+    let message = participant.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>)
+    return (
+        <div>
+            <h3>{participant.id}</h3>
+            {message}
         </div>
     )
 }

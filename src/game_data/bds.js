@@ -112,7 +112,7 @@ export default class BDS extends Game {
             let listValues = testing_df['List'].values;
             let accuracyValues = testing_df['accuracy'].values;
             for (let j = 0; j < listValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { // TODO: make sure it is correct
+                if (accuracyValues[j] === 'True') { // TODO: make sure it is correct
                     let currSpan = parseInt(listValues[j]);
                     if (currSpan > maxCorrectSpan) {
                         maxCorrectSpan = currSpan;
@@ -148,6 +148,17 @@ export default class BDS extends Game {
             this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
         }
     } 
+
+    getHighlights() {
+        let longestMaxCorrect = Math.max(...this.maxCorrectDigitSpanDays);
+        let countNotZero = this.maxCorrectDigitSpanDays.reduce((count, span) => span === 0 ? count : count + 1, 0);
+        let sumOfMaxCorrects = this.maxCorrectDigitSpanDays.reduce((sum, maxCorrectSpan) => sum + maxCorrectSpan, 0);
+        let averageMaxCorrect = sumOfMaxCorrects / countNotZero;
+        let longestMaxCorrectHighlight = "Your longest correct digit span was " + longestMaxCorrect + " digits.";
+        let averageMaxCorrectRounded = Math.round(averageMaxCorrect * 100) / 100;
+        let averageMaxCorrectHighlight = "Your average correct digit span was " + averageMaxCorrectRounded.toFixed(2) + " digits.";
+        return [longestMaxCorrectHighlight, averageMaxCorrectHighlight];
+    }
 
     getSessionAccuracyDays() {
         return this.meanSessionsAccuracys;

@@ -28,7 +28,6 @@ export default class ColorShape extends Game {
                     this.completionsDays[i] = completionRate;
                     this.count[i] = count; // conatins the number of test trials 
                     this.days[i] = sess_df;
-                    console.log(this.participant_id + " " + this.completionsDays[i] + " " + this.count[i])
                 }
             }
         }   
