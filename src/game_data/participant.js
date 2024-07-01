@@ -2,6 +2,7 @@ import * as dfd from 'danfojs';
 import FortuneDeck from './fortunedecks';
 import BDS from './bds';
 import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
+import Simon from './simon';
 
 export default class Participant {
     constructor(id, data) {
@@ -24,6 +25,7 @@ export default class Participant {
                     break;
                 case SIMON_NAME:
                     this.gameName = "Simon Task";
+                    this.game = new Simon(this.data, this.id);
                     break;
                 case CS_NAME:
                     this.gameName = "CS Task";

@@ -22,6 +22,10 @@ export default class ParticipantList {
             if(id === undefined || id === null) {
                 continue;
             }
+            // TODO: remove once highlights are implemented
+            if(!(id === "77898041" || id === "77898042")) {
+                continue;
+            }
 
             let df;
             if (this.data.columns.includes("subject_id")) {
@@ -31,7 +35,7 @@ export default class ParticipantList {
             } else {
                 throw new Error("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.");
             }
-
+            console.log('Constructing participant ' + id);
             const participant = new Participant(id, df);
             this.participants.push(participant);
         }
