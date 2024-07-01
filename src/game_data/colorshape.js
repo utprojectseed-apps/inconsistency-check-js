@@ -54,7 +54,6 @@ export default class ColorShape extends Game {
             } 
             this.meanSessionsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / numTrials * 100).toFixed(2);
         }
-        console.log(this.meanSessionsAccuracys)
     }
 
     calculateMeanReactionTime() {
@@ -72,7 +71,6 @@ export default class ColorShape extends Game {
             }
             this.meanReactionTime[i] = count === 0 ? 0 : (sum / count).toFixed(2);
         }
-        console.log(this.meanReactionTime)
     }
 
     getHighlights() {
