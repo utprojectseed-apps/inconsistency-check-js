@@ -3,6 +3,7 @@ import FortuneDeck from './fortunedecks';
 import BDS from './bds';
 import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
 import Simon from './simon';
+import ColorShape from './colorshape';
 
 export default class Participant {
     constructor(id, data) {
@@ -29,6 +30,7 @@ export default class Participant {
                     break;
                 case CS_NAME:
                     this.gameName = "CS Task";
+                    this.game = new ColorShape(this.data, this.id);
                     break;
                 default:
                     throw new Error("Unknown experiment: " + games[i]);
