@@ -83,9 +83,9 @@ export default class Simon extends Game {
         let improvementPercentage = (improvement / firstDayReactionTime * 100).toFixed(2);
         let maxAccuracyMessage = `Your maximum accuracy: ${maxAccuracy}%`;
         let averageAccuracyMessage = `Your average accuracy: ${parseFloat(averageAccuracy).toFixed(2)}%`;
-        let firstDayReactionTimeMessage = `Your first day reaction time: ${firstDayReactionTime}ms`;
+        let firstDayReactionTimeMessage = `Your first day average reaction time: ${firstDayReactionTime}ms`;
         let minReactionTimeMessage = `Your fastest day average reaction time: ${minReactionTime}ms`;
-        let improvementTimeMessage = `Your best improvement from the first day: ${improvement}ms (${improvementPercentage}%)`;
-        console.log(maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage)
-    }
+        let improvementTimeMessage = `Your best improvement from the first day: ${improvement}ms (${improvementPercentage}% improvement)`;
+
+        return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];}
 }
