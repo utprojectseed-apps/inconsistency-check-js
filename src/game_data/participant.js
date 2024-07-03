@@ -2,6 +2,7 @@ import * as dfd from 'danfojs';
 import FortuneDeck from './fortunedecks';
 import BDS from './bds';
 import Simon from './simon';
+import ColorShape from './color-shape';
 import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
 
 
@@ -30,7 +31,8 @@ export default class Participant {
                     this.game = new Simon(this.data, this.id);
                     break;
                 case CS_NAME:
-                    this.gameName = "CS Task";
+                    this.gameName = "Color-Shape Task";
+                    this.game = new ColorShape(this.data, this.id);
                     break;
                 default:
                     throw new Error("Unknown experiment: " + games[i]);
@@ -88,7 +90,7 @@ export default class Participant {
     }
 
     getPracticeTrialsAmount() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
             return this.game.getPracticeTrialsAmountDays();
         } else {
             throw new Error("getPracticeTrials not implemented for this game.");
@@ -96,7 +98,7 @@ export default class Participant {
     }
 
     getPracticeTrialsAccuracy() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
             return this.game.getPracticeTrialsAccuracyDays();
         } else {
             throw new Error("getPracticeTrialsAccouracy not implemented for this game.");
@@ -104,7 +106,7 @@ export default class Participant {
     }
 
     getMeanSessionAccuracy() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
             return this.game.getSessionAccuracyDays();
         } else {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
@@ -112,7 +114,7 @@ export default class Participant {
     }
 
     getNoInputTrials() {
-        if(this.gameName === "Simon Task" || this.gameName === "CS Task") {
+        if(this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
             return this.game.getNoInputTrialsDays();
         } else {
             throw new Error("getNoInputTrials not implemented for this game.");

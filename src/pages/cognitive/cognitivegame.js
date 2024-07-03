@@ -28,26 +28,41 @@ export default function CognitiveGame() {
         }
     }
     useEffect(() => {
-        if(simonData != undefined) {
-            const simonSubjects = simonData['Subject']
-            if(simonSubjects === undefined) {
-                setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+        if(csData != undefined) {
+            const csSubjects = csData['Subject']
+            if(csSubjects === undefined) {
+                setErrorMessage("No 'Subject' column found in data, please make sure you have a color-shape task dataset.")
             } else {
-                let simonParticipants = new dfd.Series(simonSubjects.values).unique()
-                console.log("HERE WTF")
-                participantList.current = new ParticipantList(simonParticipants, simonData)
+                let csParticipants = new dfd.Series(csSubjects.values).unique()
+                console.log("HERE CS")
+                participantList.current = new ParticipantList(csParticipants, csData)
                 setErrorMessage(undefined)
             }
             forceUpdate()
         }
         console.log("SIKE WTF")
-    }, [simonData])
+    }, [csData])
+    // useEffect(() => {
+    //     if(simonData != undefined) {
+    //         const simonSubjects = simonData['Subject']
+    //         if(simonSubjects === undefined) {
+    //             setErrorMessage("No 'Subject' column found in data, please make sure you have a simon task dataset.")
+    //         } else {
+    //             let simonParticipants = new dfd.Series(simonSubjects.values).unique()
+    //             console.log("HERE WTF")
+    //             participantList.current = new ParticipantList(simonParticipants, simonData)
+    //             setErrorMessage(undefined)
+    //         }
+    //         forceUpdate()
+    //     }
+    //     console.log("SIKE WTF")
+    // }, [simonData])
     // useEffect(() => {
     //     console.log("BEFORE BDS")
     //     if(bdsData != undefined) {
     //         const bdsSubjects = bdsData['Subject']
     //         if(bdsSubjects === undefined) {
-    //             setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+    //             setErrorMessage("No 'Subject' column found in data, please make sure you have a bds task dataset.")
     //         } else {
     //             let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
     //             participantList.current = new ParticipantList(bdsParticipants, bdsData)
