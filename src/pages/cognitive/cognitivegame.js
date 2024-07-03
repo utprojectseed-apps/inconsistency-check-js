@@ -27,21 +27,21 @@ export default function CognitiveGame() {
                 throw new Error("Unknown game: " + game);
         }
     }
-    useEffect(() => {
-        if(csData != undefined) {
-            const csSubjects = csData['Subject']
-            if(csSubjects === undefined) {
-                setErrorMessage("No 'Subject' column found in data, please make sure you have a color-shape task dataset.")
-            } else {
-                let csParticipants = new dfd.Series(csSubjects.values).unique()
-                console.log("HERE CS")
-                participantList.current = new ParticipantList(csParticipants, csData)
-                setErrorMessage(undefined)
-            }
-            forceUpdate()
-        }
-        console.log("SIKE WTF")
-    }, [csData])
+    // useEffect(() => {
+    //     if(csData != undefined) {
+    //         const csSubjects = csData['Subject']
+    //         if(csSubjects === undefined) {
+    //             setErrorMessage("No 'Subject' column found in data, please make sure you have a color-shape task dataset.")
+    //         } else {
+    //             let csParticipants = new dfd.Series(csSubjects.values).unique()
+    //             console.log("HERE CS")
+    //             participantList.current = new ParticipantList(csParticipants, csData)
+    //             setErrorMessage(undefined)
+    //         }
+    //         forceUpdate()
+    //     }
+    //     console.log("SIKE WTF")
+    // }, [csData])
     // useEffect(() => {
     //     if(simonData != undefined) {
     //         const simonSubjects = simonData['Subject']
@@ -73,21 +73,22 @@ export default function CognitiveGame() {
     // }, [bdsData])
      // TODO: need to fix this stuff to read in simon and bds 
     // need to useEffect to set the bdsData and simonData
-// useEffect(() => {
-//         if(bdsData !== undefined && simonData !== undefined) {
-//             const bdsSubjects = bdsData['Subject']
-//             const simonSubjects = simonData['Subject']
-//             if(bdsSubjects === undefined && simonSubjects === undefined) {
-//                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
-//             } else {
-//                 let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
-//                 let simonParticipants = new dfd.Series(simonSubjects.values).unique()
-//                 participantList.current = new ParticipantList(simonParticipants, simonData)//new ParticipantList(bdsParticipants, bdsData)
-//                 setErrorMessage(undefined)
-//             }
-//             forceUpdate()
-//         }
-//     }, [bdsData, simonData])
+useEffect(() => {
+        if(bdsData !== undefined && simonData !== undefined) {
+            const bdsSubjects = bdsData['Subject']
+            const simonSubjects = simonData['Subject']
+            if(bdsSubjects === undefined && simonSubjects === undefined) {
+                setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+            } else {
+                let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
+                participantList.current = new ParticipantList(bdsParticipants, bdsData)
+                // let simonParticipants = new dfd.Series(simonSubjects.values).unique()
+                // participantList.current = new ParticipantList(simonParticipants, simonData)//new ParticipantList(bdsParticipants, bdsData)
+                setErrorMessage(undefined)
+            }
+            forceUpdate()
+        }
+    }, [bdsData, simonData])
     return (
         <div className='games'>
             <h1>Enter data NOT IMPLEMENTED YET Order:(BDS, SIMON, CS)</h1>
