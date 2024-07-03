@@ -52,31 +52,39 @@ export default function CognitiveHighlights() {
             <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
             <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
             {errorMessage && <h2>{errorMessage}</h2>}
-            {!errorMessage && <h2>{"No error"}</h2>}
-            {!errorMessage && bdsList.current !== undefined && <ParticipantListHighlights participantList={bdsList.current} game="Digit Span"/>}
-            {!errorMessage && simonList.current !== undefined && <ParticipantListHighlights participantList={simonList.current} game="Simon"/>}
-            {!errorMessage && csList.current !== undefined && <ParticipantListHighlights participantList={csList.current} game="Color Shape"/>}
+            {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current}/>}
         </div>
     )
 }
-
 function ParticipantListHighlights(props) {
-    let participantList = props.participantList
-    const participants = (participantList !== null && participantList !== undefined) && participantList.participants.map(
-        participant => <ParticipantHighlights key={participant.id} participant={participant} game={props.game}/>)
+    let bdsList = props.bdsList
+    let simonList = props.simonList
+    let csList = props.csList
+    console.log(bdsList, simonList, csList)
+    let allList = []
+    allList.push(...[bdsList, simonList, csList].filter(list => list !== null && list !== undefined))
+    let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
+    const participants = Array.from(participantIds).map(
+        participant => <ParticipantHighlights key={participant} 
+        participant={participant} bds={bdsList && bdsList.getParticipant(participant)} simon={simonList && simonList.getParticipant(participant)} cs={csList && csList.getParticipant(participant)}/>)
     return (
         participants
     )
 }
 
 function ParticipantHighlights(props) {
-    let participant = props.participant
-    let game = props.game
-    let message = participant.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>)
+    let noData = <p>No data</p>
+    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let csHighlight = props.cs !== null ? props.cs.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     return (
         <div>
-            <h3>{participant.id} - {game}</h3>
-            {message}
+            <h3>{props.participant} - Digit Span</h3>
+            {bdsHighlight}
+            <h3>{props.participant} - Simon</h3>
+            {simonHighlight}
+            <h3>{props.participant} - Color Shape</h3>
+            {csHighlight}
         </div>
     )
 }

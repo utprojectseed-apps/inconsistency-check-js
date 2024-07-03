@@ -14,6 +14,7 @@ export default class ParticipantList {
         this.ids = ids;
         this.data = data;
         this.participants = [];
+        this.participantsMap = new Map()
         this.#constructParticipants(ids);
     }
 
@@ -38,6 +39,7 @@ export default class ParticipantList {
             console.log('Constructing participant ' + id);
             const participant = new Participant(id, df);
             this.participants.push(participant);
+            this.participantsMap.set(id, participant);
         }
     }
 
@@ -46,6 +48,10 @@ export default class ParticipantList {
             throw new Error('ids is null');
         }
         return this.ids.values;
+    }
+
+    getParticipant(id) {
+        return this.participantsMap.get(id);
     }
 
     getCompletions() {
