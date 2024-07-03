@@ -79,4 +79,8 @@ export default class ParticipantList {
     getMaxCorrectDigitSpans() {
         return this.participants.map(participant => participant.getMaxCorrectDigitSpans());
     }
+
+    getNoInputTrials() {
+        return this.participants.map(participant => participant.getNoInputTrials());
+    }
 }

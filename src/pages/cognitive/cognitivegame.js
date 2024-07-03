@@ -28,21 +28,54 @@ export default function CognitiveGame() {
         }
     }
     useEffect(() => {
-        if(bdsData !== undefined) {
-            const subjects = bdsData['Subject']
-            if(subjects === undefined) {
+        if(simonData != undefined) {
+            const simonSubjects = simonData['Subject']
+            if(simonSubjects === undefined) {
                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
             } else {
-                let participants = new dfd.Series(bdsData['Subject'].values).unique()
-                participantList.current = new ParticipantList(participants, bdsData)
+                let simonParticipants = new dfd.Series(simonSubjects.values).unique()
+                console.log("HERE WTF")
+                participantList.current = new ParticipantList(simonParticipants, simonData)
                 setErrorMessage(undefined)
             }
             forceUpdate()
         }
-    }, [bdsData])
+        console.log("SIKE WTF")
+    }, [simonData])
+    // useEffect(() => {
+    //     console.log("BEFORE BDS")
+    //     if(bdsData != undefined) {
+    //         const bdsSubjects = bdsData['Subject']
+    //         if(bdsSubjects === undefined) {
+    //             setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+    //         } else {
+    //             let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
+    //             participantList.current = new ParticipantList(bdsParticipants, bdsData)
+    //             setErrorMessage(undefined)
+    //         }
+    //         forceUpdate()
+    //     }
+    // }, [bdsData])
+     // TODO: need to fix this stuff to read in simon and bds 
+    // need to useEffect to set the bdsData and simonData
+// useEffect(() => {
+//         if(bdsData !== undefined && simonData !== undefined) {
+//             const bdsSubjects = bdsData['Subject']
+//             const simonSubjects = simonData['Subject']
+//             if(bdsSubjects === undefined && simonSubjects === undefined) {
+//                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+//             } else {
+//                 let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
+//                 let simonParticipants = new dfd.Series(simonSubjects.values).unique()
+//                 participantList.current = new ParticipantList(simonParticipants, simonData)//new ParticipantList(bdsParticipants, bdsData)
+//                 setErrorMessage(undefined)
+//             }
+//             forceUpdate()
+//         }
+//     }, [bdsData, simonData])
     return (
         <div className='games'>
-            <h1>Enter data NOT IMPLEMENTED YET</h1>
+            <h1>Enter data NOT IMPLEMENTED YET Order:(BDS, SIMON, CS)</h1>
             <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
             <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
             <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>

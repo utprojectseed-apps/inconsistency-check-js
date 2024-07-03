@@ -1,7 +1,9 @@
 import * as dfd from 'danfojs';
 import FortuneDeck from './fortunedecks';
 import BDS from './bds';
+import Simon from './simon';
 import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
+
 
 export default class Participant {
     constructor(id, data) {
@@ -23,7 +25,9 @@ export default class Participant {
                     this.game = new BDS(this.data, this.id);
                     break;
                 case SIMON_NAME:
+                    console.log("simon")
                     this.gameName = "Simon Task";
+                    this.game = new Simon(this.data, this.id);
                     break;
                 case CS_NAME:
                     this.gameName = "CS Task";
@@ -85,7 +89,7 @@ export default class Participant {
 
     getPracticeTrialsAmount() {
         if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
-            return this.game.getPracticrlTrialsAmountDays();
+            return this.game.getPracticeTrialsAmountDays();
         } else {
             throw new Error("getPracticeTrials not implemented for this game.");
         }
@@ -104,6 +108,14 @@ export default class Participant {
             return this.game.getSessionAccuracyDays();
         } else {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
+        }
+    }
+
+    getNoInputTrials() {
+        if(this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getNoInputTrialsDays();
+        } else {
+            throw new Error("getNoInputTrials not implemented for this game.");
         }
     }
 

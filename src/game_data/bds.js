@@ -4,8 +4,8 @@ import * as dfd from 'danfojs';
 export default class BDS extends Game {
     constructor(data, participant_id) {
         super(data);
-        this.participant_id = participant_id
-        this.calculateCompletionsDays()
+        this.participant_id = participant_id;
+        this.calculateCompletionsDays();
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxCorrectDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
@@ -36,7 +36,7 @@ export default class BDS extends Game {
                 let testing_df = sess_df.loc({rows: sess_df['task_section'].eq('test')});
                 let count = testing_df.shape[0];
 
-                let completionRate = (count/12 * 100).toFixed(2)
+                let completionRate = (count / 12 * 100).toFixed(2)
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
                     this.count[i] = count; // conatins the number of test trials 
@@ -145,6 +145,7 @@ export default class BDS extends Game {
                     count++;
                 }
             }
+            
             this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
         }
     } 
@@ -165,7 +166,7 @@ export default class BDS extends Game {
         return this.maxCorrectDigitSpanDays;
     }
 
-    getPracticrlTrialsAmountDays() {
+    getPracticeTrialsAmountDays() {
         return this.practiceTrialsAmount;
     }
 

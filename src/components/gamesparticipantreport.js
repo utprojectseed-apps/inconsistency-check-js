@@ -1,5 +1,6 @@
 import FortuneGameDayInfo from "./fortunegamedayinfo";
 import BDSGameDayInfo from "./bdstaskdayinfo";
+import SimonGameDayInfo from "./simontaskdayinfo";
 
 export default function GamesParticipantReport({participant}) {
     if(participant === null) { return null }
@@ -9,7 +10,9 @@ export default function GamesParticipantReport({participant}) {
                 return <FortuneGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game} score={c}/>
             } else if (participant.getGameName() === "BDS Task") {
                     return <BDSGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game}/> //TODO: BDSGameDayInfo</>
-            }
+            } else if (participant.getGameName() === "Simon Task") { // TODO: for testing purposes
+                return <SimonGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game}/>
+            }  
             return null
         })
     return (
