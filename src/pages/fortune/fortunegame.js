@@ -3,14 +3,20 @@ import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import GamesFullReport from "../../components/gamesfullreport";
+import CheckboxesTags from "../../components/checkboxestags";
 
 export default function FortuneGame() {
     const [data, setData] = React.useState(undefined)
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const participantList = useRef(null)
     const [errorMessage, setErrorMessage] = React.useState(undefined)   
+    const [selectedIds, setSelectedIds] = React.useState(undefined)
     const handleUpload = d => {
         setData(d)
+    }
+    const handleSelected = d => {
+        console.log(d)
+        setSelectedIds(d)
     }
     useEffect(() => {
         if(data !== undefined) {
@@ -30,6 +36,7 @@ export default function FortuneGame() {
             <h1>Enter data</h1>
             <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
             {errorMessage && <h2>{errorMessage}</h2>}
+            {participantList.current !== null &&<CheckboxesTags ids={participantList.current.getIds()} parentCallback={handleSelected}/>}
             {!errorMessage && <GamesFullReport participantList={participantList.current}/>}
         </div>
     )
