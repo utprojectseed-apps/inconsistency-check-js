@@ -37,7 +37,7 @@ export default function FortuneGame() {
             <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
             {errorMessage && <h2>{errorMessage}</h2>}
             {participantList.current !== null &&<CheckboxesTags ids={participantList.current.getIds()} parentCallback={handleSelected}/>}
-            {!errorMessage && <GamesFullReport participantList={participantList.current}/>}
+            {!errorMessage && <GamesFullReport participantList={participantList.current} activeIds={selectedIds}/>}
         </div>
     )
 }
