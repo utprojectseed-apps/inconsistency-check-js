@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import FortuneGame from "./fortunegame";
+import FortuneSurveyDisplay from "./fortunesurveydisplay";
 
 const Navigation = () => (
     <nav>
@@ -22,6 +23,7 @@ export default function FortuneHome() {
             {!hideNavigation && <Navigation />}
             <Routes>
               <Route path='game' element={<FortuneGame />}></Route>
+              <Route path='survey' element={<FortuneSurveyDisplay />}></Route>
             </Routes>
         </>
     )
