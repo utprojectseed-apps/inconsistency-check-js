@@ -9,11 +9,12 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function CheckboxesTags({ids, parentCallback}) {
+  const options = ids.filter(id => id !== undefined);
   return (
     <Autocomplete
       multiple
       id="checkboxes-tags"
-      options={ids}
+      options={options}
       onChange={(event, newValue) => {
         parentCallback(newValue);
       }}
