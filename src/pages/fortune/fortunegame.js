@@ -15,7 +15,6 @@ export default function FortuneGame() {
         setData(d)
     }
     const handleSelected = d => {
-        console.log(d)
         setSelectedIds(d)
     }
     useEffect(() => {
@@ -33,10 +32,14 @@ export default function FortuneGame() {
     }, [data])
     return (
         <div className='games'>
-            <h1>Enter data</h1>
-            <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
+            <h1 className='no-print'>Enter data</h1>
+            <div className='no-print'><CSVReader parentCallback={handleUpload} gameId = "fortune"/></div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            {participantList.current !== null &&<CheckboxesTags ids={participantList.current.getIds()} parentCallback={handleSelected}/>}
+            {participantList.current !== null && 
+                <div className='no-print'>
+                    <CheckboxesTags className="no-print" ids={participantList.current.getIds()} parentCallback={handleSelected}/>
+                </div>
+            }
             {!errorMessage && <GamesFullReport participantList={participantList.current} activeIds={selectedIds}/>}
         </div>
     )
