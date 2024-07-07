@@ -13,7 +13,7 @@ export default function CognitiveHighlights() {
     const simonList = useRef(null)
     const csList = useRef(null)
     const [errorMessage, setErrorMessage] = React.useState(undefined)   
-    const [selectedIds, setSelectedIds] = React.useState(undefined)
+    const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const handleUpload = (d, game) => {
         switch(game) {
@@ -69,7 +69,7 @@ export default function CognitiveHighlights() {
                 
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current}/>}
+            {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
         </div>
     )
 }
@@ -81,7 +81,9 @@ function ParticipantListHighlights(props) {
     let allList = []
     allList.push(...[bdsList, simonList, csList].filter(list => list !== null && list !== undefined))
     let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
-    const participants = Array.from(participantIds).map(
+    const filteredParticipants = Array.from(participantIds).filter(participant => {
+        return props.activeIds.includes(participant)})
+    const participants = filteredParticipants.map(
         participant => <ParticipantHighlights key={participant} 
         participant={participant} bds={bdsList && bdsList.getParticipant(participant)} simon={simonList && simonList.getParticipant(participant)} cs={csList && csList.getParticipant(participant)}/>)
     return (
