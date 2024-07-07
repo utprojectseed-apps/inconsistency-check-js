@@ -2,6 +2,7 @@ import CSVReader from "../../components/csvread";
 import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
+import CheckboxesTags from "../../components/checkboxestags";
 
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -12,6 +13,8 @@ export default function CognitiveHighlights() {
     const simonList = useRef(null)
     const csList = useRef(null)
     const [errorMessage, setErrorMessage] = React.useState(undefined)   
+    const [selectedIds, setSelectedIds] = React.useState(undefined)
+    const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const handleUpload = (d, game) => {
         switch(game) {
             case "bds":
@@ -27,6 +30,9 @@ export default function CognitiveHighlights() {
                 throw new Error("Unknown game: " + game);
         }
     }
+    const handleSelected = d => {
+        setSelectedIds(d)
+    }
     useEffect(() => {
         if(bdsData !== undefined) {
             const subjects = bdsData['Subject']
@@ -39,6 +45,10 @@ export default function CognitiveHighlights() {
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
+                let allList = []
+                allList.push(...[bdsList.current, simonList.current, csList.current].filter(list => list !== null && list !== undefined))
+                let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
+                setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
             }
             forceUpdate()
@@ -47,10 +57,17 @@ export default function CognitiveHighlights() {
 
     return (
         <div>
-            <h1>Cognitive Highlights</h1>
-            <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
-            <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
-            <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
+            <div className="no-print">
+                <h1>Cognitive Highlights</h1>
+                <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
+                <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
+                <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
+                
+                <div className='no-print'>
+                    <CheckboxesTags className="no-print" ids={allParticipantsIds || []} parentCallback={handleSelected}/>
+                </div>
+                
+            </div>
             {errorMessage && <h2>{errorMessage}</h2>}
             {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current}/>}
         </div>
