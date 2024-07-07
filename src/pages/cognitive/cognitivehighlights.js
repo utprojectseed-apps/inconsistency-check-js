@@ -4,6 +4,7 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
 
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -104,6 +105,7 @@ function ParticipantListHighlights(props) {
 function ParticipantHighlights(props) {
     let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
+    let lastReport = reportSelected === 1
     let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
@@ -111,10 +113,47 @@ function ParticipantHighlights(props) {
         <div>
             <h3>{props.participant} - Digit Span</h3>
             {bdsHighlight}
+            {lastReport && <BdsAverageScoreGraph game={props.bds.game}/>}
             <h3>{props.participant} - Simon</h3>
             {simonHighlight}
             <h3>{props.participant} - Color Shape</h3>
             {csHighlight}
+        </div>
+    )
+}
+
+function BdsAverageScoreGraph(props) {
+    const rawData = props.game.getMaxDigitSpanDays()
+    const data = []
+    for (let i = 0; i < rawData.length; ++i) {
+        if(rawData[i] === 0) continue;
+        data.push({day: i + 1, digitSpanLength: rawData[i]});
+    }
+    const yMax = Math.max(...rawData, 8)
+    const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
+    return (
+        <div>
+            <h3>Digit Span Scores</h3>
+            <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                    width={500}
+                    height={300}
+                    data={data}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
+                    <YAxis type="number" domain={[0, yMax]} ticks={yTicks} interval={1}/>
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+            </ResponsiveContainer>
         </div>
     )
 }
