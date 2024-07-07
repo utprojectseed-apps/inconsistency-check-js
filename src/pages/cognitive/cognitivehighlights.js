@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
+import RadioHighlightReport from "../../components/radiohighlightreport";
 
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -63,10 +64,12 @@ export default function CognitiveHighlights() {
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
                 
-                <div className='no-print'>
-                    <CheckboxesTags className="no-print" ids={allParticipantsIds || []} parentCallback={handleSelected}/>
+                <div className='no-print' style={{display: 'flex'}}>
+                    <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
+                    <div style={{marginLeft:'10px'}}>
+                        <RadioHighlightReport />
+                    </div>
                 </div>
-                
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
             {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
