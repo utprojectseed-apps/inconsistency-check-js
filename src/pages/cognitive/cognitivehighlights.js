@@ -16,6 +16,7 @@ export default function CognitiveHighlights() {
     const [errorMessage, setErrorMessage] = React.useState(undefined)   
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
+    const [selectedReport, setSelectedReport] = React.useState("first-week")
     const handleUpload = (d, game) => {
         switch(game) {
             case "bds":
@@ -33,6 +34,9 @@ export default function CognitiveHighlights() {
     }
     const handleSelected = d => {
         setSelectedIds(d)
+    }
+    const selectReport = report => {
+        setSelectedReport(report)
     }
     useEffect(() => {
         if(bdsData !== undefined) {
@@ -67,7 +71,7 @@ export default function CognitiveHighlights() {
                 <div className='no-print' style={{display: 'flex'}}>
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
-                        <RadioHighlightReport />
+                        <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
                     </div>
                 </div>
             </div>
@@ -80,7 +84,6 @@ function ParticipantListHighlights(props) {
     let bdsList = props.bdsList
     let simonList = props.simonList
     let csList = props.csList
-    console.log(bdsList, simonList, csList)
     let allList = []
     allList.push(...[bdsList, simonList, csList].filter(list => list !== null && list !== undefined))
     let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
