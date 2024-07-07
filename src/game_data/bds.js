@@ -149,7 +149,7 @@ export default class BDS extends Game {
         }
     } 
 
-    getHighlights() {
+    getHighlights(selectedReport) {
         let longestMaxCorrect = Math.max(...this.maxCorrectDigitSpanDays);
         let countNotZero = this.maxCorrectDigitSpanDays.reduce((count, span) => span === 0 ? count : count + 1, 0);
         let sumOfMaxCorrects = this.maxCorrectDigitSpanDays.reduce((sum, maxCorrectSpan) => sum + maxCorrectSpan, 0);

@@ -76,7 +76,7 @@ export default function CognitiveHighlights() {
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            {!errorMessage && <ParticipantListHighlights bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+            {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
         </div>
     )
 }
@@ -91,7 +91,11 @@ function ParticipantListHighlights(props) {
         return props.activeIds.includes(participant)})
     const participants = filteredParticipants.map(
         participant => <ParticipantHighlights key={participant} 
-        participant={participant} bds={bdsList && bdsList.getParticipant(participant)} simon={simonList && simonList.getParticipant(participant)} cs={csList && csList.getParticipant(participant)}/>)
+        participant={participant} 
+        bds={bdsList && bdsList.getParticipant(participant)} 
+        simon={simonList && simonList.getParticipant(participant)} 
+        cs={csList && csList.getParticipant(participant)}
+        selectedReport={props.selectedReport}/>)
     return (
         participants
     )
@@ -99,9 +103,10 @@ function ParticipantListHighlights(props) {
 
 function ParticipantHighlights(props) {
     let noData = <p>No data</p>
-    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
-    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
-    let csHighlight = props.cs !== null ? props.cs.game.getHighlights().map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let reportSelected = props.selectedReport === "first-week" ? 0 : 1
+    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     return (
         <div>
             <h3>{props.participant} - Digit Span</h3>
