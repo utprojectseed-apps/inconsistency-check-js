@@ -116,10 +116,12 @@ function ParticipantHighlights(props) {
             {lastReport && <BdsAverageScoreGraph game={props.bds.game}/>}
             <h3>{props.participant} - Simon</h3>
             {simonHighlight}
-            {lastReport && <SimonAccuracyScoreGraph game={props.simon.game}/>}
-            {lastReport && <SimonReactionTimeGraph game={props.simon.game}/>}
+            {lastReport && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
+            {lastReport && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
             <h3>{props.participant} - Color Shape</h3>
             {csHighlight}
+            {lastReport && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
+            {lastReport && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
         </div>
     )
 }
@@ -176,7 +178,8 @@ function BdsAverageScoreGraph(props) {
     )
 }
 
-function SimonAccuracyScoreGraph(props) {
+function AccuracyScoreGraph(props) {
+    const gameName = props.gameName
     const rawData = props.game.getMeanSessionsAccuracys()
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
@@ -189,7 +192,7 @@ function SimonAccuracyScoreGraph(props) {
     
     return (
         <div>
-            <h3>Simon Accuracy</h3>
+            <h3>{gameName} Accuracy</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart
                     width={500}
@@ -223,14 +226,15 @@ function SimonAccuracyScoreGraph(props) {
                         />
                     <Tooltip />
                     <Legend />
-                    <Line name="Simon Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Session Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
     )
 }
 
-function SimonReactionTimeGraph(props) {
+function ReactionTimeGraph(props) {
+    const gameName = props.gameName
     const rawData = props.game.getMeanReactionTime()
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
@@ -240,14 +244,14 @@ function SimonReactionTimeGraph(props) {
 
     return (
         <div>
-            <h3>Simon Reaction Time</h3>
+            <h3>{gameName} Reaction Time</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart
                     width={500}
                     height={300}
                     data={data}
                     margin={{
-                        top: 5,
+                        top: 50,
                         right: 30,
                         left: 30,
                         bottom: 5
@@ -266,12 +270,14 @@ function SimonReactionTimeGraph(props) {
                         axisLine={false}
                         tickLine={false}
                         />
-                    <YAxis label={{ value: 'Mean Reaction Time', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                    <YAxis label={{ value: 'Average Reaction Time', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" 
-                        tickCount={8}/>
+                        tickCount={10}
+                        
+                        />
                     <Tooltip />
                     <Legend />
-                    <Line name="Simon Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Average Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>

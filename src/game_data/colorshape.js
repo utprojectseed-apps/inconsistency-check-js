@@ -93,4 +93,12 @@ export default class ColorShape extends Game {
             return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];
         }
     }
+
+    getMeanSessionsAccuracys() {
+        return this.meanSessionsAccuracys
+    }
+
+    getMeanReactionTime() {
+        return this.meanReactionTime
+    }
 }
