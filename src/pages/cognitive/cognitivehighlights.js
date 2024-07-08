@@ -122,12 +122,13 @@ function ParticipantHighlights(props) {
     )
 }
 
+const DAYSOFWEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function BdsAverageScoreGraph(props) {
     const rawData = props.game.getMaxDigitSpanDays()
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
         if(rawData[i] === 0) continue;
-        data.push({day: i + 1, digitSpanLength: rawData[i]});
+        data.push({day: i + 1, weekday: i % 7, digitSpanLength: rawData[i]});
     }
     const yMax = Math.max(...rawData, 8)
     const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
@@ -147,11 +148,23 @@ function BdsAverageScoreGraph(props) {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <YAxis type="number" domain={[0, yMax]} ticks={yTicks} interval={1}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
+                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                        height={30}
+                        dy={-10}
+                        dataKey="day" 
+                        type="number" 
+                        domain={[1, 14]} 
+                        tickCount={14} 
+                        tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
+                        axisLine={false}
+                        tickLine={false}
+                        />
+
+                    <YAxis label={{ value: 'Max Digit Length', angle: -90, position: 'center' }} type="number" domain={[0, yMax]} ticks={yTicks} interval={1}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
