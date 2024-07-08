@@ -91,4 +91,24 @@ p {
       @media print {
         font-size: large;
       }
+      font-size: 1.4rem;
+      font-family: Roboto, sans-serif;
     }
+
+#cognitivehighlights {
+  padding: 2rem;
+}
+
+#cognitivehighlights h3{
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights p{
+  font-size: 1.4rem;
+}
+
+/* .recharts-cartesian-axis-tick {    
+    font-size: 1.4rem;
+    font-family: Roboto, sans-serif;
+} */

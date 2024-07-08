@@ -5,6 +5,8 @@ import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
+import DomToImage from "dom-to-image";
+import fileDownload from "js-file-download";
 
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -73,14 +75,34 @@ export default function CognitiveHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
+                        <button onClick={printPlease}>Print</button>
                     </div>
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+            <div id="cognitivehighlights">
+                {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+            </div>
         </div>
     )
 }
+
+function printPlease() {
+    DomToImage.toBlob(document.getElementById("cognitivehighlights"), {
+        bgcolor: "white",
+        style: {
+            paddingLeft: "100px",
+            paddingRight: "100px",
+        }
+    })
+    .then(function (dataUrl) {
+        fileDownload(dataUrl, "cognitivehighlights.png");
+    })
+    .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+    });
+}
+
 function ParticipantListHighlights(props) {
     let bdsList = props.bdsList
     let simonList = props.simonList
@@ -149,7 +171,7 @@ function BdsAverageScoreGraph(props) {
                     height={500}
                     data={data}
                     margin={{
-                        top: 0,
+                        top: 10,
                         right: 30,
                         left: 20,
                         bottom: 5
@@ -206,7 +228,7 @@ function AccuracyScoreGraph(props) {
                     height={500}
                     data={data}
                     margin={{
-                        top: 5,
+                        top: 10,
                         right: 30,
                         left: 20,
                         bottom: 5
@@ -261,7 +283,7 @@ function ReactionTimeGraph(props) {
                     height={500}
                     data={data}
                     margin={{
-                        top: 50,
+                        top: 10,
                         right: 30,
                         left: 30,
                         bottom: 5
