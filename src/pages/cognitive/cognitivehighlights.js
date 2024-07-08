@@ -137,7 +137,7 @@ function BdsAverageScoreGraph(props) {
     const yMax = Math.max(...rawData, 8)
     const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
     return (
-        <div>
+        <div className='print-together'>
             <h3>Digit Span Scores</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart
@@ -194,7 +194,7 @@ function AccuracyScoreGraph(props) {
         .map(n => n.toFixed(0));
     
     return (
-        <div>
+        <div className="print-together">
             <h3>{gameName} Accuracy</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart
@@ -249,7 +249,7 @@ function ReactionTimeGraph(props) {
     }
 
     return (
-        <div>
+        <div className="print-together">
             <h3>{gameName} Reaction Time</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart

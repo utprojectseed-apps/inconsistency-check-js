@@ -78,4 +78,9 @@ p {
   {
       display: none !important;
   }
+
+  .print-together, .print-together *
+  {
+      break-inside:avoid;
+  }
 }
