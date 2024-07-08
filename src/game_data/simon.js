@@ -93,4 +93,8 @@ export default class Simon extends Game {
             return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];
         }
     }
+
+    getMeanSessionsAccuracys() {
+        return this.meanSessionsAccuracys;
+    }
 }

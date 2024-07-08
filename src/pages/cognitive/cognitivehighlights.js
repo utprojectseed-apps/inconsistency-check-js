@@ -116,6 +116,7 @@ function ParticipantHighlights(props) {
             {lastReport && <BdsAverageScoreGraph game={props.bds.game}/>}
             <h3>{props.participant} - Simon</h3>
             {simonHighlight}
+            {lastReport && <SimonAccuracyScoreGraph game={props.simon.game}/>}
             <h3>{props.participant} - Color Shape</h3>
             {csHighlight}
         </div>
@@ -165,6 +166,55 @@ function BdsAverageScoreGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    )
+}
+
+function SimonAccuracyScoreGraph(props) {
+    const rawData = props.game.getMeanSessionsAccuracys()
+    const data = []
+    for (let i = 0; i < rawData.length; ++i) {
+        if(rawData[i] === 0) continue;
+        data.push({day: i + 1, weekday: i % 7, accuracy: rawData[i]});
+    }
+    const yTicks = Array.from({length: 11}, (_, i) => i * 10)
+        .filter((_, i) => i <= 10) // don't want to exceed 100
+        .map(n => n.toFixed(0));
+
+    return (
+        <div>
+            <h3>Simon Accuracy</h3>
+            <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                    width={500}
+                    height={300}
+                    data={data}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
+                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                        height={30}
+                        dy={-10}
+                        dataKey="day" 
+                        type="number" 
+                        domain={[1, 14]} 
+                        tickCount={14} 
+                        tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
+                        axisLine={false}
+                        tickLine={false}
+                        />
+                    <YAxis label={{ value: 'Mean Accuracy', angle: -90, position: 'center' }} type="number" domain={[0, 100]} ticks={yTicks}/>
+                    <Tooltip />
+                    <Legend />
+                    <Line name="Simon Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
