@@ -117,6 +117,7 @@ function ParticipantHighlights(props) {
             <h3>{props.participant} - Simon</h3>
             {simonHighlight}
             {lastReport && <SimonAccuracyScoreGraph game={props.simon.game}/>}
+            {lastReport && <SimonReactionTimeGraph game={props.simon.game}/>}
             <h3>{props.participant} - Color Shape</h3>
             {csHighlight}
         </div>
@@ -162,7 +163,10 @@ function BdsAverageScoreGraph(props) {
                         tickLine={false}
                         />
 
-                    <YAxis label={{ value: 'Max Digit Length', angle: -90, position: 'center' }} type="number" domain={[0, yMax]} ticks={yTicks} interval={1}/>
+                    <YAxis label={{ value: 'Max Digit Length', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                        type="number" domain={[0, yMax]} 
+                        ticks={yTicks} 
+                        interval={1}/>
                     <Tooltip />
                     <Legend />
                     <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
@@ -182,7 +186,7 @@ function SimonAccuracyScoreGraph(props) {
     const yTicks = Array.from({length: 11}, (_, i) => i * 10)
         .filter((_, i) => i <= 10) // don't want to exceed 100
         .map(n => n.toFixed(0));
-
+    
     return (
         <div>
             <h3>Simon Accuracy</h3>
@@ -211,10 +215,63 @@ function SimonAccuracyScoreGraph(props) {
                         axisLine={false}
                         tickLine={false}
                         />
-                    <YAxis label={{ value: 'Mean Accuracy', angle: -90, position: 'center' }} type="number" domain={[0, 100]} ticks={yTicks}/>
+                    <YAxis label={{ value: 'Accuracy', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                        type="number" 
+                        domain={[0, 100]} 
+                        tickCount={11}
+                        interval={0}
+                        />
                     <Tooltip />
                     <Legend />
                     <Line name="Simon Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    )
+}
+
+function SimonReactionTimeGraph(props) {
+    const rawData = props.game.getMeanReactionTime()
+    const data = []
+    for (let i = 0; i < rawData.length; ++i) {
+        if(rawData[i] === 0) continue;
+        data.push({day: i + 1, weekday: i % 7, reactionTime: rawData[i]});
+    }
+
+    return (
+        <div>
+            <h3>Simon Reaction Time</h3>
+            <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                    width={500}
+                    height={300}
+                    data={data}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 30,
+                        bottom: 5
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
+                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                        height={30}
+                        dy={-10}
+                        dataKey="day" 
+                        type="number" 
+                        domain={[1, 14]} 
+                        tickCount={14} 
+                        tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
+                        axisLine={false}
+                        tickLine={false}
+                        />
+                    <YAxis label={{ value: 'Mean Reaction Time', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                        type="number" 
+                        tickCount={8}/>
+                    <Tooltip />
+                    <Legend />
+                    <Line name="Simon Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>

@@ -97,4 +97,8 @@ export default class Simon extends Game {
     getMeanSessionsAccuracys() {
         return this.meanSessionsAccuracys;
     }
+
+    getMeanReactionTime() {
+        return this.meanReactionTime;
+    }
 }
