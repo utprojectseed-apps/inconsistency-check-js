@@ -113,15 +113,19 @@ function ParticipantHighlights(props) {
         <div>
             <h3>{props.participant} - Digit Span</h3>
             {bdsHighlight}
-            {lastReport && <BdsAverageScoreGraph game={props.bds.game}/>}
-            <h3>{props.participant} - Simon</h3>
-            {simonHighlight}
-            {lastReport && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
-            {lastReport && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
-            <h3>{props.participant} - Color Shape</h3>
-            {csHighlight}
-            {lastReport && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
-            {lastReport && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
+            {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game}/>}
+            <div className="print-together">
+                <h3>{props.participant} - Simon</h3>
+                {simonHighlight}
+                {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
+                {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
+            </div>
+            <div className="print-together">
+                <h3>{props.participant} - Color Shape</h3>
+                {csHighlight}
+                {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
+                {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
+            </div>
         </div>
     )
 }
@@ -139,13 +143,13 @@ function BdsAverageScoreGraph(props) {
     return (
         <div className='print-together'>
             <h3>Digit Span Scores</h3>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
-                    height={300}
+                    height={500}
                     data={data}
                     margin={{
-                        top: 5,
+                        top: 0,
                         right: 30,
                         left: 20,
                         bottom: 5
@@ -196,10 +200,10 @@ function AccuracyScoreGraph(props) {
     return (
         <div className="print-together">
             <h3>{gameName} Accuracy</h3>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
-                    height={300}
+                    height={500}
                     data={data}
                     margin={{
                         top: 5,
@@ -251,10 +255,10 @@ function ReactionTimeGraph(props) {
     return (
         <div className="print-together">
             <h3>{gameName} Reaction Time</h3>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
-                    height={300}
+                    height={500}
                     data={data}
                     margin={{
                         top: 50,

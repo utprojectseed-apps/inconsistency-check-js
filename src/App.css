@@ -82,5 +82,13 @@ p {
   .print-together, .print-together *
   {
       break-inside:avoid;
+      width: calc(100%)!important;
   }
 }
+
+.recharts-wrapper,
+    .recharts-surface{
+      @media print {
+        font-size: large;
+      }
+    }
