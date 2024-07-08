@@ -7,6 +7,7 @@ import RadioHighlightReport from "../../components/radiohighlightreport";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
+import { Button } from "@mui/material";
 
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -75,7 +76,7 @@ export default function CognitiveHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
-                        <button onClick={printPlease}>Print</button>
+                        <Button variant="contained" onClick={() => printPlease(selectedIds)} disableElevation>Print</Button>
                     </div>
                 </div>
             </div>
@@ -87,7 +88,8 @@ export default function CognitiveHighlights() {
     )
 }
 
-function printPlease() {
+function printPlease(selectedIds) {
+    var idString = selectedIds[0]
     DomToImage.toBlob(document.getElementById("cognitivehighlights"), {
         bgcolor: "white",
         style: {
@@ -96,7 +98,7 @@ function printPlease() {
         }
     })
     .then(function (dataUrl) {
-        fileDownload(dataUrl, "cognitivehighlights.png");
+        fileDownload(dataUrl, "cognitivehighlights-" + idString + ".png");
     })
     .catch(function (error) {
         console.error('oops, something went wrong!', error);
