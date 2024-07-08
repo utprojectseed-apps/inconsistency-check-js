@@ -171,7 +171,10 @@ function BdsAverageScoreGraph(props) {
                         interval={1}/>
                     <Tooltip />
                     <Legend />
-                    <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
+                        strokeWidth={2.5}
+                        dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -226,7 +229,10 @@ function AccuracyScoreGraph(props) {
                         />
                     <Tooltip />
                     <Legend />
-                    <Line name="Session Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Session Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
+                        strokeWidth={2.5}
+                        dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -277,7 +283,10 @@ function ReactionTimeGraph(props) {
                         />
                     <Tooltip />
                     <Legend />
-                    <Line name="Average Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line name="Average Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
+                        strokeWidth={2.5}
+                        dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </div>
