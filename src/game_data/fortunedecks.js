@@ -8,6 +8,8 @@ export default class FortuneDeck extends Game {
         this.participant_id = participant_id;
         this.calculateCompletionsDays()
         this.calculateScore();
+        this.countPerferredDeckDay();
+        this.calculateAvgReactTimeDays();
     }  
 
     calculateCompletionsDays() {
@@ -98,7 +100,6 @@ export default class FortuneDeck extends Game {
     }
 
     getBlockReactTimes() {
-        console.log('WHAT IS DDDD')
         const POSSIBLE_TRIALS = [100, 80]
         const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
         let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
@@ -107,36 +108,81 @@ export default class FortuneDeck extends Game {
             if (this.count[i] === 0) {
                 continue;
             }
+            
             let df = this.days[i]
             for (let j = 0; j < EXPECTED_TRIALS/BLOCK_SIZE; ++j) {
-                console.log('WHA')
                 let curr_df = df.loc({rows: df['List1_Sample'].gt(j * BLOCK_SIZE)
                     .and(df['List1_Sample'].lt((j + 1) * BLOCK_SIZE + 1))});
                 
-                // need to get the reaction time for the block
-                // loop thru the curr_df and sum up the reaction time ('rt')
-                // then divide by the number of trials in the block
                 let rtSum = 0.0
-                
-
                 let rtValues = curr_df['rt'].values
-
                 for (let k = 0; k < rtValues.length; ++k) {
-                    console.log('IN LOOP')
                     rtSum += parseFloat(rtValues[k])
                 }
 
                 let rt = rtValues.length > 0 ? rtSum/rtValues.length : 0
-                console.log("WHAT IS RT")
-                console.log(rt)
-                
                 let obj = {
                     rt: rt
                 }
-
                 blockProportions[i][j] = obj
             }
         }
         return blockProportions
     }
+
+    countPerferredDeckDay() {
+        this.perferredDecks = Array(Game.TotalDays).fill(0);
+
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            if (this.count[i] === 0) {
+                this.perferredDecks[i] = undefined
+                continue;
+            }
+            let df = this.days[i]
+            let countA = df.loc({rows: df['Deck_RESP'].eq('A')}).shape[0]
+            let countB = df.loc({rows: df['Deck_RESP'].eq('B')}).shape[0]
+            let countC = df.loc({rows: df['Deck_RESP'].eq('C')}).shape[0]
+            let countD = df.loc({rows: df['Deck_RESP'].eq('D')}).shape[0]
+
+            let maxCount = Math.max(countA, countB, countC, countD)
+            if (maxCount === countA) {
+                this.perferredDecks[i] = 'A';
+            } else if (maxCount === countB) {
+                this.perferredDecks[i] = 'B';
+            } else if (maxCount === countC) {
+                this.perferredDecks[i] = 'C';
+            } else if (maxCount === countD) {
+                this.perferredDecks[i] = 'D';
+            }
+        }
+    }
+
+    getPerferredDeckDay() {
+        return this.perferredDecks
+    }
+
+    calculateAvgReactTimeDays() {
+        this.avgReactTimeDays = Array(Game.TotalDays).fill(0);
+
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            if (this.count[i] === 0) {
+                this.avgReactTimeDays[i] = undefined
+                continue;
+            }
+            let df = this.days[i]
+            let rtValues = df['rt'].values
+            let rtSum = 0.0
+            for (let j = 0; j < rtValues.length; ++j) {
+                rtSum += parseFloat(rtValues[j])
+            }
+            let rt = rtValues.length > 0 ? (rtSum/rtValues.length).toFixed(2) : 0
+            this.avgReactTimeDays[i] = rt
+        }
+    }
+
+    getAvgReactTimeDays() {
+        return this.avgReactTimeDays
+    }
+
+
 }

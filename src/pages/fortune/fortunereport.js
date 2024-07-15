@@ -27,10 +27,10 @@ export default function FortuneGraph() {
     }, [data])
     return (
         <div className='games'>
-            <h1>Enter data HERE</h1>
+            <h1>Enter data</h1>
             <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
             {errorMessage && <h2>{errorMessage}</h2>}
-            <div>Testing</div>
+            <div>Test</div>
             {!errorMessage && <FortuneMiniReport participantList={participantList.current}/>}
         </div>
     )

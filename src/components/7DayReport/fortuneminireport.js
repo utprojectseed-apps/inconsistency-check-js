@@ -1,9 +1,7 @@
-import participantStats7Day from "./participantstats"
-
+import ParticipantStats from "../../components/7DayReport/participantstats";
 export default function FortuneMiniReport({participantList}) {
     const participants = participantList !== null && participantList.participants.map(
-        participant => <participantStats7Day key={participant.id} participant={participant}/>)
-
+        participant => <ParticipantStats key={participant.id} participant={participant}/>)
     return (
         <div>
             {participants}
