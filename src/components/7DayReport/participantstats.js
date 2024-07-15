@@ -128,7 +128,7 @@ export default function ParticipantStats({participant}) {
             <h2>{'Participant ID: ' + participant.getId()}</h2>
             <p>{'Your maximum score: ' + maxScore}</p>
             <p>{'Your average score: ' + avgScore}</p>
-            <p>{'Your overall perferred deck: ' + preferredDeck}</p>
+            <p>{'Your overall preferred deck: ' + preferredDeck}</p>
             <p>{'Your average response time: ' + avgRT +'ms' }</p>
             <p>{'Your average deck preference per block (20 cards): ' + blockPref}</p>
         </div>
