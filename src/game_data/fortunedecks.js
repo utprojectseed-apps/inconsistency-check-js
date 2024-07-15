@@ -96,4 +96,47 @@ export default class FortuneDeck extends Game {
         }
         return blockProportions
     }
+
+    getBlockReactTimes() {
+        console.log('WHAT IS DDDD')
+        const POSSIBLE_TRIALS = [100, 80]
+        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
+        let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
+
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            if (this.count[i] === 0) {
+                continue;
+            }
+            let df = this.days[i]
+            for (let j = 0; j < EXPECTED_TRIALS/BLOCK_SIZE; ++j) {
+                console.log('WHA')
+                let curr_df = df.loc({rows: df['List1_Sample'].gt(j * BLOCK_SIZE)
+                    .and(df['List1_Sample'].lt((j + 1) * BLOCK_SIZE + 1))});
+                
+                // need to get the reaction time for the block
+                // loop thru the curr_df and sum up the reaction time ('rt')
+                // then divide by the number of trials in the block
+                let rtSum = 0.0
+                
+
+                let rtValues = curr_df['rt'].values
+
+                for (let k = 0; k < rtValues.length; ++k) {
+                    console.log('IN LOOP')
+                    rtSum += parseFloat(rtValues[k])
+                }
+
+                let rt = rtValues.length > 0 ? rtSum/rtValues.length : 0
+                console.log("WHAT IS RT")
+                console.log(rt)
+                
+                let obj = {
+                    rt: rt
+                }
+
+                blockProportions[i][j] = obj
+            }
+        }
+        return blockProportions
+    }
 }

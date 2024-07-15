@@ -5,7 +5,7 @@ export default function GraphDayScore( {participant} ) {
     const data = [] 
     for (let i = 0; i < rawData.length; i++) {
         let curr = {
-            name: i,
+            name: i + 1,
             score: rawData[i]
         }
         data.push(curr)
