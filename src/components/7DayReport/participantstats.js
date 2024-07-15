@@ -41,8 +41,6 @@ export default function ParticipantStats({participant}) {
         }
     }
 
-    console.log(countA, countB, countC, countD)
-
     if (countA >= countB && countA >= countC && countA >= countD) {
         maxCount = countA;
         preferredDeck = 'A';
@@ -91,9 +89,6 @@ export default function ParticipantStats({participant}) {
     for (let i = 0; i < blockProportions.length; i++) {
         for (let j = 0; j < blockProportions[i].length; j++) {
 
-            console.log("ROUND: " + ( i + 1) + " BLOCK: " + j)
-            console.log("A  B   C   D")
-            console.log(blockProportions[i][j]["A"], blockProportions[i][j]["B"], blockProportions[i][j]["C"], blockProportions[i][j]["D"])
             const total = blockProportions[i][j]["total"];
             if (total > 0) {
                 sumA += blockProportions[i][j]["A"] / total;
@@ -103,7 +98,6 @@ export default function ParticipantStats({participant}) {
             }
             
         }
-        console.log("SUMSSS: " + sumA + " " + sumB + " " + sumC + " " + sumD)
         
     }
 
@@ -118,9 +112,6 @@ export default function ParticipantStats({participant}) {
     } else if (sumD >= sumA && sumD >= sumB && sumD >= sumC) {
         blockPref = 'D';
     }
-
-    console.log("SUMS:")
-    console.log(sumA, sumB, sumC, sumD)
 
 
     return (

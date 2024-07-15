@@ -9,7 +9,6 @@ export default function GraphReactionTime( {participant} ) {
     error(...args);
     };
 
-    console.log('WHAT IS HAPP')
     const rawData = participant.game.getBlockReactTimes()
     const data = [] 
     for (let i = 0; i < rawData.length; i++) {
@@ -24,7 +23,6 @@ export default function GraphReactionTime( {participant} ) {
         }
         data.push(day)
     }
-    console.log(rawData.length, rawData[0].length)
 
     const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()}/>)
     return (
