@@ -15,6 +15,8 @@ export default class Participant {
 
     #constructGames() {
         let games = new dfd.Series(this.data['experiment_name'].values).unique().values
+        this.lmao = Array(games.length).fill(0)
+        console.log(games.length)
         for(let i = 0; i < games.length; ++i) {
             switch(games[i]) {
                 case FORTUNE_NAME:
