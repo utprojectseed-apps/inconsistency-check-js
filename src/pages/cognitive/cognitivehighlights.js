@@ -4,7 +4,7 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
@@ -217,9 +217,6 @@ function AccuracyScoreGraph(props) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, accuracy: rawData[i]});
     }
-    const yTicks = Array.from({length: 11}, (_, i) => i * 10)
-        .filter((_, i) => i <= 10) // don't want to exceed 100
-        .map(n => n.toFixed(0));
     
     return (
         <div className="print-together">
