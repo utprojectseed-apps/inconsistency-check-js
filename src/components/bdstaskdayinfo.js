@@ -6,7 +6,6 @@
 // i can either add condiditon here or seperate files for each game 
 
 export default function BDSGameDayInfo({day, participant}) {
-    //const gameName = participant.gameName
     const completion = participant.getCompletions()[day - 1]
     const numberSessions = participant.getNumberSessions()[day -1]
     const meanSessionAccuracy = participant.getMeanSessionAccuracy()[day -1]
@@ -25,8 +24,7 @@ export default function BDSGameDayInfo({day, participant}) {
         if (completion === 0) { return "lightcoral"};
         return "plum";
     }
-    return ( // TODO fix the style so we have seperate sections for each game per day
-             // TODO just fix style lmao rn weird layout bc of the div 
+    return (
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${completion}%`}}></div>
             <h2 className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(completion)}`}}>Day: {day}</h2>

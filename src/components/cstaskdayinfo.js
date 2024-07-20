@@ -1,6 +1,3 @@
-// again will probably delete later and merge the 3 - game 
-// just need to see if it works
-
 export default function CStaskDayInfo({day, participant}) {
     const completion = participant.getCompletions()[day - 1]
     const numberSessions = participant.getNumberSessions()[day -1]

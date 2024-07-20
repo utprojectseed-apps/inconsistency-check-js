@@ -1,4 +1,3 @@
-/* eslint-disable */ //TODO: remove once started implementing
 import CSVReader from "../../components/csvread";
 import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
@@ -36,18 +35,14 @@ useEffect(() => {
         if(bdsData !== undefined && simonData !== undefined) {
             const bdsSubjects = bdsData['Subject']
             const simonSubjects = simonData['Subject']
+
             if(bdsSubjects === undefined && simonSubjects === undefined) {
                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
             } else {
-                //const df1 = new dfd.DataFrame(bdsData)
-                // const df2 = new dfd.DataFrame(simonData)
-                // const merged = dfd.concat({ dfList: [df1, df2], axis: 1 })
                 let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
                 let simonParticipants = new dfd.Series(simonSubjects.values).unique()
 
-                participantList.current = new ParticipantList(bdsParticipants, bdsData)
-                
-                // participantList.current = new ParticipantList(simonParticipants, simonData)//new ParticipantList(bdsParticipants, bdsData)
+                participantList.current = new ParticipantList(simonParticipants, simonData)
                 setErrorMessage(undefined)
             }
             forceUpdate()

@@ -1,6 +1,3 @@
-// will most likely delete later and merge the 3 - game 
-// just need to see if it works 
-
 export default function SimonGameDayInfo({day, participant}) {
     const completion = participant.getCompletions()[day - 1]
     const numberSessions = participant.getNumberSessions()[day -1]
@@ -10,7 +7,6 @@ export default function SimonGameDayInfo({day, participant}) {
     const practiceTrialsAccuracy = participant.getPracticeTrialsAccuracy()[day -1]
     const noInputTrialsAmount = participant.getNoInputTrials()[day -1]
 
-    // const noInputCount = participant.getNoInputCount()[day -1]
     const languageOfSession = participant.getLanguages()[day -1]
 
     const header_color = (completion) => {

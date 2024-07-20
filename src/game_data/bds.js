@@ -5,13 +5,14 @@ export default class BDS extends Game {
     constructor(data, participant_id) {
         super(data);
         this.participant_id = participant_id;
-        this.calculateCompletionsDays();
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxCorrectDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
+
+        this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateAverageDigitSpanDays();
         this.calculateMaxDigitSpanDays();
@@ -56,7 +57,7 @@ export default class BDS extends Game {
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') {
+                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
                     count++;
                 }
             } 
@@ -90,7 +91,6 @@ export default class BDS extends Game {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
 
-            // now we need to loop thru the testing_df
             let maxSpan = 0;
             let listValues = testing_df['List'].values;
             for (let j = 0; j < listValues.length; ++j) {
@@ -141,11 +141,10 @@ export default class BDS extends Game {
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') {
+                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
                     count++;
                 }
             }
-            
             this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
         }
     } 
@@ -161,7 +160,7 @@ export default class BDS extends Game {
         return [longestMaxCorrectHighlight, averageMaxCorrectHighlight];
     }
 
-    getSessionAccuracyDays() {
+    getMeanSessionsAccuracys() {
         return this.meanSessionsAccuracys;
     }
 

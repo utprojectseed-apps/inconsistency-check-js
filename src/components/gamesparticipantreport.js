@@ -11,9 +11,9 @@ export default function GamesParticipantReport({participant}) {
                 return <FortuneGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game} score={c}/>
             } else if (participant.getGameName() === "BDS Task") {
                     return <BDSGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game}/>
-            } else if (participant.getGameName() === "Simon Task") { // TODO: for testing purposes
+            } else if (participant.getGameName() === "Simon Task") {
                 return <SimonGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game}/>
-            }  else if (participant.getGameName() === "Color-Shape Task") {
+            }  else if (participant.getGameName() === "CS Task") {
                 return <CSGameDayInfo key={i} day={i + 1} participant={participant} game={participant.game}/>
             }
             return null
