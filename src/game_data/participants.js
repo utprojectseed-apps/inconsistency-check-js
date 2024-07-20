@@ -12,16 +12,22 @@ export default class ParticipantList {
      */
     constructor(ids, data) {
         this.ids = ids;
-        this.data = data;
+        this.data = data; // TODO: become a list of dataframes if bds, simon, cs
         this.participants = [];
+        this.participantsMap = new Map()
         this.#constructParticipants(ids);
     }
 
     #constructParticipants() {
+        
         for (let id of this.ids.values) {
             if(id === undefined || id === null) {
                 continue;
             }
+            // TODO: remove once highlights are implemented
+            // if(!(id === "77898041" || id === "77898042")) {
+            //     continue;
+            // }
 
             let df;
             if (this.data.columns.includes("subject_id")) {
@@ -31,9 +37,9 @@ export default class ParticipantList {
             } else {
                 throw new Error("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.");
             }
-
             const participant = new Participant(id, df);
             this.participants.push(participant);
+            this.participantsMap.set(id, participant);
         }
     }
 
@@ -42,6 +48,10 @@ export default class ParticipantList {
             throw new Error('ids is null');
         }
         return this.ids.values;
+    }
+
+    getParticipant(id) {
+        return this.participantsMap.get(id);
     }
 
     getCompletions() {

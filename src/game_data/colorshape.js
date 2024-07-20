@@ -1,25 +1,17 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
 
-export default class Simon extends Game {
+export default class ColorShape extends Game {
     constructor(data, participant_id) {
         super(data);
-        this.participant_id = participant_id;
+        this.participant_id = participant_id
+        this.calculateCompletionsDays()
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);
-        this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
-        this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
-        this.noInputTrialsDays = Array(Game.TotalDays).fill().map(() => []);
-        
-        this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateMeanReactionTime();
-        this.countPracticeTrialsAmountDays();
-        this.calculatePracticeTrialsAccuracys();
-        this.countNoInputTrialsDays();
         this.getHighlights();
     }
-
     calculateCompletionsDays() {
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -36,7 +28,7 @@ export default class Simon extends Game {
                 let testing_df = sess_df.loc({rows: sess_df['task_section'].eq('test')});
                 let count = testing_df.shape[0];
 
-                let completionRate = (count / 32 * 100).toFixed(2)
+                let completionRate = (count/33 * 100).toFixed(2)
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
                     this.count[i] = count; // conatins the number of test trials 
@@ -52,7 +44,7 @@ export default class Simon extends Game {
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
 
             let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 33;
-            let accuracyValues = testing_df['Slide1.ACC'].values;
+            let accuracyValues = testing_df['CriticalSlide.ACC'].values;
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
@@ -68,53 +60,16 @@ export default class Simon extends Game {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            let reactionTimes = testing_df['Slide1.RT'].values;
-
+            let reactionTimes = testing_df['CriticalSlide.RT'].values;
             let count = 0;
             let sum = 0;
             for (let j = 0; j < reactionTimes.length; ++j) {
                 let currentReactionTime = parseInt(reactionTimes[j]);
-                if(currentReactionTime === -999) continue;
+                if(currentReactionTime === 0) continue;
                 sum += currentReactionTime;
                 count++;
             }
             this.meanReactionTime[i] = count === 0 ? 0 : (sum / count).toFixed(2);
-        }
-    }
-
-    countPracticeTrialsAmountDays() {
-        for (let i = 0; i < Game.TotalDays; ++i) {
-            let df = this.days[i];
-            this.practiceTrialsAmount[i] = 0;
-            let practice_df = df.loc({rows: df['task_section'].eq('training')});
-            let practiceTrials = practice_df.shape[0];
-            this.practiceTrialsAmount[i] = practiceTrials;
-        }
-    }
-
-    calculatePracticeTrialsAccuracys() {
-        for (let i = 0; i < Game.TotalDays; ++i) {
-            let df = this.days[i];
-            let practice_df = df.loc({rows: df['task_section'].eq('training')});
-            let accuracyValues = practice_df['Slide1.ACC'].values;
-
-            let count = 0.0;
-            for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // TODO: check
-                    count++;
-                }
-            }
-            this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
-        }
-    }
-
-    countNoInputTrialsDays() {
-        for (let i = 0; i < Game.TotalDays; ++i) {
-            let df = this.days[i];
-            let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            let noInput_df = testing_df.loc({rows: testing_df['Slide1.RESP'].eq('none')});
-            let noInputString = noInput_df.shape[0] + " out of " + testing_df.shape[0];
-            this.noInputTrialsDays[i] = noInputString;
         }
     }
 
@@ -139,23 +94,11 @@ export default class Simon extends Game {
         }
     }
 
-    getMeanSessionsAccuracys() { // TODO:call this method instead of getSessionAccuracyDays
-        return this.meanSessionsAccuracys;
+    getMeanSessionsAccuracys() {
+        return this.meanSessionsAccuracys
     }
 
     getMeanReactionTime() {
-        return this.meanReactionTime;
-    }
-
-    getPracticeTrialsAmountDays() {
-        return this.practiceTrialsAmount;
-    }
-
-    getPracticeTrialsAccuracyDays() {
-        return this.practiceTrialsAccuracys;
-    }
-
-    getNoInputTrialsDays() {
-        return this.noInputTrialsDays;
+        return this.meanReactionTime
     }
 }

@@ -15,8 +15,6 @@ export default class Participant {
 
     #constructGames() {
         let games = new dfd.Series(this.data['experiment_name'].values).unique().values
-        this.lmao = Array(games.length).fill(0)
-        console.log(games.length)
         for(let i = 0; i < games.length; ++i) {
             switch(games[i]) {
                 case FORTUNE_NAME:
@@ -28,12 +26,11 @@ export default class Participant {
                     this.game = new BDS(this.data, this.id);
                     break;
                 case SIMON_NAME:
-                    console.log("simon")
                     this.gameName = "Simon Task";
                     this.game = new Simon(this.data, this.id);
                     break;
                 case CS_NAME:
-                    this.gameName = "Color-Shape Task";
+                    this.gameName = "CS Task";
                     this.game = new ColorShape(this.data, this.id);
                     break;
                 default:
@@ -92,7 +89,7 @@ export default class Participant {
     }
 
     getPracticeTrialsAmount() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
             return this.game.getPracticeTrialsAmountDays();
         } else {
             throw new Error("getPracticeTrials not implemented for this game.");
@@ -100,7 +97,7 @@ export default class Participant {
     }
 
     getPracticeTrialsAccuracy() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
             return this.game.getPracticeTrialsAccuracyDays();
         } else {
             throw new Error("getPracticeTrialsAccouracy not implemented for this game.");
@@ -108,15 +105,15 @@ export default class Participant {
     }
 
     getMeanSessionAccuracy() {
-        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
-            return this.game.getSessionAccuracyDays();
+        if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getMeanSessionsAccuracys();
         } else {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
         }
     }
 
     getNoInputTrials() {
-        if(this.gameName === "Simon Task" || this.gameName === "Color-Shape Task") {
+        if(this.gameName === "Simon Task" || this.gameName === "CS Task") {
             return this.game.getNoInputTrialsDays();
         } else {
             throw new Error("getNoInputTrials not implemented for this game.");
