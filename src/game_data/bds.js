@@ -112,7 +112,7 @@ export default class BDS extends Game {
             let listValues = testing_df['List'].values;
             let accuracyValues = testing_df['accuracy'].values;
             for (let j = 0; j < listValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // TODO: make sure it is correct
+                if (accuracyValues[j] === 'TRUE') { // TODO: make sure it is correct
                     let currSpan = parseInt(listValues[j]);
                     if (currSpan > maxCorrectSpan) {
                         maxCorrectSpan = currSpan;

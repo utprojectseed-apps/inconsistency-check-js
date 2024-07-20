@@ -32,22 +32,23 @@ export default function CognitiveGame() {
         setSelectedIds(d)
     }
 useEffect(() => {
-        if(bdsData !== undefined && simonData !== undefined) {
+        if(bdsData !== undefined && simonData !== undefined && csData !== undefined) {
             const bdsSubjects = bdsData['Subject']
             const simonSubjects = simonData['Subject']
+            const csSubjects = csData['Subject']
 
-            if(bdsSubjects === undefined && simonSubjects === undefined) {
+            if(bdsSubjects === undefined && simonSubjects === undefined && csSubjects === undefined) {
                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
             } else {
                 let bdsParticipants = new dfd.Series(bdsSubjects.values).unique()
                 let simonParticipants = new dfd.Series(simonSubjects.values).unique()
 
-                participantList.current = new ParticipantList(simonParticipants, simonData)
+                participantList.current = new ParticipantList(simonParticipants, csData)
                 setErrorMessage(undefined)
             }
             forceUpdate()
         }
-    }, [bdsData, simonData])
+    }, [bdsData, simonData, csData])
     return (
         <div className='games'>
             <h1 className='no-print'>Enter data NOT IMPLEMENTED FULLY YET Order:(BDS, SIMON, CS)</h1>
