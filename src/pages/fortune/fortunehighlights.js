@@ -104,7 +104,7 @@ function GameExplanation() {
             <p>While it is possible to earn many points from Deck A and B in a few card draws, they become negative over many card draws.</p>
             <p>Below are highlights from your 14 days playing the Fortune Game, with the "Good Deck" meaning you chose Deck C or D as these are the positive deck choices over a long time span.</p>
             <p>We have graphed your points and the decks you chose over the 14 days.</p>
-            <p>Remember for the points you started with 2000 points, and you may use the reference line to know if you earned more than you started with or less.</p>
+            <p>Remember for the points you started with 2000 points, and you may use the reference line to know if you earned more  or less than what you started with.</p>
         </div>
     )
 }

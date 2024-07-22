@@ -123,9 +123,9 @@ export default class FortuneDeck extends Game {
         let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
         let maxGoodDeckPercentage = Math.max(...(this.goodDeckPercentage.filter(x => !isNaN(x))))
         // let maxScoreMessage = `Your maximum score: ${maxScore}`
-        let maxPointsMessage = `Your maximum points earned: ${maxPoints}`
+        let maxPointsMessage = `Your best points earned: ${maxPoints}`
         let averagePointsMessage = `Your average points earned: ${averagePoints.toFixed(2)}`
-        let maxGoodDeckPercentageMessage = `Your maximum good deck percentage: ${maxGoodDeckPercentage}%`
+        let maxGoodDeckPercentageMessage = `Your best good deck percentage: ${maxGoodDeckPercentage}%`
         
         if (selectedReport === 0) {
             return [maxPointsMessage, averagePointsMessage]
