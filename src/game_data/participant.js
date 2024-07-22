@@ -110,5 +110,9 @@ export default class Participant {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
         }
     }
+    getId() {
+        return this.id;
+    }
+
 
 }

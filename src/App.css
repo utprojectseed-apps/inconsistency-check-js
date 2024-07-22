@@ -68,6 +68,11 @@ p {
   margin-bottom: 5px;
 }
 
+.proportion-graph {
+  display:flex;
+  flex-wrap: wrap;
+}
+
 .test {
   background-color: blue;
 }

@@ -1,7 +1,7 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
 
-
+const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
     constructor(data, participant_id) {
         super(data);
@@ -40,6 +40,7 @@ export default class FortuneDeck extends Game {
         // score is calculated [(C + D) - (A + B)]/count
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
+                this.score[i] = undefined
                 continue;
             }
             let df = this.days[i]
@@ -83,6 +84,36 @@ export default class FortuneDeck extends Game {
 
     getCount(day) {
         return this.count[day - 1]
+    }
+
+    getBlockProportions() {
+        const POSSIBLE_TRIALS = [100, 80]
+        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
+        let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
+        console.log(blockProportions)
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            if (this.count[i] === 0) {
+                continue;
+            }
+            let df = this.days[i]
+            for (let j = 0; j < EXPECTED_TRIALS/BLOCK_SIZE; ++j) {
+                let curr_df = df.loc({rows: df['List1_Sample'].gt(j * BLOCK_SIZE)
+                    .and(df['List1_Sample'].lt((j + 1) * BLOCK_SIZE + 1))});
+                let countA = curr_df.loc({rows: curr_df['Deck_RESP'].eq('A')}).shape[0]
+                let countB = curr_df.loc({rows: curr_df['Deck_RESP'].eq('B')}).shape[0]
+                let countC = curr_df.loc({rows: curr_df['Deck_RESP'].eq('C')}).shape[0]
+                let countD = curr_df.loc({rows: curr_df['Deck_RESP'].eq('D')}).shape[0]
+                let obj = {
+                    A: countA,
+                    B: countB,
+                    C: countC,
+                    D: countD,
+                    total: countA + countB + countC + countD
+                }
+                blockProportions[i][j] = obj
+            }
+        }
+        return blockProportions
     }
 
     getHighlights(selectedReport) {
