@@ -86,5 +86,14 @@ function ParticipantListHighlights(props) {
 }
 
 function ParticipantHighlights(props) {
-    return (<div>{props.participant}</div>)
+    let noData = <p>No data</p>
+    let reportSelected = props.selectedReport === "first-week" ? 0 : 1
+    let lastReport = reportSelected === 1
+    let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    return (
+        <div>
+            <h3>{props.participant} - Fortune Highlights</h3>
+            {fortuneHighlight}
+        </div>
+    )
 }

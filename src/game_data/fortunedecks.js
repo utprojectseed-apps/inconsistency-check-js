@@ -65,4 +65,8 @@ export default class FortuneDeck extends Game {
     getCount(day) {
         return this.count[day - 1]
     }
+
+    getHighlights() {
+        return ["Highlight 1", "Highlight 2"]
+    }
 }
