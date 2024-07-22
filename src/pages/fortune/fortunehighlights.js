@@ -69,6 +69,22 @@ function printPlease() {
 }
 
 function ParticipantListHighlights(props) {
+    let participantList = props.participantList
+    let participantIds = participantList ? participantList.getIds() : []
+    const filteredParticipants = participantIds.filter(participant => {
+        return props.activeIds.includes(participant)
+    })
+    const participants = filteredParticipants.map(participant => 
+        <ParticipantHighlights key={participant}
+        participant={participant}
+        fortune={participantList && participantList.getParticipant(participant)}
+        selectedReport={props.selectedReport}/>
+    )
     return (
-        <h3>TODO: almost done</h3>)
+        participants
+    )
+}
+
+function ParticipantHighlights(props) {
+    return (<div>{props.participant}</div>)
 }
