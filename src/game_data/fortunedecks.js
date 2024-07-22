@@ -76,7 +76,7 @@ export default class FortuneDeck extends Game {
         return this.count[day - 1]
     }
 
-    getHighlights() {
+    getHighlights(selectedReport) {
         // let maxScore = Math.max(...(this.score.filter(x => !isNaN(x))))
         let maxPoints = Math.max(...(this.points.filter(x => !isNaN(x))))
         let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
@@ -86,6 +86,11 @@ export default class FortuneDeck extends Game {
         let maxPointsMessage = `Your maximum points earned: ${maxPoints}`
         let averagePointsMessage = `Your average points earned: ${averagePoints.toFixed(2)}`
         let maxGoodDeckPercentageMessage = `Your maximum good deck percentage: ${maxGoodDeckPercentage}%`
-        return [maxPointsMessage, averagePointsMessage, maxGoodDeckPercentageMessage]
+        
+        if (selectedReport === 0) {
+            return [maxPointsMessage, averagePointsMessage]
+        } else {
+            return [maxPointsMessage, averagePointsMessage, maxGoodDeckPercentageMessage]
+        }
     }
 }
