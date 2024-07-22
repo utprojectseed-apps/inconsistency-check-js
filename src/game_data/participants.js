@@ -24,10 +24,6 @@ export default class ParticipantList {
             if(id === undefined || id === null) {
                 continue;
             }
-            // TODO: remove once highlights are implemented
-            // if(!(id === "77898041" || id === "77898042")) {
-            //     continue;
-            // }
 
             let df;
             if (this.data.columns.includes("subject_id")) {
