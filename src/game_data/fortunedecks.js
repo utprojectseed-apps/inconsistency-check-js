@@ -8,12 +8,12 @@ export default class FortuneDeck extends Game {
         this.participant_id = participant_id;
         this.calculateCompletionsDays();
         this.calculateScore();
+        this.calculateEndPoints()
     }  
 
     calculateCompletionsDays() {
         const POSSIBLE_TRIALS = [100, 80]
         const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
-        console.log(EXPECTED_TRIALS, this.participant_id)
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
             //in case there are multiple sessions //TODO fix multiple sessions by removing it from df? or can find a way to display all?
@@ -36,6 +36,7 @@ export default class FortuneDeck extends Game {
 
     calculateScore() {
         this.score = Array(Game.TotalDays).fill(0);
+        this.goodDeckPercentage = Array(Game.TotalDays).fill(0);
         // score is calculated [(C + D) - (A + B)]/count
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
@@ -46,7 +47,16 @@ export default class FortuneDeck extends Game {
             let countB = df.loc({rows: df['Deck_RESP'].eq('B')}).shape[0]
             let countC = df.loc({rows: df['Deck_RESP'].eq('C')}).shape[0]
             let countD = df.loc({rows: df['Deck_RESP'].eq('D')}).shape[0]
+            this.goodDeckPercentage[i] = ((countC + countD)/this.count[i] * 100).toFixed(2)
             this.score[i] = (((countC + countD) - (countA + countB))/this.count[i]).toFixed(2)
+        }
+    }
+
+    calculateEndPoints() {
+        this.points = Array(Game.TotalDays).fill(0);
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i]
+            this.points[i] = parseFloat(df.tail(1)['totalsum'].values[0])
         }
     }
 
@@ -67,6 +77,15 @@ export default class FortuneDeck extends Game {
     }
 
     getHighlights() {
-        return ["Highlight 1", "Highlight 2"]
+        // let maxScore = Math.max(...(this.score.filter(x => !isNaN(x))))
+        let maxPoints = Math.max(...(this.points.filter(x => !isNaN(x))))
+        let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
+        let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
+        let maxGoodDeckPercentage = Math.max(...(this.goodDeckPercentage.filter(x => !isNaN(x))))
+        // let maxScoreMessage = `Your maximum score: ${maxScore}`
+        let maxPointsMessage = `Your maximum points earned: ${maxPoints}`
+        let averagePointsMessage = `Your average points earned: ${averagePoints.toFixed(2)}`
+        let maxGoodDeckPercentageMessage = `Your maximum good deck percentage: ${maxGoodDeckPercentage}%`
+        return [maxPointsMessage, averagePointsMessage, maxGoodDeckPercentageMessage]
     }
 }
