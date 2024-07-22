@@ -35,7 +35,7 @@ export default function DeckExplanation() {
                 <CustomTableCell>Deck Name</CustomTableCell>
                 <CustomTableCell align="right">Raw Gain Per Card Draw</CustomTableCell>
                 <CustomTableCell align="right">Potential Loss Per Card Draw</CustomTableCell>
-                <CustomTableCell align="right">Percentage of Loss Occurance</CustomTableCell>
+                <CustomTableCell align="right">Probability of Loss Occurance</CustomTableCell>
                 <CustomTableCell align="right">Net Value of 10 Card Draws</CustomTableCell>
               </TableRow>
             </TableHead>
