@@ -21,7 +21,7 @@ const rows = [
   ];
 
 const CustomTableCell = styled(TableCell)({
-    fontSize: '1rem',
+    fontSize: '1.2rem',
 });
 
 export default function DeckExplanation() {
