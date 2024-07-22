@@ -16,10 +16,10 @@ export default function GraphDeckProportion( {participant} ) {
             let curr = {
                 day: i,
                 block: j,
-                deckA: rawData[i][j]["A"]/rawData[i][j]["total"],
-                deckB: rawData[i][j]["B"]/rawData[i][j]["total"],
-                deckC: rawData[i][j]["C"]/rawData[i][j]["total"],
-                deckD: rawData[i][j]["D"]/rawData[i][j]["total"]
+                deckA: rawData[i][j]["A"]/rawData[i][j]["total"] * 100,
+                deckB: rawData[i][j]["B"]/rawData[i][j]["total"] * 100,
+                deckC: rawData[i][j]["C"]/rawData[i][j]["total"] * 100,
+                deckD: rawData[i][j]["D"]/rawData[i][j]["total"] * 100
             }
             day.push(curr)
         }
@@ -37,10 +37,10 @@ export default function GraphDeckProportion( {participant} ) {
 const GraphSingleDay = ({data, day, id}) => {
     return (
         <div>
-            <h3 style={{marginLeft: 20}}>{id} Deck Proportion Day: {day + 1}</h3>
-            <ResponsiveContainer width={400} height={400}>
+            <h3 style={{marginLeft: 20}}>Deck Choice Day: {day + 1}</h3>
+            <ResponsiveContainer width={500} height={400}>
                 <LineChart           
-                    width={600}
+                    width={400}
                     height={300}
                     data={data}
                     margin={{
@@ -52,13 +52,21 @@ const GraphSingleDay = ({data, day, id}) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="block" />
-                    <YAxis domain={[0, 1]}/>    
+                    <YAxis domain={[0, 100]}/>    
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="deckA" stroke="steelblue" />
-                    <Line type="monotone" dataKey="deckB" stroke="green" />
-                    <Line type="monotone" dataKey="deckC" stroke="pink" />
-                    <Line type="monotone" dataKey="deckD" stroke="orange" />
+                    <Line type="monotone" dataKey="deckA" name="Deck A" stroke="#1b9e77" strokeWidth={2.5}
+                        dot={{ stroke:"#1b9e77", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
+                    <Line type="monotone" dataKey="deckB" name="Deck B" stroke="#d95f02" strokeWidth={2.5}
+                        dot={{ stroke:"#d95f02", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
+                    <Line type="monotone" dataKey="deckC" name="Deck C" stroke="#7570b3" strokeWidth={2.5}
+                        dot={{ stroke:"#7570b3", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
+                    <Line type="monotone" dataKey="deckD" name="Deck D" stroke="#e7298a" strokeWidth={2.5}
+                        dot={{ stroke:"#e7298a", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </div>
