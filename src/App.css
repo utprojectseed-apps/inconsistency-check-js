@@ -89,6 +89,11 @@ p {
       break-inside:avoid;
       width: calc(100%)!important;
   }
+
+  .print-page-after
+  {
+    page-break-after: always;
+  }
 }
 
 .recharts-wrapper,
@@ -100,17 +105,26 @@ p {
       font-family: Roboto, sans-serif;
     }
 
-#cognitivehighlights {
+#cognitivehighlights, #fortunehighlights {
   padding: 2rem;
 }
 
-#cognitivehighlights h3{
-  font-size: 1.8rem;
+#cognitivehighlights, #fortunehighlights h1{
+  font-size: 3rem;
+}
+
+#cognitivehighlights, #fortunehighlights h2{
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
-#cognitivehighlights p{
-  font-size: 1.4rem;
+#cognitivehighlights, #fortunehighlights h3{
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights, #fortunehighlights p{
+  font-size: 2rem;
 }
 
 /* .recharts-cartesian-axis-tick {    

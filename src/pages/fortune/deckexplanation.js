@@ -21,41 +21,44 @@ const rows = [
   ];
 
 const CustomTableCell = styled(TableCell)({
-    fontSize: '1.2rem',
+    fontSize: '1.7rem',
 });
 
 export default function DeckExplanation() {
     return (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow sx={{
-                  fontSize: '1.2rem',
-                }}>
-                <CustomTableCell>Deck Name</CustomTableCell>
-                <CustomTableCell align="right">Raw Gain Per Card Draw</CustomTableCell>
-                <CustomTableCell align="right">Potential Loss Per Card Draw</CustomTableCell>
-                <CustomTableCell align="right">Probability of Loss Occurance</CustomTableCell>
-                <CustomTableCell align="right">Net Value of 10 Card Draws</CustomTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <CustomTableCell component="th" scope="row">
-                    {row.name}
-                  </CustomTableCell>
-                  <CustomTableCell align="right">{row.gain}</CustomTableCell>
-                  <CustomTableCell align="right">{row.loss}</CustomTableCell>
-                  <CustomTableCell align="right">{row.percentageOfLoss}</CustomTableCell>
-                  <CustomTableCell align="right">{row.netgain}</CustomTableCell>
+        <div className='print-together'>
+
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow sx={{
+                    fontSize: '1.2rem',
+                  }}>
+                  <CustomTableCell>Deck Name</CustomTableCell>
+                  <CustomTableCell align="right">Raw Gain Per Card Draw</CustomTableCell>
+                  <CustomTableCell align="right">Potential Loss Per Card Draw</CustomTableCell>
+                  <CustomTableCell align="right">Probability of Loss Occurance</CustomTableCell>
+                  <CustomTableCell align="right">Net Value of 10 Card Draws</CustomTableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <CustomTableCell component="th" scope="row">
+                      {row.name}
+                    </CustomTableCell>
+                    <CustomTableCell align="right">{row.gain}</CustomTableCell>
+                    <CustomTableCell align="right">{row.loss}</CustomTableCell>
+                    <CustomTableCell align="right">{row.percentageOfLoss}</CustomTableCell>
+                    <CustomTableCell align="right">{row.netgain}</CustomTableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
     );
 }

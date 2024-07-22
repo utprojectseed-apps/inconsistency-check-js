@@ -36,7 +36,7 @@ export default function GraphDeckProportion( {participant} ) {
 
 const GraphSingleDay = ({data, day, id}) => {
     return (
-        <div>
+        <div >
             <h3 style={{marginLeft: 20}}>Deck Choice Day: {day + 1}</h3>
             <ResponsiveContainer width={500} height={400}>
                 <LineChart           

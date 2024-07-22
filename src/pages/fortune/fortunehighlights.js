@@ -58,16 +58,28 @@ export default function FortuneHighlights() {
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            <div id="cognitivehighlights">
+            <div id="fortunehighlights">
                 {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} participantList={participantList.current} activeIds={selectedIds}/>}
             </div>
         </div>
     )
 }
 
-function printPlease() {
-    //TODO: print
-    return;
+function printPlease(selectedIds) {
+    var idString = selectedIds[0]
+    DomToImage.toBlob(document.getElementById("fortunehighlights"), {
+        bgcolor: "white",
+        style: {
+            paddingLeft: "100px",
+            paddingRight: "100px",
+        }
+    })
+    .then(function (dataUrl) {
+        fileDownload(dataUrl, "fortunehighlights-" + idString + ".png");
+    })
+    .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+    });
 }
 
 function ParticipantListHighlights(props) {
@@ -116,8 +128,10 @@ function ParticipantHighlights(props) {
     let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     return (
         <div>
-            <h3>{props.participant} - Fortune Deck Highlights</h3>
-            {fortuneHighlight}
+            <div className="print-together print-page-after">
+                <h3>{props.participant} - Fortune Deck Highlights</h3>
+                {fortuneHighlight}
+            </div>
             {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game}/>}
             {lastReport && props.fortune !== null && <GraphDeckProportion key={props.participant} participant={props.fortune}/>}
         </div>
