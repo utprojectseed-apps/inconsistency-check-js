@@ -9,6 +9,7 @@ import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import GraphDeckProportion from "../../components/graph/graphdeckproportion";
+import DeckExplanation from "./deckexplanation";
 
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
@@ -81,8 +82,30 @@ function ParticipantListHighlights(props) {
         fortune={participantList && participantList.getParticipant(participant)}
         selectedReport={props.selectedReport}/>
     )
+    return <div>
+        {props.selectedReport === "second-week" && <GameExplanation/>}
+        {participants}
+    </div>
+}
+
+function GameExplanation() {
     return (
-        participants
+        <div>
+            <h1>Fortune Game Explanation</h1>
+            <p>Thank you for completing 14 days of the Fortune Game! Below is an explanation of the game.</p>
+            <p>For each day, you were presented with 4 decks, selecting any of them resulted in earning points, and potentially losing points.</p>
+            <p>In total, there are only 4 types of decks, with each day only changing the location of each type of deck.</p>
+            <p>For example, Deck A may have been in the upper right corner in the first day, and in the second day it may have been in the lower right corner.</p>
+            <p>However, the pattern of each deck did not change. Each deck would always give a guaranteed positive amount of points followed by a potential loss.</p>
+            <p>The difference between the types of decks is the amount you might have loss at any given card draw, and how often these losses happen.</p>
+            <p>The table below shows the pattern for each type of deck you were presented:</p>
+            <DeckExplanation/>
+            <p>As you can see, Deck A and B had a high amount of gain per card draw, but due to the loss amount and probability, they ended up being negative over time.</p>
+            <p>While it is possible to earn many points from Deck A and B in a few card draws, they become negative over many card draws.</p>
+            <p>Below are highlights from your 14 days playing the Fortune Game, with the "Good Deck" meaning you chose Deck C or D as these are the positive deck choices over a long time span.</p>
+            <p>We have graphed your points and the decks you chose over the 14 days.</p>
+            <p>Remember for the points you started with 2000 points, and you may use the reference line to know if you earned more than you started with or less.</p>
+        </div>
     )
 }
 
