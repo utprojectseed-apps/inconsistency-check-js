@@ -179,7 +179,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Language:">{bdsLang}</p>
                     <p data-label="Game Time:">{"--.-- mins"}</p>
                 </div>
-            <h4>Simon Task:</h4>
+            <h4>Simon Task</h4>
                 <div className="test-day-details">
                     <p data-label="Sessions started:">{simonSessions}</p>
                     <p data-label="Session completion:">{simonCompletion} %</p>
@@ -190,7 +190,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Language:">{simonLang}</p>
                     <p data-label="Game Time:">{"--.-- mins"}</p>
                 </div>
-            <h4>Color-Shape Task:</h4>
+            <h4>Color-Shape Task</h4>
                 <div className="test-day-details">
                     <p data-label="Sessions started:">{csSessions}</p>
                     <p data-label="Session completion:">{csCompletion} %</p>
