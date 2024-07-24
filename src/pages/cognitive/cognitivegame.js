@@ -173,7 +173,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Average Digit Span:">{avgDigitSpan}</p>
                     <p data-label="Max Digit Span:">{maxDigitSpan}</p>
                     <p data-label="Mean Span (MS):">{meanDigitSpan}</p>
-                    <p data-label="Max Correct Digit Span (ML):">---</p>
+                    <p data-label="Max Correct Digit Span (ML):">{maxCorrectDigitSpan}</p>
                     <p data-label="Two-Error Maximum Length (TE-ML):">---</p>
                     <p data-label="Two-Error Total Trials (TE-TT):">---</p>
                     <p data-label="Language:">{bdsLang}</p>
