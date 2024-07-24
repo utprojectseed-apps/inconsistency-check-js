@@ -71,7 +71,7 @@ p {
 /* Testing some stuff  TODO: check later*/
 .test-day-details {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   gap: 5px;
   padding-left: 20%;
   font-size: small;
