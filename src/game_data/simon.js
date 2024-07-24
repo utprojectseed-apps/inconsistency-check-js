@@ -56,7 +56,7 @@ export default class Simon extends Game {
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { // Works with TRUE
+                if (accuracyValues[j] === 'True') { // Works with TRUE for other format??
                     count++;
                 }
             } 
@@ -100,7 +100,7 @@ export default class Simon extends Game {
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { // TODO: check
+                if (accuracyValues[j] === 'True') { // TODO: check
                     count++;
                 }
             }

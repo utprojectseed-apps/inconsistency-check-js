@@ -1,6 +1,8 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
 
+// TODO num of trials will change to 14 !!!
+
 export default class BDS extends Game {
     constructor(data, participant_id) {
         super(data);
@@ -12,6 +14,10 @@ export default class BDS extends Game {
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
 
+        this.meanSpans = Array(Game.TotalDays).fill().map(() => []);
+        this.twoErrorMaxLengths = Array(Game.TotalDays).fill().map(() => []);
+        // this.twoErrorTotalTrials = Array(Game.TotalDays).fill().map(() => []);
+
         this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateAverageDigitSpanDays();
@@ -19,6 +25,10 @@ export default class BDS extends Game {
         this.calculateMaxCorrectDigitSpanDays();
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
+
+        this.calculateMeanSpans();
+        this.calculateTwoErrorMaxLengths();
+        // this.calculateTwoErrorTotalTrials();
     }
 
     calculateCompletionsDays() {
@@ -149,6 +159,45 @@ export default class BDS extends Game {
         }
     } 
 
+    calculateMeanSpans() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            let listValues = testing_df['List'].values;
+            let accuracyValues = testing_df['accuracy'].values;
+
+            let lengthCounts = {};
+            let lengthCorrectCounts = {};
+            for (let j = 0; j < listValues.length; ++j) {
+                let length = parseInt(listValues[j]);
+
+                if(!lengthCounts[length]) {
+                    lengthCounts[length] = 0;
+                    lengthCorrectCounts[length] = 0;
+                }
+
+                lengthCounts[length]++;
+                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
+                    lengthCorrectCounts[length]++;
+                }
+            }
+
+            let meanSpanSum = 0;
+            for (let length in lengthCounts) {
+                let correctPortion = lengthCorrectCounts[length] / lengthCounts[length];
+                meanSpanSum += correctPortion;
+            }
+            this.meanSpans[i] = meanSpanSum.toFixed(2);
+        }
+    }
+
+    calculateTwoErrorMaxLengths() {
+         // TODO: need to implement this 
+    }
+
+    // countTwoErrorTotalTrials() {
+    // }
+
     getHighlights(selectedReport) {
         let longestMaxCorrect = Math.max(...this.maxCorrectDigitSpanDays);
         let countNotZero = this.maxCorrectDigitSpanDays.reduce((count, span) => span === 0 ? count : count + 1, 0);
@@ -183,4 +232,16 @@ export default class BDS extends Game {
     getPracticeTrialsAccuracyDays() {
         return this.practiceTrialsAccuracys;
     }
+
+    getMeanSpans() {
+        return this.meanSpans;
+    }
+
+    getTwoErrorMaxLengths() {
+        return this.twoErrorMaxLengths;
+    }
+
+    // getTwoErrorTotalTrials() {
+    //     return this.twoErrorTotalTrials;
+    // }
 }

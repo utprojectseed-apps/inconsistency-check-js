@@ -58,7 +58,7 @@ export default class ColorShape extends Game {
             
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') {
+                if (accuracyValues[j] === 'True') { // need to check 
                     count++;
                 }
             } 
@@ -101,7 +101,7 @@ export default class ColorShape extends Game {
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') {
+                if (accuracyValues[j] === 'True') { // interesting
                     count++;
                 }
             }

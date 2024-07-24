@@ -68,6 +68,27 @@ p {
   margin-bottom: 5px;
 }
 
+/* Testing some stuff  TODO: check later*/
+.test-day-details {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
+  padding-left: 20%;
+  font-size: small;
+  margin-bottom: 5%;
+}
+
+.test-day-details > p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: contents;
+}
+
+.test-day-details > p::before {
+  content: attr(data-label);
+  text-align: right
+}
+
 .test {
   background-color: blue;
 }
