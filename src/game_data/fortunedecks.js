@@ -70,7 +70,7 @@ export default class FortuneDeck extends Game {
             }
             this.points[i] = parseFloat(df.tail(1)['totalsum'].values[0]) + adjustment
             if (i === 0) continue;
-            this.accumulatedScore[i] = this.accumulatedScore[i - 1] + this.points[i];
+            this.accumulatedScore[i] = !isNaN(this.points[i]) ? this.accumulatedScore[i - 1] + this.points[i] : this.accumulatedScore[i - 1];
         }
     }
 
@@ -103,7 +103,6 @@ export default class FortuneDeck extends Game {
         const POSSIBLE_TRIALS = [100, 80]
         const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
         let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
-        console.log(blockProportions)
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
                 continue;
@@ -133,13 +132,16 @@ export default class FortuneDeck extends Game {
         let maxPoints = Math.max(...(this.points.filter(x => !isNaN(x))))
         let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
         let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
+        let accumulatedScore = this.accumulatedScore[this.accumulatedScore.length - 1];
+
         let maxPointsMessage = `Your best points earned in a single day: ${maxPoints}`
         let averagePointsMessage = `Your average points earned across all days: ${averagePoints.toFixed(2)}`
+        let accumulatedScoreMessage = `Your accumulated score: ${accumulatedScore}`
         
         if (selectedReport === 0) {
-            return [maxPointsMessage, averagePointsMessage]
+            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage]
         } else {
-            return [maxPointsMessage, averagePointsMessage]
+            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage]
         }
     }
 }
