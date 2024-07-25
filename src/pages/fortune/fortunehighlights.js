@@ -9,7 +9,6 @@ import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import GraphDeckProportion from "../../components/graph/graphdeckproportion";
-import DeckExplanation from "./deckexplanation";
 
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
@@ -138,13 +137,13 @@ function FortunePointsGraph(props) {
         data.push({day: i + 1, y: rawData[i], weekday: i % 7})
     }
     const yMax = 5000
-    const yMin = -500
+    const yMin = 0
     const yTicks = []
     for (let i = yMin; i <= yMax; i += 500) {
         yTicks.push(i)
     }
     //TODO: get start points from df
-    const referenceValue = 2000
+    const referenceValue = 2500
     return (
         <div>
             <h3>Fortune Deck Points</h3>
@@ -174,7 +173,7 @@ function FortunePointsGraph(props) {
                         />
                     <YAxis label={{ value: 'Points Earned', angle: -90, position: 'left', style: {textAnchor: 'middle'}, offset: 20}} 
                         type="number" 
-                        domain={[-500, yMax]} 
+                        domain={[yMin, yMax]} 
                         ticks={yTicks}
                         />
                     <ReferenceLine y={referenceValue} stroke="red" strokeDasharray="3 3" />

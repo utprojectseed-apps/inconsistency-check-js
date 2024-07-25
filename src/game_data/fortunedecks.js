@@ -36,7 +36,6 @@ export default class FortuneDeck extends Game {
 
     calculateScore() {
         this.score = Array(Game.TotalDays).fill(0);
-        this.goodDeckPercentage = Array(Game.TotalDays).fill(0);
         // score is calculated [(C + D) - (A + B)]/count
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
@@ -48,16 +47,30 @@ export default class FortuneDeck extends Game {
             let countB = df.loc({rows: df['Deck_RESP'].eq('B')}).shape[0]
             let countC = df.loc({rows: df['Deck_RESP'].eq('C')}).shape[0]
             let countD = df.loc({rows: df['Deck_RESP'].eq('D')}).shape[0]
-            this.goodDeckPercentage[i] = ((countC + countD)/this.count[i] * 100).toFixed(2)
             this.score[i] = (((countC + countD) - (countA + countB))/this.count[i]).toFixed(2)
         }
     }
 
+    
+    /**
+     * Calculates the end points and accumulated score for each day in the FortuneDeck.
+     * 
+     * @return {void} This function does not return a value.
+     */
     calculateEndPoints() {
         this.points = Array(Game.TotalDays).fill(0);
+        this.accumulatedScore = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i]
-            this.points[i] = parseFloat(df.tail(1)['totalsum'].values[0])
+            let startAmt = parseFloat(df.head(1)['totalsum'].values[0]) - parseFloat(df.head(1)['var'].values[0])
+            let adjustment = 0
+            // if starting amount is 2000, then we need to add 500 to end amount.
+            if (startAmt === 2000) {
+                adjustment = 500
+            }
+            this.points[i] = parseFloat(df.tail(1)['totalsum'].values[0]) + adjustment
+            if (i === 0) continue;
+            this.accumulatedScore[i] = this.accumulatedScore[i - 1] + this.points[i];
         }
     }
 
@@ -117,20 +130,16 @@ export default class FortuneDeck extends Game {
     }
 
     getHighlights(selectedReport) {
-        // let maxScore = Math.max(...(this.score.filter(x => !isNaN(x))))
         let maxPoints = Math.max(...(this.points.filter(x => !isNaN(x))))
         let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
         let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
-        let maxGoodDeckPercentage = Math.max(...(this.goodDeckPercentage.filter(x => !isNaN(x))))
-        // let maxScoreMessage = `Your maximum score: ${maxScore}`
-        let maxPointsMessage = `Your best points earned: ${maxPoints}`
-        let averagePointsMessage = `Your average points earned: ${averagePoints.toFixed(2)}`
-        let maxGoodDeckPercentageMessage = `Your best good deck percentage: ${maxGoodDeckPercentage}%`
+        let maxPointsMessage = `Your best points earned in a single day: ${maxPoints}`
+        let averagePointsMessage = `Your average points earned across all days: ${averagePoints.toFixed(2)}`
         
         if (selectedReport === 0) {
             return [maxPointsMessage, averagePointsMessage]
         } else {
-            return [maxPointsMessage, averagePointsMessage, maxGoodDeckPercentageMessage]
+            return [maxPointsMessage, averagePointsMessage]
         }
     }
 }
