@@ -8,7 +8,8 @@ export default class FortuneDeck extends Game {
         this.participant_id = participant_id;
         this.calculateCompletionsDays();
         this.calculateScore();
-        this.calculateEndPoints()
+        this.calculateEndPoints();
+        this.calculateBonus();
     }  
 
     calculateCompletionsDays() {
@@ -69,8 +70,47 @@ export default class FortuneDeck extends Game {
                 adjustment = 500
             }
             this.points[i] = parseFloat(df.tail(1)['totalsum'].values[0]) + adjustment
-            if (i === 0) continue;
-            this.accumulatedScore[i] = !isNaN(this.points[i]) ? this.accumulatedScore[i - 1] + this.points[i] : this.accumulatedScore[i - 1];
+            if (i === 0) {
+                this.accumulatedScore[i] = !isNaN(this.points[i]) ? this.points[i] : 0
+            } else {
+                this.accumulatedScore[i] = !isNaN(this.points[i]) ? this.accumulatedScore[i - 1] + this.points[i] : this.accumulatedScore[i - 1];
+            }
+        }
+    }
+
+    /**
+     * Calculates the bonus for each day based on the number of points earned.
+     * The bonus is calculated as a percentage of the maximum bonus (MAX_BONUS),
+     * where the percentage is determined by the points earned for each day.
+     * Currently the points are clamped between 0 and 5000 to enforce a minimum of 0 and and max of MAX_BONUS.
+     * The bonus is then accumulated for each day.
+     *
+     * @return {void} This function does not return a value.
+     */
+    calculateBonus() {
+        const MAX_BONUS = 1;
+        //TODO: add dollar formatting someplace else?
+        this.bonus = Array(Game.TotalDays).fill(0);
+        this.accumulatedBonus = Array(Game.TotalDays).fill(0);
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            if (this.count[i] === 0) {
+                this.bonus[i] = undefined
+                continue;
+            }
+            // clamps the points between 0 and 5000
+            let clampedPoints = Math.max(Math.min(this.points[i], 5000), 0);
+            let percentage = clampedPoints / 5000;
+            let bonus = percentage * MAX_BONUS;
+            this.bonus[i] = bonus
+        }
+        this.accumulatedBonus[0] = !isNaN(this.bonus[0]) ? this.bonus[0] : 0;
+        for(let i = 0; i < Game.TotalDays; ++i) {
+            if(i === 0) {
+                this.accumulatedBonus[i] = !isNaN(this.bonus[i]) ? this.bonus[i] : 0
+            } else {
+                this.accumulatedBonus[i] = !isNaN(this.bonus[i]) ? this.accumulatedBonus[i - 1] + this.bonus[i] : this.accumulatedBonus[i - 1];
+            }
+
         }
     }
 
@@ -133,15 +173,20 @@ export default class FortuneDeck extends Game {
         let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
         let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
         let accumulatedScore = this.accumulatedScore[this.accumulatedScore.length - 1];
+        let maxBonus = Game.MoneyFormat.format(Math.max(...(this.bonus.filter(x => !isNaN(x)))))
+        let accumulatedBonus = Game.MoneyFormat.format(this.accumulatedBonus[this.accumulatedBonus.length - 1]);
 
         let maxPointsMessage = `Your best points earned in a single day: ${maxPoints}`
         let averagePointsMessage = `Your average points earned across all days: ${averagePoints.toFixed(2)}`
         let accumulatedScoreMessage = `Your accumulated score: ${accumulatedScore}`
+        let maxBonusMessage = `Your best bonus earned in a single day: ${maxBonus}`
+        let accumulatedBonusMessage = `Your accumulated bonus: ${accumulatedBonus}`
+
         
         if (selectedReport === 0) {
-            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage]
+            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage, maxBonusMessage, accumulatedBonusMessage]
         } else {
-            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage]
+            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage, maxBonusMessage, accumulatedBonusMessage]
         }
     }
 }
