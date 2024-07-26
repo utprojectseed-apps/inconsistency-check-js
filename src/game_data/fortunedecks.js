@@ -1,5 +1,6 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
+import simplify from "simplify-js";
 
 const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
@@ -168,10 +169,8 @@ export default class FortuneDeck extends Game {
         return blockProportions
     }
 
-    getBlockPoints() {
-        const POSSIBLE_TRIALS = [100, 80]
-        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
-        let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
+    getGraphPoints() {
+        let allPoints = Array(Game.TotalDays).fill(undefined)
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
                 continue;
@@ -179,27 +178,18 @@ export default class FortuneDeck extends Game {
             let df = this.days[i]
             let startAmt = parseFloat(df.head(1)['totalsum'].values[0]) - parseFloat(df.head(1)['var'].values[0])
             let adjustment = startAmt === 2000 ? 500 : 0 
-            for (let j = 0; j < EXPECTED_TRIALS/BLOCK_SIZE; ++j) {
-                let curr_df = df.loc({rows: df['List1_Sample'].gt(j * BLOCK_SIZE)
-                    .and(df['List1_Sample'].lt((j + 1) * BLOCK_SIZE + 1))});
-                let countA = curr_df.loc({rows: curr_df['Deck_RESP'].eq('A')}).shape[0]
-                let countB = curr_df.loc({rows: curr_df['Deck_RESP'].eq('B')}).shape[0]
-                let countC = curr_df.loc({rows: curr_df['Deck_RESP'].eq('C')}).shape[0]
-                let countD = curr_df.loc({rows: curr_df['Deck_RESP'].eq('D')}).shape[0]
-                let obj = {
-                    A: countA,
-                    B: countB,
-                    C: countC,
-                    D: countD,
-                    total: countA + countB + countC + countD
-                }
-                blockProportions[i][j] = obj
-            }
+            let x = df['List1_Sample'].asType('float32').values
+            let y = df['totalsum'].asType('float32')
+            y = y.add(adjustment).values
+            let points = x.map((val, index) => { return {x: val, y: y[index]}})
+            points = simplify(points)
+            allPoints[i] = points
         }
-        return blockProportions
+        return allPoints
     }
 
     getHighlights(selectedReport) {
+        this.getGraphPoints()
         let points = this.points
         let trialCounts = this.count
         let accumulatedScores = this.accumulatedScore
