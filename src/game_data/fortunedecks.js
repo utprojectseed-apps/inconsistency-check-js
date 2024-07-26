@@ -169,18 +169,33 @@ export default class FortuneDeck extends Game {
     }
 
     getHighlights(selectedReport) {
-        let maxPoints = Math.max(...(this.points.filter(x => !isNaN(x))))
-        let countNotZero = this.count.reduce((total, count) => count === 0 ? total : total + 1, 0);
-        let averagePoints = this.points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
-        let accumulatedScore = this.accumulatedScore[this.accumulatedScore.length - 1];
-        let maxBonus = Game.MoneyFormat.format(Math.max(...(this.bonus.filter(x => !isNaN(x)))))
-        let accumulatedBonus = Game.MoneyFormat.format(this.accumulatedBonus[this.accumulatedBonus.length - 1]);
+        let points = this.points
+        let trialCounts = this.count
+        let accumulatedScores = this.accumulatedScore
+        let bonus = this.bonus
+        let accumulatedBonuses = this.accumulatedBonus
+
+        if(selectedReport === 0) {
+            // force first week report to only look up to 7 days.
+            points = points.slice(0, 7)
+            trialCounts = trialCounts.slice(0, 7)
+            accumulatedScores = accumulatedScores.slice(0, 7)
+            bonus = bonus.slice(0, 7)
+            accumulatedBonuses = accumulatedBonuses.slice(0, 7)
+        }
+
+        let maxPoints = Math.max(...(points.filter(x => !isNaN(x))))
+        let countNotZero = trialCounts.reduce((total, count) => count === 0 ? total : total + 1, 0);
+        let averagePoints = points.reduce((a, b) =>    isNaN(b) ? a : a + b, 0) / countNotZero
+        let totalAccumulatedScore = accumulatedScores[accumulatedScores.length - 1];
+        let maxBonus = Game.MoneyFormat.format(Math.max(...(bonus.filter(x => !isNaN(x)))))
+        let totalAccumulatedBonus = Game.MoneyFormat.format(accumulatedBonuses[accumulatedBonuses.length - 1]);
 
         let maxPointsMessage = `Your best points earned in a single day: ${maxPoints}`
         let averagePointsMessage = `Your average points earned across all days: ${averagePoints.toFixed(2)}`
-        let accumulatedScoreMessage = `Your accumulated score: ${accumulatedScore}`
+        let accumulatedScoreMessage = `Your accumulated score: ${totalAccumulatedScore}`
         let maxBonusMessage = `Your best bonus earned in a single day: ${maxBonus}`
-        let accumulatedBonusMessage = `Your accumulated bonus: ${accumulatedBonus}`
+        let accumulatedBonusMessage = `Your accumulated bonus: ${totalAccumulatedBonus}`
 
         
         if (selectedReport === 0) {
