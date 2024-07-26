@@ -8,7 +8,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
-import GraphDeckProportion from "../../components/graph/graphdeckproportion";
+import GraphPoints from "../../components/graph/graphpoints";
 
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
@@ -124,7 +124,7 @@ function ParticipantHighlights(props) {
                 {fortuneHighlight}
             </div>
             {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game}/>}
-            {lastReport && props.fortune !== null && <GraphDeckProportion key={props.participant} participant={props.fortune}/>}
+            {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune}/>}
         </div>
     )
 }
