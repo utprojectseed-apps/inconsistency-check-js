@@ -2,6 +2,7 @@ import * as dfd from 'danfojs';
 // import { usePapaParse } from 'react-papaparse';
 // import * as Papa from 'papaparse';
 import data from './FortuneDataDict.csv'
+import SurveyParticipant from './surveyparticipant';
 
 
 export default class FortuneSurvey {
@@ -9,11 +10,18 @@ export default class FortuneSurvey {
     constructor(data) {
         console.log("creating survey")
         this.data = data;
+        this.participants = []
     }
 
     setData(data) {
-        console.log(data)
         this.data = data
+        for (let i = 0; i < data['participant_id'].values.length; ++i) {
+            let currentParticipant = data['participant_id'].values[i]
+            if (currentParticipant === undefined || currentParticipant === null || currentParticipant === '') {
+                continue
+            }
+            this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)})))
+        }
     }
 
     async readFortuneCSV() {
