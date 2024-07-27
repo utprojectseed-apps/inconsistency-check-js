@@ -11,6 +11,11 @@ export default class FortuneSurvey {
         this.data = data;
     }
 
+    setData(data) {
+        console.log(data)
+        this.data = data
+    }
+
     async readFortuneCSV() {
         let config = {
             header: true,
