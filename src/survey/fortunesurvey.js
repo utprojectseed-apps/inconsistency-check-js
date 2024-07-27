@@ -12,7 +12,13 @@ export default class FortuneSurvey {
         this.participants = []
     }
 
+    static stripTags(text) {
+        return text.replace(/<[^>]*>/g, '')
+    }
+
     setData(data) {
+        this.getAnswers('t1mint')
+        this.getAnswers('t1act3h')
         this.data = data
         for (let i = 0; i < data['participant_id'].values.length; ++i) {
             let currentParticipant = data['participant_id'].values[i]
@@ -42,7 +48,7 @@ export default class FortuneSurvey {
         let question = this.df['Field Label'].values[index]
         let questionSplit = question.split("\n")
         for (let i = 0; i < questionSplit.length; ++i) {
-            questionSplit[i] = questionSplit[i].replace(/<[^>]*>/g, '') // remove < > and text between them
+            questionSplit[i] = FortuneSurvey.stripTags(questionSplit[i]) // remove < > and text between them
             questionSplit[i] = questionSplit[i].trim()
         }
         questionSplit = questionSplit.filter(str => str !== '')
@@ -65,5 +71,27 @@ export default class FortuneSurvey {
         }
 
         return questionResult
+    }
+
+    getAnswers(varName) {
+        let index = this.df['Variable / Field Name'].values.indexOf(varName)
+        let answers = this.df['Choices, Calculations, OR Slider Labels'].values[index]
+        if (answers === undefined || answers === null) {
+            return {}
+        }
+        answers = FortuneSurvey.stripTags(answers) // remove < > and text between them
+        answers = answers.trim()
+        let splitAnswers = answers.split("|")
+        let resultDict = {}
+        for (let i = 0; i < splitAnswers.length; ++i) {
+            let currentAnswer = splitAnswers[i]
+            currentAnswer = currentAnswer.trim()
+            let splitCurrent = currentAnswer.split(",")
+            for(let j = 0; j < splitCurrent.length; ++j) {
+                splitCurrent[j] = splitCurrent[j].trim()
+            }
+            resultDict[splitCurrent[0]] = splitCurrent[1]
+        }
+        return resultDict
     }
 }
