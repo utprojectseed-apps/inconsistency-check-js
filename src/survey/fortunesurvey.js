@@ -17,8 +17,8 @@ export default class FortuneSurvey {
     }
 
     setData(data) {
-        this.getAnswers('t1mint')
-        this.getAnswers('t1act3h')
+        console.log(this.isBranched('t1mint'))
+        console.log(this.isBranched('t1qmoth'))
         this.data = data
         for (let i = 0; i < data['participant_id'].values.length; ++i) {
             let currentParticipant = data['participant_id'].values[i]
@@ -93,5 +93,11 @@ export default class FortuneSurvey {
             resultDict[splitCurrent[0]] = splitCurrent[1]
         }
         return resultDict
+    }
+
+    isBranched(varName) {
+        let index = this.df['Variable / Field Name'].values.indexOf(varName)
+        let branch = this.df['Branching Logic (Show field only if...)'].values[index]
+        return branch !== null && branch !== undefined
     }
 }
