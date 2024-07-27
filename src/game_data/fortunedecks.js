@@ -1,6 +1,5 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
-import simplify from "simplify-js";
 
 const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
@@ -27,6 +26,9 @@ export default class FortuneDeck extends Game {
                 let sess_df = df.loc({rows: df['session_uuid'].eq(session)});
                 let count = sess_df.shape[0]
                 let completionRate = (count/EXPECTED_TRIALS * 100).toFixed(2)
+                if(completionRate > 100) {
+                    console.log(count, session, sessions.length)
+                }
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate
                     this.count[i] = count
@@ -182,7 +184,7 @@ export default class FortuneDeck extends Game {
             let y = df['totalsum'].asType('float32')
             y = y.add(adjustment).values
             let points = x.map((val, index) => { return {x: val, y: y[index]}})
-            points = simplify(points)
+            // points = simplify(points) removed package for now.
             allPoints[i] = points
         }
         console.log(allPoints)
