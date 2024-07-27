@@ -17,8 +17,8 @@ export default class FortuneSurvey {
     }
 
     setData(data) {
-        console.log(this.isBranched('t1mint'))
-        console.log(this.isBranched('t1qmoth'))
+        console.log(this.isHidden('t1mint'))
+        console.log(this.isHidden('t1igtfle'))
         this.data = data
         for (let i = 0; i < data['participant_id'].values.length; ++i) {
             let currentParticipant = data['participant_id'].values[i]
@@ -99,5 +99,14 @@ export default class FortuneSurvey {
         let index = this.df['Variable / Field Name'].values.indexOf(varName)
         let branch = this.df['Branching Logic (Show field only if...)'].values[index]
         return branch !== null && branch !== undefined
+    }
+
+    isHidden(varName) {
+        let index = this.df['Variable / Field Name'].values.indexOf(varName)
+        let annotations = this.df['Field Annotation'].values[index]
+        if(annotations === null || annotations === undefined) {
+            return false
+        }
+        return annotations.includes("@HIDDEN")
     }
 }
