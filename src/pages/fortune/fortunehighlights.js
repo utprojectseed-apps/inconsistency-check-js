@@ -105,7 +105,7 @@ function GameExplanation() {
             <h1>Fortune Game Explanation</h1>
             <p>Thank you for completing 14 days of the Fortune Game! Below is an explanation of the game.</p>
             <p>For each day, you were presented with 4 decks, selecting any of them resulted in earning points, and potentially losing points.</p>
-            <p>Below are highlights from your 14 days playing the Fortune Game, with the "Good Deck" meaning you chose Deck C or D as these are the positive deck choices over a long time span.</p>
+            <p>Below are highlights from your 14 days playing the Fortune Game.</p>
             <p>We have graphed your points across each day and each day's point progression.</p>
             <p>Remember for the points you started with 2500 points, and you may use the reference line to know if you earned more or less than what you started with.</p>
         </div>
