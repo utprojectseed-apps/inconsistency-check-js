@@ -8,7 +8,6 @@ import SurveyParticipant from './surveyparticipant';
 export default class FortuneSurvey {
 
     constructor(data) {
-        console.log("creating survey")
         this.data = data;
         this.participants = []
     }
@@ -34,7 +33,6 @@ export default class FortuneSurvey {
             }).catch(err => {
                 console.log(err)
             })
-        console.log(df)
         this.df = df
     }
 }

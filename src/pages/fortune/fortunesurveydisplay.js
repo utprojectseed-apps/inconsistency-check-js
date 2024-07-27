@@ -11,7 +11,6 @@ export default function FortuneSurveyDisplay() {
     }
     useEffect(() => {
         if(data !== undefined) {
-            console.log(data)
             survey.setData(data)
             forceUpdate()
         }
