@@ -27,19 +27,19 @@ export default function CognitiveGame() {
                 throw new Error("Unknown game: " + game);
         }
     }
-    // useEffect(() => {
-    //     if(data !== undefined) {
-    //         const subjects = data['subject_id']
-    //         if(subjects === undefined) {
-    //             setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
-    //         } else {
-    //             let participants = new dfd.Series(data['subject_id'].values).unique()
-    //             participantList.current = new ParticipantList(participants, data)
-    //             setErrorMessage(undefined)
-    //         }
-    //         forceUpdate()
-    //     }
-    // }, [data])
+    useEffect(() => {
+        if(bdsData !== undefined) {
+            const subjects = bdsData['Subject']
+            if(subjects === undefined) {
+                setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+            } else {
+                let participants = new dfd.Series(bdsData['Subject'].values).unique()
+                participantList.current = new ParticipantList(participants, bdsData)
+                setErrorMessage(undefined)
+            }
+            forceUpdate()
+        }
+    }, [bdsData])
     return (
         <div className='games'>
             <h1>Enter data NOT IMPLEMENTED YET</h1>

@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import CognitiveGame from "./cognitivegame";
+import CognitiveHighlights from "./cognitivehighlights";
 
 const Navigation = () => (
     <nav>
@@ -7,6 +8,7 @@ const Navigation = () => (
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
         <li><NavLink to='./game'>Games</NavLink></li>
+        <li><NavLink to='./highlight'>Highlights</NavLink></li>
       </ul>
     </nav>
   );
@@ -22,6 +24,7 @@ export default function CognitivePage() {
             {!hideNavigation && <Navigation />}
             <Routes>
               <Route path='game' element={<CognitiveGame />}></Route>
+              <Route path='highlight' element={<CognitiveHighlights />}></Route>
             </Routes>
         </>
     )
