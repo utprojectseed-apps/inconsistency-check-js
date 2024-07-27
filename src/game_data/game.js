@@ -9,11 +9,25 @@ export default class Game {
         this.data = this.data.asType("day", "int32")
         this.days = Array(Game.TotalDays).fill().map(() => []);
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
+        this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
+        this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
+        this.storeLanguagePlayedForSessions();
     }
 
     static get TotalDays() {return 14; }
+
+    /**
+     * Returns an instance of the Intl.NumberFormat object that formats numbers as US currency.
+     * To use call Game.MoneyFormat.format(number)
+     *
+     * @return {Intl.NumberFormat} An instance of the Intl.NumberFormat object.
+     */
+    static get MoneyFormat() {return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });}
 
     #splitDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -22,8 +36,22 @@ export default class Game {
         }
     }
 
+    storeLanguagePlayedForSessions() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let language = df['lang'].values[0];
+            if (!language) {
+                language = "---"
+            }
+            this.languagePlayedForSessions[i] = language;
+        }
+    }
     calculateCompletionsDays() {
         throw new Error("abstract method");
+    }
+
+    getNumberSessionsDays() {
+        return this.numberSessionsDays;
     }
 
     getCompletedDays() {
@@ -32,5 +60,9 @@ export default class Game {
 
     getCycleStartDate() {
         return this.data["cycle_start_date"].values[0];
+    }
+
+    getLanguagePlayedForSessions() {
+        return this.languagePlayedForSessions
     }
 }

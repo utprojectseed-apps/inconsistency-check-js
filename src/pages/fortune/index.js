@@ -1,6 +1,8 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import FortuneGame from "./fortunegame";
 import FortuneSurveyDisplay from "./fortunesurveydisplay";
+import FortuneHighlights from "./fortunehighlights";
+import FortuneGraph from "./fortunegraph";
 
 const Navigation = () => (
     <nav>
@@ -8,6 +10,8 @@ const Navigation = () => (
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='./survey'>Survey</NavLink></li>
         <li><NavLink to='./game'>Games</NavLink></li>
+        <li><NavLink to='./highlight'>Highlights</NavLink></li>
+        <li><NavLink to='./graph'>Graph</NavLink></li>
       </ul>
     </nav>
   );
@@ -24,6 +28,8 @@ export default function FortuneHome() {
             <Routes>
               <Route path='game' element={<FortuneGame />}></Route>
               <Route path='survey' element={<FortuneSurveyDisplay />}></Route>
+              <Route path='highlight' element={<FortuneHighlights />}></Route>
+              <Route path='graph' element={<FortuneGraph />}></Route>
             </Routes>
         </>
     )

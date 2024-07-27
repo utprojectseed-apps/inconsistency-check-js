@@ -68,6 +68,11 @@ p {
   margin-bottom: 5px;
 }
 
+.proportion-graph {
+  display:flex;
+  flex-wrap: wrap;
+}
+
 .test {
   background-color: blue;
 }
@@ -78,4 +83,51 @@ p {
   {
       display: none !important;
   }
+
+  .print-together, .print-together *
+  {
+      break-inside:avoid;
+      width: calc(100%)!important;
+  }
+
+  .print-page-after
+  {
+    page-break-after: always;
+  }
 }
+
+.recharts-wrapper,
+    .recharts-surface{
+      @media print {
+        font-size: large;
+      }
+      font-size: 1.4rem;
+      font-family: Roboto, sans-serif;
+    }
+
+#cognitivehighlights, #fortunehighlights {
+  padding: 2rem;
+}
+
+#cognitivehighlights, #fortunehighlights h1{
+  font-size: 3rem;
+}
+
+#cognitivehighlights, #fortunehighlights h2{
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights, #fortunehighlights h3{
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights, #fortunehighlights p{
+  font-size: 2rem;
+}
+
+/* .recharts-cartesian-axis-tick {    
+    font-size: 1.4rem;
+    font-family: Roboto, sans-serif;
+} */
