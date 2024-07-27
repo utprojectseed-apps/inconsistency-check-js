@@ -10,8 +10,14 @@ export default function FortuneSurveyDisplay() {
         setData(d)
     }
     useEffect(() => {
+        async function startSurveyRead() {
+            await survey.readFortuneCSV()
+            if(data !== undefined) {
+                survey.setData(data)
+            }
+        }
+        startSurveyRead()
         if(data !== undefined) {
-            survey.setData(data)
             forceUpdate()
         }
     }, [data])

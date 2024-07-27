@@ -35,4 +35,35 @@ export default class FortuneSurvey {
             })
         this.df = df
     }
+
+    getQuestion(varName) {
+        let index = this.df['Variable / Field Name'].values.indexOf(varName)
+        // console.log(this.df)
+        let question = this.df['Field Label'].values[index]
+        let questionSplit = question.split("\n")
+        for (let i = 0; i < questionSplit.length; ++i) {
+            questionSplit[i] = questionSplit[i].replace(/<[^>]*>/g, '') // remove < > and text between them
+            questionSplit[i] = questionSplit[i].trim()
+        }
+        questionSplit = questionSplit.filter(str => str !== '')
+        // if questionSplit is still size 1, it is a one liner like Hour/Hora or t1act3h
+        // need to split along the / except for the AM/PM
+        if (questionSplit.length === 1 && !questionSplit[0].includes("AM")) {
+            questionSplit = questionSplit[0].split("/")
+        } else if (questionSplit.length === 1 && questionSplit[0].includes("AM")) {
+            questionSplit = [questionSplit[0], questionSplit[0]]
+        }
+
+        let questionResult = {
+            eng: [],
+            span: []
+        }
+        // if questionSplit size is > 2, then it is alternating english and spanish
+        for (let i = 0; i < questionSplit.length; i += 2) {
+            questionResult.eng.push(questionSplit[i])
+            questionResult.span.push(questionSplit[i + 1])
+        }
+
+        return questionResult
+    }
 }
