@@ -17,8 +17,9 @@ export default class FortuneSurvey {
     }
 
     setData(data) {
-        console.log(this.isHidden('t1mint'))
-        console.log(this.isHidden('t1igtfle'))
+        console.log(this.branchConditions('t1mint'))
+        console.log(this.branchConditions('t1qsexo'))
+        console.log(this.branchConditions('t1pbar1'))
         this.data = data
         for (let i = 0; i < data['participant_id'].values.length; ++i) {
             let currentParticipant = data['participant_id'].values[i]
@@ -108,5 +109,31 @@ export default class FortuneSurvey {
             return false
         }
         return annotations.includes("@HIDDEN")
+    }
+
+    branchConditions(varName) {
+        console.log("starting " + varName)
+        let index = this.df['Variable / Field Name'].values.indexOf(varName)
+        let branch = this.df['Branching Logic (Show field only if...)'].values[index]
+        if(branch === null || branch === undefined) {
+            return {}
+        }
+        let conditions = branch.split("or")
+        let resultDict = {}
+        for(let i = 0; i < conditions.length; ++i) {
+            let condition = conditions[i]
+            condition = condition.trim()
+            let currentCondition = condition.match(/\[(.*?)\]/)[1];
+            let afterBracket = condition.split("]")[1]
+            console.log(afterBracket)
+            if(afterBracket.includes("=")) {
+                afterBracket = afterBracket.replace(/['"=]/g, '') // removes ', ", =
+                resultDict[currentCondition] = parseInt(afterBracket)
+            } else {
+                resultDict[currentCondition] = "<>"
+            }
+            console.log(condition)
+        }
+        return resultDict
     }
 }
