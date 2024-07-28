@@ -14,9 +14,6 @@ export default class FortuneSurvey {
     }
 
     setData(data) {
-        console.log(this.dataDict.branchConditions('t1mint'))
-        console.log(this.dataDict.branchConditions('t1qsexo'))
-        console.log(this.dataDict.branchConditions('t1pbar1'))
         this.data = data
         for (let i = 0; i < data['participant_id'].values.length; ++i) {
             let currentParticipant = data['participant_id'].values[i]
@@ -24,6 +21,9 @@ export default class FortuneSurvey {
                 continue
             }
             this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)})))
+        }
+        for (let i = 0; i < this.participants.length; ++i) {
+            console.log(this.participants[i].toString())
         }
     }
 
