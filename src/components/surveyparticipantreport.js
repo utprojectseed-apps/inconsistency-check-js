@@ -7,8 +7,17 @@ export default function SurveyParticipantReport({participant}) {
     })
     return (
         <div>
-            <h1>{participant.getParticipantId()}</h1>
+            <h1><ParticipantHeader participant={participant}/></h1>
             <h2>{days}</h2>
         </div>
     )
+}
+
+function ParticipantHeader({participant}) {
+    if(participant === null) { return null }
+    return (
+        <div className='participant-header'>
+            <h2 className='participant-id'>Participant ID: {participant.getParticipantId()}</h2>
+            <h3>Name: {participant.getName()}</h3>
+        </div>)
 }
