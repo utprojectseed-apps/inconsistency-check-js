@@ -20,7 +20,7 @@ export default class FortuneSurvey {
             if (currentParticipant === undefined || currentParticipant === null || currentParticipant === '') {
                 continue
             }
-            this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)})))
+            this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)}), this.dataDict))
         }
         for (let i = 0; i < this.participants.length; ++i) {
             console.log(this.participants[i].toString())
