@@ -22,9 +22,6 @@ export default class FortuneSurvey {
             }
             this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)}), this.dataDict))
         }
-        for (let i = 0; i < this.participants.length; ++i) {
-            console.log(this.participants[i].toString())
-        }
     }
 
     async readFortuneCSV() {

@@ -3,6 +3,8 @@ export default class SurveyParticipant {
     constructor(data, dataDict) {
         this.data = data
         this.dataDict = dataDict
+        this.percentComplete = Array(SurveyParticipant.getDays()).fill(0)
+        this.#findDailyPercent()
     }
 
     static getDays() {
@@ -18,12 +20,15 @@ export default class SurveyParticipant {
         if (this.data['tlastname'] !== undefined || this.data['tlastname'] !== null) {
             lastName = this.data['tlasname'].values[0].trim()
         }
-        this.#findDailyPercent()
         return firstName + " " + lastName + " " + this.getParticipantId()
     }
 
     getParticipantId() {
         return this.data['participant_id'].values[0]
+    }
+
+    getPercentComplete() {
+        return this.percentComplete
     }
 
     #findDailyPercent() {
@@ -49,7 +54,7 @@ export default class SurveyParticipant {
                 columnArray[i - 1].push(currentColumn)
             }
         }
-
+  
         // calculate daily percent
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
             let answersToday = answerArray[i]
@@ -57,6 +62,11 @@ export default class SurveyParticipant {
             let rawArray = answersToday.map((_, index) => {
                 return this.isCompleted(answersToday[index], columnsToday[index])
             })
+            let possTotal = rawArray.filter(num => num >= 0).length
+            let numMissed = rawArray.filter(num => num === 2).length
+
+            //TODO save missed questions for display
+            this.percentComplete[i] = (possTotal - numMissed) / possTotal
         }
     }
 
@@ -72,7 +82,7 @@ export default class SurveyParticipant {
         if (field.includes("___")) {
             let fieldName = field.split("___")[0]
             // if field is branched and met, OR if field does not require branch
-            if((this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName)) || !this.dataDict.isBranched(fieldName)) {
+            if(!this.dataDict.isBranched(fieldName) || (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName))) {
                 let dictPossVals = this.dataDict.getAnswers(fieldName)
                 dictPossVals = Object.keys(dictPossVals)
                 if(field !== `${fieldName}___${Math.max(...dictPossVals)}`) {
@@ -87,13 +97,12 @@ export default class SurveyParticipant {
                     return 2
                 }
             }
-        
         } else {
             let fieldName = field
             if (this.dataDict.isHidden(fieldName)) {
                 return 0
             }
-            if ((this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName)) || !this.dataDict.isBranched(fieldName)) {
+            if (!this.dataDict.isBranched(fieldName) || (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName))) {
                 if(ans === "") {
                     return 2
                 } else {
