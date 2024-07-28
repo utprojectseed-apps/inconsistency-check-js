@@ -4,9 +4,11 @@ import DataDict from './dataDict';
 
 export default class FortuneSurvey {
 
-    constructor(data) {
-        this.data = data;
+    constructor() {
+        this.data = undefined
         this.participants = []
+        this.selectedIds = []
+        this.loadedIds = []
     }
 
     static stripTags(text) {
@@ -15,13 +17,27 @@ export default class FortuneSurvey {
 
     setData(data) {
         this.data = data
-        for (let i = 0; i < data['participant_id'].values.length; ++i) {
-            let currentParticipant = data['participant_id'].values[i]
-            if (currentParticipant === undefined || currentParticipant === null || currentParticipant === '') {
-                continue
+    }
+
+    setSelectedIds(ids) {
+        this.selectedIds = ids
+        for(let i = 0; i < ids.length; ++i) {
+            if(!this.loadedIds.includes(ids[i])) {
+                this.loadedIds.push(ids[i])
+                this.participants.push(new SurveyParticipant(this.data.loc({ rows: this.data["participant_id"].eq(ids[i])}), this.dataDict))
             }
-            this.participants.push(new SurveyParticipant(data.loc({ rows: this.data["participant_id"].eq(currentParticipant)}), this.dataDict))
         }
+    }
+
+    getParticipantIds() {
+        if (this.data === undefined) {
+            return []
+        }
+        return this.data['participant_id'].values
+    }
+
+    getParticipants() {
+        return this.participants
     }
 
     async readFortuneCSV() {

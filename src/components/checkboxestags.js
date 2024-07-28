@@ -9,6 +9,9 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function CheckboxesTags({ids, parentCallback}) {
+  if(ids === undefined) {
+    return null
+  }
   const options = ids.filter(id => id !== undefined);
   return (
     <Autocomplete
