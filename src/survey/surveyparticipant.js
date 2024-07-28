@@ -62,10 +62,10 @@ export default class SurveyParticipant {
             let rawArray = answersToday.map((_, index) => {
                 return this.isCompleted(answersToday[index], columnsToday[index])
             })
-            let possTotal = rawArray.filter(num => num >= 0).length
+            let possTotal = rawArray.filter(num => num > 0).length
             let numMissed = rawArray.filter(num => num === 2).length
-
             //TODO save missed questions for display
+
             this.percentComplete[i] = (possTotal - numMissed) / possTotal
         }
     }
@@ -89,7 +89,7 @@ export default class SurveyParticipant {
                     return 0
                 } else { // check if any of field name has an answer
                     for(let i = 0; i < dictPossVals.length; ++i) {
-                        if(this.data[`${fieldName}___${dictPossVals[i]}`].values[0] === 1) {
+                        if(parseInt(this.data[`${fieldName}___${dictPossVals[i]}`].values[0]) === 1) {
                             // found an answer that was filled
                             return 1
                         }
