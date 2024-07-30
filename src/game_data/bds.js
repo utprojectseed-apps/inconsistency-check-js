@@ -160,6 +160,7 @@ export default class BDS extends Game {
     } 
 
     calculateMeanSpans() {
+        let baseLine = 1.5;
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
@@ -182,7 +183,7 @@ export default class BDS extends Game {
                 }
             }
 
-            let meanSpanSum = 0;
+            let meanSpanSum = baseLine;
             for (let length in lengthCounts) {
                 let correctPortion = lengthCorrectCounts[length] / lengthCounts[length];
                 meanSpanSum += correctPortion;
