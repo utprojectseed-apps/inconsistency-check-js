@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/inconsistency-check-js/static/css/main.952b5078.css",
-    "main.js": "/inconsistency-check-js/static/js/main.5e6f7b69.js",
+    "main.js": "/inconsistency-check-js/static/js/main.8474af1f.js",
     "static/js/453.891b4e94.chunk.js": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js",
-    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.da5099d0d5d046310438.csv",
+    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.2b880c58f7be9349fe4d.csv",
     "index.html": "/inconsistency-check-js/index.html",
     "main.952b5078.css.map": "/inconsistency-check-js/static/css/main.952b5078.css.map",
-    "main.5e6f7b69.js.map": "/inconsistency-check-js/static/js/main.5e6f7b69.js.map",
+    "main.8474af1f.js.map": "/inconsistency-check-js/static/js/main.8474af1f.js.map",
     "453.891b4e94.chunk.js.map": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.952b5078.css",
-    "static/js/main.5e6f7b69.js"
+    "static/js/main.8474af1f.js"
   ]
 }
