@@ -39,8 +39,10 @@ export default function FortuneSurveyDisplay() {
     survey.current.readFortuneCSV()
     return (
         <div className='survey'>
-            <h1>TODO Survey code</h1>
-            <div className='no-print'><CSVReader parentCallback={handleUpload} gameId = "fortune"/></div>
+            <div className='no-print'>
+                <h1 className='no-print'>Enter data</h1>
+                <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
+            </div>
             
             <div className='no-print'>
                 <CheckboxesTags className="no-print" ids={ids} parentCallback={handleSelected}/>

@@ -9,7 +9,6 @@ export default function SurveyFullReport({participantList, activeIds}) {
 
     return (
         <div>
-            <h1>Full Report</h1>
             {participants}
         </div>
     )
