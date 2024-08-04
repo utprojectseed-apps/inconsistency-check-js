@@ -18,6 +18,17 @@ export default class Game {
 
     static get TotalDays() {return 14; }
 
+    /**
+     * Returns an instance of the Intl.NumberFormat object that formats numbers as US currency.
+     * To use call Game.MoneyFormat.format(number)
+     *
+     * @return {Intl.NumberFormat} An instance of the Intl.NumberFormat object.
+     */
+    static get MoneyFormat() {return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });}
+
     #splitDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.data.loc({ rows: this.data["day"].eq(i + 1)});

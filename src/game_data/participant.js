@@ -111,6 +111,10 @@ export default class Participant {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
         }
     }
+    getId() {
+        return this.id;
+    }
+
 
     getNoInputTrials() {
         if(this.gameName === "Simon Task" || this.gameName === "CS Task") {
