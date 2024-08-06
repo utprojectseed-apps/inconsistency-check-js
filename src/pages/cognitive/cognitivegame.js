@@ -126,12 +126,11 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const bdsSessionAccuracy = bds.game.getMeanSessionsAccuracys()[day - 1]
     const bdsPracticeTrials = bds.game.getPracticeTrialsAmountDays()[day - 1]
     const bdsPracticeAccuracy = bds.game.getPracticeTrialsAccuracyDays()[day - 1]
-    const avgDigitSpan = bds.game.getAverageDigitSpanDays()[day - 1]
     const maxCorrectDigitSpan = bds.game.getMaxCorrectDigitSpanDays()[day - 1]
     const maxDigitSpan = bds.game.getMaxDigitSpanDays()[day - 1]
     const meanDigitSpan = bds.game.getMeanSpans()[day - 1]
-    // const twoErrorMaxLength = bds.game.getTwoErrorMaxLengths()[day - 1]
-    // const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
+    const twoErrorMaxLength = bds.game.getTwoErrorMaxLengths()[day - 1]
+    const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
     const bdsLang = bds.game.getLanguagePlayedForSessions()[day - 1]
 
     const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
@@ -170,12 +169,11 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Mean Session accuracy:">{bdsSessionAccuracy} %</p>
                     <p data-label="Practice trials accuracy:">{bdsPracticeAccuracy} %</p>
                     <p data-label="Practice trials amount:">{bdsPracticeTrials}</p>
-                    <p data-label="Average Digit Span:">{avgDigitSpan}</p>
                     <p data-label="Max Digit Span:">{maxDigitSpan}</p>
                     <p data-label="Mean Span (MS):">{meanDigitSpan}</p>
                     <p data-label="Max Correct Digit Span (ML):">{maxCorrectDigitSpan}</p>
-                    <p data-label="Two-Error Maximum Length (TE-ML):">---</p>
-                    <p data-label="Two-Error Total Trials (TE-TT):">---</p>
+                    <p data-label="Two-Error Maximum Length (TE-ML):">{twoErrorMaxLength}</p>
+                    <p data-label="Two-Error Total Trials (TE-TT):">{twoErroTotalTrials}</p>
                     <p data-label="Language:">{bdsLang}</p>
                     <p data-label="Game Time:">{"--.-- mins"}</p>
                 </div>

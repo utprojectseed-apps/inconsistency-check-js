@@ -13,10 +13,9 @@ export default class BDS extends Game {
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
-
         this.meanSpans = Array(Game.TotalDays).fill().map(() => []);
         this.twoErrorMaxLengths = Array(Game.TotalDays).fill().map(() => []);
-        // this.twoErrorTotalTrials = Array(Game.TotalDays).fill().map(() => []);
+        this.twoErrorTotalTrials = Array(Game.TotalDays).fill().map(() => []);
 
         this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
@@ -25,10 +24,8 @@ export default class BDS extends Game {
         this.calculateMaxCorrectDigitSpanDays();
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
-
         this.calculateMeanSpans();
         this.calculateTwoErrorMaxLengths();
-        // this.calculateTwoErrorTotalTrials();
     }
 
     calculateCompletionsDays() {
@@ -193,11 +190,31 @@ export default class BDS extends Game {
     }
 
     calculateTwoErrorMaxLengths() {
-         // TODO: need to implement this 
-    }
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            let listValues = testing_df['List'].values;
+            let accuracyValues = testing_df['accuracy'].values;
 
-    // countTwoErrorTotalTrials() {
-    // }
+            let currTEML = 0;
+            let currTETT = 0;
+            let previousLen = 0;
+            for (let j = 0; j < listValues.length; ++j) {
+                previousLen = parseInt(listValues[j]);
+                let currLen = parseInt(listValues[j]);
+                let previousAcc = accuracyValues[j - 1] === 'TRUE';
+                let currAcc = accuracyValues[j] === 'TRUE';
+
+                if (previousLen === currLen && !previousAcc && !currAcc) {
+                    currTEML = previousLen - 1;
+                    currTETT = j - 1;
+                    break;
+                }
+            }
+            this.twoErrorMaxLengths[i] = currTEML;
+            this.twoErrorTotalTrials[i] = currTETT;
+        }
+    }
 
     getHighlights(selectedReport) {
         let longestMaxCorrect = Math.max(...this.maxCorrectDigitSpanDays);
@@ -242,7 +259,7 @@ export default class BDS extends Game {
         return this.twoErrorMaxLengths;
     }
 
-    // getTwoErrorTotalTrials() {
-    //     return this.twoErrorTotalTrials;
-    // }
+    getTwoErrorTotalTrials() {
+        return this.twoErrorTotalTrials;
+    }
 }
