@@ -1,7 +1,9 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
 
-// TODO num of trials will change to 14 !!!
+// TODO need to check TRUE vs True or have both options for now bc their is an issue when reading the csv file
+// NUM_TRIALS = 14;
+// the expected num_trials used to be 12 but it was changed to 14 (in the cohort starting Aug 5, 2024
 
 export default class BDS extends Game {
     constructor(data, participant_id) {
@@ -25,9 +27,14 @@ export default class BDS extends Game {
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
         this.calculateMeanSpans();
-        this.calculateTwoErrorMaxLengths();
+        this.calculateTwoErrorStats();
     }
 
+    /**
+     * Calculates and sets the completion rate for each day in the game.
+     *
+     * @return {void}
+     */
     calculateCompletionsDays() {
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -44,27 +51,31 @@ export default class BDS extends Game {
                 let testing_df = sess_df.loc({rows: sess_df['task_section'].eq('test')});
                 let count = testing_df.shape[0];
 
-                let completionRate = (count / 12 * 100).toFixed(2)
+                let completionRate = (count / 14 * 100).toFixed(2)
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
-                    this.count[i] = count; // conatins the number of test trials 
+                    this.count[i] = count;
                     this.days[i] = sess_df;
                 }
             }
         }   
     }
 
+    /**
+     * Calculates and sets the session accuracy for each day in the game.
+     *
+     * @return {void}
+     */
     calculateSessionAccuracyDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
 
-            let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 12;
+            let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 14;
             let accuracyValues = testing_df['accuracy'].values;
             let count = 0.0;
-
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
+                if (accuracyValues[j] === 'True' || accuracyValues[j] === "TRUE") { //TODO True and TRUE 
                     count++;
                 }
             } 
@@ -72,12 +83,17 @@ export default class BDS extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the average digit span for each day in the game.
+     *
+     * @return {void} This method does not return anything.
+     */
     calculateAverageDigitSpanDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
 
-            let numTrials = 12;
+            let numTrials = 14;
             if (testing_df.shape[0] !== 0) {
                 numTrials = testing_df.shape[0];
             }
@@ -93,6 +109,11 @@ export default class BDS extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the maximum digit span for each day in the game.
+     *
+     * @return {void}
+     */
     calculateMaxDigitSpanDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -110,6 +131,11 @@ export default class BDS extends Game {
         }
     }
 
+    /**
++     * Calculates and sets the maximum correct digit span for each day in the game.
++     * 
++     * @return {void}
++     */
     calculateMaxCorrectDigitSpanDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let day = this.days[i];
@@ -119,7 +145,7 @@ export default class BDS extends Game {
             let listValues = testing_df['List'].values;
             let accuracyValues = testing_df['accuracy'].values;
             for (let j = 0; j < listValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { // TODO: make sure it is correct
+                if (accuracyValues[j] === 'True' || accuracyValues[j] === 'TRUE') { // TODO: make sure it is correct
                     let currSpan = parseInt(listValues[j]);
                     if (currSpan > maxCorrectSpan) {
                         maxCorrectSpan = currSpan;
@@ -130,6 +156,11 @@ export default class BDS extends Game {
         }     
     }
 
+    /**
+     * Calculates and sets the accuracy of practice trials for each day in the game.
+     * 
+     * @return {void}
+     */
     countPracticeTrialsAmountDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -140,15 +171,20 @@ export default class BDS extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the accuracy of practice trials for each day in the game.
+     * 
+     *  @return {void}
+     */
     calculatePracticeTrialsAccuracys() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let practice_df = df.loc({rows: df['task_section'].eq('training')});
             let accuracyValues = practice_df['accuracy'].values;
+            
             let count = 0.0;
-
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
+                if (accuracyValues[j] === 'True' || accuracyValues[j] === 'TRUE') { //TODO check if this is correct
                     count++;
                 }
             }
@@ -156,8 +192,13 @@ export default class BDS extends Game {
         }
     } 
 
+   /**
+     * Calculates and sets the mean spans for each day in the game.
+     *
+     * @return {void}
+     */
     calculateMeanSpans() {
-        let baseLine = 1.5;
+        let baseLine = 1.5; // because we start a digit span of 2
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
@@ -175,7 +216,7 @@ export default class BDS extends Game {
                 }
 
                 lengthCounts[length]++;
-                if (accuracyValues[j] === 'TRUE') { //TODO check if this is correct
+                if (accuracyValues[j] === 'TRUE' || accuracyValues[j] === 'True') { //TODO needed to add these checks bc it would switch between the two
                     lengthCorrectCounts[length]++;
                 }
             }
@@ -189,7 +230,12 @@ export default class BDS extends Game {
         }
     }
 
-    calculateTwoErrorMaxLengths() {
+    /**
+     * Calculates and stores the two error maximum length and total trials.
+     *
+     * @return {void}
+     */
+    calculateTwoErrorStats() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
@@ -202,8 +248,8 @@ export default class BDS extends Game {
             for (let j = 0; j < listValues.length; ++j) {
                 previousLen = parseInt(listValues[j]);
                 let currLen = parseInt(listValues[j]);
-                let previousAcc = accuracyValues[j - 1] === 'TRUE';
-                let currAcc = accuracyValues[j] === 'TRUE';
+                let previousAcc = accuracyValues[j - 1] === 'True' || accuracyValues[j - 1] === 'TRUE';
+                let currAcc = accuracyValues[j] === 'True' || accuracyValues[j] === 'TRUE';
 
                 if (previousLen === currLen && !previousAcc && !currAcc) {
                     currTEML = previousLen - 1;
@@ -216,6 +262,14 @@ export default class BDS extends Game {
         }
     }
 
+    /**
+     * Calculates and returns two highlights related to the maximum correct digit span in a game.
+     *
+     * @param {object} selectedReport - The selected report object containing the game data.
+     * @return {array} An array of two strings representing the highlights. 
+     * The first string represents the longest correct digit span, and the second 
+     * string represents the average correct digit span.
+     */
     getHighlights(selectedReport) {
         let longestMaxCorrect = Math.max(...this.maxCorrectDigitSpanDays);
         let countNotZero = this.maxCorrectDigitSpanDays.reduce((count, span) => span === 0 ? count : count + 1, 0);
