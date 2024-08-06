@@ -3,6 +3,7 @@ export default class SurveyParticipant {
     constructor(data, dataDict) {
         this.data = data
         this.dataDict = dataDict
+        this.setupCycles()
         this.percentComplete = Array(SurveyParticipant.getDays()).fill(0)
         this.#findDailyPercent()
     }
@@ -41,6 +42,19 @@ export default class SurveyParticipant {
 
     getPercentComplete() {
         return this.percentComplete
+    }
+
+    setupCycles() {
+        this.startDate = new Date(this.data['startdt'].values[0]+"T00:00:00")
+        this.currCycle = 0
+        this.userDate = new Date()
+        let diff = Math.abs(this.startDate - this.userDate)
+        let diffDays = Math.floor(diff / (1000 * 60 * 60 * 24))
+        diffDays = Math.min(diffDays, SurveyParticipant.getDays())
+        this.currCycle = diffDays
+        console.log(this.currCycle)
+        console.log(this.data['startdt'].values[0])
+        console.log(this.startDate)
     }
 
     #findDailyPercent() {
