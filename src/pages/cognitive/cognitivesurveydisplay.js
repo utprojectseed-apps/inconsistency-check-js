@@ -1,4 +1,4 @@
-import FortuneSurvey from "../../survey/fortunesurvey";
+import CognitiveSurvey from "../../survey/cognitivesurvey";
 import CSVReader from "../../components/csvread";
 import React, { useEffect, useReducer, useRef } from "react";
 import CheckboxesTags from "../../components/checkboxestags";
@@ -11,7 +11,7 @@ export default function CognitiveSurveyDisplay() {
     const [ids, setIds] = React.useState(undefined)
     const [selectedIds, setSelectedIds] = React.useState(undefined)
     const [loading, setLoading] = React.useState(false)
-    const survey = useRef(new FortuneSurvey())
+    const survey = useRef(new CognitiveSurvey())
     const handleUpload = d => {
         setData(d)
     }

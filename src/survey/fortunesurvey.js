@@ -1,4 +1,3 @@
-import SurveyParticipant from './surveyparticipant';
 import DataDict from './dataDict';
 import Survey from './survey';
 import FortuneForm from './FortuneDataDict.csv'
