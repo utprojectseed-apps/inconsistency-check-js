@@ -4,9 +4,10 @@ export default class SurveyParticipant {
         this.data = data
         this.dataDict = dataDict
         this.setupCycles()
-        this.#generateDates()
         this.percentComplete = Array(SurveyParticipant.getDays()).fill(0)
         this.#findDailyPercent()
+        this.#generateDates()
+        this.#generateDays()
     }
 
     static getDays() {
@@ -70,7 +71,6 @@ export default class SurveyParticipant {
         this.dates = Array(SurveyParticipant.getDays()).fill("")
         for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
             let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
-            console.log(`t${i + 1}date`, this.data[`t${i + 1}date`])
             if(this.data[`t${i + 1}date`].values[0] !== "") {
                 let date = new Date(this.data[`t${i + 1}date`].values[0]+"T00:00:00")
                 this.dates[i] = SurveyParticipant.formatDate(date)
@@ -87,7 +87,25 @@ export default class SurveyParticipant {
                 this.dates[i] = "Not Started"
             }
         }
-        console.log(this.dates)
+    }
+
+    #generateDays() {
+        this.days = Array(SurveyParticipant.getDays()).fill(0)
+        this.days = this.days.map((_, i) => this.percentComplete[i] > 0)
+        this.partialDays = this.days.map((_, i) => 0 < this.percentComplete[i] && this.percentComplete[i] < 0.5)
+    }
+
+    getDay(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        let result = 0
+        if(this.partialDays[day]) {
+            result = 1
+        } else if(this.days[day]) {
+            result = 2
+        }
+        return result
     }
 
     setupCycles() {
