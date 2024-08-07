@@ -4,12 +4,24 @@ export default class SurveyParticipant {
         this.data = data
         this.dataDict = dataDict
         this.setupCycles()
+        this.#generateDates()
         this.percentComplete = Array(SurveyParticipant.getDays()).fill(0)
         this.#findDailyPercent()
     }
 
     static getDays() {
         return 14
+    }
+
+    /**
+     * Returns the day of the week corresponding to the given day number.
+     *
+     * @param {number} day - The day number (0-6, where 0 represents Monday).
+     * @return {string} The day of the week corresponding to the given day number.
+     */
+    static getWeekDay(day) {
+        let daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        return daysOfWeek[(day % 7)]
     }
 
     toString() {
@@ -44,6 +56,40 @@ export default class SurveyParticipant {
         return this.percentComplete
     }
 
+    getDate(day) {
+        return this.dates[day]
+    }
+
+    static formatDate(date) {
+        return date.getUTCFullYear() + "-" + 
+            ("0" + (date.getUTCMonth() + 1)).slice(-2) + "-" + 
+            ("0" + date.getUTCDate()).slice(-2)
+    }
+
+    #generateDates() {
+        this.dates = Array(SurveyParticipant.getDays()).fill("")
+        for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
+            console.log(`t${i + 1}date`, this.data[`t${i + 1}date`])
+            if(this.data[`t${i + 1}date`].values[0] !== "") {
+                let date = new Date(this.data[`t${i + 1}date`].values[0]+"T00:00:00")
+                this.dates[i] = SurveyParticipant.formatDate(date)
+            } else if(this.data[timestampCol].values[0] !== "" && this.data[timestampCol].values[0] !== '[not completed]') {
+                let date = new Date(this.data[timestampCol].values[0]+"T00:00:00")
+                this.dates[i] = SurveyParticipant.formatDate(date)
+            } else if(this.#cyclePassed(i)) {
+                if(this.percentComplete[i] === 0) {
+                    this.dates[i] = "Skipped"
+                } else {
+                    this.dates[i] = "Unanswered"
+                }
+            } else {
+                this.dates[i] = "Not Started"
+            }
+        }
+        console.log(this.dates)
+    }
+
     setupCycles() {
         this.startDate = new Date(this.data['startdt'].values[0]+"T00:00:00")
         this.currCycle = 0
@@ -52,9 +98,10 @@ export default class SurveyParticipant {
         let diffDays = Math.floor(diff / (1000 * 60 * 60 * 24))
         diffDays = Math.min(diffDays, SurveyParticipant.getDays())
         this.currCycle = diffDays
-        console.log(this.currCycle)
-        console.log(this.data['startdt'].values[0])
-        console.log(this.startDate)
+    }
+
+    #cyclePassed(day) {
+        return day < this.currCycle
     }
 
     #findDailyPercent() {
@@ -62,10 +109,9 @@ export default class SurveyParticipant {
         let columnArray = Array(SurveyParticipant.getDays()).fill().map(() => [])
         // find start and end of each day
         let dayStartEnd = []
-        let days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-        for(let i = 1; i <= SurveyParticipant.getDays(); ++i) {
-            let startCol = `day_${i}_${days[(i - 1) % 7]}_daily_survey_timestamp`
-            let endCol = `day_${i}_${days[(i - 1) % 7]}_daily_survey_complete`
+        for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            let startCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
+            let endCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_complete`
             let startIndex = this.data.columns.indexOf(startCol)
             let endIndex = this.data.columns.indexOf(endCol)
             dayStartEnd.push([startIndex, endIndex])

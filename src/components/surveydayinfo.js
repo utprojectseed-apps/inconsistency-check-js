@@ -7,7 +7,9 @@ export default function SurveyDayInfo({day, participant}) {
     }
     return (
         <div className='dayinformation'>
-            <h2 className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(completionRate)}`}}>Day: {day}</h2>
+            <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(completionRate)}`}}>
+                <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} ({participant.getDate(day - 1)})</h5>
+            </div>
             <div className="day-details">
                 <p>Completion: {completionRate}%</p>
             </div>
