@@ -50,6 +50,8 @@ export default class Game {
         throw new Error("abstract method");
     }
 
+    // okay rn this is a layout and temp based on original stuff 
+
     getNumberSessionsDays() {
         return this.numberSessionsDays;
     }
