@@ -26,15 +26,7 @@ export default class SurveyParticipant {
     }
 
     toString() {
-        let firstName = "FIRST"
-        let lastName = "LAST"
-        if(this.data['tfirname'] !== undefined || this.data['tfirname'] !== null) {
-            firstName = this.data['tfirname'].values[0].trim()
-        }
-        if (this.data['tlastname'] !== undefined || this.data['tlastname'] !== null) {
-            lastName = this.data['tlasname'].values[0].trim()
-        }
-        return firstName + " " + lastName + " " + this.getParticipantId()
+        return this.getName() + " " + this.getParticipantId()
     }
 
     getName() {
