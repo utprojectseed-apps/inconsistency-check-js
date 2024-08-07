@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/inconsistency-check-js/static/css/main.952b5078.css",
-    "main.js": "/inconsistency-check-js/static/js/main.8474af1f.js",
+    "main.css": "/inconsistency-check-js/static/css/main.921ccf84.css",
+    "main.js": "/inconsistency-check-js/static/js/main.d7bcf8e2.js",
     "static/js/453.891b4e94.chunk.js": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js",
-    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.2b880c58f7be9349fe4d.csv",
+    "static/media/CognitiveDataDict.csv": "/inconsistency-check-js/static/media/CognitiveDataDict.e009476ba3f01c2b83df.csv",
+    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.f1a3afdca3c48ace9f77.csv",
     "index.html": "/inconsistency-check-js/index.html",
-    "main.952b5078.css.map": "/inconsistency-check-js/static/css/main.952b5078.css.map",
-    "main.8474af1f.js.map": "/inconsistency-check-js/static/js/main.8474af1f.js.map",
+    "main.921ccf84.css.map": "/inconsistency-check-js/static/css/main.921ccf84.css.map",
+    "main.d7bcf8e2.js.map": "/inconsistency-check-js/static/js/main.d7bcf8e2.js.map",
     "453.891b4e94.chunk.js.map": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.952b5078.css",
-    "static/js/main.8474af1f.js"
+    "static/css/main.921ccf84.css",
+    "static/js/main.d7bcf8e2.js"
   ]
 }
