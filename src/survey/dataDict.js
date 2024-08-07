@@ -12,11 +12,11 @@ export default class DataDict {
         return text.replace(/<[^>]*>/g, '')
     }
 
-    async readFortuneCSV() {
+    async readDataDict(form) {
         let config = {
             header: true,
         }
-        let df = await dfd.readCSV(data, config)
+        let df = await dfd.readCSV(form, config)
             .then(df => {
                 return df
             }).catch(err => {
