@@ -89,6 +89,12 @@ p {
   text-align: right;
 }
 
+.day-header {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .proportion-graph {
   display:flex;
   flex-wrap: wrap;

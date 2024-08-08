@@ -1,6 +1,7 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import CognitiveGame from "./cognitivegame";
 import CognitiveHighlights from "./cognitivehighlights";
+import CognitiveSurveyDisplay from "./cognitivesurveydisplay";
 
 const Navigation = () => (
     <nav>
@@ -25,6 +26,7 @@ export default function CognitivePage() {
             <Routes>
               <Route path='game' element={<CognitiveGame />}></Route>
               <Route path='highlight' element={<CognitiveHighlights />}></Route>
+              <Route path='survey' element={<CognitiveSurveyDisplay />}></Route>
             </Routes>
         </>
     )
