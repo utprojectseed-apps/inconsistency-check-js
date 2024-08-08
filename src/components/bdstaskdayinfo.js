@@ -40,24 +40,6 @@ export default function BDSGameDayInfo({day, participant}) {
                     <p>Max digit span length: {maxDigitSpanLength}</p>
                     <p>Language: {languageOfSession}</p>
                 </div>
-            <h4>Simon Task:</h4>
-                <div className="day-details">
-                    <p>Sessions started: {}</p>
-                    <p>Session completion: {} %</p>
-                    <p>Mean Session accuracy: {} %</p>
-                    <p>Practice trials accuracy: {} %</p>
-                    <p>Practice trials amount: {}</p>
-                    <p>Language: </p>
-                </div>
-            <h4>Color-Simon Task:</h4>
-                <div className="day-details">
-                    <p>Sessions started: {}</p>
-                    <p>Session completion: {} %</p>
-                    <p>Mean Session accuracy: {} %</p>
-                    <p>Practice trials accuracy: {} %</p>
-                    <p>Practice trials amount: {}</p>
-                    <p>Language: </p>
-                </div>
         </div>
     )
 }

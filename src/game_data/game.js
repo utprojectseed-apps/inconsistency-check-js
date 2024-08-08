@@ -1,3 +1,5 @@
+import {parseISO, differenceInSeconds} from 'date-fns';
+
 export default class Game {
     constructor(data) {
         if (this.constructor === Game) {
@@ -9,10 +11,16 @@ export default class Game {
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
+        this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
+        this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
+        this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
         // this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
         this.storeLanguagePlayedForSessions();
+        this.getFirstAndLastTrialTimeStamps();
+        this.calculateGameTimes();
+
     }
 
     static get TotalDays() {return 14; }
@@ -49,10 +57,39 @@ export default class Game {
         throw new Error("abstract method");
     }
 
-    // add comment
-    // okay rn this is a layout and temp based on original stuff 
-    getFirstAndLastTrialTimeStaps() {
-        throw new Error("abstract method"); 
+    getFirstAndLastTrialTimeStamps() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let firstTrialTimestamp = '---'
+            let lastTrialTimestamp = '---'
+            let trialTimestamps = df['trial_timestamp'].values;
+
+            if (trialTimestamps.length > 0) {
+                firstTrialTimestamp = trialTimestamps[0].slice(0, 19);
+                lastTrialTimestamp = trialTimestamps[trialTimestamps.length - 1].slice(0, 19);
+            }
+            this.firstTrialTimestamps[i] = firstTrialTimestamp
+            this.lastTrialTimestamps[i] = lastTrialTimestamp            
+        }  
+    }
+
+    calculateGameTimes() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let bdsFirst = this.firstTrialTimestamps[i];
+            let bdsLast = this.lastTrialTimestamps[i];
+
+            if (bdsFirst !== '---' && bdsLast !== '---') {
+                let start = parseISO(bdsFirst);
+                let end = parseISO(bdsLast);
+                let game_time = differenceInSeconds(end, start);
+                let gameTimeMinutes = (game_time / 60).toFixed(2);
+                let string = gameTimeMinutes + " mins";
+                this.gameTimes[i] = string
+                
+            } else {
+                this.gameTimes[i] = "--.-- mins"
+            }  
+        }
     }
 
     getNumberSessionsDays() {
@@ -69,5 +106,9 @@ export default class Game {
 
     getLanguagePlayedForSessions() {
         return this.languagePlayedForSessions
+    }
+
+    getGameTimes() {
+        return this.gameTimes;
     }
 }
