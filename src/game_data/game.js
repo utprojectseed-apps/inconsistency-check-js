@@ -1,5 +1,3 @@
-// import * as dfd from 'danfojs';
-
 export default class Game {
     constructor(data) {
         if (this.constructor === Game) {
@@ -11,6 +9,7 @@ export default class Game {
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
+        // this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
         this.#splitDays();
         this.calculateCompletionsDays();
         this.storeLanguagePlayedForSessions();
@@ -50,7 +49,11 @@ export default class Game {
         throw new Error("abstract method");
     }
 
+    // add comment
     // okay rn this is a layout and temp based on original stuff 
+    getFirstAndLastTrialTimeStaps() {
+        throw new Error("abstract method"); 
+    }
 
     getNumberSessionsDays() {
         return this.numberSessionsDays;

@@ -18,6 +18,8 @@ export default class BDS extends Game {
         this.meanSpans = Array(Game.TotalDays).fill().map(() => []);
         this.twoErrorMaxLengths = Array(Game.TotalDays).fill().map(() => []);
         this.twoErrorTotalTrials = Array(Game.TotalDays).fill().map(() => []);
+        this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
+        this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
 
         this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
@@ -28,6 +30,9 @@ export default class BDS extends Game {
         this.calculatePracticeTrialsAccuracys();
         this.calculateMeanSpans();
         this.calculateTwoErrorStats();
+
+        this.getFirstAndLastTrialTimeStaps();
+        
     }
 
     /**
@@ -262,6 +267,45 @@ export default class BDS extends Game {
         }
     }
 
+    getFirstAndLastTrialTimeStaps() {
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let firstTrial = 'None'
+            let lastTrial = 'None'
+
+            let firstTrialTimestamp = '---'
+            let lastTrialTimestamp = '---'
+            let trialTimestamps = df['trial_timestamp'].values;
+
+            if (trialTimestamps.length > 0) {
+                firstTrialTimestamp = trialTimestamps[0].slice(0, 19);
+                lastTrialTimestamp = trialTimestamps[trialTimestamps.length - 1].slice(0, 19);
+                console.log(firstTrialTimestamp)
+            }
+            this.firstTrialTimestamps[i] = firstTrialTimestamp
+
+            // now grab the first value of the sf_df
+            // and last value
+            
+           // let lastIndex = sf_df.indexOf(sf_df[sf_df.length - 1]);
+
+            //let ts_df = df.loc({rows: df['trial_timestamp']});
+                // let firstIndex = df.index[0];
+                // 
+                // let lastIndex = df.index[df.shape[0] - 1];
+
+
+                // firstTrialTimestamp = df.loc({rows: [firstIndex]}).at(0, 'trial_timestamp')
+                // console.log("TESTING TIME STUFF")
+                // console.log(firstTrialTimestamp)
+            
+            // let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            // firstTrialTimestamp = str(
+            // df.loc[df.index[0], TaskConstants.ColumnNames.TRIAL_TIMESTAMP])
+            
+        }  
+    }
+
     /**
      * Calculates and returns two highlights related to the maximum correct digit span in a game.
      *
@@ -315,5 +359,10 @@ export default class BDS extends Game {
 
     getTwoErrorTotalTrials() {
         return this.twoErrorTotalTrials;
+    }
+
+    // TODO: getFirstAndLastTrialTimeStaps
+    grabFirstTrialStamps() {    
+        return this.firstTrialTimestamps;
     }
 }

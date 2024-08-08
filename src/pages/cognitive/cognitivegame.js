@@ -132,6 +132,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const twoErrorMaxLength = bds.game.getTwoErrorMaxLengths()[day - 1]
     const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
     const bdsLang = bds.game.getLanguagePlayedForSessions()[day - 1]
+    const bdsFTimes = bds.game.grabFirstTrialStamps()[day - 1]
 
     const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
     const simonCompletion = simon.game.getCompletedDays()[day - 1]
@@ -175,6 +176,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Two-Error Maximum Length (TE-ML):">{twoErrorMaxLength}</p>
                     <p data-label="Two-Error Total Trials (TE-TT):">{twoErroTotalTrials}</p>
                     <p data-label="Language:">{bdsLang}</p>
+                    <p data-label="First Trial Time:">{bdsFTimes}</p>
                     <p data-label="Game Time:">{"--.-- mins"}</p>
                 </div>
             <h4>Simon Task</h4>
