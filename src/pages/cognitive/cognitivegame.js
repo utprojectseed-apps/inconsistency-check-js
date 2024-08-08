@@ -245,6 +245,8 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Game Time:">{bdsGameTime}</p>
                 </div>
 
+                <p>Time between BDS and Simon Tasks: --.-- min</p>
+
             <div className='brain-game-layout'>
                 <h4>Simon Task</h4>
                 <div className="start-end-stamps">
@@ -262,6 +264,8 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Language:">{simonLang}</p>
                     <p data-label="Game Time:">{simonGameTime}</p>
                 </div>
+
+                <p>Time between Simon and Color-Shape Tasks: --.-- min</p>
             
                 <div className='brain-game-layout'>
                     <h4>Color-Shape Task</h4>
