@@ -11,10 +11,10 @@ export default class Game {
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
-        this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
-        this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []); // will remove later
+        this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
+        this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
         this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
-        // this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
+
         this.#splitDays();
         this.calculateCompletionsDays();
         this.storeLanguagePlayedForSessions();
@@ -57,6 +57,7 @@ export default class Game {
         throw new Error("abstract method");
     }
 
+    // lowkey might only work for brain-games TODO look at fortune decks columns
     getFirstAndLastTrialTimeStamps() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -73,11 +74,12 @@ export default class Game {
         }  
     }
 
+    // lowkey might only work for brain-games TODO look at fortune decks columns
     calculateGameTimes() {
         for (let i = 0; i < Game.TotalDays; ++i) {
+
             let bdsFirst = this.firstTrialTimestamps[i];
             let bdsLast = this.lastTrialTimestamps[i];
-
             if (bdsFirst !== '---' && bdsLast !== '---') {
                 let start = parseISO(bdsFirst);
                 let end = parseISO(bdsLast);
@@ -85,7 +87,6 @@ export default class Game {
                 let gameTimeMinutes = (game_time / 60).toFixed(2);
                 let string = gameTimeMinutes + " mins";
                 this.gameTimes[i] = string
-                
             } else {
                 this.gameTimes[i] = "--.-- mins"
             }  
@@ -110,5 +111,13 @@ export default class Game {
 
     getGameTimes() {
         return this.gameTimes;
+    }
+
+    getFirstTrialTimestamps() {
+        return this.firstTrialTimestamps;
+    }
+
+    getLastTrialTimestamps() {
+        return this.lastTrialTimestamps;
     }
 }

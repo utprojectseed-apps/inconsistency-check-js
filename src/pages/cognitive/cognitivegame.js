@@ -170,7 +170,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const twoErrorMaxLength = bds.game.getTwoErrorMaxLengths()[day - 1]
     const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
     const bdsLang = bds.game.getLanguagePlayedForSessions()[day - 1]
-    const bdsPlayTime = bds.game.getGameTimes()[day - 1]
+    const bdsGameTime = bds.game.getGameTimes()[day - 1]
+    const bdsStart = bds.game.getFirstTrialTimestamps()[day - 1]
+    const bdsEnd = bds.game.getLastTrialTimestamps()[day - 1]
 
     const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
     const simonCompletion = simon.game.getCompletedDays()[day - 1]
@@ -179,7 +181,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const simonPracticeAccuracy = simon.game.getPracticeTrialsAccuracyDays()[day - 1]
     const simonNoInput = simon.game.getNoInputTrialsDays()[day - 1]
     const simonLang = simon.game.getLanguagePlayedForSessions()[day - 1]
-    const simonPlayTime = simon.game.getGameTimes()[day - 1]
+    const simonGameTime = simon.game.getGameTimes()[day - 1]
+    const simonStart = simon.game.getFirstTrialTimestamps()[day - 1]
+    const simonEnd = simon.game.getLastTrialTimestamps()[day - 1]
 
     const csSessions = cs.game.getNumberSessionsDays()[day - 1]
     const csCompletion = cs.game.getCompletedDays()[day - 1]
@@ -188,7 +192,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const csPracticeAccuracy = cs.game.getPracticeTrialsAccuracyDays()[day - 1]
     const csNoInput = cs.game.getNoInputTrialsDays()[day - 1]
     const csLang = cs.game.getLanguagePlayedForSessions()[day - 1]
-    const csPlayTime = cs.game.getGameTimes()[day - 1]
+    const csGameTime = cs.game.getGameTimes()[day - 1]
+    const csStart = cs.game.getFirstTrialTimestamps()[day - 1]
+    const csEnd = cs.game.getLastTrialTimestamps()[day - 1]
 
     const header_color = (bdsCompletion, simonCompletion, csCompletion) => {
         if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
@@ -203,9 +209,16 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                    <h2>Day {day} - W{Math.floor((day - 1) / 7) + 1}</h2>
+                    <h3>Day {day} - W{Math.floor((day - 1) / 7) + 1}</h3>
                 </div>
-            <h4>BDS Task</h4>
+
+                <div className='brain-game-layout'>
+                    <h4>BDS Task</h4>
+                    <div className="start-end-stamps">
+                        <span>Started: {bdsStart}</span>
+                        <span>Ended: {bdsEnd}</span>
+                    </div>
+                </div>
                 <div className="test-day-details">
                     <p data-label="Sessions started:">{bdsSessions}</p>
                     <p data-label="Session completion:">{bdsCompletion} %</p>
@@ -218,9 +231,16 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Two-Error Maximum Length (TE-ML):">{twoErrorMaxLength}</p>
                     <p data-label="Two-Error Total Trials (TE-TT):">{twoErroTotalTrials}</p>
                     <p data-label="Language:">{bdsLang}</p>
-                    <p data-label="Game Time:">{bdsPlayTime}</p>
+                    <p data-label="Game Time:">{bdsGameTime}</p>
                 </div>
-            <h4>Simon Task</h4>
+
+            <div className='brain-game-layout'>
+                <h4>Simon Task</h4>
+                <div className="start-end-stamps">
+                    <span>Started: {simonStart}</span>
+                    <span>Ended: {simonEnd}</span>
+                </div>
+            </div>
                 <div className="test-day-details">
                     <p data-label="Sessions started:">{simonSessions}</p>
                     <p data-label="Session completion:">{simonCompletion} %</p>
@@ -229,9 +249,16 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Practice trials amount:">{simonPracticeTrials}</p>
                     <p data-label="No Input Trials:">{simonNoInput}</p>
                     <p data-label="Language:">{simonLang}</p>
-                    <p data-label="Game Time:">{simonPlayTime}</p>
+                    <p data-label="Game Time:">{simonGameTime}</p>
                 </div>
-            <h4>Color-Shape Task</h4>
+            
+                <div className='brain-game-layout'>
+                    <h4>Color-Shape Task</h4>
+                    <div className="start-end-stamps">
+                        <span>Started: {csStart}</span>
+                        <span>Ended: {csEnd}</span>
+                    </div>
+                </div>
                 <div className="test-day-details">
                     <p data-label="Sessions started:">{csSessions}</p>
                     <p data-label="Session completion:">{csCompletion} %</p>
@@ -240,7 +267,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                     <p data-label="Practice trials amount:">{csPracticeTrials}</p>
                     <p data-label="No Input Trials:">{csNoInput}</p>
                     <p data-label="Language:">{csLang}</p>
-                    <p data-label="Game Time:">{csPlayTime}</p>
+                    <p data-label="Game Time:">{csGameTime}</p>
                 </div>
         </div>
     )

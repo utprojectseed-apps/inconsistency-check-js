@@ -73,7 +73,7 @@ p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  padding-left: 20%;
+  padding-left: 40%;
   font-size: small;
   margin-bottom: 5%;
 }
@@ -95,8 +95,35 @@ p {
   justify-content: space-between;
 }
 
+/* need to look into this style more late gonna drive me insane */
+.brain-game-layout {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.brain-game-layout h4 {
+  margin-left: 60px;
+  margin-right: 0px;
+  text-align: left;
+}
+
+.start-end-stamps {
+  height: 40px; 
+  display: flex;
+  font-size: small;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+}
+
+.start-end-stamps span {
+  margin-left: 20px;
+}
+
 .proportion-graph {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
 }
 
