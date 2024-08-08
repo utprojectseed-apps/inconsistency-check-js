@@ -14,13 +14,14 @@ export default class Game {
         this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
         this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
         this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
+        this.currDays = Array(Game.TotalDays).fill().map(() => []);
 
         this.#splitDays();
         this.calculateCompletionsDays();
+        this.storeCurrentDay();
         this.storeLanguagePlayedForSessions();
         this.getFirstAndLastTrialTimeStamps();
         this.calculateGameTimes();
-
     }
 
     static get TotalDays() {return 14; }
@@ -53,6 +54,7 @@ export default class Game {
             this.languagePlayedForSessions[i] = language;
         }
     }
+
     calculateCompletionsDays() {
         throw new Error("abstract method");
     }
@@ -93,6 +95,20 @@ export default class Game {
         }
     }
 
+    // return current day 
+    storeCurrentDay() {
+        for(let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            
+            let currDate = "---"
+            if (df && df["CurrentDate"].values.length > 0) {
+                currDate = df["CurrentDate"].values
+                currDate = currDate[0].slice(0, 10);
+            }
+            this.currDays[i] = currDate
+        } 
+    }
+
     getNumberSessionsDays() {
         return this.numberSessionsDays;
     }
@@ -104,6 +120,11 @@ export default class Game {
     getCycleStartDate() {
         return this.data["cycle_start_date"].values[0];
     }
+
+    getCurrentDay() {
+        return this.currDays;
+    }
+
 
     getLanguagePlayedForSessions() {
         return this.languagePlayedForSessions

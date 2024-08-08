@@ -196,20 +196,31 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const csStart = cs.game.getFirstTrialTimestamps()[day - 1]
     const csEnd = cs.game.getLastTrialTimestamps()[day - 1]
 
-    const header_color = (bdsCompletion, simonCompletion, csCompletion) => {
+    const completionText = (bdsCompletion, simonCompletion, csCompletion) => {
         if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
-            return "lightgreen";
+            return "TASK COMPLETED"; // task completed
         }
         if (bdsCompletion <= 0 && simonCompletion <= 0 && csCompletion <= 0) {
-            return "lightcoral";
+            return "NOT COMPLETED"; // task not completed
         }
-        return "plum";
+        return "PARTIALLY COMPLETED"; // task particially completed
+    }
+
+    const header_color = (bdsCompletion, simonCompletion, csCompletion) => {
+        const stats = completionText(bdsCompletion, simonCompletion, csCompletion);
+        if (stats === "TASK COMPLETED") return "lightgreen";
+        if (stats === "NOT COMPLETED") return "lightcoral";
+        return "plum"; // task particially completed
     }
     return (
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                    <h3>Day {day} - W{Math.floor((day - 1) / 7) + 1}</h3>
+                    <h4>Day {day} - W{Math.floor((day - 1) / 7) + 1} (DAY OF WEEK) {bds.game.getCurrentDay()[day - 1]}</h4>
+                    <h4>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h4>
+                    <h4>Started: </h4>
+                    <h4>Play Time: </h4>
+                    <h4>Total Time: </h4>
                 </div>
 
                 <div className='brain-game-layout'>
