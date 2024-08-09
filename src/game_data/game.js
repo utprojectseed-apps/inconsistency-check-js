@@ -63,8 +63,8 @@ export default class Game {
     getFirstAndLastTrialTimeStamps() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
-            let firstTrialTimestamp = '---'
-            let lastTrialTimestamp = '---'
+            let firstTrialTimestamp = '--/--/-- --:--:--'
+            let lastTrialTimestamp = '--/--/-- --:--:--'
             let trialTimestamps = df['trial_timestamp'].values;
 
             if (trialTimestamps.length > 0) {
@@ -82,7 +82,7 @@ export default class Game {
 
             let bdsFirst = this.firstTrialTimestamps[i];
             let bdsLast = this.lastTrialTimestamps[i];
-            if (bdsFirst !== '---' && bdsLast !== '---') {
+            if (bdsFirst !== '--/--/-- --:--:--' && bdsLast !== '--/--/-- --:--:--') {
                 let start = parseISO(bdsFirst);
                 let end = parseISO(bdsLast);
                 let game_time = differenceInSeconds(end, start);
@@ -90,7 +90,7 @@ export default class Game {
                 let string = gameTimeMinutes + " mins";
                 this.gameTimes[i] = string
             } else {
-                this.gameTimes[i] = "--.-- mins"
+                this.gameTimes[i] = '0 mins'
             }  
         }
     }
@@ -100,7 +100,7 @@ export default class Game {
         for(let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             
-            let currDate = "---"
+            let currDate = "----/--/--"
             if (df && df["CurrentDate"].values.length > 0) {
                 currDate = df["CurrentDate"].values
                 currDate = currDate[0].slice(0, 10);

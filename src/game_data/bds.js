@@ -201,12 +201,17 @@ export default class BDS extends Game {
         let baseLine = 1.5; // because we start a digit span of 2
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
+
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            if (testing_df.shape[0] === 0) {
+                this.meanSpans[i] = 0;
+                continue;
+            }
+
             let listValues = testing_df['List'].values;
             let accuracyValues = testing_df['accuracy'].values;
-
             let lengthCounts = {};
-            let lengthCorrectCounts = {};
+            let lengthCorrectCounts = {};   
             for (let j = 0; j < listValues.length; ++j) {
                 let length = parseInt(listValues[j]);
 

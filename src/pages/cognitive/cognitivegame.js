@@ -117,7 +117,7 @@ function CognitiveGamesReport(props) {
  * @param {string} props.participant - The ID of the participant.
  * @return {JSX.Element} The rendered component.
  */
-function ParticipantReport(props) {
+function ParticipantReport(props) { // hm should i just pass props into the game day stuff 
     const days = props.bds.game.getCompletedDays().map(
         (day, i) => {
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs}/>
@@ -158,7 +158,7 @@ function ParticipantHeader2({participant, bds}) {
  * @param {Object} props.cs - The Color-Shape object.
  * @return {JSX.Element} The JSX element representing the day information.
  */
-function CognitiveGameDayInfo({day, bds, simon, cs}) {
+function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass props into the game day stuff
     const bdsSessions = bds.game.getNumberSessionsDays()[day - 1]
     const bdsCompletion = bds.game.getCompletedDays()[day - 1]
     const bdsSessionAccuracy = bds.game.getMeanSessionsAccuracys()[day - 1]
@@ -173,6 +173,12 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
     const bdsGameTime = bds.game.getGameTimes()[day - 1]
     const bdsStart = bds.game.getFirstTrialTimestamps()[day - 1]
     const bdsEnd = bds.game.getLastTrialTimestamps()[day - 1]
+
+    // const time between bds and simon
+    // need to get the absolute time between bds and simon
+    // abs(simonStart - bdsEnd) for that day 
+    // then divide by 60 to get minutes and round to 2 decimal places
+    // todo is there a way to shorten this or add methods to game r paricipant files
 
     const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
     const simonCompletion = simon.game.getCompletedDays()[day - 1]
@@ -216,15 +222,15 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                    <h4>Day {day} - W{Math.floor((day - 1) / 7) + 1} (DAY OF WEEK) {bds.game.getCurrentDay()[day - 1]}</h4>
-                    <h4>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h4>
-                    <h4>Started: </h4>
-                    <h4>Play Time: </h4>
-                    <h4>Total Time: </h4>
+                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} (DAY OF WEEK) {bds.game.getCurrentDay()[day - 1]}</h5>
+                    <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
+                    <h5>Started: --.-- </h5>
+                    <h5>Play Time: --.-- </h5>
+                    <h5>Total Time: --.-- </h5>
                 </div>
 
                 <div className='brain-game-layout'>
-                    <h4>BDS Task</h4>
+                    <h5>BDS Task</h5>
                     <div className="start-end-stamps">
                         <span>Started: {bdsStart}</span>
                         <span>Ended: {bdsEnd}</span>
@@ -248,7 +254,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                 <p>Time between BDS and Simon Tasks: --.-- min</p>
 
             <div className='brain-game-layout'>
-                <h4>Simon Task</h4>
+                <h5>Simon Task</h5>
                 <div className="start-end-stamps">
                     <span>Started: {simonStart}</span>
                     <span>Ended: {simonEnd}</span>
@@ -268,7 +274,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) {
                 <p>Time between Simon and Color-Shape Tasks: --.-- min</p>
             
                 <div className='brain-game-layout'>
-                    <h4>Color-Shape Task</h4>
+                    <h5>Color-Shape Task</h5>
                     <div className="start-end-stamps">
                         <span>Started: {csStart}</span>
                         <span>Ended: {csEnd}</span>
