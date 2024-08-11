@@ -8,6 +8,7 @@ export default class SurveyParticipant {
         this.#findDailyPercent()
         this.#generateDates()
         this.#generateDays()
+        this.#collectStartEndTimes()
     }
 
     static getDays() {
@@ -112,6 +113,10 @@ export default class SurveyParticipant {
 
     #cyclePassed(day) {
         return day < this.currCycle
+    }
+
+    #collectStartEndTimes() {
+        
     }
 
     #findDailyPercent() {
