@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
+import {format, differenceInSeconds} from 'date-fns';
+import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
 // import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
@@ -171,14 +173,8 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
     const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
     const bdsLang = bds.game.getLanguagePlayedForSessions()[day - 1]
     const bdsGameTime = bds.game.getGameTimes()[day - 1]
-    const bdsStart = bds.game.getFirstTrialTimestamps()[day - 1]
-    const bdsEnd = bds.game.getLastTrialTimestamps()[day - 1]
-
-    // const time between bds and simon
-    // need to get the absolute time between bds and simon
-    // abs(simonStart - bdsEnd) for that day 
-    // then divide by 60 to get minutes and round to 2 decimal places
-    // todo is there a way to shorten this or add methods to game r paricipant files
+    const bdsStart = bds.game.getStartTimes()[day - 1]
+    const bdsEnd = bds.game.getEndTimes()[day - 1]
 
     const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
     const simonCompletion = simon.game.getCompletedDays()[day - 1]
@@ -188,8 +184,8 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
     const simonNoInput = simon.game.getNoInputTrialsDays()[day - 1]
     const simonLang = simon.game.getLanguagePlayedForSessions()[day - 1]
     const simonGameTime = simon.game.getGameTimes()[day - 1]
-    const simonStart = simon.game.getFirstTrialTimestamps()[day - 1]
-    const simonEnd = simon.game.getLastTrialTimestamps()[day - 1]
+    const simonStart = simon.game.getStartTimes()[day - 1]
+    const simonEnd = simon.game.getEndTimes()[day - 1]
 
     const csSessions = cs.game.getNumberSessionsDays()[day - 1]
     const csCompletion = cs.game.getCompletedDays()[day - 1]
@@ -199,8 +195,41 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
     const csNoInput = cs.game.getNoInputTrialsDays()[day - 1]
     const csLang = cs.game.getLanguagePlayedForSessions()[day - 1]
     const csGameTime = cs.game.getGameTimes()[day - 1]
-    const csStart = cs.game.getFirstTrialTimestamps()[day - 1]
-    const csEnd = cs.game.getLastTrialTimestamps()[day - 1]
+    const csStart = cs.game.getStartTimes()[day - 1]
+    const csEnd = cs.game.getEndTimes()[day - 1]
+
+    // const time between bds and simon
+    // need to get the absolute time between bds and simon
+    // abs(simonStart - bdsEnd) for that day 
+    // then divide by 60 to get minutes and round to 2 decimal places
+    // TODO: this will need to be moved at some point when we fix the layout of the participant holding all the games
+
+    const bdsFirst = bds.game.getFirstTrialTimestamps()[day - 1]
+    const bdsLast = bds.game.getLastTrialTimestamps()[day - 1]
+    const simonFirst = simon.game.getFirstTrialTimestamps()[day - 1]
+    const simonLast = simon.game.getLastTrialTimestamps()[day - 1]
+    const csFirst = cs.game.getFirstTrialTimestamps()[day - 1]
+    const csLast = cs.game.getLastTrialTimestamps()[day - 1]
+    const started = bdsFirst !== '--/--/-- --:--:--' ? format(bdsFirst, REPORT_DT_HM_FORMAT) : '--'
+
+    const timeIntervals = [bdsLast, bdsFirst, simonFirst, simonLast, csFirst, csLast]
+    let totalTime = '--'
+    const timeBetween = timeIntervals.filter(time => time !== '--/--/-- --:--:--')
+    timeBetween.sort((a, b) => new Date(a) - new Date(b))
+    if (timeBetween.length > 0) {
+        totalTime = (differenceInSeconds(timeBetween[timeBetween.length - 1], timeBetween[0]) / 60).toFixed(2)
+        totalTime = totalTime + ' min'
+    } 
+
+    let playTime = '--'
+    if (timeBetween.length > 1) {
+        let delta = 0
+        for (let i = 0; i < timeBetween.length; i += 2) {
+            delta += differenceInSeconds(timeBetween[i + 1], timeBetween[i])
+        }
+        playTime = (delta / 60).toFixed(2) + ' min'
+    }
+
 
     const completionText = (bdsCompletion, simonCompletion, csCompletion) => {
         if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
@@ -224,9 +253,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
                     <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} (DAY OF WEEK) {bds.game.getCurrentDay()[day - 1]}</h5>
                     <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
-                    <h5>Started: --.-- </h5>
-                    <h5>Play Time: --.-- </h5>
-                    <h5>Total Time: --.-- </h5>
+                    <h5>Started: {started} </h5>
+                    <h5>Play Time: {playTime} </h5>
+                    <h5>Total Time: {totalTime} </h5>
                 </div>
 
                 <div className='brain-game-layout'>

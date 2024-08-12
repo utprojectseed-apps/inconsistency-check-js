@@ -1,4 +1,5 @@
-import {parseISO, differenceInSeconds} from 'date-fns';
+import {parseISO, differenceInSeconds, format} from 'date-fns';
+import {REPORT_DT_FORMAT} from './constants.js';
 
 export default class Game {
     constructor(data) {
@@ -13,6 +14,8 @@ export default class Game {
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
         this.firstTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
         this.lastTrialTimestamps = Array(Game.TotalDays).fill().map(() => []);
+        this.startTimes = Array(Game.TotalDays).fill().map(() => []);
+        this.endTimes = Array(Game.TotalDays).fill().map(() => []);
         this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
         this.currDays = Array(Game.TotalDays).fill().map(() => []);
 
@@ -63,16 +66,28 @@ export default class Game {
     getFirstAndLastTrialTimeStamps() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
-            let firstTrialTimestamp = '--/--/-- --:--:--'
-            let lastTrialTimestamp = '--/--/-- --:--:--'
-            let trialTimestamps = df['trial_timestamp'].values;
 
+            this.firstTrialTimestamps[i] = '--/--/-- --:--:--'
+            this.lastTrialTimestamps[i] = '--/--/-- --:--:--'
+            this.startTimes[i] = '--/--/-- --:--'
+            this.endTimes[i] = '---/--/-- --:--'
+            let trialTimestamps = df['trial_timestamp'].values;
             if (trialTimestamps.length > 0) {
-                firstTrialTimestamp = trialTimestamps[0].slice(0, 19);
-                lastTrialTimestamp = trialTimestamps[trialTimestamps.length - 1].slice(0, 19);
+                let firstValue = trialTimestamps[0];
+                let lastValue = trialTimestamps[trialTimestamps.length - 1];
+                
+                if (typeof firstValue === 'string') {
+                    let firstTrialTimestamp = firstValue.slice(0, 19);
+                    this.firstTrialTimestamps[i] = parseISO(firstTrialTimestamp)
+                    this.startTimes[i] = format(this.firstTrialTimestamps[i], REPORT_DT_FORMAT);
+                }
+                
+                if (typeof lastValue === 'string') {
+                    let lastTrialTimestamp = lastValue.slice(0, 19);
+                    this.lastTrialTimestamps[i] = parseISO(lastTrialTimestamp)
+                    this.endTimes[i] = format(this.lastTrialTimestamps[i], REPORT_DT_FORMAT);  
+                }
             }
-            this.firstTrialTimestamps[i] = firstTrialTimestamp
-            this.lastTrialTimestamps[i] = lastTrialTimestamp            
         }  
     }
 
@@ -83,8 +98,8 @@ export default class Game {
             let bdsFirst = this.firstTrialTimestamps[i];
             let bdsLast = this.lastTrialTimestamps[i];
             if (bdsFirst !== '--/--/-- --:--:--' && bdsLast !== '--/--/-- --:--:--') {
-                let start = parseISO(bdsFirst);
-                let end = parseISO(bdsLast);
+                let start = bdsFirst;
+                let end = bdsLast;
                 let game_time = differenceInSeconds(end, start);
                 let gameTimeMinutes = (game_time / 60).toFixed(2);
                 let string = gameTimeMinutes + " mins";
@@ -100,7 +115,7 @@ export default class Game {
         for(let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             
-            let currDate = "----/--/--"
+            let currDate = "--"
             if (df && df["CurrentDate"].values.length > 0) {
                 currDate = df["CurrentDate"].values
                 currDate = currDate[0].slice(0, 10);
@@ -140,5 +155,13 @@ export default class Game {
 
     getLastTrialTimestamps() {
         return this.lastTrialTimestamps;
+    }
+
+    getStartTimes() {
+        return this.startTimes;
+    }
+
+    getEndTimes() {
+        return this.endTimes;
     }
 }
