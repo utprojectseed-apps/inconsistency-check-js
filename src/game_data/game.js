@@ -18,6 +18,7 @@ export default class Game {
         this.endTimes = Array(Game.TotalDays).fill().map(() => []);
         this.gameTimes = Array(Game.TotalDays).fill().map(() => []);
         this.currDays = Array(Game.TotalDays).fill().map(() => []);
+        this.weekDays = Array(Game.TotalDays).fill().map(() => []);
 
         this.#splitDays();
         this.calculateCompletionsDays();
@@ -110,8 +111,9 @@ export default class Game {
         }
     }
 
-    // return current day 
+    // sets current day and weekday 
     storeCurrentDay() {
+        const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         for(let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             
@@ -121,6 +123,7 @@ export default class Game {
                 currDate = currDate[0].slice(0, 10);
             }
             this.currDays[i] = currDate
+            this.weekDays[i] = weekdays[i % 7];
         } 
     }
 
@@ -140,6 +143,9 @@ export default class Game {
         return this.currDays;
     }
 
+    getWeekDay() {
+        return this.weekDays;
+    }
 
     getLanguagePlayedForSessions() {
         return this.languagePlayedForSessions

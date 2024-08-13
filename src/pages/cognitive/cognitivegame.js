@@ -198,12 +198,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
     const csStart = cs.game.getStartTimes()[day - 1]
     const csEnd = cs.game.getEndTimes()[day - 1]
 
-    // const time between bds and simon
-    // need to get the absolute time between bds and simon
-    // abs(simonStart - bdsEnd) for that day 
-    // then divide by 60 to get minutes and round to 2 decimal places
     // TODO: this will need to be moved at some point when we fix the layout of the participant holding all the games
-
     const bdsFirst = bds.game.getFirstTrialTimestamps()[day - 1]
     const bdsLast = bds.game.getLastTrialTimestamps()[day - 1]
     const simonFirst = simon.game.getFirstTrialTimestamps()[day - 1]
@@ -230,6 +225,16 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
         playTime = (delta / 60).toFixed(2) + ' min'
     }
 
+    let bdsSimon = '--'
+    let simonCS = '--'
+    if (simonFirst !== '--/--/-- --:--:--') {
+        if (bdsFirst !== '--/--/-- --:--:--') {
+            bdsSimon = (differenceInSeconds(simonFirst, bdsLast) / 60).toFixed(2) + ' min'
+        }
+        if (csFirst !== '--/--/-- --:--:--') {
+            simonCS = (differenceInSeconds(csFirst, simonLast) / 60).toFixed(2) + ' min'
+        }
+    }
 
     const completionText = (bdsCompletion, simonCompletion, csCompletion) => {
         if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
@@ -251,7 +256,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} (DAY OF WEEK) {bds.game.getCurrentDay()[day - 1]}</h5>
+                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
                     <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
                     <h5>Started: {started} </h5>
                     <h5>Play Time: {playTime} </h5>
@@ -280,7 +285,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <p data-label="Game Time:">{bdsGameTime}</p>
                 </div>
 
-                <p>Time between BDS and Simon Tasks: --.-- min</p>
+                <div className="test-day-details">
+                    <p data-label="Time between BDS and Simon Tasks:">{bdsSimon}</p>
+                </div>
 
             <div className='brain-game-layout'>
                 <h5>Simon Task</h5>
@@ -300,7 +307,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <p data-label="Game Time:">{simonGameTime}</p>
                 </div>
 
-                <p>Time between Simon and Color-Shape Tasks: --.-- min</p>
+                <div className="test-day-details">
+                    <p data-label="Time between Simon and Color-Shape Tasks:">{simonCS}</p>
+                </div>
             
                 <div className='brain-game-layout'>
                     <h5>Color-Shape Task</h5>
