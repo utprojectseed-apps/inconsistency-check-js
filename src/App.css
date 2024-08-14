@@ -68,8 +68,7 @@ p {
   margin-bottom: 5px;
 }
 
-/* Testing some stuff  TODO: check later*/
-.test-day-details {
+.brain-day-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
@@ -78,18 +77,19 @@ p {
   margin-bottom: 5%;
 }
 
-.test-day-details > p {
+.brain-day-details > p {
   margin-top: 5px;
   margin-bottom: 5px;
   display: contents;
 }
 
-.test-day-details > p::before {
+.brain-day-details > p::before {
   content: attr(data-label);
   text-align: right;
 }
 
 .day-header {
+  margin-top: 15px;
   display:flex;
   flex-direction: row;
   justify-content: space-between;

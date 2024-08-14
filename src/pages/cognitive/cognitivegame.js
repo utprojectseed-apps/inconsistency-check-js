@@ -274,7 +274,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                         <span>Ended: {bdsEnd}</span>
                     </div>
                 </div>
-                <div className="test-day-details">
+                <div className="brain-day-details">
                     <p data-label="Sessions started:">{bdsSessions}</p>
                     <p data-label="Session completion:">{bdsCompletion} %</p>
                     <p data-label="Mean Session accuracy:">{bdsSessionAccuracy} %</p>
@@ -289,7 +289,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <p data-label="Game Time:">{bdsGameTime}</p>
                 </div>
 
-                <div className="test-day-details">
+                <div className="brain-day-details">
                     <p data-label="Time between BDS and Simon Tasks:">{bdsSimon}</p>
                 </div>
 
@@ -300,7 +300,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <span>Ended: {simonEnd}</span>
                 </div>
             </div>
-                <div className="test-day-details">
+                <div className="brain-day-details">
                     <p data-label="Sessions started:">{simonSessions}</p>
                     <p data-label="Session completion:">{simonCompletion} %</p>
                     <p data-label="Mean Session accuracy:">{simonSessionAccuracy} %</p>
@@ -311,7 +311,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <p data-label="Game Time:">{simonGameTime}</p>
                 </div>
 
-                <div className="test-day-details">
+                <div className="brain-day-details">
                     <p data-label="Time between Simon and Color-Shape Tasks:">{simonCS}</p>
                 </div>
             
@@ -322,7 +322,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                         <span>Ended: {csEnd}</span>
                     </div>
                 </div>
-                <div className="test-day-details">
+                <div className="brain-day-details">
                     <p data-label="Sessions started:">{csSessions}</p>
                     <p data-label="Session completion:">{csCompletion} %</p>
                     <p data-label="Mean Session accuracy:">{csSessionAccuracy} %</p>

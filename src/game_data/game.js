@@ -144,17 +144,16 @@ export default class Game {
      */
     storeCurrentDay() {
         const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        for(let i = 0; i < Game.TotalDays; ++i) {
+        for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
-            
-            let currDate = "--"
-            if (df && df["CurrentDate"].values.length > 0) {
-                currDate = df["CurrentDate"].values
-                currDate = currDate[0].slice(0, 10);
+
+            let currDate = "--";
+            if (df && df["CurrentDate"] && df["CurrentDate"].values && df["CurrentDate"].values.length > 0) {
+                currDate = df["CurrentDate"].values[0].slice(0, 10);
             }
-            this.currDays[i] = currDate
+            this.currDays[i] = currDate;
             this.weekDays[i] = weekdays[i % 7];
-        } 
+        }
     }
 
     getNumberSessionsDays() {
