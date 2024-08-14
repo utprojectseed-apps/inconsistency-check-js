@@ -116,7 +116,71 @@ export default class SurveyParticipant {
     }
 
     #collectStartEndTimes() {
-        
+        this.timeStringArr = Array(SurveyParticipant.getDays()).fill("N/A")
+        this.startTimeArr = Array(SurveyParticipant.getDays()).fill(undefined)
+        this.endTimeArr = Array(SurveyParticipant.getDays()).fill(undefined)
+        this.durStringArr = Array(SurveyParticipant.getDays()).fill("N/A")
+        this.durationDeltas = Array(SurveyParticipant.getDays()).fill(0)
+
+        for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(this.#cyclePassed(i)) {
+                let startTimeCol = `t${i + 1}strti`
+                let endTimeCol = `t${i + 1}endti`
+
+                let startValue = this.data[`${startTimeCol}`].values[0]
+                let endValue = this.data[`${endTimeCol}`].values[0]
+                if(startValue == "" && endValue == "") {
+                    this.timeStringArr[i] = "--:--"
+                    continue
+                }
+
+                if(startValue !== "") {
+                    let [hours, minutes] = startValue.split(":")
+                    var start = new Date()
+                    start.setHours(hours, minutes, 0, 0)
+                    if(5 < start.getHours() && start.getHours() < 12) {
+                        start.setHours(start.getHours() + 12)
+                    } else if (12 <= start.getHours() && start.getHours() < 17) {
+                        start.setHours(start.getHours() - 12)
+                    }
+                    this.timeStringArr[i] = start.getHours() + ":" + ("0" + start.getMinutes()).slice(-2)
+                    this.startTimeArr[i] = start // TODO, may have a issue with the date being weird as it starts on user date not participant survey date
+                }
+
+                if(endValue !== "") {
+                    let [hours, minutes] = endValue.split(":")
+                    var end = new Date()
+                    end.setHours(hours, minutes, 0, 0)
+                    if(5 < end.getHours() && end.getHours() < 12) {
+                        end.setHours(end.getHours() + 12)
+                    } else if (12 <= end.getHours() && end.getHours() < 17) {
+                        end.setHours(end.getHours() - 12)
+                    }
+                    if(startValue === "") {
+                        this.timeStringArr[i] = end.getHours() + ":" + ("0" + end.getMinutes()).slice(-2)
+                    }
+
+                    if(startValue !== "") {
+                        if (end < start) {
+                            end.setDate(end.getDate() + 1)
+                        }
+                    }
+                    this.endTimeArr[i] = end
+                }
+
+                if(startValue !== "" && endValue !== "") {
+                    let duration = end - start // in ms
+                    this.durationDeltas[i] = duration
+                    
+                    let durHour = Math.floor(duration / (1000 * 60 * 60))
+                    let durMin = Math.floor(duration / (1000 * 60)) % 60
+
+                    durHour = durHour < 10 ? "0"+durHour : durHour
+                    durMin = durMin < 10 ? "0"+durMin : durMin
+                    this.durStringArr[i] = `${durHour}:${durMin}`                  
+                }
+            }
+        }
     }
 
     #findDailyPercent() {
