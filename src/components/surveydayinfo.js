@@ -16,7 +16,7 @@ export default function SurveyDayInfo({day, participant}) {
                 <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} ({participant.getDate(day - 1)})</h5>
                 <h5>{(completionText())} ({completionRate}%)</h5>
                 <h5>Survey Duration: {participant.getDuration(day - 1)}</h5>
-                
+                <h5>Submission Time: {participant.getSubmitTime(day - 1)}</h5>
             </div>
             <div className="day-details">
                 <p>Completion: {completionRate}%</p>

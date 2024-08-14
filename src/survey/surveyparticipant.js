@@ -9,6 +9,7 @@ export default class SurveyParticipant {
         this.#generateDates()
         this.#generateDays()
         this.#collectStartEndTimes()
+        this.#collectSubmitTimes()
     }
 
     static getDays() {
@@ -188,6 +189,31 @@ export default class SurveyParticipant {
             throw new Error("Invalid day")
         }
         return this.durStringArr[day]
+    }
+
+    #collectSubmitTimes() {
+        this.submitTimes = Array(SurveyParticipant.getDays()).fill("--:--")
+        for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
+            let timestamp = this.data[`${timestampCol}`].values[0]
+            if(timestamp !== "") {
+                let [date, time] = timestamp.split(" ")
+                let [hours, minutes, seconds] = time.split(":")
+                let submitHour = parseInt(hours)
+                if(isNaN(submitHour)) {
+                    this.submitTimes[i] = "--:--"
+                    continue
+                } 
+                this.submitTimes[i] = hours + ":" + minutes
+            }
+        }
+    }
+
+    getSubmitTime(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.submitTimes[day]
     }
 
     #findDailyPercent() {
