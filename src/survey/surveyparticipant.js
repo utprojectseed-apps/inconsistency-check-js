@@ -183,6 +183,13 @@ export default class SurveyParticipant {
         }
     }
 
+    getDuration(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.durStringArr[day]
+    }
+
     #findDailyPercent() {
         let answerArray = Array(SurveyParticipant.getDays()).fill().map(() => [])
         let columnArray = Array(SurveyParticipant.getDays()).fill().map(() => [])
