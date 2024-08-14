@@ -122,7 +122,6 @@ function CognitiveGamesReport(props) {
 function ParticipantReport(props) { // hm should i just pass props into the game day stuff 
     const days = props.bds.game.getCompletedDays().map(
         (day, i) => {
-            console.log(i + 1)
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs}/>
         }
     )
