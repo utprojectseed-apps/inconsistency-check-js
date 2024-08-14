@@ -3,7 +3,7 @@ import * as dfd from 'danfojs';
 
 // TODO need to check TRUE vs True or have both options for now bc their is an issue when reading the csv file
 // NUM_TRIALS = 14;
-// the expected num_trials used to be 12 but it was changed to 14 (in the cohort starting Aug 5, 2024
+// the expected num_trials used to be 12 but it was changed to 14 (in the cohort starting Aug 5, 2024)
 
 export default class BDS extends Game {
     constructor(data, participant_id) {
@@ -317,7 +317,7 @@ export default class BDS extends Game {
     getTwoErrorMaxLengths() {
         return this.twoErrorMaxLengths;
     }
-
+    
     getTwoErrorTotalTrials() {
         return this.twoErrorTotalTrials;
     }

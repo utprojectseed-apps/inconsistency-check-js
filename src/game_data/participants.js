@@ -19,7 +19,6 @@ export default class ParticipantList {
     }
 
     #constructParticipants() {
-        
         for (let id of this.ids.values) {
             if(id === undefined || id === null) {
                 continue;

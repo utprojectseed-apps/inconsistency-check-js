@@ -48,6 +48,15 @@ export default class Game {
         }
     }
 
+    /**
+     * Stores the language played for each session in the `languagePlayedForSessions` array.
+     *
+     * This function iterates over each day in the `days` array and retrieves the language played for that day
+     * from the `lang` column of the corresponding DataFrame. If the language is not available, it sets it to "---".
+     * The language is then stored in the `languagePlayedForSessions` array at the corresponding index.
+     *
+     * @return {void} This function does not return anything.
+     */
     storeLanguagePlayedForSessions() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -59,11 +68,21 @@ export default class Game {
         }
     }
 
+    /**
+     * Calculates and sets the completion rate for each day in the game.
+     *
+     * @throws {Error} Throws an error indicating that this is an abstract method.
+     */
     calculateCompletionsDays() {
         throw new Error("abstract method");
     }
 
-    // lowkey might only work for brain-games TODO look at fortune decks columns
+    // recently added methods will mainly only work for brain games 
+    /**
+     * Retrieves the first and last trial timestamps for each day from the data and stores them in the corresponding arrays.
+     *
+     * @return {void} This function does not return anything.
+     */
     getFirstAndLastTrialTimeStamps() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -92,7 +111,11 @@ export default class Game {
         }  
     }
 
-    // lowkey might only work for brain-games TODO look at fortune decks columns
+    /**
+     * Calculates the game times for each day in the game based on the first and last trial timestamps.
+     *
+     * @return {void}
+     */
     calculateGameTimes() {
         for (let i = 0; i < Game.TotalDays; ++i) {
 
@@ -111,7 +134,14 @@ export default class Game {
         }
     }
 
-    // sets current day and weekday 
+   /**
+     * Stores the current day and weekday for each day in the game.
+     *
+     * This function iterates over the days of the game and retrieves the current date and weekday for each day.
+     * If the current date is available, it is stored in the `currDays` array. The weekday is determined based on the index of the day in the `weekdays` array.
+     *
+     * @return {void} This function does not return a value.
+     */
     storeCurrentDay() {
         const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         for(let i = 0; i < Game.TotalDays; ++i) {

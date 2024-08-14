@@ -122,6 +122,7 @@ function CognitiveGamesReport(props) {
 function ParticipantReport(props) { // hm should i just pass props into the game day stuff 
     const days = props.bds.game.getCompletedDays().map(
         (day, i) => {
+            console.log(i + 1)
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs}/>
         }
     )
@@ -142,6 +143,10 @@ function ParticipantReport(props) { // hm should i just pass props into the game
  * @return {JSX.Element} The participant header JSX element.
  */
 function ParticipantHeader2({participant, bds}) {
+    // TODO: need to add missing games/total games based on the current day they are on
+    // TODO: need to add missing days/total days
+    // TODO: bds overall acc, simon overall acc, cs overall acc might as well add bds,cs,simon
+    // so will need to call a method that just goes thru (1 - curr day) for each game 
     return (
         <div className="participant-header">
             <h1 className="participant-id">Participant ID: {participant}</h1>

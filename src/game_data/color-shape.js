@@ -22,6 +22,17 @@ export default class ColorShape extends Game {
         this.getHighlights();
     }
 
+    /**
+     * Calculates and sets the completion rate for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the completion rate for each day.
+     * It does this by iterating over each session in the day and calculating the number of test trials.
+     * The completion rate is calculated by dividing the number of test trials by 33 and multiplying by 100.
+     * If the calculated completion rate is greater than the current completion rate for the day,
+     * the completion rate for the day is updated and the corresponding count and session data are stored.
+     *
+     * @return {void} This function does not return anything.
+     */
     calculateCompletionsDays() {
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -48,6 +59,14 @@ export default class ColorShape extends Game {
         }   
     }
 
+    /**
+     * Calculates and sets the session accuracy for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the session accuracy for each day.
+     * It does this by iterating over each session in the day and calculating the number of test trials.
+     *
+     * @return {void}
+     */
     calculateSessionAccuracyDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -66,11 +85,17 @@ export default class ColorShape extends Game {
         }
     }
 
+    /**
+     * Calculates the mean reaction time for each day in the game.
+     *
+     * @return {void}
+     */
     calculateMeanReactionTime() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
             let reactionTimes = testing_df['CriticalSlide.RT'].values;
+
             let count = 0;
             let sum = 0;
             for (let j = 0; j < reactionTimes.length; ++j) {
@@ -83,6 +108,15 @@ export default class ColorShape extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the number of practice trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the number of practice trials.
+     * It does this by iterating over each session in the day and filtering out the training sessions.
+     * The number of trials in each training session is then counted and stored in the `practiceTrialsAmount` array.
+     *
+     * @return {void}
+     */
     countPracticeTrialsAmountDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -93,6 +127,15 @@ export default class ColorShape extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the accuracy of practice trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the accuracy of practice trials for each day.
+     * It does this by iterating over each practice trial in the day and checking if the accuracy is 'True'.
+     * The accuracy of each day is then calculated as the percentage of practice trials with an accuracy of 'True'.
+     *
+     * @return {void}
+     */
     calculatePracticeTrialsAccuracys() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -101,7 +144,7 @@ export default class ColorShape extends Game {
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // interesting
+                if (accuracyValues[j] === 'True') {
                     count++;
                 }
             }
@@ -110,6 +153,15 @@ export default class ColorShape extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the number of no-input trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the number of no-input trials.
+     * It does this by iterating over each session in the day and filtering out the trials with a response of 'none'.
+     * The result is stored in the `noInputTrialsDays` array, with the index corresponding to the day.
+     *
+     * @return {void}
+     */
     countNoInputTrialsDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -120,6 +172,12 @@ export default class ColorShape extends Game {
         }
     }
 
+    /**
+     * Calculates and returns an array of highlights based on the selected report.
+     *
+     * @param {number} selectedReport - The index of the selected report.
+     * @return {Array<string>} An array of highlight messages.
+     */
     getHighlights(selectedReport) {
         let maxAccuracy = Math.max(...this.meanSessionsAccuracys);
         let countNotZero = this.meanReactionTime.filter(Boolean).length;
@@ -141,7 +199,7 @@ export default class ColorShape extends Game {
         }
     }
 
-    getMeanSessionsAccuracys() { // TODO: come back to fix
+    getMeanSessionsAccuracys() {
         return this.meanSessionsAccuracys
     }
 

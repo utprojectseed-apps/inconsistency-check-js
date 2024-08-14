@@ -20,6 +20,17 @@ export default class Simon extends Game {
         this.getHighlights();
     }
 
+    /**
+     * Calculates and sets the completion rate for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the completion rate for each day.
+     * It does this by iterating over each session in the day and calculating the number of test trials.
+     * The completion rate is calculated by dividing the number of test trials by 32 and multiplying by 100.
+     * If the calculated completion rate is greater than the current completion rate for the day,
+     * the completion rate for the day is updated and the corresponding count and session data are stored.
+     *
+     * @return {void} This function does not return anything.
+     */
     calculateCompletionsDays() {
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -46,6 +57,17 @@ export default class Simon extends Game {
         }   
     }
 
+    /**
+     * Calculates and sets the session accuracy for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the session accuracy for each day.
+     * It does this by iterating over each session in the day and calculating the number of test trials.
+     * The session accuracy is calculated by counting the number of 'True' values in the 'Slide1.ACC' column
+     * of the testing dataframe and dividing it by the total number of trials. The result is then multiplied
+     * by 100 and rounded to 2 decimal places.
+     *
+     * @return {void}
+     */
     calculateSessionAccuracyDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -56,7 +78,7 @@ export default class Simon extends Game {
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // Works with TRUE for other format??
+                if (accuracyValues[j] === 'True') {
                     count++;
                 }
             } 
