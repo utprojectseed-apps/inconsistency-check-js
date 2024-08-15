@@ -1,9 +1,10 @@
 import * as dfd from 'danfojs';
 import FortuneDeck from './fortunedecks';
 import BDS from './bds';
-import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
 import Simon from './simon';
-import ColorShape from './colorshape';
+import ColorShape from './color-shape';
+import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
+
 
 export default class Participant {
     constructor(id, data) {
@@ -89,7 +90,7 @@ export default class Participant {
 
     getPracticeTrialsAmount() {
         if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
-            return this.game.getPracticrlTrialsAmountDays();
+            return this.game.getPracticeTrialsAmountDays();
         } else {
             throw new Error("getPracticeTrials not implemented for this game.");
         }
@@ -105,7 +106,7 @@ export default class Participant {
 
     getMeanSessionAccuracy() {
         if(this.gameName === "BDS Task" || this.gameName === "Simon Task" || this.gameName === "CS Task") {
-            return this.game.getSessionAccuracyDays();
+            return this.game.getMeanSessionsAccuracys();
         } else {
             throw new Error("getMeanSessionAccuracy not implemented for this game.");
         }
@@ -114,5 +115,13 @@ export default class Participant {
         return this.id;
     }
 
+
+    getNoInputTrials() {
+        if(this.gameName === "Simon Task" || this.gameName === "CS Task") {
+            return this.game.getNoInputTrialsDays();
+        } else {
+            throw new Error("getNoInputTrials not implemented for this game.");
+        }
+    }
 
 }

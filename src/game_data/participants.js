@@ -19,7 +19,6 @@ export default class ParticipantList {
     }
 
     #constructParticipants() {
-        
         for (let id of this.ids.values) {
             if(id === undefined || id === null) {
                 continue;
@@ -84,5 +83,9 @@ export default class ParticipantList {
 
     getMaxCorrectDigitSpans() {
         return this.participants.map(participant => participant.getMaxCorrectDigitSpans());
+    }
+
+    getNoInputTrials() {
+        return this.participants.map(participant => participant.getNoInputTrials());
     }
 }

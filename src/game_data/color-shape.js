@@ -1,19 +1,21 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
 
-export default class Simon extends Game {
+// TODO rename to color-shape
+
+export default class ColorShape extends Game {
     constructor(data, participant_id) {
         super(data);
-        this.participant_id = participant_id;
+
+        this.participant_id = participant_id
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.noInputTrialsDays = Array(Game.TotalDays).fill().map(() => []);
-        
-        this.calculateCompletionsDays();
+
         this.calculateSessionAccuracyDays();
-        this.calculateMeanReactionTime();
+        this.calculateMeanReactionTime()
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
         this.countNoInputTrialsDays();
@@ -25,7 +27,7 @@ export default class Simon extends Game {
      *
      * This function iterates over each day in the game and calculates the completion rate for each day.
      * It does this by iterating over each session in the day and calculating the number of test trials.
-     * The completion rate is calculated by dividing the number of test trials by 32 and multiplying by 100.
+     * The completion rate is calculated by dividing the number of test trials by 33 and multiplying by 100.
      * If the calculated completion rate is greater than the current completion rate for the day,
      * the completion rate for the day is updated and the corresponding count and session data are stored.
      *
@@ -47,7 +49,7 @@ export default class Simon extends Game {
                 let testing_df = sess_df.loc({rows: sess_df['task_section'].eq('test')});
                 let count = testing_df.shape[0];
 
-                let completionRate = (count / 32 * 100).toFixed(2)
+                let completionRate = (count / 33 * 100).toFixed(2)
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
                     this.count[i] = count; // conatins the number of test trials 
@@ -62,9 +64,6 @@ export default class Simon extends Game {
      *
      * This function iterates over each day in the game and calculates the session accuracy for each day.
      * It does this by iterating over each session in the day and calculating the number of test trials.
-     * The session accuracy is calculated by counting the number of 'True' values in the 'Slide1.ACC' column
-     * of the testing dataframe and dividing it by the total number of trials. The result is then multiplied
-     * by 100 and rounded to 2 decimal places.
      *
      * @return {void}
      */
@@ -74,11 +73,11 @@ export default class Simon extends Game {
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
 
             let numTrials = testing_df.shape[0] !== 0 ? testing_df.shape[0] : 33;
-            let accuracyValues = testing_df['Slide1.ACC'].values;
+            let accuracyValues = testing_df['CriticalSlide.ACC'].values;
+            
             let count = 0.0;
-
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') {
+                if (accuracyValues[j] === 'True') { // need to check 
                     count++;
                 }
             } 
@@ -86,17 +85,22 @@ export default class Simon extends Game {
         }
     }
 
+    /**
+     * Calculates the mean reaction time for each day in the game.
+     *
+     * @return {void}
+     */
     calculateMeanReactionTime() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            let reactionTimes = testing_df['Slide1.RT'].values;
+            let reactionTimes = testing_df['CriticalSlide.RT'].values;
 
             let count = 0;
             let sum = 0;
             for (let j = 0; j < reactionTimes.length; ++j) {
                 let currentReactionTime = parseInt(reactionTimes[j]);
-                if(currentReactionTime === -999) continue;
+                if(currentReactionTime === 0) continue;
                 sum += currentReactionTime;
                 count++;
             }
@@ -104,6 +108,15 @@ export default class Simon extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the number of practice trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the number of practice trials.
+     * It does this by iterating over each session in the day and filtering out the training sessions.
+     * The number of trials in each training session is then counted and stored in the `practiceTrialsAmount` array.
+     *
+     * @return {void}
+     */
     countPracticeTrialsAmountDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -114,32 +127,57 @@ export default class Simon extends Game {
         }
     }
 
+    /**
+     * Calculates and sets the accuracy of practice trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the accuracy of practice trials for each day.
+     * It does this by iterating over each practice trial in the day and checking if the accuracy is 'True'.
+     * The accuracy of each day is then calculated as the percentage of practice trials with an accuracy of 'True'.
+     *
+     * @return {void}
+     */
     calculatePracticeTrialsAccuracys() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let practice_df = df.loc({rows: df['task_section'].eq('training')});
-            let accuracyValues = practice_df['Slide1.ACC'].values;
+            let accuracyValues = practice_df['CriticalSlide.ACC'].values;
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // TODO: check
+                if (accuracyValues[j] === 'True') {
                     count++;
                 }
             }
-            this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count / practice_df.shape[0] * 100).toFixed(2);
+
+            this.practiceTrialsAccuracys[i] = accuracyValues.length === 0 ? 0 : (count/practice_df.shape[0] * 100).toFixed(2);
         }
     }
 
+    /**
+     * Calculates and sets the number of no-input trials for each day in the game.
+     *
+     * This function iterates over each day in the game and calculates the number of no-input trials.
+     * It does this by iterating over each session in the day and filtering out the trials with a response of 'none'.
+     * The result is stored in the `noInputTrialsDays` array, with the index corresponding to the day.
+     *
+     * @return {void}
+     */
     countNoInputTrialsDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            let noInput_df = testing_df.loc({rows: testing_df['Slide1.RESP'].eq('none')});
-            let noInputString = noInput_df.shape[0] + " out of " + testing_df.shape[0];
-            this.noInputTrialsDays[i] = noInputString;
+            let noInput_df = testing_df.loc({rows: testing_df['CriticalSlide.RESP'].eq('none')});
+            let noTnputString = noInput_df.shape[0] + " out of " + testing_df.shape[0];
+            this.noInputTrialsDays[i] = noTnputString;
         }
     }
 
+    /**
+     * Calculates and returns an array of highlights based on the selected report.
+     *
+     * @param {number} selectedReport - The index of the selected report.
+     * @return {Array<string>} An array of highlight messages.
+     */
     getHighlights(selectedReport) {
         let maxAccuracy = Math.max(...this.meanSessionsAccuracys);
         let countNotZero = this.meanReactionTime.filter(Boolean).length;
@@ -161,12 +199,12 @@ export default class Simon extends Game {
         }
     }
 
-    getMeanSessionsAccuracys() { // TODO:call this method instead of getSessionAccuracyDays
-        return this.meanSessionsAccuracys;
+    getMeanSessionsAccuracys() {
+        return this.meanSessionsAccuracys
     }
 
     getMeanReactionTime() {
-        return this.meanReactionTime;
+        return this.meanReactionTime
     }
 
     getPracticeTrialsAmountDays() {
