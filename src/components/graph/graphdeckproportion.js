@@ -1,7 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function GraphDeckProportion( {participant} ) {
-    if(participant.getId() <= 7789) { return null }
+    if(participant.getId() !== "77897798" ) { return null }
     // suppress error from defaultProps and Recharts
     const error = console.error;
     console.error = (...args) => {
