@@ -1,6 +1,7 @@
 import CSVReader from "../../components/csvread";
 import React, { useEffect, useRef, useReducer } from "react";
 import * as dfd from 'danfojs';
+import { NavLink } from "react-router-dom";
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import {format, differenceInSeconds} from 'date-fns';
@@ -64,6 +65,7 @@ export default function CognitiveGame() {
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
+                {new Date().getDay() === 1 && <NavLink to="../highlight">Click here to go to highlights page</NavLink>}
                 <div className='no-print' style={{display: 'flex'}}>
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                 </div>
