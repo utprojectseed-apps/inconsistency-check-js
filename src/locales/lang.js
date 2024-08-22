@@ -1,6 +1,5 @@
 import lang_english from "./lang.eng";
 import lang_spanish from "./lang.span";
-import { createStringFromTemplate } from "./langTemplate";
 
 export default class Lang {
     constructor(lang) {
@@ -18,7 +17,10 @@ export default class Lang {
         if (args === null) {
             return this.lang[key];
         } else {
-            return createStringFromTemplate(this.lang[key], args);
+            //eslint-disable-next-line
+            return this.lang[key].replace(new RegExp("\{([^\{]+)\}", "g"), function(_unused, varName){
+                return args[varName];
+            });
         }
     }
 

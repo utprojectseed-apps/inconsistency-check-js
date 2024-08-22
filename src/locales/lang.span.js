@@ -1,4 +1,4 @@
-export default lang = {
+var lang = {
     fortuneHighlight: {
         thank: "¡Gracias por completar 14 días del Juego de la Fortuna!",
         intro: "A continuación se muestran los aspectos más destacados de sus 14 días jugando el Juego de la Fortuna\n" +
@@ -22,3 +22,5 @@ export default lang = {
         graphDaysOfWeek: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
     },
 }
+
+export default lang

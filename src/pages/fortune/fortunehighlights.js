@@ -4,11 +4,13 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
+import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import GraphPoints from "../../components/graph/graphpoints";
+import Lang from "../../locales/lang";
 
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
@@ -18,6 +20,7 @@ export default function FortuneHighlights() {
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const [selectedReport, setSelectedReport] = React.useState("first-week")
+    const [selectedLang, setSelectedLang] = React.useState("eng")
     const handleUpload = d => {
         setData(d)
     }
@@ -26,6 +29,9 @@ export default function FortuneHighlights() {
     }
     const selectReport = report => {
         setSelectedReport(report)
+    }
+    const selectLang = lang => {
+        setSelectedLang(lang)
     }
     useEffect(() => {
         if(data !== undefined) {
@@ -52,6 +58,7 @@ export default function FortuneHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
+                        <RadioHighlightLanguage parentCallback={selectLang} value={selectedLang}/>
                         <Button variant="contained" onClick={() => printPlease(selectedIds)} disableElevation>Print</Button>
                     </div>
                 </div>

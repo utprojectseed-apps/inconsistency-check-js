@@ -1,4 +1,4 @@
-export default lang = {
+var lang = {
     fortuneHighlight: {
         thank: "Thank you for completing 14 days of the Fortune Game!",
         intro: "Below are your highlights from your 14 days playing the Fortune Game.\n" +
@@ -25,4 +25,6 @@ export default lang = {
     cognitiveHighlight: {
     }
 }
+
+export default lang
 
