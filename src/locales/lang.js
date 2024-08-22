@@ -2,8 +2,9 @@ import lang_english from "./lang.eng";
 import lang_spanish from "./lang.span";
 
 export default class Lang {
-    constructor(lang) {
+    constructor(lang, page) {
         this.setLang(lang)
+        this.setPage(page)
     }
 
     setLang(lang) {
@@ -15,14 +16,20 @@ export default class Lang {
         } else {
             throw new Error("Language not supported");
         }
+        this.setPage(this.page)
+    }
+
+    setPage(page) {
+        this.page = page
+        this.map = this.lang[page]
     }
 
     getString(key, args = null) {
         if (args === null) {
-            return this.lang[key];
+            return this.map[key];
         } else {
             //eslint-disable-next-line
-            return this.lang[key].replace(new RegExp("\{([^\{]+)\}", "g"), function(_unused, varName){
+            return this.map[key].replace(new RegExp("\{([^\{]+)\}", "g"), function(_unused, varName){
                 return args[varName];
             });
         }

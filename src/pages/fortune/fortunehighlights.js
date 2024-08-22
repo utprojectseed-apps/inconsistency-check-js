@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 import GraphPoints from "../../components/graph/graphpoints";
 import Lang from "../../locales/lang";
 
-var lang = new Lang("eng")
+var lang = new Lang("eng", "fortuneHighlight")
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -33,7 +33,6 @@ export default function FortuneHighlights() {
     }
     const selectLang = d => {
         setSelectedLang(d)
-        lang.setLang(d)
     }
     useEffect(() => {
         if(data !== undefined) {
@@ -49,6 +48,10 @@ export default function FortuneHighlights() {
             forceUpdate()
         }
     }, [data])
+    useEffect(() => {
+        lang.setLang(selectedLang)
+        forceUpdate()
+    }, [selectedLang])
 
     return (
         <div>
@@ -111,7 +114,7 @@ function ParticipantListHighlights(props) {
 function GameExplanation() {
     return (
         <div>
-            <h1>Thank you for completing 14 days of the Fortune Game!</h1>
+            <h1>{lang.getString("thank")}</h1>
             <p>Below are highlights from your 14 days playing the Fortune Game.</p>
             <p>We have graphed your points for each day.</p>
             <p>Remember that you started with 2500 points. You may use the red reference line located at the midpoint of the graphs to know if you earned more or less than what you started with.</p>
