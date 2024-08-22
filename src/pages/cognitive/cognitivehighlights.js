@@ -147,17 +147,17 @@ function ParticipantHighlights(props) {
     let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     return (
         <div>
-            <h3>{props.participant} - Digit Span</h3>
+            <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
             {bdsHighlight}
             {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game}/>}
             <div className="print-together">
-                <h3>{props.participant} - Simon</h3>
+                <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
                 {simonHighlight}
                 {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
                 {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
             </div>
             <div className="print-together">
-                <h3>{props.participant} - Color Shape</h3>
+                <h3>{props.participant} - {lang.getString("csTitle")}</h3>
                 {csHighlight}
                 {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
                 {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
