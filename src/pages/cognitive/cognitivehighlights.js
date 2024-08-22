@@ -4,11 +4,14 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
+import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
+import Lang from "../../locales/lang";
 
+var lang = new Lang("eng", "cognitiveHighlight")
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
     const [simonData, setSimonData] = React.useState(undefined)
@@ -21,6 +24,7 @@ export default function CognitiveHighlights() {
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const [selectedReport, setSelectedReport] = React.useState("first-week")
+    const [selectedLang, setSelectedLang] = React.useState("eng")
     const handleUpload = (d, game) => {
         switch(game) {
             case "bds":
@@ -41,6 +45,9 @@ export default function CognitiveHighlights() {
     }
     const selectReport = report => {
         setSelectedReport(report)
+    }
+    const selectLang = d => {
+        setSelectedLang(d)
     }
     useEffect(() => {
         if(bdsData !== undefined) {
@@ -63,6 +70,10 @@ export default function CognitiveHighlights() {
             forceUpdate()
         }
     }, [bdsData, simonData, csData])
+    useEffect(() => {
+        lang.setLang(selectedLang)
+        forceUpdate()
+    }, [selectedLang])
 
     return (
         <div>
@@ -76,6 +87,7 @@ export default function CognitiveHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
+                        <RadioHighlightLanguage parentCallback={selectLang} value={selectedLang}/>
                         <Button variant="contained" onClick={() => printPlease(selectedIds)} disableElevation>Print</Button>
                     </div>
                 </div>
