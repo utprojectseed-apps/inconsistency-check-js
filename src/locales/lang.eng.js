@@ -23,6 +23,43 @@ var lang = {
     },
 
     cognitiveHighlight: {
+        digitTitle: "Digit Span",
+        digitLongest: "Your longest correct digit span was {x} digits.",
+        digitAverage: "Your average correct digit span was {x} digits.",
+
+        simonTitle: "Simon",
+        simonAccuracyBest: "Your maximum accuracy: {x}%.",
+        simonAccuracyAverage: "Your average accuracy: {x}%.",
+        simonReactionTimeFirst: "Your first day average reaction time: {x}ms",
+        simonReactionTimeAverage: "Your fastest day reaction time: {x}ms.",
+        simonReactionTimeImprovement: "Your best improvement from the first day: {x}ms ({y}% improvement).",
+
+        csTitle: "Color Shape",
+        csAccuracyBest: "Your maximum accuracy: {x}%.",
+        csAccuracyAverage: "Your average accuracy: {x}%.",
+        csReactionTimeFirst: "Your first day average reaction time: {x}ms",
+        csReactionTimeAverage: "Your fastest day reaction time: {x}ms.",
+        csReactionTimeImprovement: "Your best improvement from the first day: {x}ms ({y}% improvement).",
+
+        //graph
+        graphDigitTitle: "Digit Span Scores",
+        graphDigitMax: "Max Digit Length",
+        graphDigitLength: "Digit Span Length",
+
+        graphSimonAccuracyTitle: "Simon Accuracy",
+        graphSimonAccuracy: "Accuracy",
+        graphSimonSessionAccuracy: "Session Accuracy",
+        graphSimonReactionTitle: "Simon Reaction Time",
+        graphSimonReactionAverage: "Average Reaction Time",
+
+        graphCsAccuracyTitle: "Color Shape Accuracy",
+        graphCsAccuracy: "Accuracy",
+        graphCsSessionAccuracy: "Session Accuracy",
+        graphCsReactionTitle: "Color Shape Reaction Time",
+        graphCsReactionAverage: "Average Reaction Time",
+
+        graphDay: "Day",
+        graphDaysOfWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     }
 }
 

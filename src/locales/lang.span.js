@@ -21,6 +21,46 @@ var lang = {
         graphDay: "Día",
         graphDaysOfWeek: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
     },
+
+    cognitiveHighlight: {
+        digitTitle: "Tramo de Dígitos",
+        digitLongest: "Su tramo más largo de dígitos correctos fue {x} dígitos.",
+        digitAverage: "Su tramo promedio de dígitos correctos fue {x} dígitos.",
+
+        simonTitle: "Simón",
+        simonAccuracyBest: "Su precisión máxima: {x}%",
+        simonAccuracyAverage: "Su precisión promedia: {x}%",
+        simonReactionTimeFirst: "Tiempo promedio de reacción de su primer día: {x}ms",
+        simonReactionTimeAverage: "Tiempo promedio de reacción de su día más rápido: {x}ms",
+        simonReactionTimeImprovement: "Su mejoría más destacada desde el primer día: {x}ms ({y}% de mejoría)",
+
+        csTitle: "Forma Color",
+        csAccuracyBest: "Su precisión máxima: {x}%",
+        csAccuracyAverage: "Su precisión promedia: {x}%.",
+        csReactionTimeFirst: "Su tiempo promedio de reacción del primer día: {x}ms",
+        csReactionTimeAverage: "Tiempo promedio de reacción de su día más rápido: {x}ms.",
+        csReactionTimeImprovement: "Su mejoría más destacada desde el primer día: {x}ms ({y}% de mejoría).",
+
+        //graph
+        graphDigitTitle: "Puntuación del Tramo de Digitos",
+        graphDigitMax: "Máx. Largo del Dígito",
+        graphDigitLength: "Largo del Tramo del Dígito",
+
+        graphSimonAccuracyTitle: "Precisión de Simón",
+        graphSimonAccuracy: "Precisión",
+        graphSimonSessionAccuracy: "Precisión de la Sesión",
+        graphSimonReactionTitle: "Tiempo Promedio de Simón",
+        graphSimonReactionAverage: "Tiémpo Promedio de Reacción",
+
+        graphCsAccuracyTitle: "Precisión de Color Figura",
+        graphCsAccuracy: "Precisión",
+        graphCsSessionAccuracy: "Precisión de la Sesión",
+        graphCsReactionTitle: "Tiempo Promedio de Color Figura",
+        graphCsReactionAverage: "Tiempo Promedio de Reacción",
+
+        graphDay: "Día",
+        graphDaysOfWeek: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
+    }
 }
 
 export default lang
