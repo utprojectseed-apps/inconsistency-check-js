@@ -3,6 +3,10 @@ import lang_spanish from "./lang.span";
 
 export default class Lang {
     constructor(lang) {
+        this.setLang(lang)
+    }
+
+    setLang(lang) {
         this.lang = lang;
         if (lang === "span") {
             this.lang = lang_spanish;
@@ -13,7 +17,7 @@ export default class Lang {
         }
     }
 
-    getLang(key, args = null) {
+    getString(key, args = null) {
         if (args === null) {
             return this.lang[key];
         } else {

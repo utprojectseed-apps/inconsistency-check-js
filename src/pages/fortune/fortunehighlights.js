@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 import GraphPoints from "../../components/graph/graphpoints";
 import Lang from "../../locales/lang";
 
+var lang = new Lang("eng")
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -30,8 +31,9 @@ export default function FortuneHighlights() {
     const selectReport = report => {
         setSelectedReport(report)
     }
-    const selectLang = lang => {
-        setSelectedLang(lang)
+    const selectLang = d => {
+        setSelectedLang(d)
+        lang.setLang(d)
     }
     useEffect(() => {
         if(data !== undefined) {
