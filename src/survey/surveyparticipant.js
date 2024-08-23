@@ -5,6 +5,7 @@ export default class SurveyParticipant {
         this.dataDict = dataDict
         this.setupCycles()
         this.percentComplete = Array(SurveyParticipant.getDays()).fill(0)
+        this.missingQuestions = Array(SurveyParticipant.getDays()).fill().map(() => [])
         this.#findDailyPercent()
         this.#generateDates()
         this.#generateDays()
@@ -222,6 +223,9 @@ export default class SurveyParticipant {
         // find start and end of each day
         let dayStartEnd = []
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(!this.#cyclePassed(i)) {
+                continue;
+            }
             let startCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
             let endCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_complete`
             let startIndex = this.data.columns.indexOf(startCol)
@@ -230,6 +234,9 @@ export default class SurveyParticipant {
         }
         // loop through each day and fill in arrays based on day
         for(let i = 1; i <= SurveyParticipant.getDays(); ++i) {
+            if(!this.#cyclePassed(i - 1)) {
+                continue;
+            }
             let startIndex = dayStartEnd[i - 1][0]
             let endIndex = dayStartEnd[i - 1][1]
             for(let j = startIndex + 1; j < endIndex; ++j) {
@@ -241,16 +248,31 @@ export default class SurveyParticipant {
   
         // calculate daily percent
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(!this.#cyclePassed(i)) {
+                continue;
+            }
             let answersToday = answerArray[i]
             let columnsToday = columnArray[i]
             let rawArray = answersToday.map((_, index) => {
                 return this.isCompleted(answersToday[index], columnsToday[index])
             })
-            let possTotal = rawArray.filter(num => num > 0).length
-            let numMissed = rawArray.filter(num => num === 2).length
-            //TODO save missed questions for display
-
+            let numMissed = 0
+            let possTotal = 0
+            let incompletedQuestions = []
+            for (let j = 0; j < rawArray.length; ++j) {
+                if (rawArray[j] === 2) {
+                    ++numMissed
+                    incompletedQuestions.push(columnsToday[j].split("___")[0])
+                }
+                if (rawArray[j] > 0) {
+                    ++possTotal
+                }
+            }
             this.percentComplete[i] = (possTotal - numMissed) / possTotal
+            for (let j = 0; j < incompletedQuestions.length; ++j) {
+                this.missingQuestions[i].push(this.dataDict.getQuestion(incompletedQuestions[j]))
+            }
+            console.log(this.missingQuestions[i])
         }
     }
 
