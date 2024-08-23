@@ -142,13 +142,14 @@ function ParticipantHighlights(props) {
     let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
-    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
     let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
     return (
         <div>
             <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
-            {bdsHighlight}
+            <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
+            <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
             {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game}/>}
             <div className="print-together">
                 <h3>{props.participant} - {lang.getString("simonTitle")}</h3>

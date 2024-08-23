@@ -280,10 +280,8 @@ export default class BDS extends Game {
         let countNotZero = this.maxCorrectDigitSpanDays.reduce((count, span) => span === 0 ? count : count + 1, 0);
         let sumOfMaxCorrects = this.maxCorrectDigitSpanDays.reduce((sum, maxCorrectSpan) => sum + maxCorrectSpan, 0);
         let averageMaxCorrect = sumOfMaxCorrects / countNotZero;
-        let longestMaxCorrectHighlight = "Your longest correct digit span was " + longestMaxCorrect + " digits.";
         let averageMaxCorrectRounded = Math.round(averageMaxCorrect * 100) / 100;
-        let averageMaxCorrectHighlight = "Your average correct digit span was " + averageMaxCorrectRounded.toFixed(2) + " digits.";
-        return [longestMaxCorrectHighlight, averageMaxCorrectHighlight];
+        return [longestMaxCorrect, averageMaxCorrectRounded.toFixed(2)];
     }
 
     getMeanSessionsAccuracys() {
