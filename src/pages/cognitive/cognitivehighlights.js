@@ -143,8 +143,8 @@ function ParticipantHighlights(props) {
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
     let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
-    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
-    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
+    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
     return (
         <div>
             <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
@@ -153,13 +153,21 @@ function ParticipantHighlights(props) {
             {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game}/>}
             <div className="print-together">
                 <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
-                {simonHighlight}
+                <p>{lang.getString("simonAccuracyBest", {x: simonHighlight[0]})}</p>
+                <p>{lang.getString("simonAccuracyAverage", {x: simonHighlight[1]})}</p>
+                <p>{lang.getString("simonReactionTimeFirst", {x: simonHighlight[2]})}</p>
+                <p>{lang.getString("simonReactionTimeAverage", {x: simonHighlight[3]})}</p>
+                {lastReport && <p>{lang.getString("simonReactionTimeImprovement", {x: simonHighlight[4], y: simonHighlight[5]})}</p>}
                 {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
                 {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
             </div>
             <div className="print-together">
                 <h3>{props.participant} - {lang.getString("csTitle")}</h3>
-                {csHighlight}
+                <p>{lang.getString("csAccuracyBest", {x: csHighlight[0]})}</p>
+                <p>{lang.getString("csAccuracyAverage", {x: csHighlight[1]})}</p>
+                <p>{lang.getString("csReactionTimeFirst", {x: csHighlight[2]})}</p>
+                <p>{lang.getString("csReactionTimeAverage", {x: csHighlight[3]})}</p>
+                {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
                 {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
                 {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
             </div>

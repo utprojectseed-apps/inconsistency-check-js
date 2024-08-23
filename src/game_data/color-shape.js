@@ -186,16 +186,11 @@ export default class ColorShape extends Game {
         let firstDayReactionTime = this.meanReactionTime.find(rt => rt !== 0) || 0;
         let improvement = (firstDayReactionTime - minReactionTime).toFixed(2);
         let improvementPercentage = (improvement / firstDayReactionTime * 100).toFixed(2);
-        let maxAccuracyMessage = `Your maximum accuracy: ${maxAccuracy}%`;
-        let averageAccuracyMessage = `Your average accuracy: ${parseFloat(averageAccuracy).toFixed(2)}%`;
-        let firstDayReactionTimeMessage = `Your first day average reaction time: ${firstDayReactionTime}ms`;
-        let minReactionTimeMessage = `Your fastest day average reaction time: ${minReactionTime}ms`;
-        let improvementTimeMessage = `Your best improvement from the first day: ${improvement}ms (${improvementPercentage}% improvement)`;
 
         if(selectedReport === 0) {
-            return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage];
+            return [maxAccuracy, parseFloat(averageAccuracy).toFixed(2), firstDayReactionTime, minReactionTime];
         } else {
-            return [maxAccuracyMessage, averageAccuracyMessage, firstDayReactionTimeMessage, minReactionTimeMessage, improvementTimeMessage];
+            return [maxAccuracy, parseFloat(averageAccuracy).toFixed(2), firstDayReactionTime, minReactionTime, improvement, improvementPercentage];
         }
     }
 
