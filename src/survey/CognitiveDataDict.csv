@@ -12,9 +12,12 @@ ai1temai,participant_info,,text,"Email:
 <font color=green>Correo Electronico:</font>
 ",,,email,,,y,,,,,,,
 startdt,participant_info,,text,"start date of daily surveys",,,date_ymd,,,,,,,,,,
-celmake,participant_info,,radio,"type of cell phone","1, iPhone<br> | 2, Android<br> | 3, Samsung<br> | 4, Google Pixel<br> | 5, Other<br><span style = ""color:green"">Otro</span>",,,,,,,,,,,,
-qcelmake,participant_info,,text,"if other, please specify",,,,,,,,,,,,,
-celmodel,participant_info,,text,"type of phone model",,,,,,,,,,,,,
+celmake,participant_info,,text,"type of cell phone
+<span style = ""color:green"">marca de teléfono celular</span>
+(ex. iPhone, Android, Samsung, Google Pixel, etc.)",,,,,,,,,,,,,
+celmodel,participant_info,,text,"type of phone model
+<span style = ""color:green"">el nombre de modelo de teléfono celular</span>
+(ex. 15 max pro)",,,,,,,,,,,,,
 t1date,day_1_monday_daily_survey,,text,"<font size=""5.5"">Today's date</font>
 <font size=""5.5""><span style=""color:green"">Fecha de hoy</span></font>",,,date_ymd,,,,,,,,,,
 t1strti,day_1_monday_daily_survey,,text,"<font size=""5.5"">Start time:</font>
@@ -771,7 +774,11 @@ t1qot1f,day_1_monday_daily_survey,,text,"<font size=""5.5"">Frequency for Over-t
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 1 tablet/day)</font></font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 1 tableta/día)</font></span>",,,,,,,"[t1qot1]<>""""",,RH,,,,
 t1qot1d,day_1_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font></font>",,,,,,,"[t1qot1]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t1qot1]<>""""",,RH,,,,
 t1qot2,day_1_monday_daily_survey,,text,"<font size=""5.5"">2. Over-the-Counter Medication or Supplement Name #2
 <font color=""green"">Medicamento sin Receta o Nombre del Suplemento #2</font></font>
 
@@ -787,7 +794,11 @@ t1qot2f,day_1_monday_daily_survey,,text,"<font size=""5.5"">Frequency for Over-t
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 1 tablet/day)</font></font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 1 tableta/día)</font></span>",,,,,,,"[t1qot2]<>""""",,RH,,,,
 t1qot2d,day_1_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font></font>",,,,,,,"[t1qot2]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t1qot2]<>""""",,RH,,,,
 t1qot3,day_1_monday_daily_survey,,text,"<font size=""5.5"">3. Over-the-Counter Medication or Supplement Name #3
 <font color=""green"">Medicamento sin Receta o Nombre del Suplemento #3</font></font>
 
@@ -803,7 +814,11 @@ t1qot3f,day_1_monday_daily_survey,,text,"<font size=""5.5"">Frequency for Over-t
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 1 tablet/day)</font></font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 1 tableta/día)</font></span>",,,,,,,"[t1qot3]<>""""",,RH,,,,
 t1qot3d,day_1_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font></font>",,,,,,,"[t1qot3]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t1qot3]<>""""",,RH,,,,
 t1qot4,day_1_monday_daily_survey,,text,"<font size=""5.5"">4. Over-the-Counter Medication or Supplement Name #4
 <font color=""green"">Medicamento sin Receta o Nombre del Suplemento #4</font></font>
 
@@ -819,7 +834,11 @@ t1qot4f,day_1_monday_daily_survey,,text,"<font size=""5.5"">Frequency for Over-t
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 1 tablet/day)</font></font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 1 tableta/día)</font></span>",,,,,,,"[t1qot4]<>""""",,RH,,,,
 t1qot4d,day_1_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font></font>",,,,,,,"[t1qot4]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t1qot4]<>""""",,RH,,,,
 t1qot5,day_1_monday_daily_survey,,text,"<font size=""5.5"">5. Over-the-Counter Medication or Supplement Name #5
 <font color=""green"">Medicamento sin Receta o Nombre del Suplemento #5</font></font>
 
@@ -835,7 +854,11 @@ t1qot5f,day_1_monday_daily_survey,,text,"<font size=""5.5"">Frequency for Over-t
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 1 tablet/day)</font></font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 1 tableta/día)</font></span>",,,,,,,"[t1qot5]<>""""",,RH,,,,
 t1qot5d,day_1_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font></font>",,,,,,,"[t1qot5]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t1qot5]<>""""",,RH,,,,
 t1qot6,day_1_monday_daily_survey,,notes,"<font size=""4.5"">6. (if applicable) Please list all <u>additional</u> Over-the-Counter Medications/Supplements and their related frequencies and doses below.</span></font>
 
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
@@ -847,28 +870,24 @@ t1qot6,day_1_monday_daily_survey,,notes,"<font size=""4.5"">6. (if applicable) P
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 
 <span style=""font-weight:normal;""><font color=""red"">Si <b>NO</b> necesitas anotar un medicamento sin receta o suplemento aquí, puedes dejar el espacio vacío y continuar con la encuesta.",,,,,,,"[t1qot5]<>""""",,RH,,,,
-t1cmk,day_1_monday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
-@CALCTEXT(if(([celmake] = 'iphone' or 'android' or 'samsung' or 'google pixel'), [celmake], [qcelmake]))"
-t1cel1,day_1_monday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[celmake] [celmodel]</span> to complete this survey today?
+t1cel,day_1_monday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[celmake] [celmodel]</span> to complete this survey today?
 
-<font color=""green"">¿NEED TRANSLATION <span style = ""color:orange"">[celmake] [celmodel]</span>?</font>
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[celmake] [celmodel]</span> para completar la encuesta el día de hoy?</font>
 
-<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to  to make changes.</font>
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
 
-<font color=""green"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+<font color=""green"">Si el modelo de tu teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
-t1make,day_1_monday_daily_survey,,radio,"<font size=""5.5"">What type of cell phone do you have?
-<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>","1, <font size=""4.5"">1 iPhone<br> | 2, <font size=""4.5"">2 Android<br> | 3, <font size=""4.5"">3 Samsung<br> | 4, <font size=""4.5"">4 Google Pixel<br> | 5, <font size=""4.5"">5 Other<br><span style = ""color:green"">Otro</span>",,,,,,[t1cel1]='2',,,,,,
-t1qmake,day_1_monday_daily_survey,,text,"<font size=""5.5"">Please specify,
-<span style=""color:green"">Por favor, especifica.</span></font>
+t1make,day_1_monday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
 
-<span style=""font-weight:normal;""><font size=""4.5"">(What type of cell phone do you have?)
-<span style=""color:green"">(¿Qué marca es tú teléfono celular?)</span></font>",,,,,,,[t1make]='2',,,,,,
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t1cel]='2',,,,,,
 t1model,day_1_monday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
 <font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
-<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t1cel1]='2',,,,,,
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,[t1cel]='2',,,,,,
 t1endti,day_1_monday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t1survt,day_1_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -1837,7 +1856,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t2qms1]<>""""",,,,,,
 t2qot1d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t2qmd7]= '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t2qmd7]= '2'",,RH,,,,
 t2qms2,day_2_tuesday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t1qot2]</span>?</font>
 
@@ -1884,7 +1907,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t2qms2]<>""""",,,,,,
 t2qot2d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t2qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t2qmd9] = '2'",,RH,,,,
 t2qms3,day_2_tuesday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t1qot3]</span>?</font>
 
@@ -1930,8 +1957,12 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 <font color=""green""><font size=""4.5"">Si la dosis del Medicamento sin Receta o Suplemento #3 no aparece o <b>cambiastes la dosis del Medicamento sin Receta o Suplemento #3 hoy</b>, selecciona ""2 No"" para hacer cambios.</font>
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t2qms3]<>""""",,,,,,
-t2qot3d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t2qmd10]= '2'",,,,,,
+t2qot3d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t2qmd10]= '2'",,,,,,
 t2qms4,day_2_tuesday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t1qot4]</span>?</font>
 
@@ -1978,7 +2009,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t2qms4]<>""""",,,,,,
 t2qot4d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t2qmd8]= '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t2qmd8]= '2'",,RH,,,,
 t2qms5,day_2_tuesday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t1qot5]</span>?</font>
 
@@ -2025,7 +2060,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t2qms5]<>""""",,,,,,
 t2qot5d,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t2qmd11]= '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t2qmd11]= '2'",,RH,,,,
 t2qms6,day_2_tuesday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t1qot6]</span>?</font>
 
@@ -2045,21 +2084,28 @@ t2qot6,day_2_tuesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t2qms6] = '2'",,RH,,,,
-t2phon1,day_2_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
-@CALCTEXT(if(([t1cel1] = 1), [phontyp], [t1qcel1]))"
-t2cel1,day_2_tuesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t2phon1]</span> to complete this survey today?
+t2cmk,day_2_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t1cel] = '1'), [celmake], [t1make]))"
+t2cmd,day_2_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t1cel] = 1), [celmodel], [t1model]))"
+t2cel,day_2_tuesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t2cmk] [t2cmd]</span> to complete this survey today?
 
-<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t2phon1]</span>?</font>
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t2cmk] [t2cmd]</span> para completar la encuesta el día de hoy?</font>
 
 <div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
 
-<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+<font color=""green""><font size=""4.5"">Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
-t2qcel1,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Cell Phone Model
-<font color=""green"">Modelo del Teléfono Celular</font>
+t2make,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
 
-<span style=""font-weight:normal;""><font size=""4.5"">(Example: iPhone 15 Max Pro)</font>
-<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone 15 Max Pro)</font></span>",,,,,,,[t2cel1]='2',,,,,,
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t2cel]='2',,,,,,
+t2model,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,[t2cel]='2',,,,,,
 t2endti,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t2survt,day_2_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -3082,7 +3128,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qms1]<>""""",,,,,,
 t3qot1d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t3qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t3qmd7] = '2'",,RH,,,,
 t3mnq2,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
 @CALCTEXT(if(([t2qms2] = 1), [t1qot2], [t2qot2]))"
 t3qms2,day_3_wednesday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
@@ -3135,7 +3185,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qms2]<>""""",,,,,,
 t3qot2d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t3qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t3qmd9] = '2'",,RH,,,,
 t3mnq3,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
 @CALCTEXT(if(([t2qms3] = 1), [t1qot3], [t2qot3]))"
 t3qms3,day_3_wednesday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
@@ -3189,7 +3243,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qms3]<>""""",,,,,,
 t3qot3d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t3qmd10] = '2'",,,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t3qmd10] = '2'",,,,,,
 t3mnq4,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
 @CALCTEXT(if(([t2qms4] = 1), [t1qot4], [t2qot4]))"
 t3qms4,day_3_wednesday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
@@ -3242,7 +3300,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qms4]<>""""",,,,,,
 t3qot4d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t3qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t3qmd8] = '2'",,RH,,,,
 t3mnq5,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
 @CALCTEXT(if(([t2qms5] = 1), [t1qot5], [t2qot5]))"
 t3qms5,day_3_wednesday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
@@ -3295,7 +3357,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qms5]<>""""",,,,,,
 t3qot5d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t3qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t3qmd11] = '2'",,RH,,,,
 t3mnq6,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
 @CALCTEXT(if(([t2qms6] = 1), [t1qot6], [t2qot6]))"
 t3qms6,day_3_wednesday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
@@ -3317,8 +3383,28 @@ t3qot6,day_3_wednesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Ove
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t3qms6] = '2'",,RH,,,,
-t3phon1,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
-@CALCTEXT(if(([t2cel1] = 1), [t1qcel1] or [phontyp], [t2qcel1]))"
+t3cmk,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t2cel] = '1'), [t1make] or [celmake], [t2make]))"
+t3cmd,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t2cel] = 1), [t1model] or [celmodel], [t2model]))"
+t3cel,day_3_wednesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t3cmk] [t3cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t3cmk] [t3cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t3make,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t3cel]='2',,,,,,
+t3model,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,[t3cel]='2',,,,,,
 t3endti,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t3survt,day_3_wednesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -4361,7 +4447,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qms1]<>""""",,,,,,
 t4qot1d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t4qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t4qmd7] = '2'",,RH,,,,
 t4qms2,day_4_thursday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t4mnq2]</span>?</font>
 
@@ -4410,7 +4500,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qms2]<>""""",,,,,,
 t4qot2d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t4qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t4qmd9] = '2'",,RH,,,,
 t4qms3,day_4_thursday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t4mnq3]</span>?</font>
 
@@ -4459,7 +4553,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qms3]<>""""",,,,,,
 t4qot3d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t4qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t4qmd10] = '2'",,RH,,,,
 t4qms4,day_4_thursday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t4mnq4]</span>?</font>
 
@@ -4508,7 +4606,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qms4]<>""""",,,,,,
 t4qot4d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t4qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t4qmd8] = '2'",,RH,,,,
 t4qms5,day_4_thursday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t4mnq5]</span>?</font>
 
@@ -4557,7 +4659,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qms5]<>""""",,,,,,
 t4qot5d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t4qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t4qmd11] = '2'",,RH,,,,
 t4qms6,day_4_thursday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t4mnq6]</span>?</font>
 
@@ -4577,6 +4683,27 @@ t4qot6,day_4_thursday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t4qms6] = '2'",,RH,,,,
+t4cmk,day_4_thursday_daily_survey,,text,,,,,,,,"[t4qms6] = '2'",,,,,," @HIDDEN
+@CALCTEXT(if(([t3cel] = '1'), [t2make] or [t1make] or [celmake], [t3make]))"
+t4cmd,day_4_thursday_daily_survey,,text,,,,,,,,"[t4qms6] = '2'",,,,,," @HIDDEN
+@CALCTEXT(if(([t3cel] = 1), [t2model] or [t1model] or [celmodel], [t3model]))"
+t4cel,day_4_thursday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t4cmk] [t4cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t4cmk] [t4cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t4make,day_4_thursday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t4model,day_4_thursday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t4endti,day_4_thursday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t4survt,day_4_thursday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -5621,7 +5748,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qms1]<>""""",,,,,,
 t5qot1d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t5qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t5qmd7] = '2'",,RH,,,,
 t5qms2,day_5_friday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t5mnq2]</span>?</font>
 
@@ -5670,7 +5801,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qms2]<>""""",,,,,,
 t5qot2d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t5qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t5qmd9] = '2'",,RH,,,,
 t5qms3,day_5_friday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t5mnq3]</span>?</font>
 
@@ -5719,7 +5854,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qms3]<>""""",,,,,,
 t5qot3d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t5qmd10]= '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t5qmd10]= '2'",,RH,,,,
 t5qms4,day_5_friday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t5mnq4]</span>?</font>
 
@@ -5768,7 +5907,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qms4]<>""""",,,,,,
 t5qot4d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t5qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t5qmd8] = '2'",,RH,,,,
 t5qms5,day_5_friday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t5mnq5]</span>?</font>
 
@@ -5817,7 +5960,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qms5]<>""""",,,,,,
 t5qot5d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t5qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t5qmd11] = '2'",,RH,,,,
 t5qms6,day_5_friday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t5mnq6]</span>?</font>
 
@@ -5837,6 +5984,28 @@ t5qot6,day_5_friday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t5qms6] = '2'",,RH,,,,
+t5cmk,day_5_friday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t4cel] = '1'), [t3make] or [t2make] or [t1make] or [celmake], [t4make]))"
+t5cmd,day_5_friday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t4cel] = 1), [t3model] or [t2model] or [t1model] or [celmodel], [t4model]))"
+t5cel,day_5_friday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t5cmk] [t5cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t5cmk] [t5cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t5make,day_5_friday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t5model,day_5_friday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t5endti,day_5_friday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t5survt,day_5_friday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -6878,7 +7047,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t6qms1]<>""""",,,,,,
 t6qot1d,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t6qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t6qmd7] = '2'",,RH,,,,
 t6qms2,day_6_saturday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t6mnq2]</span>?</font>
 
@@ -6927,7 +7100,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t6qms2]<>""""",,,,,,
 t6qot2d,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t6qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t6qmd9] = '2'",,RH,,,,
 t6qms3,day_6_saturday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t6mnq3]</span>?</font>
 
@@ -6976,7 +7153,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t6qms3]<>""""",,,,,,
 t6qot3d,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t6qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t6qmd10] = '2'",,RH,,,,
 t6qms4,day_6_saturday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t6mnq4]</span>?</font>
 
@@ -7025,7 +7206,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t6qms4]<>""""",,,,,,
 t6qot4d,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t6qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t6qmd8] = '2'",,RH,,,,
 t6qms5,day_6_saturday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t6mnq5]</span>?</font>
 
@@ -7074,7 +7259,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t6qms5]<>""""",,,,,,
 t6qot5d,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t6qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t6qmd11] = '2'",,RH,,,,
 t6qms6,day_6_saturday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t6mnq6]</span>?</font>
 
@@ -7094,6 +7283,27 @@ t6qot6,day_6_saturday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t6qms6] = '2'",,RH,,,,
+t6cmk,day_6_saturday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t5cel] = '1'), [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t5make]))"
+t6cmd,day_6_saturday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t5cel] = 1), [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t5model]))"
+t6cel,day_6_saturday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t6cmk] [t6cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t6cmk] [t6cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t6make,day_6_saturday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t6model,day_6_saturday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t6endti,day_6_saturday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t6survt,day_6_saturday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -8134,7 +8344,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t7qms1]<>""""",,,,,,
 t7qot1d,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t7qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t7qmd7] = '2'",,RH,,,,
 t7qms2,day_7_sunday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t7mnq2]</span>?</font>
 
@@ -8183,7 +8397,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t7qms2]<>""""",,,,,,
 t7qot2d,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t7qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t7qmd9] = '2'",,RH,,,,
 t7qms3,day_7_sunday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t7mnq3]</span>?</font>
 
@@ -8232,7 +8450,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t7qms3]<>""""",,,,,,
 t7qot3d,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t7qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t7qmd10] = '2'",,RH,,,,
 t7qms4,day_7_sunday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t7mnq4]</span>?</font>
 
@@ -8281,7 +8503,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t7qms4]<>""""",,,,,,
 t7qot4d,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t7qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t7qmd8] = '2'",,RH,,,,
 t7qms5,day_7_sunday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t7mnq5]</span>?</font>
 
@@ -8330,7 +8556,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t7qms5]<>""""",,,,,,
 t7qot5d,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t7qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t7qmd11] = '2'",,RH,,,,
 t7qms6,day_7_sunday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t7mnq6]</span>?</font>
 
@@ -8350,6 +8580,27 @@ t7qot6,day_7_sunday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><span style=""font-weight:normal;""><font size=""4.5"">(Example: Multivitamin)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Multivitamina)</font></span>
 ",,,,,,,"[t7qms6] = '2'",,RH,,,,
+t7cmk,day_7_sunday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t6cel] = '1'), [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t6make]))"
+t7cmd,day_7_sunday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t6cel] = 1), [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t6model]))"
+t7cel,day_7_sunday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t7cmk] [t7cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t7cmk] [t7cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t7make,day_7_sunday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t7model,day_7_sunday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t7endti,day_7_sunday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t7survt,day_7_sunday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -9395,7 +9646,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t8qms1]<>""""",,,,,,
 t8qot1d,day_8_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font></font>",,,,,,,"[t8qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t8qmd7] = '2'",,RH,,,,
 t8qms2,day_8_monday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t8mnq2]</span>?</font>
 
@@ -9444,7 +9699,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t8qms2]<>""""",,,,,,
 t8qot2d,day_8_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font></font>",,,,,,,"[t8qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t8qmd9] = '2'",,RH,,,,
 t8qms3,day_8_monday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t8mnq3]</span>?</font>
 
@@ -9493,7 +9752,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t8qms3]<>""""",,,,,,
 t8qot3d,day_8_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font></font>",,,,,,,"[t8qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t8qmd10] = '2'",,RH,,,,
 t8qms4,day_8_monday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t8mnq4]</span>?</font>
 
@@ -9542,7 +9805,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t8qms4]<>""""",,,,,,
 t8qot4d,day_8_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font></font>",,,,,,,"[t8qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t8qmd8] = '2'",,RH,,,,
 t8qms5,day_8_monday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t8mnq5]</span>?</font>
 
@@ -9591,7 +9858,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t8qms5]<>""""",,,,,,
 t8qot5d,day_8_monday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font></font>",,,,,,,"[t8qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t8qmd11] = '2'",,RH,,,,
 t8qms6,day_8_monday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t8mnq6]</span>?</font>
 
@@ -9611,6 +9882,27 @@ t8qot6,day_8_monday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t8qms6] = '2'",,RH,,,,
+t8cmk,day_8_monday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t7cel] = '1'), [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t7make]))"
+t8cmd,day_8_monday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t7cel] = 1), [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t7model]))"
+t8cel,day_8_monday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t8cmk] [t8cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t8cmk] [t8cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t8make,day_8_monday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t8model,day_8_monday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t8endti,day_8_monday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t8survt,day_8_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -10653,7 +10945,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t9qms1]<>""""",,,,,,
 t9qot1d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t9qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t9qmd7] = '2'",,RH,,,,
 t9qms2,day_9_tuesday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t9mnq2]</span>?</font>
 
@@ -10702,7 +10998,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t9qms2]<>""""",,,,,,
 t9qot2d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t9qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t9qmd9] = '2'",,RH,,,,
 t9qms3,day_9_tuesday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t9mnq3]</span>?</font>
 
@@ -10751,7 +11051,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t9qms3]<>""""",,,,,,
 t9qot3d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t9qmd10] = '2'",,,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t9qmd10] = '2'",,,,,,
 t9qms4,day_9_tuesday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t9mnq4]</span>?</font>
 
@@ -10800,7 +11104,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t9qms4]<>""""",,,,,,
 t9qot4d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t9qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t9qmd8] = '2'",,RH,,,,
 t9qms5,day_9_tuesday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t9mnq5]</span>?</font>
 
@@ -10849,7 +11157,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t9qms5]<>""""",,,,,,
 t9qot5d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t9qot5]<>""""",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t9qot5]<>""""",,RH,,,,
 t9qms6,day_9_tuesday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t9mnq6]</span>?</font>
 
@@ -10869,6 +11181,27 @@ t9qot6,day_9_tuesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t9qms6] = '2'",,RH,,,,
+t9cmk,day_9_tuesday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t8cel] = '1'), [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t8make]))"
+t9cmd,day_9_tuesday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t8cel] = 1), [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t8model]))"
+t9cel,day_9_tuesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t9cmk] [t9cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t9cmk] [t9cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t9make,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t9model,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t9endti,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t9survt,day_9_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -11911,7 +12244,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t10qms1]<>""""",,,,,,
 t10qot1d,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t10qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t10qmd7] = '2'",,RH,,,,
 t10qms2,day_10_wednesday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t10mnq2]</span>?</font>
 
@@ -11960,7 +12297,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t10qms2]<>""""",,,,,,
 t10qot2d,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t10qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t10qmd9] = '2'",,RH,,,,
 t10qms3,day_10_wednesday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t10mnq3]</span>?</font>
 
@@ -12009,7 +12350,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t10qms3]<>""""",,,,,,
 t10qot3d,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t10qmd10] = '2'",,,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t10qmd10] = '2'",,,,,,
 t10qms4,day_10_wednesday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t10mnq4]</span>?</font>
 
@@ -12058,7 +12403,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t10qms4]<>""""",,,,,,
 t10qot4d,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t10qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t10qmd8] = '2'",,RH,,,,
 t10qms5,day_10_wednesday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t10mnq5]</span>?</font>
 
@@ -12107,7 +12456,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t10qms5]<>""""",,,,,,
 t10qot5d,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t10qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t10qmd11] = '2'",,RH,,,,
 t10qms6,day_10_wednesday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t10mnq6]</span>?</font>
 
@@ -12126,6 +12479,27 @@ t10qot6,day_10_wednesday_daily_survey,,notes,"<font size=""5.5"">6. Additional O
 
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span></div>",,,,,,,"[t10qms6] = '2'",,RH,,,,
+t10cmk,day_10_wednesday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t9cel] = '1'), [t8make] or [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t9make]))"
+t10cmd,day_10_wednesday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t9cel] = 1), [t8model] or [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t9model]))"
+t10cel,day_10_wednesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t10cmk] [t10cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t10cmk] [t10cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t10make,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t10model,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t10endti,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t10survt,day_10_wednesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -13168,7 +13542,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t11qms1]<>""""",,,,,,
 t11qot1d,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t11qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t11qmd7] = '2'",,RH,,,,
 t11qms2,day_11_thursday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t11mnq2]</span>?</font>
 
@@ -13217,7 +13595,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t11qms2]<>""""",,,,,,
 t11qot2d,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t11qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t11qmd9] = '2'",,RH,,,,
 t11qms3,day_11_thursday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t11mnq3]</span>?</font>
 
@@ -13266,7 +13648,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t11qms3]<>""""",,,,,,
 t11qot3d,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t11qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t11qmd10] = '2'",,RH,,,,
 t11qms4,day_11_thursday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t11mnq4]</span>?</font>
 
@@ -13315,7 +13701,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t11qms4]<>""""",,,,,,
 t11qot4d,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t11qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t11qmd8] = '2'",,RH,,,,
 t11qms5,day_11_thursday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t11mnq5]</span>?</font>
 
@@ -13364,7 +13754,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t11qms5]<>""""",,,,,,
 t11qot5d,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t11qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t11qmd11] = '2'",,RH,,,,
 t11qms6,day_11_thursday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t11mnq6]</span>?</font>
 
@@ -13384,6 +13778,27 @@ t11qot6,day_11_thursday_daily_survey,,notes,"<font size=""5.5"">6. Additional Ov
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t11qms6] = '2'",,RH,,,,
+t11cmk,day_11_thursday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t10cel] = '1'), [t9make] or [t8make] or [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t10make]))"
+t11cmd,day_11_thursday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t10cel] = 1), [t9model] or [t8model] or [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t10model]))"
+t11cel,day_11_thursday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t11cmk] [t11cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t11cmk] [t11cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t11make,day_11_thursday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t11model,day_11_thursday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t11endti,day_11_thursday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t11survt,day_11_thursday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -14426,7 +14841,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t12qms1]<>""""",,,,,,
 t12qot1d,day_12_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t12qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t12qmd7] = '2'",,RH,,,,
 t12qms2,day_12_friday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t12mnq2]</span>?</font>
 
@@ -14475,7 +14894,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t12qms2]<>""""",,,,,,
 t12qot2d,day_12_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t12qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t12qmd9] = '2'",,RH,,,,
 t12qms3,day_12_friday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t12mnq3]</span>?</font>
 
@@ -14524,7 +14947,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t12qms3]<>""""",,,,,,
 t12qot3d,day_12_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t12qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t12qmd10] = '2'",,RH,,,,
 t12qms4,day_12_friday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t12mnq4]</span>?</font>
 
@@ -14573,7 +15000,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t12qms4]<>""""",,,,,,
 t12qot4d,day_12_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t12qmd8] ='2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t12qmd8] ='2'",,RH,,,,
 t12qms5,day_12_friday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t12mnq5]</span>?</font>
 
@@ -14622,7 +15053,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t12qms5]<>""""",,,,,,
 t12qot5d,day_12_friday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t12qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t12qmd11] = '2'",,RH,,,,
 t12qms6,day_12_friday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t12mnq6]</span>?</font>
 
@@ -14642,6 +15077,27 @@ t12qot6,day_12_friday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t12qms6] = '2'",,RH,,,,
+t12cmk,day_12_friday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t11cel] = '1'), [t10make] or [t9make] or [t8make] or [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t11make]))"
+t12cmd,day_12_friday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t11cel] = 1), [t10model] or [t9model] or [t8model] or [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t11model]))"
+t12cel,day_12_friday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t12cmk] [t12cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t12cmk] [t12cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t12make,day_12_friday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t12model,day_12_friday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t12endti,day_12_friday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t12survt,day_12_friday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -15683,7 +16139,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #1 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t13qms1]<>""""",,,,,,
 t13qot1d,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t13qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t13qmd7] = '2'",,RH,,,,
 t13qms2,day_13_saturday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t13mnq2]</span>?</font>
 
@@ -15732,7 +16192,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t13qms2]<>""""",,,,,,
 t13qot2d,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t13qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t13qmd9] = '2'",,RH,,,,
 t13qms3,day_13_saturday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t13mnq3]</span>?</font>
 
@@ -15781,7 +16245,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t13qms3]<>""""",,,,,,
 t13qot3d,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t13qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t13qmd10] = '2'",,RH,,,,
 t13qms4,day_13_saturday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t13mnq4]</span>?</font>
 
@@ -15830,7 +16298,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t13qms4]<>""""",,,,,,
 t13qot4d,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t13qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t13qmd8] = '2'",,RH,,,,
 t13qms5,day_13_saturday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t13mnq5]</span>?</font>
 
@@ -15879,7 +16351,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t13qms5]<>""""",,,,,,
 t13qot5d,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t13qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t13qmd11] = '2'",,RH,,,,
 t13qms6,day_13_saturday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t13mnq6]</span>?</font>
 
@@ -15898,6 +16374,27 @@ t13qot6,day_13_saturday_daily_survey,,notes,"<font size=""5.5"">6. Additional Ov
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t13qms6] = '2'",,RH,,,,
+t13cmk,day_13_saturday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t12cel] = '1'), [t11make] or [t10make] or [t9make] or [t8make] or [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t12make]))"
+t13cmd,day_13_saturday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t12cel] = 1), [t11model] or [t10model] or [t9model] or [t8model] or [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t12model]))"
+t13cel,day_13_saturday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t13cmk] [t13cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t13cmk] [t13cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t13make,day_13_saturday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t13model,day_13_saturday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t13endti,day_13_saturday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t13survt,day_13_saturday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -16937,7 +17434,11 @@ Is the dose of your Over-the-Counter Medication or Supplement #1 <span style = "
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t14qms1]<>""""",,,,,,
 t14qot1d,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #1
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>",,,,,,,"[t14qmd7] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #1</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t14qmd7] = '2'",,RH,,,,
 t14qms2,day_14_sunday_daily_survey,,radio,"<font size=""4.5"">2. Over-the-Counter Medication or Supplement Name #2
 Is the name of your Over-the-Counter Medication or Supplement Name #2 <span style = ""color:orange"">[t14mnq2]</span>?</font>
 
@@ -16986,7 +17487,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #2 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t14qms2]<>""""",,,,,,
 t14qot2d,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #2
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>",,,,,,,"[t14qmd9] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #2</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t14qmd9] = '2'",,RH,,,,
 t14qms3,day_14_sunday_daily_survey,,radio,"<font size=""4.5"">3. Over-the-Counter Medication or Supplement Name #3
 Is the name of your Over-the-Counter Medication or Supplement Name #3 <span style = ""color:orange"">[t14mnq3]</span>?</font>
 
@@ -17035,7 +17540,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #3 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t14qms3]<>""""",,,,,,
 t14qot3d,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #3
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>",,,,,,,"[t14qmd10] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #3</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t14qmd10] = '2'",,RH,,,,
 t14qms4,day_14_sunday_daily_survey,,radio,"<font size=""4.5"">4. Over-the-Counter Medication or Supplement Name #4
 Is the name of your Over-the-Counter Medication or Supplement Name #4 <span style = ""color:orange"">[t14mnq4]</span>?</font>
 
@@ -17084,7 +17593,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #4 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t14qms4]<>""""",,,,,,
 t14qot4d,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #4
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>",,,,,,,"[t14qmd8] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #4</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t14qmd8] = '2'",,RH,,,,
 t14qms5,day_14_sunday_daily_survey,,radio,"<font size=""4.5"">5. Over-the-Counter Medication or Supplement Name #5
 Is the name of your Over-the-Counter Medication or Supplement Name #5 <span style = ""color:orange"">[t14mnq5]</span>?</font>
 
@@ -17133,7 +17646,11 @@ La dosis de tu Medicamento sin Receta o Suplemento #5 es <span style = ""color:o
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t14qms5]<>""""",,,,,,
 t14qot5d,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-Counter Medication or Supplement #5
-<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>",,,,,,,"[t14qmd11] = '2'",,RH,,,,
+<font color=""green"">Dosis del Medicamento sin Receta o Suplemento #5</font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
+",,,,,,,"[t14qmd11] = '2'",,RH,,,,
 t14qms6,day_14_sunday_daily_survey,,radio,"<font size=""4.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t14mnq6]</span>?</font>
 
@@ -17152,6 +17669,27 @@ t14qot6,day_14_sunday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t14qms6] = '2'",,RH,,,,
+t14cmk,day_14_sunday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t13cel] = '1'), [t12make] or [t11make] or [t10make] or [t9make] or [t8make] or [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t13make]))"
+t14cmd,day_14_sunday_daily_survey,,text,,,,,,,,,,RH,,,," @HIDDEN
+@CALCTEXT(if(([t13cel] = 1), [t12model] or [t11model] or [t10model] or [t9model] or [t8model] or [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t13model]))"
+t14cel,day_14_sunday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t14cmk] [t14cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t14cmk] [t41cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t14make,day_14_sunday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,,,,,,,
+t14model,day_14_sunday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,,,,,,,
 t14endti,day_14_sunday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t14survt,day_14_sunday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">

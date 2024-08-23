@@ -12,7 +12,12 @@ ai1temai,participant_info,,text,"Email:
 <font color=green>Correo Electronico:</font>
 ",,,email,,,y,,,,,,,
 startdt,participant_info,,text,"start date of daily surveys",,,date_ymd,,,,,,,,,,
-phontyp,participant_info,,text,"type of phone",,,,,,,,,,,,,
+celmake,participant_info,,text,"type of cell phone
+<span style = ""color:green"">marca de teléfono celular</span>
+(ex. iPhone, Android, Samsung, Google Pixel, etc.)",,,,,,,,,,,,,
+celmodel,participant_info,,text,"type of phone model
+<span style = ""color:green"">el nombre de modelo de teléfono celular</span>
+(ex. 15 max pro)",,,,,,,,,,,,,
 t1date,day_1_monday_daily_survey,,text,"<font size=""5.5"">Today's date</font>
 <font size=""5.5""><span style=""color:green"">Fecha de hoy</span></font>",,,date_ymd,,,,,,,,,,
 t1strti,day_1_monday_daily_survey,,text,"<font size=""5.5"">Start time:</font>
@@ -850,6 +855,23 @@ t1qot6,day_1_monday_daily_survey,,notes,"<font size=""4.5"">6. (if applicable) P
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 
 <span style=""font-weight:normal;""><font color=""red"">Si <b>NO</b> necesitas anotar un medicamento sin receta o suplemento aquí, puedes dejar el espacio vacío y continuar con la encuesta.",,,,,,,"[t1qot5]<>""""",,RH,,,,
+t1cel,day_1_monday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[celmake] [celmodel]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION <span style = ""color:orange"">[celmake] [celmodel]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to  to make changes.</font>
+
+<font color=""green"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t1make,day_1_monday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t1cel]='2',,,,,,
+t1model,day_1_monday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t1cel]='2',,,,,,
 t1endti,day_1_monday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t1survt,day_1_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -2026,6 +2048,28 @@ t2qot6,day_2_tuesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t2qms6] = '2'",,RH,,,,
+t2cmk,day_2_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t1cel] = '1'), [celmake], [t1make]))"
+t2cmd,day_2_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t1cel] = 1), [celmodel], [t1model]))"
+t2cel,day_2_tuesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t2cmk] [t2cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t2cmk] [t2cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5""><font color=""black"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t2make,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t2cel]='2',,,,,,
+t2model,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t2cel]='2',,,,,,
 t2endti,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t2survt,day_2_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -3276,6 +3320,28 @@ t3qot6,day_3_wednesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Ove
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t3qms6] = '2'",,RH,,,,
+t3cmk,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t2cel] = '1'), [t1make] or [celmake], [t2make]))"
+t3cmd,day_3_wednesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t2cel] = 1), [t1model] or [celmodel], [t2model]))"
+t3cel,day_3_wednesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t3cmk] [t3cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t3cmk] [t3cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t3make,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t3cel]='2',,,,,,
+t3model,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t3cel]='2',,,,,,
 t3endti,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t3survt,day_3_wednesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -4533,6 +4599,28 @@ t4qot6,day_4_thursday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t4qms6] = '2'",,RH,,,,
+t4cmk,day_4_thursday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t3cel] = '1'), [t2make] or [t1make] or [celmake], [t3make]))"
+t4cmd,day_4_thursday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t3cel] = 1), [t2model] or [t1model] or [celmodel], [t3model]))"
+t4cel,day_4_thursday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t4cmk] [t4cmd]</span> to complete this survey today?
+
+<font color=""green"">¿Estas usando <span style = ""color:orange"">[t4cmk] [t4cmd]</span> para completar la encuesta el día de hoy?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5""> Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t4make,day_4_thursday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t4cel]='2',,,,,,
+t4model,day_4_thursday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font></span>",,,,,,,[t4cel]='2',,,,,,
 t4endti,day_4_thursday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t4survt,day_4_thursday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -5796,6 +5884,28 @@ t5qot6,day_5_friday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t5qms6] = '2'",,RH,,,,
+t5cmk,day_5_friday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t4cel] = '1'), [t3make] or [t2make] or [t1make] or [celmake], [t4make]))"
+t5cmd,day_5_friday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t4cel] = 1), [t3model] or [t2model] or [t1model] or [celmodel], [t4model]))"
+t5cel,day_5_friday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t5cmk] [t5cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t5cmk] [t5cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t5make,day_5_friday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t5cel]='2',,,,,,
+t5model,day_5_friday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t5cel]='2',,,,,,
 t5endti,day_5_friday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t5survt,day_5_friday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -7055,6 +7165,28 @@ t6qot6,day_6_saturday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t6qms6] = '2'",,RH,,,,
+t6cmk,day_6_saturday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t5cel] = '1'), [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t5make]))"
+t6cmd,day_6_saturday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t5cel] = 1), [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t5model]))"
+t6cel,day_6_saturday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t6cmk] [t6cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t6cmk] [t6cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t6make,day_6_saturday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t6cel]='2',,,,,,
+t6model,day_6_saturday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t6cel]='2',,,,,,
 t6endti,day_6_saturday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t6survt,day_6_saturday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -8315,6 +8447,28 @@ t7qot6,day_7_sunday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t7qms6] = '2'",,RH,,,,
+t7cmk,day_7_sunday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t6cel] = '1'), [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t6make]))"
+t7cmd,day_7_sunday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t6cel] = 1), [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t6model]))"
+t7cel,day_7_sunday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t7cmk] [t7cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t7cmk] [t7cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t7make,day_7_sunday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t7cel]='2',,,,,,
+t7model,day_7_sunday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t7cel]='2',,,,,,
 t7endti,day_7_sunday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t7survt,day_7_sunday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -9576,6 +9730,28 @@ t8qot6,day_8_monday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-t
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t8qms6] = '2'",,RH,,,,
+t8cmk,day_8_monday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t7cel] = '1'), [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t7make]))"
+t8cmd,day_8_monday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t7cel] = 1), [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t7model]))"
+t8cel,day_8_monday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t8cmk] [t8cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t8cmk] [t8cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t8make,day_8_monday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t8cel]='2',,,,,,
+t8model,day_8_monday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t8cel]='2',,,,,,
 t8endti,day_8_monday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t8survt,day_8_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
@@ -10836,6 +11012,28 @@ t9qot6,day_9_tuesday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-
 <font size=""4.5""><font color=""black""><span style=""font-weight:normal;"">(Example: Iron, 1 pill/day,  9 mg)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Hierro, 1 pastilla/día, 9 mg)</font></span>
 </div>",,,,,,,"[t9qms6] = '2'",,RH,,,,
+t9cmk,day_9_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t8cel] = '1'), [t7make] or [t6make] or [t5make] or [t4make] or [t3make] or [t2make] or [t1make] or [celmake], [t8make]))"
+t9cmd,day_9_tuesday_daily_survey,,text,,,,,,,,,,,,,," @HIDDEN
+@CALCTEXT(if(([t8cel] = 1), [t7model] or [t6model] or [t5model] or [t4model] or [t3model] or [t2model] or [t1model] or [celmodel], [t8model]))"
+t9cel,day_9_tuesday_daily_survey,,radio,"<font size=""5.5"">13. Are you using <span style = ""color:orange"">[t9cmk] [t9cmd]</span> to complete this survey today?
+
+<font color=""green"">¿NEED TRANSLATION<span style = ""color:orange"">[t9cmk] [t9cmd]</span>?</font>
+
+<div style=""border: 1px solid black; font-weight: normal;""><font size=""4.5"">If your cell phone model is not showing up or you <b>changed the cell phone you used today</b>, please select ""2 No"" to make changes.</font>
+
+<font color=""green""><font size=""4.5"">NEED TRANSLATION - Si el modelo de tú teléfono celular no aparece o <b>cambiastes el teléfono celular que ustaste hoy</b>, selecciona ""2 No"" para hacer cambios.</font></div>
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5""> 2 No<br><font color=""green"">No</font>",,,,,,,,,,,,
+t9make,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">What type of cell phone do you have?
+<span style = ""color:green"">¿Qué marca es tú teléfono celular?</span></font>
+
+<font size=""4.5""><span style=""font-weight:normal;"">(Example: iPhone, Android, Samsung, Google Pixel)</font></font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: iPhone, Android, Samsung, Google Pixel)</font></span>",,,,,,,[t9cel]='2',,,,,,
+t9model,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">What is the model name of your cell phone? 
+<font color=""green"">¿Cuál es el nombre de modelo de tú teléfono celular?</font>
+
+<span style=""font-weight:normal;""><font size=""4.5"">(Example: 15 Max Pro, 1.5 Cupcake, S24 Ultra)</font>
+<span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: TRANSLATION NEEDED)</font></span>",,,,,,,[t9cel]='2',,,,,,
 t9endti,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 <font color=green>Hora de finalización:",,,time,,,,,y,RH,,,,
 t9survt,day_9_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
