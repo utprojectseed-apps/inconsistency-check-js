@@ -4,12 +4,15 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
+import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import GraphPoints from "../../components/graph/graphpoints";
+import Lang from "../../locales/lang";
 
+var lang = new Lang("eng", "fortuneHighlight")
 export default function FortuneHighlights() {
     const [data, setData] = React.useState(undefined)
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -18,6 +21,7 @@ export default function FortuneHighlights() {
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const [selectedReport, setSelectedReport] = React.useState("first-week")
+    const [selectedLang, setSelectedLang] = React.useState("eng")
     const handleUpload = d => {
         setData(d)
     }
@@ -26,6 +30,9 @@ export default function FortuneHighlights() {
     }
     const selectReport = report => {
         setSelectedReport(report)
+    }
+    const selectLang = d => {
+        setSelectedLang(d)
     }
     useEffect(() => {
         if(data !== undefined) {
@@ -41,6 +48,10 @@ export default function FortuneHighlights() {
             forceUpdate()
         }
     }, [data])
+    useEffect(() => {
+        lang.setLang(selectedLang)
+        forceUpdate()
+    }, [selectedLang])
 
     return (
         <div>
@@ -52,6 +63,7 @@ export default function FortuneHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
+                        <RadioHighlightLanguage parentCallback={selectLang} value={selectedLang}/>
                         <Button variant="contained" onClick={() => printPlease(selectedIds)} disableElevation>Print</Button>
                     </div>
                 </div>
@@ -102,10 +114,8 @@ function ParticipantListHighlights(props) {
 function GameExplanation() {
     return (
         <div>
-            <h1>Thank you for completing 14 days of the Fortune Game!</h1>
-            <p>Below are highlights from your 14 days playing the Fortune Game.</p>
-            <p>We have graphed your points for each day.</p>
-            <p>Remember that you started with 2500 points. You may use the red reference line located at the midpoint of the graphs to know if you earned more or less than what you started with.</p>
+            <h1>{lang.getString("thank")}</h1>
+            <div dangerouslySetInnerHTML={{__html: lang.getString("intro")}}/>
         </div>
     )
 }
@@ -114,22 +124,28 @@ function ParticipantHighlights(props) {
     let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
-    let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
     return (
         <div>
             <div className="print-together print-page-after">
-                <h3>{props.participant} - Fortune Deck Highlights</h3>
-                {fortuneHighlight}
+                <h3>{props.participant} - {lang.getString("title")}</h3>
+                <p>{lang.getString("bestPoints")} {fortuneHighlight[0]}</p>
+                <p>{lang.getString("averagePoints")} {fortuneHighlight[1]}</p>
+                <p>{lang.getString("accumulatedScore")} {fortuneHighlight[2]}</p>
+                <p>{lang.getString("bestBonus")} {fortuneHighlight[3]}</p>
+                <p>{lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
             </div>
-            {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game}/>}
-            {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune}/>}
+            {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={lang}/>}
+            {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={lang}/>}
         </div>
     )
 }
 
-const DAYSOFWEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function FortunePointsGraph(props) {
     const rawData = props.game.getEndPoints()
+    //need to use lang here again to make sure graph will update on refresh
+    const lang = props.lang
+    const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
     for (let i = 0; i < rawData.length; i++) {
         data.push({day: i + 1, y: rawData[i], weekday: i % 7})
@@ -144,7 +160,7 @@ function FortunePointsGraph(props) {
     const referenceValue = 2500
     return (
         <div>
-            <h3>Fortune Deck Points</h3>
+            <h3>{lang.getString("graphPointsTitle")}</h3>
             <ResponsiveContainer width="95%" height={600}>
                 <LineChart 
                     data={data}
@@ -158,7 +174,7 @@ function FortunePointsGraph(props) {
                     }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -169,7 +185,7 @@ function FortunePointsGraph(props) {
                         axisLine={false}
                         tickLine={false}
                         />
-                    <YAxis label={{ value: 'Points Earned', angle: -90, position: 'left', style: {textAnchor: 'middle'}, offset: 20}} 
+                    <YAxis label={{ value: lang.getString("graphPointsEarned"), angle: -90, position: 'left', style: {textAnchor: 'middle'}, offset: 20}} 
                         type="number" 
                         domain={[yMin, yMax]} 
                         ticks={yTicks}
@@ -177,7 +193,7 @@ function FortunePointsGraph(props) {
                     <ReferenceLine y={referenceValue} stroke="red" />
                     <Tooltip />
                     <Legend />
-                    <Line name="Points Earned" type="monotone" dataKey="y" stroke="#8884d8" activeDot={{ r: 8 }} 
+                    <Line name={lang.getString("graphPointsEarned")} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />

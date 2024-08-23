@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
-export default function GraphPoints( {participant} ) {
+export default function GraphPoints( {participant, lang} ) {
     // suppress error from defaultProps and Recharts
     const error = console.error;
     console.error = (...args) => {
@@ -24,7 +24,7 @@ export default function GraphPoints( {participant} ) {
         }
         data.push(day)
     }
-    const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()}/>)
+    const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()} lang={lang}/>)
     return (
         <div className="proportion-graph">
             {daysGraphs}
@@ -32,11 +32,11 @@ export default function GraphPoints( {participant} ) {
     )
 }
 
-const GraphSingleDay = ({data, day, id}) => {
+const GraphSingleDay = ({data, day, id, lang}) => {
     const xTicks = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     return (
         <div>
-            <h3 style={{marginLeft: 20}}>Day {day + 1} Score</h3>
+            <h3 style={{marginLeft: 20}}>{lang.getString("graphDayScore", {day: day + 1})}</h3>
             <ResponsiveContainer width={500} height={400}>
                 <LineChart           
                     width={400}
@@ -51,12 +51,12 @@ const GraphSingleDay = ({data, day, id}) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId={0} dataKey="x" hide={true}/>
-                    <XAxis xAxisId={1} label={{value: `Today's Points`}} tick={false}/>
+                    <XAxis xAxisId={1} label={{value: lang.getString("graphToday")}} tick={false}/>
                     <YAxis domain={[0, 5000]}/>    
                     <Tooltip />
                     <Legend />
                     <ReferenceLine y={2500} stroke="red"/>
-                    <Line type="monotone" dataKey="y" name="Points" stroke="#1b9e77" strokeWidth={2.5}
+                    <Line type="monotone" dataKey="y" name={lang.getString("graphPoints")} stroke="#1b9e77" strokeWidth={2.5}
                         dot={{ stroke:"#1b9e77", strokeWidth: 0, r: 0, strokeDasharray:''}}
                     />
                 </LineChart>

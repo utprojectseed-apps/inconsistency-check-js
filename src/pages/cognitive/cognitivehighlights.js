@@ -4,11 +4,14 @@ import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
+import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import DomToImage from "dom-to-image";
 import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
+import Lang from "../../locales/lang";
 
+var lang = new Lang("eng", "cognitiveHighlight")
 export default function CognitiveHighlights() {
     const [bdsData, setBdsData] = React.useState(undefined)
     const [simonData, setSimonData] = React.useState(undefined)
@@ -21,6 +24,7 @@ export default function CognitiveHighlights() {
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const [selectedReport, setSelectedReport] = React.useState("first-week")
+    const [selectedLang, setSelectedLang] = React.useState("eng")
     const handleUpload = (d, game) => {
         switch(game) {
             case "bds":
@@ -41,6 +45,9 @@ export default function CognitiveHighlights() {
     }
     const selectReport = report => {
         setSelectedReport(report)
+    }
+    const selectLang = d => {
+        setSelectedLang(d)
     }
     useEffect(() => {
         if(bdsData !== undefined) {
@@ -63,6 +70,10 @@ export default function CognitiveHighlights() {
             forceUpdate()
         }
     }, [bdsData, simonData, csData])
+    useEffect(() => {
+        lang.setLang(selectedLang)
+        forceUpdate()
+    }, [selectedLang])
 
     return (
         <div>
@@ -76,6 +87,7 @@ export default function CognitiveHighlights() {
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                     <div style={{marginLeft:'10px'}}>
                         <RadioHighlightReport parentCallback={selectReport} value={selectedReport}/>
+                        <RadioHighlightLanguage parentCallback={selectLang} value={selectedLang}/>
                         <Button variant="contained" onClick={() => printPlease(selectedIds)} disableElevation>Print</Button>
                     </div>
                 </div>
@@ -130,33 +142,43 @@ function ParticipantHighlights(props) {
     let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
-    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
-    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
-    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected).map((highlight, index) => <p key={index}>{highlight}</p>) : noData
+    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
+    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
+    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
     return (
         <div>
-            <h3>{props.participant} - Digit Span</h3>
-            {bdsHighlight}
-            {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game}/>}
+            <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
+            <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
+            <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
+            {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game} lang={lang}/>}
             <div className="print-together">
-                <h3>{props.participant} - Simon</h3>
-                {simonHighlight}
-                {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={"Simon"}/>}
-                {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={"Simon"}/>}
+                <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
+                <p>{lang.getString("simonAccuracyBest", {x: simonHighlight[0]})}</p>
+                <p>{lang.getString("simonAccuracyAverage", {x: simonHighlight[1]})}</p>
+                <p>{lang.getString("simonReactionTimeFirst", {x: simonHighlight[2]})}</p>
+                <p>{lang.getString("simonReactionTimeAverage", {x: simonHighlight[3]})}</p>
+                {lastReport && <p>{lang.getString("simonReactionTimeImprovement", {x: simonHighlight[4], y: simonHighlight[5]})}</p>}
+                {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={lang.getString("graphSimonAccuracyTitle")} lang={lang}/>}
+                {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={lang.getString("graphSimonReactionTitle")} lang={lang}/>}
             </div>
             <div className="print-together">
-                <h3>{props.participant} - Color Shape</h3>
-                {csHighlight}
-                {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={"Color Shape"}/>}
-                {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={"Color Shape"}/>}
+                <h3>{props.participant} - {lang.getString("csTitle")}</h3>
+                <p>{lang.getString("csAccuracyBest", {x: csHighlight[0]})}</p>
+                <p>{lang.getString("csAccuracyAverage", {x: csHighlight[1]})}</p>
+                <p>{lang.getString("csReactionTimeFirst", {x: csHighlight[2]})}</p>
+                <p>{lang.getString("csReactionTimeAverage", {x: csHighlight[3]})}</p>
+                {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
+                {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang}/>}
+                {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang}/>}
             </div>
         </div>
     )
 }
 
-const DAYSOFWEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function BdsAverageScoreGraph(props) {
     const rawData = props.game.getMaxDigitSpanDays()
+    const lang = props.lang
+    const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
         if(rawData[i] === 0) continue;
@@ -166,7 +188,7 @@ function BdsAverageScoreGraph(props) {
     const yTicks = Array.from({length: yMax + 1}, (_, i) => i);
     return (
         <div className='print-together'>
-            <h3>Digit Span Scores</h3>
+            <h3>{lang.getString("graphDigitTitle")}</h3>
             <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
@@ -181,7 +203,7 @@ function BdsAverageScoreGraph(props) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -193,13 +215,13 @@ function BdsAverageScoreGraph(props) {
                         tickLine={false}
                         />
 
-                    <YAxis label={{ value: 'Max Digit Length', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                    <YAxis label={{ value: lang.getString("graphDigitMax"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" domain={[0, yMax]} 
                         ticks={yTicks} 
                         interval={1}/>
                     <Tooltip />
                     <Legend />
-                    <Line name="Digit Span Length" type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
+                    <Line name={lang.getString("graphDigitLength")} type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
@@ -212,6 +234,8 @@ function BdsAverageScoreGraph(props) {
 function AccuracyScoreGraph(props) {
     const gameName = props.gameName
     const rawData = props.game.getMeanSessionsAccuracys()
+    const lang = props.lang
+    const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
         if(rawData[i] === 0) continue;
@@ -220,7 +244,7 @@ function AccuracyScoreGraph(props) {
     
     return (
         <div className="print-together">
-            <h3>{gameName} Accuracy</h3>
+            <h3>{gameName}</h3>
             <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
@@ -235,7 +259,7 @@ function AccuracyScoreGraph(props) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -246,7 +270,7 @@ function AccuracyScoreGraph(props) {
                         axisLine={false}
                         tickLine={false}
                         />
-                    <YAxis label={{ value: 'Accuracy', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                    <YAxis label={{ value: lang.getString("graphSimonAccuracy"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" 
                         domain={[0, 100]} 
                         tickCount={11}
@@ -254,7 +278,7 @@ function AccuracyScoreGraph(props) {
                         />
                     <Tooltip />
                     <Legend />
-                    <Line name="Session Accuracy" type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
+                    <Line name={lang.getString("graphSimonSessionAccuracy")} type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
@@ -267,6 +291,8 @@ function AccuracyScoreGraph(props) {
 function ReactionTimeGraph(props) {
     const gameName = props.gameName
     const rawData = props.game.getMeanReactionTime()
+    const lang = props.lang
+    const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
     for (let i = 0; i < rawData.length; ++i) {
         if(rawData[i] === 0) continue;
@@ -275,7 +301,7 @@ function ReactionTimeGraph(props) {
 
     return (
         <div className="print-together">
-            <h3>{gameName} Reaction Time</h3>
+            <h3>{gameName}</h3>
             <ResponsiveContainer width="100%" height={600}>
                 <LineChart
                     width={500}
@@ -290,7 +316,7 @@ function ReactionTimeGraph(props) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: "Day", position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -301,14 +327,14 @@ function ReactionTimeGraph(props) {
                         axisLine={false}
                         tickLine={false}
                         />
-                    <YAxis label={{ value: 'Average Reaction Time', angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
+                    <YAxis label={{ value: lang.getString("graphSimonReactionAverage"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" 
                         tickCount={10}
                         
                         />
                     <Tooltip />
                     <Legend />
-                    <Line name="Average Reaction Time" type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
+                    <Line name={lang.getString("graphSimonReactionAverage")} type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
