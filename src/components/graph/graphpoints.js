@@ -52,7 +52,7 @@ const GraphSingleDay = ({data, day, id, lang}) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId={0} dataKey="x" hide={true}/>
                     <XAxis xAxisId={1} label={{value: lang.getString("graphToday")}} tick={false}/>
-                    <YAxis domain={[0, 5000]}/>    
+                    <YAxis domain={[0, 5000]} ticks={[0, 1250, 2500, 3750, 5000]}/>    
                     <Tooltip />
                     <Legend />
                     <ReferenceLine y={2500} stroke="red"/>
