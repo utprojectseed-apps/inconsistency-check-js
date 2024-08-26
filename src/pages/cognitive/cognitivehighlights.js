@@ -176,7 +176,7 @@ function ParticipantHighlights(props) {
 }
 
 function BdsAverageScoreGraph(props) {
-    const rawData = props.game.getMaxDigitSpanDays()
+    const rawData = props.game.getMaxCorrectDigitSpanDays()
     const lang = props.lang
     const lastReport = props.lastReport
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
