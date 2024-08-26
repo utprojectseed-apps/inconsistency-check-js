@@ -17,7 +17,6 @@ function ParticipantHeader({participant}) {
     if(participant === null) { return null }
     return (
         <div className='participant-header'>
-            <h2 className='participant-id'>Participant ID: {participant.getParticipantId()}</h2>
-            <h3>Name: {participant.getName()}</h3>
+            <h3 className='participant-id'>{participant.getName()} ({participant.getParticipantId()})</h3>
         </div>)
 }
