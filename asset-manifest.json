@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/inconsistency-check-js/static/css/main.5c3e25e9.css",
-    "main.js": "/inconsistency-check-js/static/js/main.533a027e.js",
+    "main.js": "/inconsistency-check-js/static/js/main.5b6de81d.js",
     "static/js/453.891b4e94.chunk.js": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js",
     "static/media/CognitiveDataDict.csv": "/inconsistency-check-js/static/media/CognitiveDataDict.f111d0eb5951ad459387.csv",
     "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.421c8aab528274521b81.csv",
     "index.html": "/inconsistency-check-js/index.html",
     "main.5c3e25e9.css.map": "/inconsistency-check-js/static/css/main.5c3e25e9.css.map",
-    "main.533a027e.js.map": "/inconsistency-check-js/static/js/main.533a027e.js.map",
+    "main.5b6de81d.js.map": "/inconsistency-check-js/static/js/main.5b6de81d.js.map",
     "453.891b4e94.chunk.js.map": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5c3e25e9.css",
-    "static/js/main.533a027e.js"
+    "static/js/main.5b6de81d.js"
   ]
 }
