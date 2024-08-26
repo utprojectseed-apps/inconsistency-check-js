@@ -88,6 +88,12 @@ export default class SurveyParticipant {
         this.days = Array(SurveyParticipant.getDays()).fill(0)
         this.days = this.days.map((_, i) => this.percentComplete[i] > 0)
         this.partialDays = this.days.map((_, i) => 0 < this.percentComplete[i] && this.percentComplete[i] < 0.5)
+        this.lastFilledDay = -1
+        this.days.forEach((val, i) => { if(val == true) { this.lastFilledDay = i } })
+    }
+
+    getLastFilledDay() {
+        return this.lastFilledDay
     }
 
     getDay(day) {
@@ -111,6 +117,10 @@ export default class SurveyParticipant {
         let diffDays = Math.floor(diff / (1000 * 60 * 60 * 24))
         diffDays = Math.min(diffDays, SurveyParticipant.getDays())
         this.currCycle = diffDays
+    }
+
+    getCurrentCycle() {
+        return this.currCycle
     }
 
     #cyclePassed(day) {

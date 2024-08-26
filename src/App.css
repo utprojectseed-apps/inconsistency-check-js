@@ -131,6 +131,11 @@ p {
   background-color: blue;
 }
 
+.survey-header-element {
+  text-align: center;
+  font-weight: bold;
+}
+
 @media print
 {    
   .no-print, .no-print *
