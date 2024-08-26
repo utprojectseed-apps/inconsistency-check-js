@@ -92,7 +92,6 @@ export default class FortuneDeck extends Game {
      */
     calculateBonus() {
         const MAX_BONUS = 1;
-        //TODO: add dollar formatting someplace else?
         this.bonus = Array(Game.TotalDays).fill(0);
         this.accumulatedBonus = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
