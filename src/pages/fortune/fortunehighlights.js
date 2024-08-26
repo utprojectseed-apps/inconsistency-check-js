@@ -6,11 +6,10 @@ import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
 import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
-import DomToImage from "dom-to-image";
-import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import GraphPoints from "../../components/graph/graphpoints";
 import Lang from "../../locales/lang";
+import html2pdf from 'html2pdf.js'
 
 var lang = new Lang("eng", "fortuneHighlight")
 export default function FortuneHighlights() {
@@ -78,19 +77,15 @@ export default function FortuneHighlights() {
 
 function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    DomToImage.toBlob(document.getElementById("fortunehighlights"), {
-        bgcolor: "white",
-        style: {
-            paddingLeft: "100px",
-            paddingRight: "100px",
-        }
-    })
-    .then(function (dataUrl) {
-        fileDownload(dataUrl, "fortunehighlights-" + idString + ".png");
-    })
-    .catch(function (error) {
-        console.error('oops, something went wrong!', error);
-    });
+    var element = document.getElementById("fortunehighlights");
+    var opt = {
+        filename: "fortunehighlights-" + idString + ".pdf",
+        image: { type: "png" },
+        html2canvas: { scale: 1 },
+        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+        pagebreak: { after: ".print-together"}
+    }
+    html2pdf().set(opt).from(element).save();
 }
 
 function ParticipantListHighlights(props) {
@@ -113,7 +108,7 @@ function ParticipantListHighlights(props) {
 
 function GameExplanation() {
     return (
-        <div>
+        <div className="print-together print-page-after">
             <h1>{lang.getString("thank")}</h1>
             <div dangerouslySetInnerHTML={{__html: lang.getString("intro")}}/>
         </div>
@@ -161,7 +156,7 @@ function FortunePointsGraph(props) {
     //TODO: get start points from df
     const referenceValue = 2500
     return (
-        <div>
+        <div className="print-before">
             <h3>{lang.getString("graphPointsTitle")}</h3>
             <ResponsiveContainer width="95%" height={600}>
                 <LineChart 
@@ -196,7 +191,7 @@ function FortunePointsGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name={lang.getString("graphPointsEarned")} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{ r: 8 }} 
-                        strokeWidth={2.5}
+                        strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
                 </LineChart>
