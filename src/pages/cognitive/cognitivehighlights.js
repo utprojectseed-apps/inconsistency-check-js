@@ -150,7 +150,7 @@ function ParticipantHighlights(props) {
             <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
             <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
             <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
-            {lastReport && props.bds !== null && <BdsAverageScoreGraph game={props.bds.game} lang={lang}/>}
+            {props.bds !== null && <BdsAverageScoreGraph game={props.bds.game} lang={lang} lastReport={lastReport}/>}
             <div className="print-together">
                 <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
                 <p>{lang.getString("simonAccuracyBest", {x: simonHighlight[0]})}</p>
@@ -158,8 +158,8 @@ function ParticipantHighlights(props) {
                 <p>{lang.getString("simonReactionTimeFirst", {x: simonHighlight[2]})}</p>
                 <p>{lang.getString("simonReactionTimeAverage", {x: simonHighlight[3]})}</p>
                 {lastReport && <p>{lang.getString("simonReactionTimeImprovement", {x: simonHighlight[4], y: simonHighlight[5]})}</p>}
-                {lastReport && props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={lang.getString("graphSimonAccuracyTitle")} lang={lang}/>}
-                {lastReport && props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={lang.getString("graphSimonReactionTitle")} lang={lang}/>}
+                {props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={lang.getString("graphSimonAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
+                {props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={lang.getString("graphSimonReactionTitle")} lang={lang} lastReport={lastReport}/>}
             </div>
             <div className="print-together">
                 <h3>{props.participant} - {lang.getString("csTitle")}</h3>
@@ -168,19 +168,21 @@ function ParticipantHighlights(props) {
                 <p>{lang.getString("csReactionTimeFirst", {x: csHighlight[2]})}</p>
                 <p>{lang.getString("csReactionTimeAverage", {x: csHighlight[3]})}</p>
                 {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
-                {lastReport && props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang}/>}
-                {lastReport && props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang}/>}
+                {props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
+                {props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang} lastReport={lastReport}/>}
             </div>
         </div>
     )
 }
 
 function BdsAverageScoreGraph(props) {
-    const rawData = props.game.getMaxDigitSpanDays()
+    const rawData = props.game.getMaxCorrectDigitSpanDays()
     const lang = props.lang
+    const lastReport = props.lastReport
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
-    for (let i = 0; i < rawData.length; ++i) {
+    const TOTALDAYS = lastReport ? 14 : 7
+    for (let i = 0; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, digitSpanLength: rawData[i]});
     }
@@ -236,8 +238,10 @@ function AccuracyScoreGraph(props) {
     const rawData = props.game.getMeanSessionsAccuracys()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
+    const lastReport = props.lastReport
+    const TOTALDAYS = lastReport ? 14 : 7
     const data = []
-    for (let i = 0; i < rawData.length; ++i) {
+    for (let i = 0; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, accuracy: rawData[i]});
     }
@@ -290,13 +294,15 @@ function AccuracyScoreGraph(props) {
 
 function ReactionTimeGraph(props) {
     const gameName = props.gameName
-    const rawData = props.game.getMeanReactionTime()
+    const rawData = props.game.getMeanCorrectReactionTime()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
+    const lastReport = props.lastReport
+    const TOTALDAYS = lastReport ? 14 : 7
     const data = []
-    for (let i = 0; i < rawData.length; ++i) {
+    for (let i = 0; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
-        data.push({day: i + 1, weekday: i % 7, reactionTime: rawData[i]});
+        data.push({day: i + 1, weekday: i % 7, reactionTime: parseFloat(rawData[i])});
     }
 
     return (
@@ -330,7 +336,7 @@ function ReactionTimeGraph(props) {
                     <YAxis label={{ value: lang.getString("graphSimonReactionAverage"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" 
                         tickCount={10}
-                        
+                        allowDataOverflow={false}
                         />
                     <Tooltip />
                     <Legend />
