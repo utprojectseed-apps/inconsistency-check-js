@@ -6,10 +6,9 @@ import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
 import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import DomToImage from "dom-to-image";
-import fileDownload from "js-file-download";
 import { Button } from "@mui/material";
 import Lang from "../../locales/lang";
+import html2pdf from 'html2pdf.js';
 
 var lang = new Lang("eng", "cognitiveHighlight")
 export default function CognitiveHighlights() {
@@ -100,21 +99,17 @@ export default function CognitiveHighlights() {
     )
 }
 
-function printPlease(selectedIds) {
+async function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    DomToImage.toBlob(document.getElementById("cognitivehighlights"), {
-        bgcolor: "white",
-        style: {
-            paddingLeft: "100px",
-            paddingRight: "100px",
-        }
-    })
-    .then(function (dataUrl) {
-        fileDownload(dataUrl, "cognitivehighlights-" + idString + ".png");
-    })
-    .catch(function (error) {
-        console.error('oops, something went wrong!', error);
-    });
+    var element = document.getElementById("cognitivehighlights");
+    var opt = {
+        filename: "cognitivehighlights-" + idString + ".pdf",
+        image: { type: "png" },
+        html2canvas: { scale: 1 },
+        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+        pagebreak: { before: ".print-together"}
+    }
+    html2pdf().set(opt).from(element).save();
 }
 
 function ParticipantListHighlights(props) {
@@ -224,7 +219,7 @@ function BdsAverageScoreGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name={lang.getString("graphDigitLength")} type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
-                        strokeWidth={2.5}
+                        strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
                 </LineChart>
@@ -283,7 +278,7 @@ function AccuracyScoreGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name={lang.getString("graphSimonSessionAccuracy")} type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
-                        strokeWidth={2.5}
+                        strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
                 </LineChart>
@@ -341,7 +336,7 @@ function ReactionTimeGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name={lang.getString("graphSimonReactionAverage")} type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
-                        strokeWidth={2.5}
+                        strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
                 </LineChart>

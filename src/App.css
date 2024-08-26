@@ -159,6 +159,11 @@ p {
       font-family: Roboto, sans-serif;
     }
 
+.recharts-legend-wrapper {
+  position: relative;
+  width: auto;
+}
+
 #cognitivehighlights, #fortunehighlights {
   padding: 2rem;
 }

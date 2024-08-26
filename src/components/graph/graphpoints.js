@@ -57,7 +57,7 @@ const GraphSingleDay = ({data, day, id, lang}) => {
                     <Legend />
                     <ReferenceLine y={2500} stroke="red"/>
                     <Line type="monotone" dataKey="y" name={lang.getString("graphPoints")} stroke="#1b9e77" strokeWidth={2.5}
-                        dot={{ stroke:"#1b9e77", strokeWidth: 0, r: 0, strokeDasharray:''}}
+                        dot={{ stroke:"#1b9e77", strokeWidth: 0, r: 0, strokeDasharray:''}} isAnimationActive={false}
                     />
                 </LineChart>
             </ResponsiveContainer>
