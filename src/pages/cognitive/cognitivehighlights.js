@@ -294,7 +294,7 @@ function AccuracyScoreGraph(props) {
 
 function ReactionTimeGraph(props) {
     const gameName = props.gameName
-    const rawData = props.game.getMeanReactionTime()
+    const rawData = props.game.getMeanCorrectReactionTime()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const lastReport = props.lastReport

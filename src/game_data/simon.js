@@ -7,6 +7,7 @@ export default class Simon extends Game {
         this.participant_id = participant_id;
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);
+        this.meanCorrectReactionTime = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAmount = Array(Game.TotalDays).fill().map(() => []);
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.noInputTrialsDays = Array(Game.TotalDays).fill().map(() => []);
@@ -14,6 +15,7 @@ export default class Simon extends Game {
         this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateMeanReactionTime();
+        this.calculateMeanCorrectReactionTime();
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
         this.countNoInputTrialsDays();
@@ -104,6 +106,25 @@ export default class Simon extends Game {
         }
     }
 
+    calculateMeanCorrectReactionTime() { //TODO: probably combine this with previous function somehow
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i];
+            let testing_df = df.loc({rows: df['task_section'].eq('test')});
+            testing_df = testing_df.loc({rows: testing_df['Slide1.ACC'].eq('True')});
+            let reactionTimes = testing_df['Slide1.RT'].values;
+
+            let count = 0;
+            let sum = 0;
+            for (let j = 0; j < reactionTimes.length; ++j) {
+                let currentReactionTime = parseInt(reactionTimes[j]);
+                if(currentReactionTime === -999) continue;
+                sum += currentReactionTime;
+                count++;
+            }
+            this.meanCorrectReactionTime[i] = count === 0 ? 0 : (sum / count).toFixed(2);
+        }
+    }
+
     countPracticeTrialsAmountDays() {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
@@ -142,10 +163,10 @@ export default class Simon extends Game {
 
     getHighlights(selectedReport) {
         let maxAccuracy = Math.max(...this.meanSessionsAccuracys);
-        let countNotZero = this.meanReactionTime.filter(Boolean).length;
+        let countNotZero = this.meanSessionsAccuracys.filter(Boolean).length;
         let averageAccuracy = this.meanSessionsAccuracys.reduce((a, b) => a + parseFloat(b), 0) / countNotZero;
-        let minReactionTime = Math.min.apply(null, this.meanReactionTime.filter(Boolean));
-        let firstDayReactionTime = this.meanReactionTime.find(rt => rt !== 0) || 0;
+        let minReactionTime = Math.min.apply(null, this.meanCorrectReactionTime.filter(Boolean));
+        let firstDayReactionTime = this.meanCorrectReactionTime.find(rt => rt !== 0) || 0;
         let improvement = (firstDayReactionTime - minReactionTime).toFixed(2);
         let improvementPercentage = (improvement / firstDayReactionTime * 100).toFixed(2);
 
@@ -162,6 +183,10 @@ export default class Simon extends Game {
 
     getMeanReactionTime() {
         return this.meanReactionTime;
+    }
+
+    getMeanCorrectReactionTime() {
+        return this.meanCorrectReactionTime;
     }
 
     getPracticeTrialsAmountDays() {
