@@ -350,7 +350,6 @@ export default class SurveyParticipant {
             for (let j = 0; j < incompletedQuestions.length; ++j) {
                 this.missingQuestions[i].push(this.dataDict.getQuestion(incompletedQuestions[j]))
             }
-            console.log(this.missingQuestions[i])
         }
     }
 
