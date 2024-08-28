@@ -121,7 +121,7 @@ export default class SurveyParticipant {
     }
 
     getCurrentCycle() {
-        return this.currCycle
+        return Math.min(this.currCycle, SurveyParticipant.getDays() - 1)
     }
 
     #cyclePassed(day) {
@@ -256,7 +256,7 @@ export default class SurveyParticipant {
             if(this.#cyclePassed(i)) {
                 potentialCumComp[i] = cumulativeComp[i]
             } else {
-                potentialCumComp[i] = cumulativeComp[i - 1] + BASE_COMP + BONUSES[i]
+                potentialCumComp[i] = potentialCumComp[i - 1] + BASE_COMP + BONUSES[i]
             }
         }
 
@@ -264,6 +264,7 @@ export default class SurveyParticipant {
         this.cumulativeComp = cumulativeComp
         this.potentialCumComp = potentialCumComp
         this.BONUS_TYPES = BONUS_TYPES
+        console.log(potentialCumComp)
     }
 
     getCompRate(day) {

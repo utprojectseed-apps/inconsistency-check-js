@@ -134,6 +134,7 @@ p {
 .survey-header-element {
   text-align: center;
   font-weight: bold;
+  flex: 1 0 0;
 }
 
 @media print
