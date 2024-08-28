@@ -11,6 +11,7 @@ export default class SurveyParticipant {
         this.#generateDays()
         this.#collectStartEndTimes()
         this.#collectSubmitTimes()
+        this.estCompensation()
     }
 
     static getDays() {
@@ -225,6 +226,72 @@ export default class SurveyParticipant {
             throw new Error("Invalid day")
         }
         return this.submitTimes[day]
+    }
+
+    estCompensation() {
+        const BONUSES = [1, 2, 3, 0, 2, 3, 0, 1, 0, 1, 0, 2, 3, 4]
+        const BONUS_TYPES = ['SINGLE', 'DOUBLE', 'SUPER', '', 'DOUBLE', 'SUPER', '', 'SINGLE', '', 'SINGLE', '', 'DOUBLE',
+                      'SUPER', 'TRIPLE']
+        const BASE_COMP = 2
+
+        let compRates = Array(SurveyParticipant.getDays()).fill("")
+        let cumulativeComp = Array(SurveyParticipant.getDays()).fill(0)
+        let potentialCumComp = Array(SurveyParticipant.getDays()).fill(0)
+
+        for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(this.percentComplete[i] > 0.35) {
+                cumulativeComp[i] = BASE_COMP + BONUSES[i]
+                compRates[i] = `$ ${cumulativeComp[i].toFixed(2)}`
+            } else if(this.percentComplete[i] > 0) {
+                cumulativeComp[i] = BASE_COMP
+                compRates[i] = `$ ${cumulativeComp[i].toFixed(2)}`
+            } // if 0 do not set anything.
+        }
+
+        for (let i = 1; i < SurveyParticipant.getDays(); ++i) {
+            cumulativeComp[i] += cumulativeComp[i - 1]
+        }
+
+        for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(this.#cyclePassed(i)) {
+                potentialCumComp[i] = cumulativeComp[i]
+            } else {
+                potentialCumComp[i] = cumulativeComp[i - 1] + BASE_COMP + BONUSES[i]
+            }
+        }
+
+        this.compRates = compRates
+        this.cumulativeComp = cumulativeComp
+        this.potentialCumComp = potentialCumComp
+        this.BONUS_TYPES = BONUS_TYPES
+    }
+
+    getCompRate(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.compRates[day]
+    }
+
+    getCumulativeComp(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.cumulativeComp[day]
+    }
+
+    getPotentialCumulativeComp(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.potentialCumComp[day]
+    }
+
+    getBonusType(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.BONUS_TYPES[day]
     }
 
     #findDailyPercent() {
