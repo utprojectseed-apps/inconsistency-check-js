@@ -1,5 +1,6 @@
 import CSVReader from "../../components/csvread";
 import React, { useEffect, useRef, useReducer } from "react";
+import { NavLink } from "react-router-dom";
 import * as dfd from 'danfojs';
 import ParticipantList from "../../game_data/participants";
 import GamesFullReport from "../../components/gamesfullreport";
@@ -33,7 +34,10 @@ export default function FortuneGame() {
     return (
         <div className='games'>
             <h1 className='no-print'>Enter data</h1>
-            <div className='no-print'><CSVReader parentCallback={handleUpload} gameId = "fortune"/></div>
+            <div className='no-print'>
+                <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
+                {new Date().getDay() === 1 && <NavLink to="../highlight">Click here to go to highlights page</NavLink>}
+            </div>
             {errorMessage && <h2>{errorMessage}</h2>}
             {participantList.current !== null && 
                 <div className='no-print'>

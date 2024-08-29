@@ -8,7 +8,7 @@ export default function FortuneGameDayInfo({day, participant}) {
     return (
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${completion}%`}}></div>
-            <h2 className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(completion)}`}}>Day: {day}</h2>
+            <h2 className={`day-header ${header_color(completion)}`} style={{backgroundColor: `${header_color(completion)}`}}>Day: {day}</h2>
             <div className="day-details">
                 <p>Completion: {completion}%</p>
                 <ReportFortuneScore score={participant.game.getScore(day)}/>

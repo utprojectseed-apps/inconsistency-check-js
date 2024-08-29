@@ -20,9 +20,12 @@ export default function CognitivePage() {
 
     return (
         <>
-
-            {!hideNavigation && <h1>Cognitive Games</h1>}
-            {!hideNavigation && <Navigation />}
+            {!hideNavigation && <div>
+              <h1>Cognitive Game</h1>
+              <Navigation />
+              <p>Remember to complete the highlight if it is Monday.</p>
+              {new Date().getDay() === 1 && <p style={{color: "red"}}><b>It is Monday!</b></p>}
+            </div>}
             <Routes>
               <Route path='game' element={<CognitiveGame />}></Route>
               <Route path='highlight' element={<CognitiveHighlights />}></Route>

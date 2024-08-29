@@ -92,7 +92,6 @@ export default class FortuneDeck extends Game {
      */
     calculateBonus() {
         const MAX_BONUS = 1;
-        //TODO: add dollar formatting someplace else?
         this.bonus = Array(Game.TotalDays).fill(0);
         this.accumulatedBonus = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
@@ -214,18 +213,7 @@ export default class FortuneDeck extends Game {
         let totalAccumulatedScore = accumulatedScores[accumulatedScores.length - 1];
         let maxBonus = Game.MoneyFormat.format(Math.max(...(bonus.filter(x => !isNaN(x)))))
         let totalAccumulatedBonus = Game.MoneyFormat.format(accumulatedBonuses[accumulatedBonuses.length - 1]);
-
-        let maxPointsMessage = `Your best points earned in a single day: ${maxPoints}`
-        let averagePointsMessage = `Your average points earned across all days: ${averagePoints.toFixed(2)}`
-        let accumulatedScoreMessage = `Your accumulated score: ${totalAccumulatedScore}`
-        let maxBonusMessage = `Your best bonus earned in a single day: ${maxBonus}`
-        let accumulatedBonusMessage = `Your accumulated bonus: ${totalAccumulatedBonus}`
-
         
-        if (selectedReport === 0) {
-            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage, maxBonusMessage, accumulatedBonusMessage]
-        } else {
-            return [maxPointsMessage, averagePointsMessage, accumulatedScoreMessage, maxBonusMessage, accumulatedBonusMessage]
-        }
+        return [maxPoints, averagePoints.toFixed(2), totalAccumulatedScore, maxBonus, totalAccumulatedBonus]
     }
 }
