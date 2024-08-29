@@ -137,6 +137,17 @@ p {
   flex: 1 0 0;
 }
 
+.survey-compensation-table {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: lightgray;
+}
+
+.survey-compensation-table > p {
+  flex: 1 0 0;
+  text-align: center;
+}
+
 @media print
 {    
   .no-print, .no-print *

@@ -73,7 +73,7 @@ export default class SurveyParticipant {
             } else if(this.data[timestampCol].values[0] !== "" && this.data[timestampCol].values[0] !== '[not completed]') {
                 let date = new Date(this.data[timestampCol].values[0]+"T00:00:00")
                 this.dates[i] = SurveyParticipant.formatDate(date)
-            } else if(this.#cyclePassed(i)) {
+            } else if(this.cyclePassed(i)) {
                 if(this.percentComplete[i] === 0) {
                     this.dates[i] = "Skipped"
                 } else {
@@ -124,7 +124,7 @@ export default class SurveyParticipant {
         return Math.min(this.currCycle, SurveyParticipant.getDays() - 1)
     }
 
-    #cyclePassed(day) {
+    cyclePassed(day) {
         return day < this.currCycle
     }
 
@@ -136,7 +136,7 @@ export default class SurveyParticipant {
         this.durationDeltas = Array(SurveyParticipant.getDays()).fill(0)
 
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(this.#cyclePassed(i)) {
+            if(this.cyclePassed(i)) {
                 let startTimeCol = `t${i + 1}strti`
                 let endTimeCol = `t${i + 1}endti`
 
@@ -253,7 +253,7 @@ export default class SurveyParticipant {
         }
 
         for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(this.#cyclePassed(i)) {
+            if(this.cyclePassed(i)) {
                 potentialCumComp[i] = cumulativeComp[i]
             } else {
                 potentialCumComp[i] = potentialCumComp[i - 1] + BASE_COMP + BONUSES[i]
@@ -301,7 +301,7 @@ export default class SurveyParticipant {
         // find start and end of each day
         let dayStartEnd = []
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i)) {
+            if(!this.cyclePassed(i)) {
                 continue;
             }
             let startCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
@@ -312,7 +312,7 @@ export default class SurveyParticipant {
         }
         // loop through each day and fill in arrays based on day
         for(let i = 1; i <= SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i - 1)) {
+            if(!this.cyclePassed(i - 1)) {
                 continue;
             }
             let startIndex = dayStartEnd[i - 1][0]
@@ -326,7 +326,7 @@ export default class SurveyParticipant {
   
         // calculate daily percent
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i)) {
+            if(!this.cyclePassed(i)) {
                 continue;
             }
             let answersToday = answerArray[i]

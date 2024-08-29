@@ -8,7 +8,7 @@ export default function SurveyParticipantReport({participant}) {
     return (
         <div>
             <ParticipantHeader participant={participant}/>
-            <h2>{days}</h2>
+            {days}
         </div>
     )
 }
@@ -30,7 +30,8 @@ function ParticipantHeader({participant}) {
 
             <div style={{display: "flex", justifyContent: "space-evenly"}}>
                 {CYCLE_FINISHED ? 
-                    <p className="survey-header-element">Total compensation earned:<br/>$ {participant.getCumulativeComp(CYCLE_DAY)}</p> : 
+                    <p className="survey-header-element">Total compensation earned:<br/>$ {participant.getCumulativeComp(CYCLE_DAY)}</p> :
+                     
                     <div style={{display: "flex", justifyContent: "space-evenly", width: "100%"}}>
                         <p className="survey-header-element">Compensation so far:<br/>$ {participant.getCumulativeComp(CYCLE_DAY)}</p>
                         <p className="survey-header-element">On track to earn (tonight):<br/>$ {participant.getPotentialCumulativeComp(CYCLE_DAY)}<br/></p>
