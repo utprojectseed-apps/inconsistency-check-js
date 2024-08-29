@@ -151,6 +151,17 @@ function ParticipantHeader2({participant, bds}) {
             <h1 className="participant-id">Participant ID: {participant}</h1>
             <h2>Games: BDS, Simon, and Color-Shape</h2>
             <h3>Cycle start date: {bds.game.getCycleStartDate()}</h3>
+
+            <div className="day-header">
+                <h5>Missing game(s)/Total game(s): {}</h5>
+                <h5>Missing day(s)/Total day(s): {}</h5>
+            </div>
+
+            <div className="day-header">
+                <h5>BDS Overall accuracy: {} %</h5>
+                <h5>Simon Overall accuracy: {} %</h5>
+                <h5>Color-Shape Overall accuracy: {} %</h5>
+            </div>
         </div>) 
 }
 
