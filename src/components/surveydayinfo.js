@@ -2,6 +2,7 @@ export default function SurveyDayInfo({day, participant}) {
     const completionRate = (participant.getPercentComplete()[day - 1] * 100).toFixed(2)
     const header_color = (completion) => {
         let completionNum = parseFloat(completion)
+        if (!participant.cyclePassed(day - 1)) { return "orange" };
         if (completionNum >= 90) { return "lightgreen" };
         if (completionNum === 0) { return "lightcoral"};
         return "plum";

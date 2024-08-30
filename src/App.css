@@ -92,7 +92,12 @@ p {
   margin-top: 15px;
   display:flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+.day-header > * {
+  flex: 1 0 0;
+  text-align: center;
 }
 
 /* need to look into this style more late gonna drive me insane */
