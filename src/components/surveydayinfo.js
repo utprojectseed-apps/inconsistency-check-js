@@ -49,7 +49,7 @@ function ParticipantCompensationTable({day, participant}) {
                     })()
                 }
 
-                <p>Daily Compensation: <br/>$ {participant.getCumulativeComp(day - 1).toFixed(2)}</p>
+                <p>Daily Compensation: <br/>{participant.getCompRate(day - 1)}</p>
                 <p></p>
                 {
                     participant.cyclePassed(day - 1) ? 

@@ -234,7 +234,7 @@ export default class SurveyParticipant {
                       'SUPER', 'TRIPLE']
         const BASE_COMP = 2
 
-        let compRates = Array(SurveyParticipant.getDays()).fill("")
+        let compRates = Array(SurveyParticipant.getDays()).fill("$ 0.00")
         let cumulativeComp = Array(SurveyParticipant.getDays()).fill(0)
         let potentialCumComp = Array(SurveyParticipant.getDays()).fill(0)
 
