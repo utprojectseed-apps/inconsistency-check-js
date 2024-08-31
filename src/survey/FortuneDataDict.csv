@@ -2747,7 +2747,7 @@ La frecuencia de tu Medicamento de Receta #1 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3mq1]<>""""",,,,,,
 t3qpm1f,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #1
-<font color=""green"">Frecuencia del Medicamento de Receta #1</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #1</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -2766,7 +2766,7 @@ La dosis de tu Medicamento de Receta #1 es <span style = ""color:orange"">[t3mdo
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3mq1]<>""""",,,,,,
 t3qpm1d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Prescription Medication #1
-<font color=""green"">Dosis del Medicamento de Receta #1</font></font>
+<font color=""green"">Dosis del Medicamento de Receta #1</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
@@ -2787,7 +2787,7 @@ El nombre de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t3mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3mq1]<>""""",,,,,,
 t3qpm2,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">2. Prescription Medication #2
-<font color=""green"">Medicamento de Receta #2</font></font>
+<font color=""green"">Medicamento de Receta #2</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>
@@ -2825,7 +2825,7 @@ La dosis de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t3mdo
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qm2d]<>""""",,,,,,
 t3qpm2d,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Dose for Prescription Medication #2
-<font color=""green"">Dosis del Medicamento de Receta #2</font></font>
+<font color=""green"">Dosis del Medicamento de Receta #2</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
@@ -2846,7 +2846,7 @@ El nombre de tu Medicamento de Receta #3 es <span style = ""color:orange"">[t3mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3qm2d]<>""""",,,,,,
 t3qpm3,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">3. Prescription Medication #3
-<font color=""green"">Medicamento de Receta #3</font></font>
+<font color=""green"">Medicamento de Receta #3</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>
@@ -2865,7 +2865,7 @@ La frecuencia de tu Medicamento de Receta #3 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t3pqm3]<>""""",,,,,,
 t3qpm3f,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #3
-<font color=""green"">Frecuencia del Medicamento de Receta #3</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #3</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -4044,7 +4044,7 @@ El nombre de tu Medicamento de Receta #1 es <span style = ""color:orange"">[t4mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4dayme] = '1'",,,,,,
 t4qpm1,day_4_thursday_daily_survey,,text,"<font size=""5.5"">1. Prescription Medication #1
-<font color=""green"">Medicamento de Receta #1</font></font>
+<font color=""green"">Medicamento de Receta #1</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>
@@ -4061,7 +4061,7 @@ La frecuencia de tu Medicamento de Receta #1 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4mq1]<>""""",,,,,,
 t4qpm1f,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #1
-<font color=""green"">Frecuencia del Medicamento de Receta #1</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #1</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -4097,7 +4097,7 @@ El nombre de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t4mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4mq1]<>""""",,,,,,
 t4qpm2,day_4_thursday_daily_survey,,text,"<font size=""5.5"">2. Prescription Medication #2
-<font color=""green"">Medicamento de Receta #2</font></font>
+<font color=""green"">Medicamento de Receta #2</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>
@@ -4114,7 +4114,7 @@ La frecuencia de tu Medicamento de Receta #2 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qm2d]<>""""",,,,,,
 t4qpm2f,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #2
-<font color=""green"">Frecuencia del Medicamento de Receta #2</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #2</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -4131,7 +4131,7 @@ La dosis de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t4mdo
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qm2d]<>""""",,,,,,
 t4qpm2d,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Dose for Prescription Medication #2
-<font color=""green"">Dosis del Medicamento de Receta #2</font></font>
+<font color=""green"">Dosis del Medicamento de Receta #2</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
@@ -4150,7 +4150,7 @@ El nombre de tu Medicamento de Receta #3 es <span style = ""color:orange"">[t4mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t4qm2d]<>""""",,,,,,
 t4qpm3,day_4_thursday_daily_survey,,text,"<font size=""5.5"">3. Prescription Medication #3
-<font color=""green"">Medicamento de Receta #3</font></font>
+<font color=""green"">Medicamento de Receta #3</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>",,,,,,,"[t4pqm3] = '2'",,,,,,
@@ -5336,7 +5336,7 @@ El nombre de tu Medicamento de Receta #1 es <span style = ""color:orange"">[t5mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5dayme]= '1'",,,,,,
 t5qpm1,day_5_friday_daily_survey,,text,"<font size=""5.5"">1. Prescription Medication #1
-<font color=""green"">Medicamento de Receta #1</font></font>
+<font color=""green"">Medicamento de Receta #1</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>
@@ -5353,7 +5353,7 @@ La frecuencia de tu Medicamento de Receta #1 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5mq1]<>""""",,,,,,
 t5qpm1f,day_5_friday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #1
-<font color=""green"">Frecuencia del Medicamento de Receta #1</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #1</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -5389,7 +5389,7 @@ El nombre de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t5mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5mq1]<>""""",,,,,,
 t5qpm2,day_5_friday_daily_survey,,text,"<font size=""5.5"">2. Prescription Medication #2
-<font color=""green"">Medicamento de Receta  #2</font></font>
+<font color=""green"">Medicamento de Receta  #2</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>",,,,,,,"[t5qm2d] = '2'",,,,,,
@@ -5405,7 +5405,7 @@ La frecuencia de tu Medicamento de Receta #2 es <span style = ""color:orange"">[
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qm2d]<>""""",,,,,,
 t5qpm2f,day_5_friday_daily_survey,,text,"<font size=""5.5"">Frequency for Prescription Medication #2
-<font color=""green"">Frecuencia del Medicamento de Receta #2</font></font>
+<font color=""green"">Frecuencia del Medicamento de Receta #2</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 2 puffs/day)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 2 inhalaciones al día)</font></span>
@@ -5422,7 +5422,7 @@ La dosis de tu Medicamento de Receta #2 es <span style = ""color:orange"">[t5mdo
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qm2d]<>""""",,,,,,
 t5qpm2d,day_5_friday_daily_survey,,text,"<font size=""5.5"">Dose for Prescription Medication #2
-<font color=""green"">Dosis del Medicamento de Receta #2</font></font>
+<font color=""green"">Dosis del Medicamento de Receta #2</font>
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 250/50 mcg/puff)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250/50 mcg/inhalación)</font></span>
@@ -5441,7 +5441,7 @@ El nombre de tu Medicamento de Receta #3 es <span style = ""color:orange"">[t5mn
 </div>
 ","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font>",,,,,,"[t5qm2d]<>""""",,,,,,
 t5qpm3,day_5_friday_daily_survey,,text,"<font size=""5.5"">3. Prescription Medication #3
-<font color=""green"">Medicamento de Receta #3</font></font>
+<font color=""green"">Medicamento de Receta #3</font>
 
 <span style=""font-weight:normal;""><font size=""4.5"">(Example: Advair or Fluticasone/Salmeterol Inhaler)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: Advair o Inhalador de Fluticasona/Salmeterol)</font></span>",,,,,,,"[t5pqm3] = '2'",,,,,,
