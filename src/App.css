@@ -92,7 +92,12 @@ p {
   margin-top: 15px;
   display:flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+.day-header > * {
+  flex: 1 0 0;
+  text-align: center;
 }
 
 /* need to look into this style more late gonna drive me insane */
@@ -129,6 +134,23 @@ p {
 
 .test {
   background-color: blue;
+}
+
+.survey-header-element {
+  text-align: center;
+  font-weight: bold;
+  flex: 1 0 0;
+}
+
+.survey-compensation-table {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: lightgray;
+}
+
+.survey-compensation-table > p {
+  flex: 1 0 0;
+  text-align: center;
 }
 
 @media print

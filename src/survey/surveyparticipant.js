@@ -11,6 +11,7 @@ export default class SurveyParticipant {
         this.#generateDays()
         this.#collectStartEndTimes()
         this.#collectSubmitTimes()
+        this.estCompensation()
     }
 
     static getDays() {
@@ -72,7 +73,7 @@ export default class SurveyParticipant {
             } else if(this.data[timestampCol].values[0] !== "" && this.data[timestampCol].values[0] !== '[not completed]') {
                 let date = new Date(this.data[timestampCol].values[0]+"T00:00:00")
                 this.dates[i] = SurveyParticipant.formatDate(date)
-            } else if(this.#cyclePassed(i)) {
+            } else if(this.cyclePassed(i)) {
                 if(this.percentComplete[i] === 0) {
                     this.dates[i] = "Skipped"
                 } else {
@@ -88,6 +89,12 @@ export default class SurveyParticipant {
         this.days = Array(SurveyParticipant.getDays()).fill(0)
         this.days = this.days.map((_, i) => this.percentComplete[i] > 0)
         this.partialDays = this.days.map((_, i) => 0 < this.percentComplete[i] && this.percentComplete[i] < 0.5)
+        this.lastFilledDay = -1
+        this.days.forEach((val, i) => { if(val == true) { this.lastFilledDay = i } })
+    }
+
+    getLastFilledDay() {
+        return this.lastFilledDay
     }
 
     getDay(day) {
@@ -113,7 +120,11 @@ export default class SurveyParticipant {
         this.currCycle = diffDays
     }
 
-    #cyclePassed(day) {
+    getCurrentCycle() {
+        return Math.min(this.currCycle, SurveyParticipant.getDays() - 1)
+    }
+
+    cyclePassed(day) {
         return day < this.currCycle
     }
 
@@ -125,7 +136,7 @@ export default class SurveyParticipant {
         this.durationDeltas = Array(SurveyParticipant.getDays()).fill(0)
 
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(this.#cyclePassed(i)) {
+            if(this.cyclePassed(i)) {
                 let startTimeCol = `t${i + 1}strti`
                 let endTimeCol = `t${i + 1}endti`
 
@@ -217,13 +228,80 @@ export default class SurveyParticipant {
         return this.submitTimes[day]
     }
 
+    estCompensation() {
+        const BONUSES = [1, 2, 3, 0, 2, 3, 0, 1, 0, 1, 0, 2, 3, 4]
+        const BONUS_TYPES = ['SINGLE', 'DOUBLE', 'SUPER', '', 'DOUBLE', 'SUPER', '', 'SINGLE', '', 'SINGLE', '', 'DOUBLE',
+                      'SUPER', 'TRIPLE']
+        const BASE_COMP = 2
+
+        let compRates = Array(SurveyParticipant.getDays()).fill("$ 0.00")
+        let cumulativeComp = Array(SurveyParticipant.getDays()).fill(0)
+        let potentialCumComp = Array(SurveyParticipant.getDays()).fill(0)
+
+        for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(this.percentComplete[i] > 0.35) {
+                cumulativeComp[i] = BASE_COMP + BONUSES[i]
+                compRates[i] = `$ ${cumulativeComp[i].toFixed(2)}`
+            } else if(this.percentComplete[i] > 0) {
+                cumulativeComp[i] = BASE_COMP
+                compRates[i] = `$ ${cumulativeComp[i].toFixed(2)}`
+            } // if 0 do not set anything.
+        }
+
+        for (let i = 1; i < SurveyParticipant.getDays(); ++i) {
+            cumulativeComp[i] += cumulativeComp[i - 1]
+        }
+
+        for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+            if(this.cyclePassed(i)) {
+                potentialCumComp[i] = cumulativeComp[i]
+            } else {
+                potentialCumComp[i] = potentialCumComp[i - 1] + BASE_COMP + BONUSES[i]
+            }
+        }
+
+        this.compRates = compRates
+        this.cumulativeComp = cumulativeComp
+        this.potentialCumComp = potentialCumComp
+        this.BONUS_TYPES = BONUS_TYPES
+        console.log(potentialCumComp)
+    }
+
+    getCompRate(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.compRates[day]
+    }
+
+    getCumulativeComp(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.cumulativeComp[day]
+    }
+
+    getPotentialCumulativeComp(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.potentialCumComp[day]
+    }
+
+    getBonusType(day) {
+        if(day > SurveyParticipant.getDays() || day < 0) {
+            throw new Error("Invalid day")
+        }
+        return this.BONUS_TYPES[day]
+    }
+
     #findDailyPercent() {
         let answerArray = Array(SurveyParticipant.getDays()).fill().map(() => [])
         let columnArray = Array(SurveyParticipant.getDays()).fill().map(() => [])
         // find start and end of each day
         let dayStartEnd = []
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i)) {
+            if(!this.cyclePassed(i)) {
                 continue;
             }
             let startCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(i)}_daily_survey_timestamp`
@@ -234,7 +312,7 @@ export default class SurveyParticipant {
         }
         // loop through each day and fill in arrays based on day
         for(let i = 1; i <= SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i - 1)) {
+            if(!this.cyclePassed(i - 1)) {
                 continue;
             }
             let startIndex = dayStartEnd[i - 1][0]
@@ -248,7 +326,7 @@ export default class SurveyParticipant {
   
         // calculate daily percent
         for(let i = 0; i < SurveyParticipant.getDays(); ++i) {
-            if(!this.#cyclePassed(i)) {
+            if(!this.cyclePassed(i)) {
                 continue;
             }
             let answersToday = answerArray[i]
@@ -272,7 +350,6 @@ export default class SurveyParticipant {
             for (let j = 0; j < incompletedQuestions.length; ++j) {
                 this.missingQuestions[i].push(this.dataDict.getQuestion(incompletedQuestions[j]))
             }
-            console.log(this.missingQuestions[i])
         }
     }
 
