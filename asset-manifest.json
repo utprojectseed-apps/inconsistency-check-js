@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/inconsistency-check-js/static/css/main.59892b95.css",
-    "main.js": "/inconsistency-check-js/static/js/main.e2235a98.js",
+    "main.js": "/inconsistency-check-js/static/js/main.d4a73b04.js",
     "static/js/213.7871d790.chunk.js": "/inconsistency-check-js/static/js/213.7871d790.chunk.js",
     "static/js/732.f0217642.chunk.js": "/inconsistency-check-js/static/js/732.f0217642.chunk.js",
     "static/js/453.891b4e94.chunk.js": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js",
-    "static/media/CognitiveDataDict.csv": "/inconsistency-check-js/static/media/CognitiveDataDict.69f6e50ffb17ac87fa6b.csv",
-    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.2252940a95c5810cd4c2.csv",
+    "static/media/CognitiveDataDict.csv": "/inconsistency-check-js/static/media/CognitiveDataDict.777fc1336b699c97b58f.csv",
+    "static/media/FortuneDataDict.csv": "/inconsistency-check-js/static/media/FortuneDataDict.6dd2ad2e86993ccd44c6.csv",
     "index.html": "/inconsistency-check-js/index.html",
     "main.59892b95.css.map": "/inconsistency-check-js/static/css/main.59892b95.css.map",
-    "main.e2235a98.js.map": "/inconsistency-check-js/static/js/main.e2235a98.js.map",
+    "main.d4a73b04.js.map": "/inconsistency-check-js/static/js/main.d4a73b04.js.map",
     "213.7871d790.chunk.js.map": "/inconsistency-check-js/static/js/213.7871d790.chunk.js.map",
     "732.f0217642.chunk.js.map": "/inconsistency-check-js/static/js/732.f0217642.chunk.js.map",
     "453.891b4e94.chunk.js.map": "/inconsistency-check-js/static/js/453.891b4e94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.59892b95.css",
-    "static/js/main.e2235a98.js"
+    "static/js/main.d4a73b04.js"
   ]
 }
