@@ -13,8 +13,7 @@ export default class FortuneDeck extends Game {
     }  
 
     calculateCompletionsDays() {
-        const POSSIBLE_TRIALS = [100, 80]
-        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
+        const EXPECTED_TRIALS = 80
         this.count = Array(Game.TotalDays).fill(0);
         for (let i = 0; i < Game.TotalDays; ++i) {
             //in case there are multiple sessions //TODO fix multiple sessions by removing it from df? or can find a way to display all?
@@ -142,8 +141,7 @@ export default class FortuneDeck extends Game {
     }
 
     getBlockProportions() {
-        const POSSIBLE_TRIALS = [100, 80]
-        const EXPECTED_TRIALS = POSSIBLE_TRIALS[(this.participant_id - 1) % POSSIBLE_TRIALS.length]
+        const EXPECTED_TRIALS = 80
         let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
         for (let i = 0; i < Game.TotalDays; ++i) {
             if (this.count[i] === 0) {
