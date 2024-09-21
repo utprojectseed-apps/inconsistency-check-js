@@ -26,7 +26,7 @@ const Main = () => {
   console.log(location.pathname)
   return (
     <>
-      {!hideNavigation && <h1>Choose Application v0.0.13</h1>}
+      {!hideNavigation && <h1>Choose Application v0.0.14</h1>}
       {!hideNavigation && <Navigation />}
       <Routes>
         <Route path={"/"} element={<Home />}></Route>

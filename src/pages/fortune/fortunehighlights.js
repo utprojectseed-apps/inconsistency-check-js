@@ -130,7 +130,7 @@ function ParticipantHighlights(props) {
                 <p>{lang.getString("bestBonus")} {fortuneHighlight[3]}</p>
                 <p>{lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
             </div>
-            {props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={lang} lastReport={lastReport}/>}
+            {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={lang} lastReport={lastReport}/>}
             {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={lang}/>}
         </div>
     )
