@@ -140,6 +140,10 @@ export default class FortuneDeck extends Game {
         return this.count[day - 1]
     }
 
+    getPoints() {
+        return this.points
+    }
+
     getBlockProportions() {
         const EXPECTED_TRIALS = 80
         let blockProportions = Array(Game.TotalDays).fill(0).map(() => Array(EXPECTED_TRIALS/BLOCK_SIZE).fill({}));
