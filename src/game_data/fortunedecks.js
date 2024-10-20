@@ -20,15 +20,14 @@ export default class FortuneDeck extends Game {
             let df = this.days[i];
             let sessions = new dfd.Series(df['session_uuid'].values).unique().values
             this.completionsDays[i] = 0
-            for(let j = 0; j < sessions.length; ++j) {
+            for (let j = 0; j < sessions.length; ++j) {
                 let session = sessions[j]
-                let sess_df = df.loc({rows: df['session_uuid'].eq(session)});
+                let sess_df = df.loc({rows: df['session_uuid'].eq(session)})
                 let count = sess_df.shape[0]
-                let completionRate = (count/EXPECTED_TRIALS * 100).toFixed(2)
-                if(completionRate > 100) {
-                    console.log(count, session, sessions.length)
-                }
-                if(completionRate > this.completionsDays[i]) {
+                let completionRate = (count/EXPECTED_TRIALS * 100)
+                completionRate = parseFloat(completionRate.toFixed(2))
+
+                if (completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate
                     this.count[i] = count
                     this.days[i] = sess_df

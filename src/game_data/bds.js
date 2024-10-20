@@ -51,7 +51,9 @@ export default class BDS extends Game {
                 let testing_df = sess_df.loc({rows: sess_df['task_section'].eq('test')});
                 let count = testing_df.shape[0];
 
-                let completionRate = (count / 14 * 100).toFixed(2)
+                let completionRate = (count / 14 * 100)
+                completionRate = parseFloat(completionRate.toFixed(2))
+                
                 if(completionRate > this.completionsDays[i]) {
                     this.completionsDays[i] = completionRate;
                     this.count[i] = count;
