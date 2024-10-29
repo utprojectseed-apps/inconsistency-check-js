@@ -167,50 +167,50 @@ function ParticipantHeader2({participant, bds}) {
  * @return {JSX.Element} The JSX element representing the day information.
  */
 function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass props into the game day stuff
-    const bdsSessions = bds.game.getNumberSessionsDays()[day - 1]
-    const bdsCompletion = bds.game.getCompletedDays()[day - 1]
-    const bdsSessionAccuracy = bds.game.getMeanSessionsAccuracys()[day - 1]
-    const bdsPracticeTrials = bds.game.getPracticeTrialsAmountDays()[day - 1]
-    const bdsPracticeAccuracy = bds.game.getPracticeTrialsAccuracyDays()[day - 1]
-    const maxCorrectDigitSpan = bds.game.getMaxCorrectDigitSpanDays()[day - 1]
-    const maxDigitSpan = bds.game.getMaxDigitSpanDays()[day - 1]
-    const meanDigitSpan = bds.game.getMeanSpans()[day - 1]
-    const twoErrorMaxLength = bds.game.getTwoErrorMaxLengths()[day - 1]
-    const twoErroTotalTrials = bds.game.getTwoErrorTotalTrials()[day - 1]
-    const bdsLang = bds.game.getLanguagePlayedForSessions()[day - 1]
-    const bdsGameTime = bds.game.getGameTimes()[day - 1]
-    const bdsStart = bds.game.getStartTimes()[day - 1]
-    const bdsEnd = bds.game.getEndTimes()[day - 1]
+    const bdsSessions = bds.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+    const bdsCompletion = bds.game?.getCompletedDays()?.[day - 1] ?? 0
+    const bdsSessionAccuracy = bds.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+    const bdsPracticeTrials = bds.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+    const bdsPracticeAccuracy = bds.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+    const maxCorrectDigitSpan = bds.game?.getMaxCorrectDigitSpanDays()?.[day - 1] ?? '0'
+    const maxDigitSpan = bds.game?.getMaxDigitSpanDays()?.[day - 1] ?? '0'
+    const meanDigitSpan = bds.game?.getMeanSpans()?.[day - 1] ?? '0'
+    const twoErrorMaxLength = bds.game?.getTwoErrorMaxLengths()?.[day - 1] ?? '0'
+    const twoErroTotalTrials = bds.game?.getTwoErrorTotalTrials()?.[day - 1] ?? '0'
+    const bdsLang = bds.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+    const bdsGameTime = bds.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+    const bdsStart = bds.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+    const bdsEnd = bds.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
-    const simonSessions = simon.game.getNumberSessionsDays()[day - 1]
-    const simonCompletion = simon.game.getCompletedDays()[day - 1]
-    const simonSessionAccuracy = simon.game.getMeanSessionsAccuracys()[day - 1]
-    const simonPracticeTrials = simon.game.getPracticeTrialsAmountDays()[day - 1]
-    const simonPracticeAccuracy = simon.game.getPracticeTrialsAccuracyDays()[day - 1]
-    const simonNoInput = simon.game.getNoInputTrialsDays()[day - 1]
-    const simonLang = simon.game.getLanguagePlayedForSessions()[day - 1]
-    const simonGameTime = simon.game.getGameTimes()[day - 1]
-    const simonStart = simon.game.getStartTimes()[day - 1]
-    const simonEnd = simon.game.getEndTimes()[day - 1]
+    const simonSessions = simon.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+    const simonCompletion = simon.game?.getCompletedDays()?.[day - 1] ?? 0
+    const simonSessionAccuracy = simon.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+    const simonPracticeTrials = simon.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+    const simonPracticeAccuracy = simon.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+    const simonNoInput = simon.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
+    const simonLang = simon.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+    const simonGameTime = simon.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+    const simonStart = simon.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+    const simonEnd = simon.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
-    const csSessions = cs.game.getNumberSessionsDays()[day - 1]
-    const csCompletion = cs.game.getCompletedDays()[day - 1]
-    const csSessionAccuracy = cs.game.getMeanSessionsAccuracys()[day - 1]
-    const csPracticeTrials = cs.game.getPracticeTrialsAmountDays()[day - 1]
-    const csPracticeAccuracy = cs.game.getPracticeTrialsAccuracyDays()[day - 1]
-    const csNoInput = cs.game.getNoInputTrialsDays()[day - 1]
-    const csLang = cs.game.getLanguagePlayedForSessions()[day - 1]
-    const csGameTime = cs.game.getGameTimes()[day - 1]
-    const csStart = cs.game.getStartTimes()[day - 1]
-    const csEnd = cs.game.getEndTimes()[day - 1]
+    const csSessions = cs.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+    const csCompletion = cs.game?.getCompletedDays()?.[day - 1] ?? 0
+    const csSessionAccuracy = cs.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+    const csPracticeTrials = cs.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+    const csPracticeAccuracy = cs.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+    const csNoInput = cs.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
+    const csLang = cs.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+    const csGameTime = cs.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+    const csStart = cs.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+    const csEnd = cs.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
     // TODO: this will need to be moved at some point when we fix the layout of the participant holding all the games
-    const bdsFirst = bds.game.getFirstTrialTimestamps()[day - 1]
-    const bdsLast = bds.game.getLastTrialTimestamps()[day - 1]
-    const simonFirst = simon.game.getFirstTrialTimestamps()[day - 1]
-    const simonLast = simon.game.getLastTrialTimestamps()[day - 1]
-    const csFirst = cs.game.getFirstTrialTimestamps()[day - 1]
-    const csLast = cs.game.getLastTrialTimestamps()[day - 1]
+    const bdsFirst = bds.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+    const bdsLast = bds.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+    const simonFirst = simon.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+    const simonLast = simon.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+    const csFirst = cs.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+    const csLast = cs.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
     const started = bdsFirst !== '--/--/-- --:--:--' ? format(bdsFirst, REPORT_DT_HM_FORMAT) : '--'
 
     const timeIntervals = [bdsLast, bdsFirst, simonFirst, simonLast, csFirst, csLast]
