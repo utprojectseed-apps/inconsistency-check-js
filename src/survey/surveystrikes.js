@@ -1,19 +1,22 @@
 class Strikes {
   constructor() {
-    // 7 types of strikes. append each day number to the corresponding strike type
-    this.strikeArray = Array.from({ length: 7 }, () => []);
+    // 9 types of strikes. append each day number to the corresponding strike type
+    this.strikeArray = Array.from({ length: 9 }, () => []);
   }
 
   // enum for strike types - might not needed but made it anyway
   static StrikeType(key) {
     const StrikeMapping = {
-      A: 0,
-      B: 1,
-      C: 2,
-      D: 3,
-      E: 4,
-      FG: 5,
-      J: 6,
+      A: 0, // Large portion of unanswered questions
+      B: 1, // Duration length (< 3 min)
+      C: 2, // Survey Taken Before 8 P.M.
+      D: 3, // Day of the Week Question
+      E: 4, // COVID Vaccine Question
+      F: 5, // Inconsistent Answers for Sections {sections}
+      G: 5, // Inconsistent Answers for Sections {sections}
+      H: 6, // Duration length (> 45 min)
+      J: 7, // Inconsistent
+      K: 8, // Lights off time 2 hours after survey submission time
     };
     return StrikeMapping[key];
   }
@@ -46,12 +49,24 @@ class Strikes {
     this.strikeArray[4].push(day);
   }
 
-  addStrikeFG(day) {
+  addStrikeF(day) {
     this.strikeArray[5].push(day);
   }
 
-  addStrikeJ(day) {
+  addStrikeG(day) {
+    this.strikeArray[5].push(day);
+  }
+
+  addStrikeH(day) {
     this.strikeArray[6].push(day);
+  }
+
+  addStrikeJ(day) {
+    this.strikeArray[7].push(day);
+  }
+
+  addStrikeK(day) {
+    this.strikeArray[8].push(day);
   }
 
   // ripped from old code
