@@ -82,6 +82,7 @@ export default class SurveyParticipant {
     );
   }
 
+  // this method is used to generate the dates for each day
   #generateDates() {
     this.dates = Array(SurveyParticipant.getDays()).fill("");
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
