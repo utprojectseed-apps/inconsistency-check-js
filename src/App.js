@@ -3,6 +3,7 @@ import './App.css';
 import { NavLink, Routes, Route, useLocation } from 'react-router-dom';
 import FortuneHome from './pages/fortune';
 import CognitivePage from './pages/cognitive';
+import MindMix1Page from './pages/mindmix1';
 import Home from './pages/home';
 
 const App = () => (
@@ -16,6 +17,7 @@ const Navigation = () => (
     <ul>
       <li><NavLink to={'cognitive'}>Cognitive Games</NavLink></li>
       <li><NavLink to={'fortune'}>Fortune Task</NavLink></li>
+      <li><NavLink to={'mindmix1'}>Mind Mix 1</NavLink></li>
     </ul>
   </nav>
 );
@@ -26,12 +28,13 @@ const Main = () => {
   console.log(location.pathname)
   return (
     <>
-      {!hideNavigation && <h1>Choose Application v0.0.17</h1>}
+      {!hideNavigation && <h1>Choose Application v1.0.0</h1>}
       {!hideNavigation && <Navigation />}
       <Routes>
         <Route path={"/"} element={<Home />}></Route>
         <Route path={'/cognitive/*'} element={<CognitivePage />}></Route>
         <Route path={'/fortune/*'} element={<FortuneHome />}></Route>
+        <Route path={'/mindmix1/*'} element={<MindMix1Page />}></Route>
       </Routes>
     </>
 );
