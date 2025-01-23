@@ -77,7 +77,7 @@ export default function CognitiveHighlights() {
     return (
         <div>
             <div className="no-print">
-                <h1>Cognitive Highlights</h1>
+                <h1>Brain Games Highlights</h1>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>

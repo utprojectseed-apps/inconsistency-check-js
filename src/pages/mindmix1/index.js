@@ -22,6 +22,7 @@ export default function MindMix1Page() {
               <h1>Mind Mix 1</h1>
               <Navigation />
               <p>Mind Mix 1 is Cognitive (1-7) and Fortune Game (8-14).</p>
+              <p>Reminder that when inputing the CSVs its in order: BDS, Simon, Color-Shape, and Fortune (top to bottom)! </p>
               {new Date().getDay() === 1 && <p style={{color: "red"}}><b>It is Monday!</b></p>}
             </div>}
             <Routes>
