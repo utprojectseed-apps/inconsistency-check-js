@@ -55,7 +55,7 @@ export default function CognitiveGame() {
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
-                fortuneList.current = format !== undefined ? new ParticipantList(participants, fortuneData) : null
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 let allList = []
                 allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
@@ -132,7 +132,7 @@ function CognitiveGamesReport(props) {
  * @param {string} props.participant - The ID of the participant.
  * @return {JSX.Element} The rendered component.
  */
-function ParticipantReport(props) { // hm should i just pass props into the game day stuff 
+function ParticipantReport(props) { // hm should i just pass props into the game day stuff, may need to change
     const days = props.bds.game.getCompletedDays().map(
         (day, i) => {
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs} fortune={props.fortune}
@@ -178,174 +178,217 @@ function ParticipantHeader2({participant, bds}) {
  * @param {Object} props.cs - The Color-Shape object.
  * @return {JSX.Element} The JSX element representing the day information.
  */
-function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass props into the game day stuff
-    const bdsSessions = bds.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
-    const bdsCompletion = bds.game?.getCompletedDays()?.[day - 1] ?? 0
-    const bdsSessionAccuracy = bds.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
-    const bdsPracticeTrials = bds.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
-    const bdsPracticeAccuracy = bds.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
-    const maxCorrectDigitSpan = bds.game?.getMaxCorrectDigitSpanDays()?.[day - 1] ?? '0'
-    const maxDigitSpan = bds.game?.getMaxDigitSpanDays()?.[day - 1] ?? '0'
-    const meanDigitSpan = bds.game?.getMeanSpans()?.[day - 1] ?? '0'
-    const twoErrorMaxLength = bds.game?.getTwoErrorMaxLengths()?.[day - 1] ?? '0'
-    const twoErroTotalTrials = bds.game?.getTwoErrorTotalTrials()?.[day - 1] ?? '0'
-    const bdsLang = bds.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
-    const bdsGameTime = bds.game?.getGameTimes()?.[day - 1] ?? '-- mins'
-    const bdsStart = bds.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
-    const bdsEnd = bds.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i just pass props into the game day stuff
 
-    const simonSessions = simon.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
-    const simonCompletion = simon.game?.getCompletedDays()?.[day - 1] ?? 0
-    const simonSessionAccuracy = simon.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
-    const simonPracticeTrials = simon.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
-    const simonPracticeAccuracy = simon.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
-    const simonNoInput = simon.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
-    const simonLang = simon.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
-    const simonGameTime = simon.game?.getGameTimes()?.[day - 1] ?? '-- mins'
-    const simonStart = simon.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
-    const simonEnd = simon.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+    if (day <= 7){
+        console.log("bds")
+        const bdsSessions = bds.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+        const bdsCompletion = bds.game?.getCompletedDays()?.[day - 1] ?? 0
+        const bdsSessionAccuracy = bds.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+        const bdsPracticeTrials = bds.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+        const bdsPracticeAccuracy = bds.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+        const maxCorrectDigitSpan = bds.game?.getMaxCorrectDigitSpanDays()?.[day - 1] ?? '0'
+        const maxDigitSpan = bds.game?.getMaxDigitSpanDays()?.[day - 1] ?? '0'
+        const meanDigitSpan = bds.game?.getMeanSpans()?.[day - 1] ?? '0'
+        const twoErrorMaxLength = bds.game?.getTwoErrorMaxLengths()?.[day - 1] ?? '0'
+        const twoErroTotalTrials = bds.game?.getTwoErrorTotalTrials()?.[day - 1] ?? '0'
+        const bdsLang = bds.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+        const bdsGameTime = bds.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+        const bdsStart = bds.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+        const bdsEnd = bds.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
-    const csSessions = cs.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
-    const csCompletion = cs.game?.getCompletedDays()?.[day - 1] ?? 0
-    const csSessionAccuracy = cs.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
-    const csPracticeTrials = cs.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
-    const csPracticeAccuracy = cs.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
-    const csNoInput = cs.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
-    const csLang = cs.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
-    const csGameTime = cs.game?.getGameTimes()?.[day - 1] ?? '-- mins'
-    const csStart = cs.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
-    const csEnd = cs.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+        const simonSessions = simon.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+        const simonCompletion = simon.game?.getCompletedDays()?.[day - 1] ?? 0
+        const simonSessionAccuracy = simon.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+        const simonPracticeTrials = simon.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+        const simonPracticeAccuracy = simon.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+        const simonNoInput = simon.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
+        const simonLang = simon.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+        const simonGameTime = simon.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+        const simonStart = simon.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+        const simonEnd = simon.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
-    // TODO: this will need to be moved at some point when we fix the layout of the participant holding all the games
-    const bdsFirst = bds.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const bdsLast = bds.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const simonFirst = simon.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const simonLast = simon.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const csFirst = cs.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const csLast = cs.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
-    const started = bdsFirst !== '--/--/-- --:--:--' ? format(bdsFirst, REPORT_DT_HM_FORMAT) : '--'
+        const csSessions = cs.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
+        const csCompletion = cs.game?.getCompletedDays()?.[day - 1] ?? 0
+        const csSessionAccuracy = cs.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
+        const csPracticeTrials = cs.game?.getPracticeTrialsAmountDays()?.[day - 1] ?? '0'
+        const csPracticeAccuracy = cs.game?.getPracticeTrialsAccuracyDays()?.[day - 1] ?? '0'
+        const csNoInput = cs.game?.getNoInputTrialsDays()?.[day - 1] ?? '0'
+        const csLang = cs.game?.getLanguagePlayedForSessions()?.[day - 1] ?? '---'
+        const csGameTime = cs.game?.getGameTimes()?.[day - 1] ?? '-- mins'
+        const csStart = cs.game?.getStartTimes()?.[day - 1] ?? '--/--/-- --:--:--'
+        const csEnd = cs.game?.getEndTimes()?.[day - 1] ?? '--/--/-- --:--:--'
 
-    const timeIntervals = [bdsLast, bdsFirst, simonFirst, simonLast, csFirst, csLast]
-    let totalTime = '--'
-    const timeBetween = timeIntervals.filter(time => time !== '--/--/-- --:--:--')
-    timeBetween.sort((a, b) => new Date(a) - new Date(b))
-    if (timeBetween.length > 0) {
-        totalTime = (differenceInSeconds(timeBetween[timeBetween.length - 1], timeBetween[0]) / 60).toFixed(2)
-        totalTime = totalTime + ' min'
-    } 
+        // TODO: this will need to be moved at some point when we fix the layout of the participant holding all the games
+        const bdsFirst = bds.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const bdsLast = bds.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const simonFirst = simon.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const simonLast = simon.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const csFirst = cs.game?.getFirstTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const csLast = cs.game?.getLastTrialTimestamps()?.[day - 1] ?? '--/--/-- --:--:--'
+        const started = bdsFirst !== '--/--/-- --:--:--' ? format(bdsFirst, REPORT_DT_HM_FORMAT) : '--'
 
-    let playTime = '--'
-    if (timeBetween.length > 1) {
-        let delta = 0
-        for (let i = 0; i < timeBetween.length; i += 2) {
-            delta += differenceInSeconds(timeBetween[i + 1], timeBetween[i])
+        const timeIntervals = [bdsLast, bdsFirst, simonFirst, simonLast, csFirst, csLast]
+        let totalTime = '--'
+        const timeBetween = timeIntervals.filter(time => time !== '--/--/-- --:--:--')
+        timeBetween.sort((a, b) => new Date(a) - new Date(b))
+        if (timeBetween.length > 0) {
+            totalTime = (differenceInSeconds(timeBetween[timeBetween.length - 1], timeBetween[0]) / 60).toFixed(2)
+            totalTime = totalTime + ' min'
+        } 
+
+        let playTime = '--'
+        if (timeBetween.length > 1) {
+            let delta = 0
+            for (let i = 0; i < timeBetween.length; i += 2) {
+                delta += differenceInSeconds(timeBetween[i + 1], timeBetween[i])
+            }
+            playTime = (delta / 60).toFixed(2) + ' min'
         }
-        playTime = (delta / 60).toFixed(2) + ' min'
-    }
 
-    let bdsSimon = '--'
-    let simonCS = '--'
-    if (simonFirst !== '--/--/-- --:--:--') {
-        if (bdsFirst !== '--/--/-- --:--:--') {
-            bdsSimon = (differenceInSeconds(simonFirst, bdsLast) / 60).toFixed(2) + ' min'
+        let bdsSimon = '--'
+        let simonCS = '--'
+        if (simonFirst !== '--/--/-- --:--:--') {
+            if (bdsFirst !== '--/--/-- --:--:--') {
+                bdsSimon = (differenceInSeconds(simonFirst, bdsLast) / 60).toFixed(2) + ' min'
+            }
+            if (csFirst !== '--/--/-- --:--:--') {
+                simonCS = (differenceInSeconds(csFirst, simonLast) / 60).toFixed(2) + ' min'
+            }
         }
-        if (csFirst !== '--/--/-- --:--:--') {
-            simonCS = (differenceInSeconds(csFirst, simonLast) / 60).toFixed(2) + ' min'
-        }
-    }
 
-    const completionText = (bdsCompletion, simonCompletion, csCompletion) => {
-        if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
-            return "TASK COMPLETED"; // task completed
+        const completionText = (bdsCompletion, simonCompletion, csCompletion) => {
+            if (bdsCompletion >= 100 && simonCompletion >= 100 && csCompletion >= 100) {
+                return "TASK COMPLETED"; // task completed
+            }
+            if (bdsCompletion <= 0 && simonCompletion <= 0 && csCompletion <= 0) {
+                return "NOT COMPLETED"; // task not completed
+            }
+            return "PARTIALLY COMPLETED"; // task particially completed
         }
-        if (bdsCompletion <= 0 && simonCompletion <= 0 && csCompletion <= 0) {
-            return "NOT COMPLETED"; // task not completed
-        }
-        return "PARTIALLY COMPLETED"; // task particially completed
-    }
 
-    const header_color = (bdsCompletion, simonCompletion, csCompletion) => {
-        const stats = completionText(bdsCompletion, simonCompletion, csCompletion);
-        if (stats === "TASK COMPLETED") return "lightgreen";
-        if (stats === "NOT COMPLETED") return "lightcoral";
-        return "plum"; // task particially completed
-    }
-    return (
-        <div className='dayinformation'>
-            <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
-                <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
-                    <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
-                    <h5>Started: {started} </h5>
-                    <h5>Play Time: {playTime} </h5>
-                    <h5>Total Time: {totalTime} </h5>
-                </div>
+        const header_color = (bdsCompletion, simonCompletion, csCompletion) => {
+            const stats = completionText(bdsCompletion, simonCompletion, csCompletion);
+            if (stats === "TASK COMPLETED") return "lightgreen";
+            if (stats === "NOT COMPLETED") return "lightcoral";
+            return "plum"; // task particially completed
+        }
+
+        return (
+            <div className='dayinformation'>
+                <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
+                    <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
+                        <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
+                        <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
+                        <h5>Started: {started} </h5>
+                        <h5>Play Time: {playTime} </h5>
+                        <h5>Total Time: {totalTime} </h5>
+                    </div>
+
+                    <div className='brain-game-layout'>
+                        <h5>BDS Task</h5>
+                        <div className="start-end-stamps">
+                            <span>Started: {bdsStart}</span>
+                            <span>Ended: {bdsEnd}</span>
+                        </div>
+                    </div>
+                    <div className="brain-day-details">
+                        <p data-label="Sessions started:">{bdsSessions}</p>
+                        <p data-label="Session completion:">{bdsCompletion} %</p>
+                        <p data-label="Mean Session accuracy:">{bdsSessionAccuracy} %</p>
+                        <p data-label="Practice trials accuracy:">{bdsPracticeAccuracy} %</p>
+                        <p data-label="Practice trials amount:">{bdsPracticeTrials}</p>
+                        <p data-label="Max Digit Span:">{maxDigitSpan}</p>
+                        <p data-label="Mean Span (MS):">{meanDigitSpan}</p>
+                        <p data-label="Max Correct Digit Span (ML):">{maxCorrectDigitSpan}</p>
+                        <p data-label="Two-Error Maximum Length (TE-ML):">{twoErrorMaxLength}</p>
+                        <p data-label="Two-Error Total Trials (TE-TT):">{twoErroTotalTrials}</p>
+                        <p data-label="Language:">{bdsLang}</p>
+                        <p data-label="Game Time:">{bdsGameTime}</p>
+                    </div>
+
+                    <div className="brain-day-details">
+                        <p data-label="Time between BDS and Simon Tasks:">{bdsSimon}</p>
+                    </div>
 
                 <div className='brain-game-layout'>
-                    <h5>BDS Task</h5>
+                    <h5>Simon Task</h5>
                     <div className="start-end-stamps">
-                        <span>Started: {bdsStart}</span>
-                        <span>Ended: {bdsEnd}</span>
+                        <span>Started: {simonStart}</span>
+                        <span>Ended: {simonEnd}</span>
                     </div>
                 </div>
-                <div className="brain-day-details">
-                    <p data-label="Sessions started:">{bdsSessions}</p>
-                    <p data-label="Session completion:">{bdsCompletion} %</p>
-                    <p data-label="Mean Session accuracy:">{bdsSessionAccuracy} %</p>
-                    <p data-label="Practice trials accuracy:">{bdsPracticeAccuracy} %</p>
-                    <p data-label="Practice trials amount:">{bdsPracticeTrials}</p>
-                    <p data-label="Max Digit Span:">{maxDigitSpan}</p>
-                    <p data-label="Mean Span (MS):">{meanDigitSpan}</p>
-                    <p data-label="Max Correct Digit Span (ML):">{maxCorrectDigitSpan}</p>
-                    <p data-label="Two-Error Maximum Length (TE-ML):">{twoErrorMaxLength}</p>
-                    <p data-label="Two-Error Total Trials (TE-TT):">{twoErroTotalTrials}</p>
-                    <p data-label="Language:">{bdsLang}</p>
-                    <p data-label="Game Time:">{bdsGameTime}</p>
-                </div>
+                    <div className="brain-day-details">
+                        <p data-label="Sessions started:">{simonSessions}</p>
+                        <p data-label="Session completion:">{simonCompletion} %</p>
+                        <p data-label="Mean Session accuracy:">{simonSessionAccuracy} %</p>
+                        <p data-label="Practice trials accuracy:">{simonPracticeAccuracy} %</p>
+                        <p data-label="Practice trials amount:">{simonPracticeTrials}</p>
+                        <p data-label="No Input Trials:">{simonNoInput}</p>
+                        <p data-label="Language:">{simonLang}</p>
+                        <p data-label="Game Time:">{simonGameTime}</p>
+                    </div>
 
-                <div className="brain-day-details">
-                    <p data-label="Time between BDS and Simon Tasks:">{bdsSimon}</p>
-                </div>
+                    <div className="brain-day-details">
+                        <p data-label="Time between Simon and Color-Shape Tasks:">{simonCS}</p>
+                    </div>
+                
+                    <div className='brain-game-layout'>
+                        <h5>Color-Shape Task</h5>
+                        <div className="start-end-stamps">
+                            <span>Started: {csStart}</span>
+                            <span>Ended: {csEnd}</span>
+                        </div>
+                    </div>
+                    <div className="brain-day-details">
+                        <p data-label="Sessions started:">{csSessions}</p>
+                        <p data-label="Session completion:">{csCompletion} %</p>
+                        <p data-label="Mean Session accuracy:">{csSessionAccuracy} %</p>
+                        <p data-label="Practice trials accuracy:">{csPracticeAccuracy} %</p>
+                        <p data-label="Practice trials amount:">{csPracticeTrials}</p>
+                        <p data-label="No Input Trials:">{csNoInput}</p>
+                        <p data-label="Language:">{csLang}</p>
+                        <p data-label="Game Time:">{csGameTime}</p>
+                    </div>
+            </div>
+        );
+    } else { // day 8 - 14
+        console.log("fortune")
+        const fortuneCompletion = fortune.game?.getCompletedDays()?.[day - 1] ?? '0'
+        const points = isNaN(fortune.game?.getPoints()?.[day - 1]) ? '0' : fortune.game?.getPoints()?.[day - 1]
+        const score = fortune.game?.getScores()?.[day - 1] ?? '0'
 
-            <div className='brain-game-layout'>
-                <h5>Simon Task</h5>
-                <div className="start-end-stamps">
-                    <span>Started: {simonStart}</span>
-                    <span>Ended: {simonEnd}</span>
+        const header_color = (completion) => {
+            if (completion >= 100) { return "lightgreen" };
+            if (completion === 0) { return "lightcoral"};
+            return "plum";
+        }
+
+        const completionText = (fortuneCompletion) => {
+            if (fortuneCompletion >= 100) {
+                return "TASK COMPLETED"; // task completed
+            }
+            if (fortuneCompletion <= 0) {
+                return "NOT COMPLETED"; // task not completed
+            }
+            return "PARTIALLY COMPLETED"; // task particially completed
+        }
+
+        return (
+            <div className='dayinformation'>
+                <div className='day-bar' style={{width: `${fortuneCompletion}%`}}></div>
+                <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}>
+                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
+                    <h5>{(completionText(fortuneCompletion))}</h5>
+                </div>
+                <div className="day-details">
+                    <p>Completion: {fortuneCompletion}%</p>
+                    <p>Score: {score}</p>
+                    <p>Points: {points}</p>
                 </div>
             </div>
-                <div className="brain-day-details">
-                    <p data-label="Sessions started:">{simonSessions}</p>
-                    <p data-label="Session completion:">{simonCompletion} %</p>
-                    <p data-label="Mean Session accuracy:">{simonSessionAccuracy} %</p>
-                    <p data-label="Practice trials accuracy:">{simonPracticeAccuracy} %</p>
-                    <p data-label="Practice trials amount:">{simonPracticeTrials}</p>
-                    <p data-label="No Input Trials:">{simonNoInput}</p>
-                    <p data-label="Language:">{simonLang}</p>
-                    <p data-label="Game Time:">{simonGameTime}</p>
-                </div>
+        )
+    }
 
-                <div className="brain-day-details">
-                    <p data-label="Time between Simon and Color-Shape Tasks:">{simonCS}</p>
-                </div>
-            
-                <div className='brain-game-layout'>
-                    <h5>Color-Shape Task</h5>
-                    <div className="start-end-stamps">
-                        <span>Started: {csStart}</span>
-                        <span>Ended: {csEnd}</span>
-                    </div>
-                </div>
-                <div className="brain-day-details">
-                    <p data-label="Sessions started:">{csSessions}</p>
-                    <p data-label="Session completion:">{csCompletion} %</p>
-                    <p data-label="Mean Session accuracy:">{csSessionAccuracy} %</p>
-                    <p data-label="Practice trials accuracy:">{csPracticeAccuracy} %</p>
-                    <p data-label="Practice trials amount:">{csPracticeTrials}</p>
-                    <p data-label="No Input Trials:">{csNoInput}</p>
-                    <p data-label="Language:">{csLang}</p>
-                    <p data-label="Game Time:">{csGameTime}</p>
-                </div>
-        </div>
-    )
+    
 }
