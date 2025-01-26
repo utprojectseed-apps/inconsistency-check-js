@@ -374,11 +374,11 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
             return "PARTIALLY COMPLETED"; // task particially completed
         }
 
-        return (
+        return ( // day 8 - 14 fortune fortune.game.getCurrentDay()[day - 1] -.-
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${fortuneCompletion}%`}}></div>
-                <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}>
-                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
+                <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}> 
+                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5> 
                     <h5>{(completionText(fortuneCompletion))}</h5>
                 </div>
                 <div className="day-details">
