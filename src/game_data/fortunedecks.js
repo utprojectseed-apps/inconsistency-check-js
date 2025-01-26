@@ -1,5 +1,6 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
+import {format} from 'date-fns';
 
 const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
@@ -216,5 +217,18 @@ export default class FortuneDeck extends Game {
         let totalAccumulatedBonus = Game.MoneyFormat.format(accumulatedBonuses[accumulatedBonuses.length - 1]);
         
         return [maxPoints, averagePoints.toFixed(2), totalAccumulatedScore, maxBonus, totalAccumulatedBonus]
+    }
+
+    storeCurrentDay() {
+        const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i]
+            let currDate = "--";
+            if (df && this.firstTrialTimestamps && this.firstTrialTimestamps[i] instanceof Date && !isNaN(this.firstTrialTimestamps[i])) {
+                currDate = format(this.firstTrialTimestamps[i], 'yyyy-MM-dd');
+            }
+            this.currDays[i] = currDate;
+            this.weekDays[i] = weekdays[i % 7];
+        }        
     }
 }

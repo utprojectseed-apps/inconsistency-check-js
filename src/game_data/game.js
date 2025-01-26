@@ -22,10 +22,10 @@ export default class Game {
 
         this.#splitDays();
         this.calculateCompletionsDays();
-        this.storeCurrentDay();
         this.storeLanguagePlayedForSessions();
         this.getFirstAndLastTrialTimeStamps();
         this.calculateGameTimes();
+        this.storeCurrentDay();
     }
 
     static get TotalDays() {return 14; }

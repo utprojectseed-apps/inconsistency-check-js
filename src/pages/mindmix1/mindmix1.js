@@ -354,7 +354,9 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
         );
     } else { // day 8 - 14
         console.log("fortune")
-        const fortuneCompletion = fortune.game?.getCompletedDays()?.[day - 1] ?? '0'
+        const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        const weekday = weekdays[(day - 1) % 7]
+        const fortuneCompletion = fortune.game?.getCompletedDays()?.[day - 1] ?? 0
         const points = isNaN(fortune.game?.getPoints()?.[day - 1]) ? '0' : fortune.game?.getPoints()?.[day - 1]
         const score = fortune.game?.getScores()?.[day - 1] ?? '0'
 
@@ -378,7 +380,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${fortuneCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}> 
-                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5> 
+                    <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {weekday} {fortune.game?.getCurrentDay()?.[day - 1] || '--'}</h5> 
                     <h5>{(completionText(fortuneCompletion))}</h5>
                 </div>
                 <div className="day-details">
