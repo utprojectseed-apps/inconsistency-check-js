@@ -33,7 +33,7 @@ export default function MindMix1Page() {
             Mind Mix 1 is Brain Games (days 1-7) and Fortune Deck (days 8-14).
           </p>
           <p>
-            Reminder that when inputing the CSVs its in order: BDS, Simon,
+            Reminder that when inputing the CSVs it is in order: BDS, Simon,
             Color-Shape, and Fortune (top to bottom)!{" "}
           </p>
           {new Date().getDay() === 1 && (
