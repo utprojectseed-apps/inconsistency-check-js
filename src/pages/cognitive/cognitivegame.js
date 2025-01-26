@@ -62,6 +62,7 @@ export default function CognitiveGame() {
         <div>
             <div className="no-print">
                 <h1>Brain Games (BDS, Simon, and Color-Shape) Enter Data:</h1>
+                <h3>* Need to insert the files in order of BDS, Simon, and Color-shape (top to bottom)!</h3>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>

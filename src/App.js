@@ -37,7 +37,7 @@ const Main = () => {
         <Route path={'/mindmix1/*'} element={<MindMix1Page />}></Route>
       </Routes>
     </>
-);
+  );
 }
 
 export default App;
