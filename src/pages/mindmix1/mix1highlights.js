@@ -8,7 +8,9 @@ import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Button } from "@mui/material";
 import Lang from "../../locales/lang";
-import html2pdf from 'html2pdf.js';
+import html2pdf, { f } from 'html2pdf.js';
+import GraphPoints from "../../components/graph/graphpoints";
+import { FortunePointsGraph } from "../fortune/fortunehighlights";
 
 var lang = new Lang("eng", "cognitiveHighlight")
 export default function CognitiveHighlights() {
@@ -65,15 +67,16 @@ export default function CognitiveHighlights() {
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 let allList = []
-                allList.push(...[bdsList.current, simonList.current, csList.current].filter(list => list !== null && list !== undefined))
+                allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
                 setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
             }
             forceUpdate()
         }
-    }, [bdsData, simonData, csData])
+    }, [bdsData, simonData, csData, fortuneData])
     useEffect(() => {
         lang.setLang(selectedLang)
         forceUpdate()
@@ -98,8 +101,13 @@ export default function CognitiveHighlights() {
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            <div id="cognitivehighlights">
-                {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+            <div id="mindmix1highlights">
+                <div id="cognitivehighlights">
+                    {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+                </div>
+                <div id="fortunehighlights">
+                    {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} participantList={fortuneList.current} activeIds={selectedIds}/>}
+                </div>
             </div>
         </div>
     )
@@ -107,9 +115,9 @@ export default function CognitiveHighlights() {
 
 async function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    var element = document.getElementById("cognitivehighlights");
+    var element = document.getElementById("mindmix1highlights");
     var opt = {
-        filename: "cognitivehighlights-" + idString + ".pdf",
+        filename: "mindmix1highlights-" + idString + ".pdf",
         image: { type: "png" },
         html2canvas: { scale: 1 },
         jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
@@ -122,6 +130,7 @@ function ParticipantListHighlights(props) {
     let bdsList = props.bdsList
     let simonList = props.simonList
     let csList = props.csList
+    let fortuneList = props.fortuneList
     let allList = []
     allList.push(...[bdsList, simonList, csList].filter(list => list !== null && list !== undefined))
     let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
@@ -133,6 +142,7 @@ function ParticipantListHighlights(props) {
         bds={bdsList && bdsList.getParticipant(participant)} 
         simon={simonList && simonList.getParticipant(participant)} 
         cs={csList && csList.getParticipant(participant)}
+        fortune={fortuneList && fortuneList.getParticipant(participant)}
         selectedReport={props.selectedReport}/>)
     return (
         participants
@@ -146,7 +156,11 @@ function ParticipantHighlights(props) {
     let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
     let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
     let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
-    // let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
+    console.log("props.fortune.game:", props.fortune.game);
+    if (typeof props.fortune?.game?.getHighlights !== "function") {
+        console.error("getHighlights is not a function", props.fortune?.game);
+    }
+    let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
     return (
         <div>
             <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
@@ -172,6 +186,18 @@ function ParticipantHighlights(props) {
                 {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
                 {props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
                 {props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang} lastReport={lastReport}/>}
+            </div>
+            <div>
+                <div className="print-together print-page-after">
+                    <h3>{props.participant} - {lang.getString("title")}</h3>
+                    <p>{lang.getString("bestPoints")} {fortuneHighlight[0]}</p>
+                    <p>{lang.getString("averagePoints")} {fortuneHighlight[1]}</p>
+                    <p>{lang.getString("accumulatedScore")} {fortuneHighlight[2]}</p>
+                    <p>{lang.getString("bestBonus")} {fortuneHighlight[3]}</p>
+                    <p>{lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
+                </div>
+                {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={lang} lastReport={lastReport}/>}
+                {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={lang}/>}
             </div>
         </div>
     )

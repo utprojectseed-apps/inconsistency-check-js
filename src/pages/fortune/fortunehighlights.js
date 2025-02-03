@@ -136,7 +136,7 @@ function ParticipantHighlights(props) {
     )
 }
 
-function FortunePointsGraph(props) {
+export function FortunePointsGraph(props) {
     const rawData = props.game.getEndPoints()
     //need to use lang here again to make sure graph will update on refresh
     const lang = props.lang
