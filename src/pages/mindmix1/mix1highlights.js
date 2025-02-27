@@ -5,13 +5,15 @@ import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import RadioHighlightReport from "../../components/radiohighlightreport";
 import RadioHighlightLanguage from "../../components/radiohighlightlanguage";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { Button } from "@mui/material";
+import GraphPoints from "../../components/graph/graphpoints";
 import Lang from "../../locales/lang";
 import html2pdf from 'html2pdf.js';
 
 var lang = new Lang("eng", "cognitiveHighlight")
-export default function CognitiveHighlights() {
+var fortune_lang = new Lang("eng", "fortuneHighlight")
+export default function CognitiveHighlights() { // should rename this 
     const [bdsData, setBdsData] = React.useState(undefined)
     const [simonData, setSimonData] = React.useState(undefined)
     const [csData, setCsData] = React.useState(undefined)
@@ -65,17 +67,19 @@ export default function CognitiveHighlights() {
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 let allList = []
-                allList.push(...[bdsList.current, simonList.current, csList.current].filter(list => list !== null && list !== undefined))
+                allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
                 setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
             }
             forceUpdate()
         }
-    }, [bdsData, simonData, csData])
+    }, [bdsData, simonData, csData, fortuneData])
     useEffect(() => {
         lang.setLang(selectedLang)
+        fortune_lang.setLang(selectedLang)
         forceUpdate()
     }, [selectedLang])
 
@@ -99,7 +103,7 @@ export default function CognitiveHighlights() {
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
             <div id="cognitivehighlights">
-                {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} activeIds={selectedIds}/>}
+                {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} fortuneList={fortuneList.current} activeIds={selectedIds}/>}
             </div>
         </div>
     )
@@ -109,7 +113,7 @@ async function printPlease(selectedIds) {
     var idString = selectedIds[0]
     var element = document.getElementById("cognitivehighlights");
     var opt = {
-        filename: "cognitivehighlights-" + idString + ".pdf",
+        filename: "mix1highlights-" + idString + ".pdf",
         image: { type: "png" },
         html2canvas: { scale: 1 },
         jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
@@ -122,8 +126,9 @@ function ParticipantListHighlights(props) {
     let bdsList = props.bdsList
     let simonList = props.simonList
     let csList = props.csList
+    let fortuneList = props.fortuneList
     let allList = []
-    allList.push(...[bdsList, simonList, csList].filter(list => list !== null && list !== undefined))
+    allList.push(...[bdsList, simonList, csList, fortuneList].filter(list => list !== null && list !== undefined))
     let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
     const filteredParticipants = Array.from(participantIds).filter(participant => {
         return props.activeIds.includes(participant)})
@@ -132,10 +137,21 @@ function ParticipantListHighlights(props) {
         participant={participant} 
         bds={bdsList && bdsList.getParticipant(participant)} 
         simon={simonList && simonList.getParticipant(participant)} 
-        cs={csList && csList.getParticipant(participant)}
+        cs={csList && csList.getParticipant(participant)} 
+        fortune={fortuneList && fortuneList.getParticipant(participant)}
         selectedReport={props.selectedReport}/>)
+    return <div>
+        {props.selectedReport === "second-week" && <GameExplanation/>}
+        {participants}
+    </div>
+}
+
+function GameExplanation() {
     return (
-        participants
+        <div className="print-together print-page-after">
+            <h1>{fortune_lang.getString("thank")}</h1>
+            <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro")}}/>
+        </div>
     )
 }
 
@@ -143,12 +159,15 @@ function ParticipantHighlights(props) {
     let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1 // if its the first week that is cog, 2nd week is fortune
     let lastReport = reportSelected === 1
-    let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
-    let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
-    let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
-    // let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
-    return (
-        <div>
+    // will check the selected report and return the correct highlight
+
+    if (reportSelected === 0) {
+        let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
+        let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
+        let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
+
+        return (
+            <div>
             <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
             <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
             <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
@@ -174,9 +193,35 @@ function ParticipantHighlights(props) {
                 {props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang} lastReport={lastReport}/>}
             </div>
         </div>
-    )
+        )
+    } else if (reportSelected === 1) {
+        let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
+        return (
+            <div>
+                <div className='print-together print-page-after'>
+                    <h3>{props.participant} - {fortune_lang.getString("title")}</h3>
+                    <p>{fortune_lang.getString("bestPoints")} {fortuneHighlight[0]}</p>
+                    <p>{fortune_lang.getString("averagePoints")} {fortuneHighlight[1]}</p>
+                    <p>{fortune_lang.getString("accumulatedScore")} {fortuneHighlight[2]}</p>
+                    <p>{fortune_lang.getString("bestBonus")} {fortuneHighlight[3]}</p>
+                    <p>{fortune_lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
+                </div>
+                {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={fortune_lang} lastReport={lastReport}/>}
+            </div>
+        )
+    }
 }
 
+/**
+ * Component that renders a line graph of the average score of a participant
+ * in the Digit Span task for the last week. The x-axis represents the days
+ * of the week, and the y-axis represents the maximum digit span.
+ *
+ * @param {Object} props - The component props
+ * @param {Object} props.game - The game data
+ * @param {Object} props.lang - The language data
+ * @param {boolean} props.lastReport - Whether this is the last report
+ */
 function BdsAverageScoreGraph(props) {
     const rawData = props.game.getMaxCorrectDigitSpanDays()
     const lang = props.lang
@@ -206,14 +251,14 @@ function BdsAverageScoreGraph(props) {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
                     <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[1, 14]} 
-                        tickCount={14} 
+                        domain={[1, 7]} 
+                        tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
                         tickLine={false}
@@ -343,6 +388,71 @@ function ReactionTimeGraph(props) {
                     <Tooltip />
                     <Legend />
                     <Line name={lang.getString("graphSimonReactionAverage")} type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
+                        strokeWidth={2.5} isAnimationActive={false}
+                        dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    )
+}
+
+
+function FortunePointsGraph(props) {
+    const rawData = props.game.getEndPoints()
+    //need to use lang here again to make sure graph will update on refresh
+    const lang = props.lang
+    const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
+    const data = []
+    const lastReport = props.lastReport
+    const TOTALDAYS = 14
+    for (let i = 7; i < TOTALDAYS; i++) {
+        data.push({day: i + 1, y: rawData[i], weekday: i % 7})
+    }
+    const yMax = 5000
+    const yMin = 0
+    const yTicks = []
+    for (let i = yMin; i <= yMax; i += 500) {
+        yTicks.push(i)
+    }
+    //TODO: get start points from df
+    const referenceValue = 2500
+    return (
+        <div className="print-before">
+            <h3>{lang.getString("graphPointsTitle")}</h3>
+            <ResponsiveContainer width="95%" height={600}>
+                <LineChart 
+                    data={data}
+                    width={500}
+                    height={500}
+                    margin={{
+                        top: 10,
+                        right: 30,
+                        left: 30,
+                        bottom: 5
+                    }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                        height={30}
+                        dy={-10}
+                        dataKey="day" 
+                        type="number" 
+                        domain={[8, 14]} 
+                        tickCount={7} 
+                        tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
+                        axisLine={false}
+                        tickLine={false}
+                        />
+                    <YAxis label={{ value: lang.getString("graphPointsEarned"), angle: -90, position: 'left', style: {textAnchor: 'middle'}, offset: 20}} 
+                        type="number" 
+                        domain={[yMin, yMax]} 
+                        ticks={yTicks}
+                        />
+                    <ReferenceLine y={referenceValue} stroke="red" />
+                    <Tooltip />
+                    <Legend />
+                    <Line name={lang.getString("graphPointsEarned")} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
                     />
