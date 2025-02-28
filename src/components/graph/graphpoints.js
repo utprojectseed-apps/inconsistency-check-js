@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
-export default function GraphPoints( {participant, lang} ) {
+export default function GraphPoints( {participant, lang, daysToShow = 14} ) {
     // suppress error from defaultProps and Recharts
     const error = console.error;
     console.error = (...args) => {
@@ -8,8 +8,10 @@ export default function GraphPoints( {participant, lang} ) {
     error(...args);
     };
     const rawData = participant.game.getGraphPoints()
+    const startDay = Math.max(0, rawData.length - daysToShow)
+
     const data = [] 
-    for (let i = 0; i < rawData.length; i++) {
+    for (let i = startDay; i < rawData.length; i++) {
         let day = []
         if(rawData[i] === undefined) { 
             data.push(day)
@@ -24,7 +26,7 @@ export default function GraphPoints( {participant, lang} ) {
         }
         data.push(day)
     }
-    const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()} lang={lang}/>)
+    const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={startDay + index} id={participant.getId()} lang={lang}/>)
     return (
         <div className="proportion-graph">
             {daysGraphs}
@@ -33,7 +35,7 @@ export default function GraphPoints( {participant, lang} ) {
 }
 
 const GraphSingleDay = ({data, day, id, lang}) => {
-    const xTicks = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
     return (
         <div>
             <h3 style={{marginLeft: 20}}>{lang.getString("graphDayScore", {day: day + 1})}</h3>
@@ -49,12 +51,24 @@ const GraphSingleDay = ({data, day, id, lang}) => {
                         bottom: 5,
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId={0} dataKey="x" hide={true}/>
-                    <XAxis xAxisId={1} label={{value: lang.getString("graphToday")}} tick={false}/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis xAxisId="0" dataKey="x" type="number" domain={[0, 80]} tickCount={11} hide={true}/>
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphToday"), position: 'insideBottom', dy: 35}}
+                        height={30}
+                        dy={5}
+                        dataKey="x"
+                        type="number"
+                        domain={[0, 80]}
+                        tickCount={11}
+                        tickLine={true}
+                        axisLine={true}/>
                     <YAxis domain={[0, 5000]} ticks={[0, 1250, 2500, 3750, 5000]}/>    
                     <Tooltip />
-                    <Legend />
+                    <Legend 
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 40, marginTop: 90 }}
+                    />
                     <ReferenceLine y={2500} stroke="red"/>
                     <Line type="monotone" dataKey="y" name={lang.getString("graphPoints")} stroke="#1b9e77" strokeWidth={2.5}
                         dot={{ stroke:"#1b9e77", strokeWidth: 0, r: 0, strokeDasharray:''}} isAnimationActive={false}

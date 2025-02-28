@@ -11,6 +11,8 @@ var lang = {
         accumulatedScore: "Su puntuación acumulada:",
         bestBonus: "Su mejor bono ganado en un solo día:",
         accumulatedBonus: "Su bono acumulado:",
+        dailyScores: "Los gráficos a continuación ilustran cómo cambiaron tus puntos a lo largo del juego después de seleccionar una carta. " + 
+            "Recuerde que comenzaste con 2500 puntos antes de elegir tu primera carta. ",
 
         //graph
         graphPointsTitle: "Puntos de Fortuna",
@@ -23,7 +25,11 @@ var lang = {
     },
 
     cognitiveHighlight: {
-        digitTitle: "Tramo de Dígitos",
+        thank:"¡Gracias por completar 14 días de los Juegos Cognitivos!",
+        intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días de jugar Dígitos, Simón, y Forma Color. </p>" +
+            "<p>Hemos graficado tus puntuaciones para Dígitos, así como tu precisión y el tiempo promedio de reacción para Simón y Forma Color, para cada día. </p>" +
+            "<p>Solo un recordatorio: su puntaje de dígitos refleja el número de dígitos que has podido recordar. </p>",
+        digitTitle: "Dígitos",
         digitLongest: "Su tramo más largo de dígitos correctos fue {x} dígitos.",
         digitAverage: "Su tramo promedio de dígitos correctos fue {x} dígitos.",
 

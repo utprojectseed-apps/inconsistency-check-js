@@ -116,7 +116,6 @@ function GameExplanation() {
 }
 
 function ParticipantHighlights(props) {
-    let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
     let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
@@ -131,6 +130,7 @@ function ParticipantHighlights(props) {
                 <p>{lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
             </div>
             {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={lang} lastReport={lastReport}/>}
+            {lastReport && <p>{lang.getString("dailyScores")}</p>}
             {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={lang}/>}
         </div>
     )

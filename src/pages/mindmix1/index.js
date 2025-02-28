@@ -1,7 +1,8 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import MindMix1Game from "./mindmix1";
 import Mindmix1SurveyDisplay from "./mix1surveydisplay";
-//import CognitiveSurveyDisplay from "./cognitivesurveydisplay";
+import MindMix1Highlights from "./mix1highlights";
+
 
 const Navigation = () => (
   <nav>
@@ -14,6 +15,9 @@ const Navigation = () => (
       </li>
       <li>
         <NavLink to="./game">Games</NavLink>
+      </li>
+      <li>
+        <NavLink to="./highlight">Highlights</NavLink>
       </li>
     </ul>
   </nav>
@@ -46,6 +50,7 @@ export default function MindMix1Page() {
       <Routes>
         <Route path="game" element={<MindMix1Game />}></Route>
         <Route path="survey" element={<Mindmix1SurveyDisplay />}></Route>
+        <Route path="highlight" element={<MindMix1Highlights />}></Route>
       </Routes>
     </>
   );

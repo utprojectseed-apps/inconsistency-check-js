@@ -41,23 +41,14 @@ export default function Mindmix1SurveyDisplay() {
     <div className="survey">
       <div className="no-print">
         <h1 className="no-print">Enter data</h1>
-        <CSVReader parentCallback={handleUpload} gameId="mindmix1" />
+        <CSVReader parentCallback={handleUpload} gameId="mindmix1"/>
       </div>
 
       <div className="no-print">
-        <CheckboxesTags
-          className="no-print"
-          ids={ids}
-          parentCallback={handleSelected}
-        />
+        <CheckboxesTags className="no-print" ids={ids} parentCallback={handleSelected}/>
       </div>
 
-      {!loading && !errorMessage && (
-        <SurveyFullReport
-          participantList={survey.current}
-          activeIds={selectedIds}
-        />
-      )}
+      {!loading && !errorMessage && <SurveyFullReport participantList={survey.current} activeIds={selectedIds}/>}
     </div>
   );
 }

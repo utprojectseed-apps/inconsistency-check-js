@@ -129,13 +129,22 @@ function ParticipantListHighlights(props) {
         simon={simonList && simonList.getParticipant(participant)} 
         cs={csList && csList.getParticipant(participant)}
         selectedReport={props.selectedReport}/>)
+    return <div>
+        {props.selectedReport === "second-week" && <GameExplanation/>}
+        {participants}
+    </div>
+}
+
+function GameExplanation() {
     return (
-        participants
+        <div className="print-together print-page-after">
+            <h1>{lang.getString("thank")}</h1>
+            <div dangerouslySetInnerHTML={{__html: lang.getString("intro")}}/>
+        </div>
     )
 }
 
 function ParticipantHighlights(props) {
-    let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1
     let lastReport = reportSelected === 1
     let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
@@ -171,6 +180,16 @@ function ParticipantHighlights(props) {
     )
 }
 
+/**
+ * Component that renders a line graph of the average score of a participant
+ * in the Digit Span task for the last week. The x-axis represents the days
+ * of the week, and the y-axis represents the maximum digit span.
+ *
+ * @param {Object} props - The component props
+ * @param {Object} props.game - The game data
+ * @param {Object} props.lang - The language data
+ * @param {boolean} props.lastReport - Whether this is the last report
+ */
 function BdsAverageScoreGraph(props) {
     const rawData = props.game.getMaxCorrectDigitSpanDays()
     const lang = props.lang
@@ -197,11 +216,10 @@ function BdsAverageScoreGraph(props) {
                         right: 30,
                         left: 20,
                         bottom: 5
-                    }}
-                >
+                    }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -211,14 +229,17 @@ function BdsAverageScoreGraph(props) {
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
                         tickLine={false}
-                        />
-
+                    />
                     <YAxis label={{ value: lang.getString("graphDigitMax"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" domain={[0, yMax]} 
                         ticks={yTicks} 
                         interval={1}/>
                     <Tooltip />
-                    <Legend />
+                    <Legend 
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}     
+                    />
                     <Line name={lang.getString("graphDigitLength")} type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
@@ -259,7 +280,7 @@ function AccuracyScoreGraph(props) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -277,7 +298,11 @@ function AccuracyScoreGraph(props) {
                         interval={0}
                         />
                     <Tooltip />
-                    <Legend />
+                    <Legend 
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}
+                    />
                     <Line name={lang.getString("graphSimonSessionAccuracy")} type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
@@ -314,11 +339,10 @@ function ReactionTimeGraph(props) {
                         right: 30,
                         left: 30,
                         bottom: 5
-                    }}
-                >
+                    }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 14]} tickCount={14}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -335,7 +359,11 @@ function ReactionTimeGraph(props) {
                         allowDataOverflow={false}
                         />
                     <Tooltip />
-                    <Legend />
+                    <Legend 
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}
+                    />
                     <Line name={lang.getString("graphSimonReactionAverage")} type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
