@@ -11,6 +11,8 @@ var lang = {
         accumulatedScore: "Your accumulated score:",
         bestBonus: "Your best bonus earned in a single day:",
         accumulatedBonus: "Your accumulated bonus:",
+        dailyScores: "The graphs below illustrate how your points changed throughout the game after selecting a card. " + 
+            "Remember that you began with 2500 points before choosing your first card. ",
 
         //graph
         graphPointsTitle: "Fortune Deck Points",
@@ -23,6 +25,10 @@ var lang = {
     },
 
     cognitiveHighlight: {
+        thank:"Thank you for completing 14 days of Brain Games!",
+        intro: "<p>Below are the highlights from your 14 days of playing Digit Span, Simon, and Color Shape. </p>" +
+            "<p>We have graphed your scores for Digit Span, as well as your accuracy and reaction time for Simon and Color Shape, for each day. </p>" +
+            "<p>Just a reminder: your Digit Span score reflects the number of digits you were able to remember. </p>",
         digitTitle: "Digit Span",
         digitLongest: "Your longest correct digit span was {x} digits.",
         digitAverage: "Your average correct digit span was {x} digits.",

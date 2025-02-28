@@ -41,7 +41,7 @@ export default function FortuneSurveyDisplay() {
         <div className='survey'>
             <div className='no-print'>
                 <h1 className='no-print'>Enter data</h1>
-                <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
+                <CSVReader parentCallback={handleUpload} gameId="fortune"/>
             </div>
             
             <div className='no-print'>

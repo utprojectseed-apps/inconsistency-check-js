@@ -102,7 +102,7 @@ export default function CognitiveHighlights() { // should rename this
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
-            <div id="cognitivehighlights">
+            <div id="mindmixhighlights">
                 {!errorMessage && <ParticipantListHighlights selectedReport={selectedReport} bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} fortuneList={fortuneList.current} activeIds={selectedIds}/>}
             </div>
         </div>
@@ -141,26 +141,34 @@ function ParticipantListHighlights(props) {
         fortune={fortuneList && fortuneList.getParticipant(participant)}
         selectedReport={props.selectedReport}/>)
     return <div>
-        {props.selectedReport === "second-week" && <GameExplanation/>}
+        {props.selectedReport && <GameExplanation selectedReport={props.selectedReport}/>}
         {participants}
     </div>
 }
 
-function GameExplanation() {
-    return (
-        <div className="print-together print-page-after">
-            <h1>{fortune_lang.getString("thank")}</h1>
-            <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro")}}/>
-        </div>
-    )
+function GameExplanation(props) {
+    if (props.selectedReport === "first-week") {
+        return (
+            <div className="print-together print-page-after">
+                <h1>{lang.getString("thank")}</h1>
+                <div dangerouslySetInnerHTML={{__html: lang.getString("intro")}}/>
+            </div>
+        )
+    } else {
+        return (
+            <div className="print-together print-page-after">
+                <h1>{fortune_lang.getString("thank")}</h1>
+                <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro")}}/>
+            </div>
+        )
+    }
 }
 
 function ParticipantHighlights(props) {
-    let noData = <p>No data</p>
     let reportSelected = props.selectedReport === "first-week" ? 0 : 1 // if its the first week that is cog, 2nd week is fortune
     let lastReport = reportSelected === 1
-    // will check the selected report and return the correct highlight
 
+    // will check the selected report and return the correct highlight
     if (reportSelected === 0) {
         let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
         let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
@@ -168,29 +176,31 @@ function ParticipantHighlights(props) {
 
         return (
             <div>
-            <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
-            <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
-            <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
-            {props.bds !== null && <BdsAverageScoreGraph game={props.bds.game} lang={lang} lastReport={lastReport}/>}
-            <div className="print-together">
-                <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
-                <p>{lang.getString("simonAccuracyBest", {x: simonHighlight[0]})}</p>
-                <p>{lang.getString("simonAccuracyAverage", {x: simonHighlight[1]})}</p>
-                <p>{lang.getString("simonReactionTimeFirst", {x: simonHighlight[2]})}</p>
-                <p>{lang.getString("simonReactionTimeAverage", {x: simonHighlight[3]})}</p>
-                {lastReport && <p>{lang.getString("simonReactionTimeImprovement", {x: simonHighlight[4], y: simonHighlight[5]})}</p>}
-                {props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={lang.getString("graphSimonAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
-                {props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={lang.getString("graphSimonReactionTitle")} lang={lang} lastReport={lastReport}/>}
-            </div>
-            <div className="print-together">
-                <h3>{props.participant} - {lang.getString("csTitle")}</h3>
-                <p>{lang.getString("csAccuracyBest", {x: csHighlight[0]})}</p>
-                <p>{lang.getString("csAccuracyAverage", {x: csHighlight[1]})}</p>
-                <p>{lang.getString("csReactionTimeFirst", {x: csHighlight[2]})}</p>
-                <p>{lang.getString("csReactionTimeAverage", {x: csHighlight[3]})}</p>
-                {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
-                {props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
-                {props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang} lastReport={lastReport}/>}
+                <div className="print-together print-page-after">
+                <h3>{props.participant} - {lang.getString("digitTitle")}</h3>
+                <p>{lang.getString("digitLongest", {x: bdsHighlight[0]})}</p>
+                <p>{lang.getString("digitAverage", {x: bdsHighlight[1]})}</p>
+                {props.bds !== null && <BdsAverageScoreGraph game={props.bds.game} lang={lang} lastReport={lastReport}/>}
+                <div className="print-together">
+                    <h3>{props.participant} - {lang.getString("simonTitle")}</h3>
+                    <p>{lang.getString("simonAccuracyBest", {x: simonHighlight[0]})}</p>
+                    <p>{lang.getString("simonAccuracyAverage", {x: simonHighlight[1]})}</p>
+                    <p>{lang.getString("simonReactionTimeFirst", {x: simonHighlight[2]})}</p>
+                    <p>{lang.getString("simonReactionTimeAverage", {x: simonHighlight[3]})}</p>
+                    {lastReport && <p>{lang.getString("simonReactionTimeImprovement", {x: simonHighlight[4], y: simonHighlight[5]})}</p>}
+                    {props.simon !== null && <AccuracyScoreGraph game={props.simon.game} gameName={lang.getString("graphSimonAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
+                    {props.simon !== null && <ReactionTimeGraph game={props.simon.game} gameName={lang.getString("graphSimonReactionTitle")} lang={lang} lastReport={lastReport}/>}
+                </div>
+                <div className="print-together">
+                    <h3>{props.participant} - {lang.getString("csTitle")}</h3>
+                    <p>{lang.getString("csAccuracyBest", {x: csHighlight[0]})}</p>
+                    <p>{lang.getString("csAccuracyAverage", {x: csHighlight[1]})}</p>
+                    <p>{lang.getString("csReactionTimeFirst", {x: csHighlight[2]})}</p>
+                    <p>{lang.getString("csReactionTimeAverage", {x: csHighlight[3]})}</p>
+                    {lastReport && <p>{lang.getString("csReactionTimeImprovement", {x: csHighlight[4], y: csHighlight[5]})}</p>}
+                    {props.cs !== null && <AccuracyScoreGraph game={props.cs.game} gameName={lang.getString("graphCsAccuracyTitle")} lang={lang} lastReport={lastReport}/>}
+                    {props.cs !== null && <ReactionTimeGraph game={props.cs.game} gameName={lang.getString("graphCsReactionTitle")} lang={lang} lastReport={lastReport}/>}
+                </div>
             </div>
         </div>
         )
@@ -207,8 +217,10 @@ function ParticipantHighlights(props) {
                     <p>{fortune_lang.getString("accumulatedBonus")} {fortuneHighlight[4]}</p>
                 </div>
                 {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={fortune_lang} lastReport={lastReport}/>}
+                {lastReport && <p>{fortune_lang.getString("dailyScores")}</p>}
+                {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={fortune_lang} daysToShow={7}/>}
             </div>
-        )
+        )   
     }
 }
 
@@ -225,7 +237,6 @@ function ParticipantHighlights(props) {
 function BdsAverageScoreGraph(props) {
     const rawData = props.game.getMaxCorrectDigitSpanDays()
     const lang = props.lang
-    const lastReport = props.lastReport
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
     const TOTALDAYS = 7
@@ -248,11 +259,10 @@ function BdsAverageScoreGraph(props) {
                         right: 30,
                         left: 20,
                         bottom: 5
-                    }}
-                >
+                    }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom',  dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -262,14 +272,17 @@ function BdsAverageScoreGraph(props) {
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
                         tickLine={false}
-                        />
-
+                    />
                     <YAxis label={{ value: lang.getString("graphDigitMax"), angle: -90, position: 'left', style: {textAnchor: 'middle'}}} 
                         type="number" domain={[0, yMax]} 
                         ticks={yTicks} 
                         interval={1}/>
                     <Tooltip />
-                    <Legend />
+                    <Legend
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }} 
+                    />
                     <Line name={lang.getString("graphDigitLength")} type="monotone" dataKey="digitSpanLength" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
@@ -280,12 +293,21 @@ function BdsAverageScoreGraph(props) {
     )
 }
 
+/**
+ * Component that renders a line graph of the mean accuracy of a player in the given game for the last week. The x-axis represents the days of the week,
+ * and the y-axis represents the accuracy in percentage.
+ *
+ * @param {Object} props - The component props
+ * @param {String} props.gameName - The name of the game
+ * @param {Object} props.game - The game data
+ * @param {Object} props.lang - The language data
+ * @param {Boolean} props.lastReport - Whether the last report is being displayed
+ */
 function AccuracyScoreGraph(props) {
     const gameName = props.gameName
     const rawData = props.game.getMeanSessionsAccuracys()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
-    const lastReport = props.lastReport
     const TOTALDAYS = 7
     const data = []
     for (let i = 0; i < TOTALDAYS; ++i) {
@@ -310,7 +332,7 @@ function AccuracyScoreGraph(props) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -328,7 +350,11 @@ function AccuracyScoreGraph(props) {
                         interval={0}
                         />
                     <Tooltip />
-                    <Legend />
+                    <Legend
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}
+                    />
                     <Line name={lang.getString("graphSimonSessionAccuracy")} type="monotone" dataKey="accuracy" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
@@ -339,12 +365,21 @@ function AccuracyScoreGraph(props) {
     )
 }
 
+/**
+ * Component that renders a line graph of the mean correct reaction time by day for
+ * a given game.
+ *
+ * @param {Object} props - The component props
+ * @param {String} props.gameName - The name of the game
+ * @param {Object} props.game - The game data
+ * @param {Object} props.lang - The language data
+ * @param {Boolean} props.lastReport - Whether the last report is being displayed
+ */
 function ReactionTimeGraph(props) {
     const gameName = props.gameName
     const rawData = props.game.getMeanCorrectReactionTime()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
-    const lastReport = props.lastReport
     const TOTALDAYS = 7
     const data = []
     for (let i = 0; i < TOTALDAYS; ++i) {
@@ -365,11 +400,10 @@ function ReactionTimeGraph(props) {
                         right: 30,
                         left: 30,
                         bottom: 5
-                    }}
-                >
+                    }} >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -386,7 +420,11 @@ function ReactionTimeGraph(props) {
                         allowDataOverflow={false}
                         />
                     <Tooltip />
-                    <Legend />
+                    <Legend
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}
+                    />
                     <Line name={lang.getString("graphSimonReactionAverage")} type="monotone" dataKey="reactionTime" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
@@ -397,14 +435,21 @@ function ReactionTimeGraph(props) {
     )
 }
 
-
+/**
+ * Component that renders a line graph of the points earned by a player in the
+ * Fortune game for the last week. The x-axis represents the days of the week,
+ * and the y-axis represents the points earned.
+ *
+ * @param {Object} props - The component props
+ * @param {Object} props.game - The game data
+ * @param {Object} props.lang - The language data
+ */
 function FortunePointsGraph(props) {
     const rawData = props.game.getEndPoints()
     //need to use lang here again to make sure graph will update on refresh
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
-    const lastReport = props.lastReport
     const TOTALDAYS = 14
     for (let i = 7; i < TOTALDAYS; i++) {
         data.push({day: i + 1, y: rawData[i], weekday: i % 7})
@@ -415,7 +460,6 @@ function FortunePointsGraph(props) {
     for (let i = yMin; i <= yMax; i += 500) {
         yTicks.push(i)
     }
-    //TODO: get start points from df
     const referenceValue = 2500
     return (
         <div className="print-before">
@@ -433,7 +477,7 @@ function FortunePointsGraph(props) {
                     }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
-                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom'}} 
+                    <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
@@ -451,7 +495,11 @@ function FortunePointsGraph(props) {
                         />
                     <ReferenceLine y={referenceValue} stroke="red" />
                     <Tooltip />
-                    <Legend />
+                    <Legend 
+                        verticalAlign="bottom" 
+                        align="center" 
+                        wrapperStyle={{ paddingTop: 20, marginTop: 80 }}
+                    />
                     <Line name={lang.getString("graphPointsEarned")} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{ r: 8 }} 
                         strokeWidth={2.5} isAnimationActive={false}
                         dot={{ stroke:"#8884d8", strokeWidth: 4, r: 2, strokeDasharray:''}}
