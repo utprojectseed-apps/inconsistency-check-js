@@ -1,0 +1,214 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+.app {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  background-color: black;
+  margin-bottom: 20px;
+}
+
+nav ul li {
+  padding: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.current {
+  border-bottom: 4px solid white;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+.gameparticipantreport {
+  margin-bottom: 20px;
+  page-break-after: always;
+}
+
+.participant-header {
+  margin-bottom: 20px;
+  background-color: lightgray;
+}
+
+.participant-id {
+  display: flex;
+  justify-content: center;
+}
+
+.day-details {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 20%;
+}
+
+.day-details > p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.brain-day-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding-left: 40%;
+  font-size: small;
+  margin-bottom: 5%;
+}
+
+.brain-day-details > p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: contents;
+}
+
+.brain-day-details > p::before {
+  content: attr(data-label);
+  text-align: right;
+}
+
+.day-header {
+  margin-top: 15px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.day-header > * {
+  flex: 1 0 0;
+  text-align: center;
+}
+
+/* need to look into this style more late gonna drive me insane */
+.brain-game-layout {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.brain-game-layout h5 {
+  margin-left: 60px;
+  margin-right: 0px;
+  text-align: left;
+}
+
+.start-end-stamps {
+  height: 40px; 
+  display: flex;
+  font-size: small;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+}
+
+.start-end-stamps span {
+  margin-left: 20px;
+}
+
+.proportion-graph {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.test {
+  background-color: blue;
+}
+
+.survey-header-element {
+  text-align: center;
+  font-weight: bold;
+  flex: 1 0 0;
+}
+
+.survey-compensation-table {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: lightgray;
+}
+
+.survey-compensation-table > p {
+  flex: 1 0 0;
+  text-align: center;
+}
+
+@media print
+{    
+  .no-print, .no-print *
+  {
+      display: none !important;
+  }
+
+  .print-together, .print-together *
+  {
+      break-inside:avoid;
+      width: calc(100%)!important;
+  }
+
+  .print-page-after
+  {
+    page-break-after: always;
+  }
+}
+
+.recharts-wrapper,
+    .recharts-surface{
+      @media print {
+        font-size: large;
+      }
+      font-size: 1.4rem;
+      font-family: Roboto, sans-serif;
+    }
+
+.recharts-legend-wrapper {
+  position: relative;
+  width: auto;
+}
+
+#cognitivehighlights, #fortunehighlights, #mindmixhighlights {
+  padding: 2rem;
+}
+
+#cognitivehighlights h1, #fortunehighlights h1, #mindmixhighlights h1{
+  font-size: 3rem;
+}
+
+#cognitivehighlights h2, #fortunehighlights h2, #mindmixhighlights h2{
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights h3, #fortunehighlights h3, #mindmixhighlights h3{
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+#cognitivehighlights p, #fortunehighlights p, #mindmixhighlights p{
+  font-size: 2rem;
+}
+
+/* .recharts-cartesian-axis-tick {    
+    font-size: 1.4rem;
+    font-family: Roboto, sans-serif;
+} */
