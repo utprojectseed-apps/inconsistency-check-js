@@ -30,7 +30,7 @@ var lang = {
     },
 
     cognitiveHighlight: {
-        thank:"Thank you for completing 14 days of Brain Games!",
+        thank: "Thank you for completing 14 days of Brain Games!",
         thank_mix: "Thank you for completing 7 days of Brain Games!",
         intro: "<p>Below are the highlights from your 14 days of playing Digit Span, Simon, and Color Shape. </p>" +
             "<p>We have graphed your scores for Digit Span, as well as your accuracy and reaction time for Simon and Color Shape, for each day. </p>" +

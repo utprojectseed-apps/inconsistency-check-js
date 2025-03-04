@@ -30,7 +30,7 @@ var lang = {
     },
 
     cognitiveHighlight: {
-        thank:"¡Gracias por completar 14 días de los Juegos Cognitivos!",
+        thank: "¡Gracias por completar 14 días de los Juegos Cognitivos!",
         thank_mix: "¡Gracias por completar 7 días de los Juegos Cognitivos!",
         intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días de jugar Dígitos, Simón, y Forma Color. </p>" +
             "<p>Hemos graficado tus puntuaciones para Dígitos, así como tu precisión y el tiempo promedio de reacción para Simón y Forma Color, para cada día. </p>" +
