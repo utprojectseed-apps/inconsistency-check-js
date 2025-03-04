@@ -1,10 +1,15 @@
 var lang = {
     fortuneHighlight: {
         thank: "¡Gracias por completar 14 días del Juego de la Fortuna!",
+        thank_mix: "¡Gracias por completar 7 días del Juego de la Fortuna!",
         intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días jugando el Juego de la Fortuna</p>" +
             "<p>Hemos graficado sus puntos de cada día.</p>" +
             "<p>Recuerde que empezó con 2500 puntos. " + 
             "Puede usar la línea de referencia roja ubicada en el punto medio de los graficos para saber si ganó más o menos de lo que comenzó.</p>",
+        intro_mix: "<p>A continuación se muestran los aspectos más destacados de sus 7 días jugando el Juego de la Fortuna</p>" +
+        "<p>Hemos graficado sus puntos de cada día.</p>" +
+        "<p>Recuerde que empezó con 2500 puntos. " + 
+        "Puede usar la línea de referencia roja ubicada en el punto medio de los graficos para saber si ganó más o menos de lo que comenzó.</p>",
         title: "Aspectos Destacados de la Bareja de Fortuna",
         bestPoints: "Sus mejores puntos ganados en un solo día:",
         averagePoints: "Su promedio de puntos ganados por todos los días:",
@@ -26,9 +31,13 @@ var lang = {
 
     cognitiveHighlight: {
         thank:"¡Gracias por completar 14 días de los Juegos Cognitivos!",
+        thank_mix: "¡Gracias por completar 7 días de los Juegos Cognitivos!",
         intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días de jugar Dígitos, Simón, y Forma Color. </p>" +
             "<p>Hemos graficado tus puntuaciones para Dígitos, así como tu precisión y el tiempo promedio de reacción para Simón y Forma Color, para cada día. </p>" +
             "<p>Solo un recordatorio: su puntaje de dígitos refleja el número de dígitos que has podido recordar. </p>",
+        intro_mix: "<p>A continuación se muestran los aspectos más destacados de sus 7 días de jugar Dígitos, Simón, y Forma Color. </p>" +
+        "<p>Hemos graficado tus puntuaciones para Dígitos, así como tu precisión y el tiempo promedio de reacción para Simón y Forma Color, para cada día. </p>" +
+        "<p>Solo un recordatorio: su puntaje de dígitos refleja el número de dígitos que has podido recordar. </p>",
         digitTitle: "Dígitos",
         digitLongest: "Su tramo más largo de dígitos correctos fue {x} dígitos.",
         digitAverage: "Su tramo promedio de dígitos correctos fue {x} dígitos.",

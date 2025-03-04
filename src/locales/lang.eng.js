@@ -1,7 +1,12 @@
 var lang = {
     fortuneHighlight: {
         thank: "Thank you for completing 14 days of the Fortune Game!",
+        thank_mix: "Thank you for completing 7 days of the Fortune Game!",
         intro: "<p>Below are your highlights from your 14 days playing the Fortune Game.</p>" +
+            "<p>We have graphed your points for each day.</p>" +
+            "<p>Remember that you started with 2500 points. " + 
+            "You may use the red reference line located at the midpoint of the graphs to know if you earned more or less than what you started with.</p>",
+        intro_mix: "<p>Below are your highlights from your 7 days playing the Fortune Game.</p>" +
             "<p>We have graphed your points for each day.</p>" +
             "<p>Remember that you started with 2500 points. " + 
             "You may use the red reference line located at the midpoint of the graphs to know if you earned more or less than what you started with.</p>",
@@ -26,9 +31,13 @@ var lang = {
 
     cognitiveHighlight: {
         thank:"Thank you for completing 14 days of Brain Games!",
+        thank_mix: "Thank you for completing 7 days of Brain Games!",
         intro: "<p>Below are the highlights from your 14 days of playing Digit Span, Simon, and Color Shape. </p>" +
             "<p>We have graphed your scores for Digit Span, as well as your accuracy and reaction time for Simon and Color Shape, for each day. </p>" +
             "<p>Just a reminder: your Digit Span score reflects the number of digits you were able to remember. </p>",
+        intro_mix: "<p>Below are the highlights from your 7 days of playing Digit Span, Simon, and Color Shape. </p>" +
+        "<p>We have graphed your scores for Digit Span, as well as your accuracy and reaction time for Simon and Color Shape, for each day. </p>" +
+        "<p>Just a reminder: your Digit Span score reflects the number of digits you were able to remember. </p>",
         digitTitle: "Digit Span",
         digitLongest: "Your longest correct digit span was {x} digits.",
         digitAverage: "Your average correct digit span was {x} digits.",
