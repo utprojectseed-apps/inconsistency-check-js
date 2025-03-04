@@ -23,7 +23,7 @@ var lang = {
         graphPointsTitle: "Fortune Deck Points",
         graphPointsEarned: "Points Earned",
         graphDayScore: "Day {day} Score",
-        graphToday: "Today's Points",
+        graphToday: "Number of Cards",
         graphPoints: "Points" ,
         graphDay: "Day",
         graphDaysOfWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]

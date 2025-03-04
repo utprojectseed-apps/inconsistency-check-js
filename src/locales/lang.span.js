@@ -23,7 +23,7 @@ var lang = {
         graphPointsTitle: "Puntos de Fortuna",
         graphPointsEarned: "Puntos Ganados",
         graphDayScore: "Puntuación del Día {day}",
-        graphToday: "Puntos de Hoy",
+        graphToday: "Número de Cartas",
         graphPoints: "Puntos" ,
         graphDay: "Día",
         graphDaysOfWeek: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
