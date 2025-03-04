@@ -28,7 +28,7 @@ const Main = () => {
   console.log(location.pathname)
   return (
     <>
-      {!hideNavigation && <h1>Inconsistency Check v2.5.0</h1>}
+      {!hideNavigation && <h1>Inconsistency Check v2.5.1</h1>}
       {!hideNavigation && <Navigation />}
       <Routes>
         <Route path={"/"} element={<Home />}></Route>
