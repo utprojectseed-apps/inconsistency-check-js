@@ -241,6 +241,7 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
     const csOverall = computeOverallAccuracy(csAcc);
 
     const CYCLE_DAY = bds.game.getCurrentCycle();
+    console.log("CYCLE DAY: ",CYCLE_DAY)
     const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
 
     const rate = getAverageCompletionRates(bds, simon, cs);
