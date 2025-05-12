@@ -48,6 +48,7 @@ export default class SurveyParticipant {
   getName() {
     let firstName = "FIRST";
     let lastName = "LAST";
+    // TO-DO: Change line below to  if (this.data["tfirname"]!= null) {
     if (this.data["tfirname"] !== undefined || this.data["tfirname"] !== null) {
       firstName = this.data["tfirname"].values[0].trim();
     }
