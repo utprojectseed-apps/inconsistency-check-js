@@ -1,4 +1,4 @@
-class Strikes {
+export default class Strikes {
   constructor() {
     // 9 types of strikes. append each day number to the corresponding strike type
     this.strikeArray = Array.from({ length: 9 }, () => []);
@@ -21,9 +21,10 @@ class Strikes {
     return StrikeMapping[key];
   }
 
+  // Count the total number of strikes
   CountStrikes() {
     var totalStrikes = 0;
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < this.strikeArray.length; i++) {
       totalStrikes += this.strikeArray[i].length; // count the number of strikes for each day
     }
     return totalStrikes;
@@ -78,6 +79,4 @@ class Strikes {
   addStrikeK(day) {
     this.strikeArray[8].push(day);
   }
-
-  
 }

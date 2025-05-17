@@ -83,7 +83,8 @@ export default class SurveyParticipant {
     );
   }
 
-  // this method is used to generate the dates for each day
+  // this method is used to generate the dates for each day and mark them as
+  // "Not Started", "Unanswered", "Skipped" or "Completed"
   #generateDates() {
     this.dates = Array(SurveyParticipant.getDays()).fill("");
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
