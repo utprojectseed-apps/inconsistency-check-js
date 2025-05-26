@@ -150,14 +150,14 @@ function GameExplanation(props) {
     if (props.selectedReport === "first-week") {
         return (
             <div className="print-together print-page-after">
-                <h1>{lang.getString("thank_mix")}</h1>
+                <h1>{lang.getString("thank_mix1")}</h1>
                 <div dangerouslySetInnerHTML={{__html: lang.getString("intro_mix")}}/>
             </div>
         )
     } else {
         return (
             <div className="print-together print-page-after">
-                <h1>{fortune_lang.getString("thank_mix")}</h1>
+                <h1>{fortune_lang.getString("thank_mix1")}</h1>
                 <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro_mix")}}/>
             </div>
         )

@@ -3,7 +3,6 @@ import MindMix2Game from "./mindmix2";
 import Mindmix2SurveyDisplay from "./mix2surveydisplay";
 import MindMix2Highlights from "./mix2highlights";
 
-
 const Navigation = () => (
   <nav>
     <ul>

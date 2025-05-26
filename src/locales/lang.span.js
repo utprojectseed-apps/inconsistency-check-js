@@ -1,7 +1,7 @@
 var lang = {
     fortuneHighlight: {
         thank: "¡Gracias por completar 14 días del Juego de la Fortuna!",
-        thank_mix: "¡Gracias por completar 7 días del Juego de la Fortuna!",
+        thank_mix1: "¡Gracias por completar 7 días del Juego de la Fortuna!",
         intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días jugando el Juego de la Fortuna</p>" +
             "<p>Hemos graficado sus puntos de cada día.</p>" +
             "<p>Recuerde que empezó con 2500 puntos. " + 
@@ -31,7 +31,7 @@ var lang = {
 
     cognitiveHighlight: {
         thank: "¡Gracias por completar 14 días de los Juegos Cognitivos!",
-        thank_mix: "¡Gracias por completar 7 días de los Juegos Cognitivos!",
+        thank_mix1: "¡Gracias por completar 7 días de los Juegos Cognitivos!",
         intro: "<p>A continuación se muestran los aspectos más destacados de sus 14 días de jugar Dígitos, Simón, y Forma Color. </p>" +
             "<p>Hemos graficado tus puntuaciones para Dígitos, así como tu precisión y el tiempo promedio de reacción para Simón y Forma Color, para cada día. </p>" +
             "<p>Solo un recordatorio: su puntaje de dígitos refleja el número de dígitos que has podido recordar. </p>",
