@@ -56,20 +56,21 @@ export default function CognitiveHighlights() { // should rename this
         setSelectedLang(d)
     }
     useEffect(() => {
-        if(bdsData !== undefined) {
-            const subjects = bdsData['Subject']
+        if(fortuneData !== undefined) {
+            const subjects = fortuneData['subject_id']
             if(subjects === undefined) {
                 setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
             } else {
-                let participants = new dfd.Series(bdsData['Subject'].values).unique()
+                let participants = new dfd.Series(fortuneData['subject_id'].values).unique()
                 // a bit jank so it will have to do for now
                 // eventually should probably be one list but current class infrastructure doesn't support that due to poor planning :(
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
-                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
+                
                 let allList = []
-                allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
+                allList.push(...[fortuneList.current, bdsList.current, simonList.current, csList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
                 setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
@@ -78,8 +79,8 @@ export default function CognitiveHighlights() { // should rename this
         }
     }, [bdsData, simonData, csData, fortuneData])
     useEffect(() => {
-        lang.setLang(selectedLang)
         fortune_lang.setLang(selectedLang)
+        lang.setLang(selectedLang)
         forceUpdate()
     }, [selectedLang])
 
@@ -113,7 +114,7 @@ async function printPlease(selectedIds) {
     var idString = selectedIds[0]
     var element = document.getElementById("cognitivehighlights");
     var opt = {
-        filename: "mix2highlights-" + idString + ".pdf",
+        filename: "mix1highlights-" + idString + ".pdf",
         image: { type: "png" },
         html2canvas: { scale: 1 },
         jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
@@ -151,25 +152,25 @@ function GameExplanation(props) {
         return (
             <div className="print-together print-page-after">
                 <h1>{fortune_lang.getString("thank_mix")}</h1>
-                <div dangerouslySetInnerHTML={{__html: lang.getString("intro_mix")}}/>
+                <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro_mix")}}/>
             </div>
         )
     } else {
         return (
             <div className="print-together print-page-after">
-                <h1>{fortune_lang.getString("thank_mix")}</h1>
-                <div dangerouslySetInnerHTML={{__html: fortune_lang.getString("intro_mix")}}/>
+                <h1>{lang.getString("thank_mix")}</h1>
+                <div dangerouslySetInnerHTML={{__html: lang.getString("intro_mix")}}/>
             </div>
         )
     }
 }
 
 function ParticipantHighlights(props) {
-    let reportSelected = props.selectedReport === "first-week" ? 0 : 1 // if its the first week that is cog, 2nd week is fortune
-    let lastReport = reportSelected === 1
+    let reportSelected = props.selectedReport === "first-week" ? 0 : 1 // if its the first week that is fortune, 2nd week is cog
+    let lastReport = 1
 
     // will check the selected report and return the correct highlight
-    if (reportSelected === 0) {
+    if (reportSelected === 1) {
         let bdsHighlight = props.bds !== null ? props.bds.game.getHighlights(reportSelected) : []
         let simonHighlight = props.simon !== null ? props.simon.game.getHighlights(reportSelected) : []
         let csHighlight = props.cs !== null ? props.cs.game.getHighlights(reportSelected) : []
@@ -204,8 +205,8 @@ function ParticipantHighlights(props) {
             </div>
         </div>
         )
-    } else if (reportSelected === 1) {
-        let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(reportSelected) : []
+    } else if (reportSelected === 0) {
+        let fortuneHighlight = props.fortune !== null ? props.fortune.game.getHighlights(1) : []
         return (
             <div>
                 <div className='print-together print-page-after'>

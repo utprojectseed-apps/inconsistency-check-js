@@ -16,18 +16,10 @@ const App = () => (
 const Navigation = () => (
   <nav>
     <ul>
-      <li>
-        <NavLink to={"cognitive"}>Brain Games</NavLink>
-      </li>
-      <li>
-        <NavLink to={"fortune"}>Fortune Task</NavLink>
-      </li>
-      <li>
-        <NavLink to={"mindmix1"}>Mind Mix 1</NavLink>
-      </li>
-      <li>
-        <NavLink to={"mindmix2"}>Mind Mix 2</NavLink>
-      </li>
+      <li><NavLink to={'cognitive'}>Brain Games</NavLink></li>
+      <li><NavLink to={'fortune'}>Fortune Task</NavLink></li>
+      <li><NavLink to={'mindmix1'}>Mind Mix 1</NavLink></li>
+      <li><NavLink to={'mindmix2'}>Mind Mix 2</NavLink></li>
     </ul>
   </nav>
 );

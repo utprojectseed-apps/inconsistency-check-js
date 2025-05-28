@@ -44,20 +44,20 @@ export default function CognitiveGame() {
         setSelectedIds(d)
     }
     useEffect(() => {
-        if(bdsData !== undefined) { // fine for mind mix 1 since they start with cog games
-            const subjects = bdsData['Subject']
+        if(fortuneData !== undefined) {
+            const subjects = fortuneData['subject_id']
             if(subjects === undefined) {
-                setErrorMessage("No 'Subject' column found in data, please make sure you have a bds dataset.")
+                setErrorMessage("No 'subject_id' column found in data, please make sure you have a bds dataset.")
             } else {
-                let participants = new dfd.Series(bdsData['Subject'].values).unique()
+                let participants = new dfd.Series(fortuneData['subject_id'].values).unique()
                 // jank for rn
-                // eventually should probably be one list but current class infrastructure doesn't support that due to poor planning :(
+                // eventually should probably be one list but current class infrastructure doesn't support that due to poor planning
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
                 simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
                 csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
-                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 let allList = []
-                allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
+                allList.push(...[fortuneList.current, bdsList.current, simonList.current, csList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
                 setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
@@ -133,7 +133,7 @@ function CognitiveGamesReport(props) {
  * @return {JSX.Element} The rendered component.
  */
 function ParticipantReport(props) { // hm should i just pass props into the game day stuff, may need to change
-    const days = props.bds.game.getCompletedDays().map(
+    const days = props.fortune.game.getCompletedDays().map(
         (day, i) => {
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs} fortune={props.fortune}
             />
@@ -141,7 +141,7 @@ function ParticipantReport(props) { // hm should i just pass props into the game
     )
     return (
         <div className="gameparticipantreport">
-            <ParticipantHeader2 participant={props.participant} bds={props.bds}/>
+            <ParticipantHeader2 participant={props.participant} fortune={props.fortune}/>
                 {days} 
         </div>
     )
@@ -155,7 +155,7 @@ function ParticipantReport(props) { // hm should i just pass props into the game
  * @param {Object} props.bds - The BDS object.
  * @return {JSX.Element} The participant header JSX element.
  */
-function ParticipantHeader2({participant, bds}) {
+function ParticipantHeader2({participant, fortune}) {
     // TODO: need to add missing games/total games based on the current day they are on
     // TODO: need to add missing days/total days
     // TODO: bds overall acc, simon overall acc, cs overall acc might as well add bds,cs,simon
@@ -164,7 +164,7 @@ function ParticipantHeader2({participant, bds}) {
         <div className="participant-header">
             <h1 className="participant-id">Participant ID: {participant}</h1>
             <h2>Games: BDS, Simon, Color-Shape, and Fortune</h2>
-            <h3>Cycle start date: {bds.game.getCycleStartDate()}</h3>
+            <h3>Cycle start date: {fortune.game.getCycleStartDate()}</h3>
         </div>) 
 }
 
@@ -180,7 +180,7 @@ function ParticipantHeader2({participant, bds}) {
  */
 function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i just pass props into the game day stuff
 
-    if (day <= 7){
+    if (day >= 8){
         console.log("bds")
         const bdsSessions = bds.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
         const bdsCompletion = bds.game?.getCompletedDays()?.[day - 1] ?? 0
@@ -352,7 +352,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
                     </div>
             </div>
         );
-    } else { // day 8 - 14
+    } else { // day 1 - 7
         console.log("fortune")
         const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         const weekday = weekdays[(day - 1) % 7]
@@ -376,7 +376,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
             return "PARTIALLY COMPLETED"; // task particially completed
         }
 
-        return ( // day 8 - 14 fortune fortune.game.getCurrentDay()[day - 1] -.-
+        return ( // day 1 - 7 fortune fortune.game.getCurrentDay()[day - 1] -.-
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${fortuneCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}> 
