@@ -219,7 +219,7 @@ function ParticipantHighlights(props) {
                 </div>
                 {lastReport && props.fortune !== null && <FortunePointsGraph participant={props.participant} game={props.fortune.game} lang={fortune_lang} lastReport={lastReport}/>}
                 {lastReport && <p>{fortune_lang.getString("dailyScores")}</p>}
-                {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={fortune_lang} daysToShow={7}/>}
+                {lastReport && props.fortune !== null && <GraphPoints key={props.participant} participant={props.fortune} lang={fortune_lang} daysToShow={7} opt={2}/>}
             </div>
         )   
     }
@@ -451,8 +451,8 @@ function FortunePointsGraph(props) {
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
-    const TOTALDAYS = 14
-    for (let i = 7; i < TOTALDAYS; i++) {
+    const TOTALDAYS = 7
+    for (let i = 0; i < TOTALDAYS; i++) {
         data.push({day: i + 1, y: rawData[i], weekday: i % 7})
     }
     const yMax = 5000
@@ -477,13 +477,13 @@ function FortunePointsGraph(props) {
                         bottom: 5
                     }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
                     <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[8, 14]} 
+                        domain={[1, ]} 
                         tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
