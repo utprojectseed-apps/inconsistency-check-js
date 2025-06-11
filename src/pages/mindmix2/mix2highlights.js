@@ -240,8 +240,8 @@ function BdsAverageScoreGraph(props) {
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
     const data = []
-    const TOTALDAYS = 7
-    for (let i = 0; i < TOTALDAYS; ++i) {
+    const TOTALDAYS = 14
+    for (let i = 7; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, digitSpanLength: rawData[i]});
     }
@@ -262,13 +262,13 @@ function BdsAverageScoreGraph(props) {
                         bottom: 5
                     }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
                     <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom',  dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[1, 7]} 
+                        domain={[8, 14]} 
                         tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
@@ -309,9 +309,9 @@ function AccuracyScoreGraph(props) {
     const rawData = props.game.getMeanSessionsAccuracys()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
-    const TOTALDAYS = 7
+    const TOTALDAYS = 14
     const data = []
-    for (let i = 0; i < TOTALDAYS; ++i) {
+    for (let i = 7; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, accuracy: rawData[i]});
     }
@@ -332,13 +332,13 @@ function AccuracyScoreGraph(props) {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
                     <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[1, 7]} 
+                        domain={[8, 14]} 
                         tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
@@ -381,9 +381,9 @@ function ReactionTimeGraph(props) {
     const rawData = props.game.getMeanCorrectReactionTime()
     const lang = props.lang
     const DAYSOFWEEK = lang.getString("graphDaysOfWeek")
-    const TOTALDAYS = 7
+    const TOTALDAYS = 14
     const data = []
-    for (let i = 0; i < TOTALDAYS; ++i) {
+    for (let i = 7; i < TOTALDAYS; ++i) {
         if(rawData[i] === 0) continue;
         data.push({day: i + 1, weekday: i % 7, reactionTime: parseFloat(rawData[i])});
     }
@@ -403,13 +403,13 @@ function ReactionTimeGraph(props) {
                         bottom: 5
                     }} >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[1, 7]} tickCount={7}/>
+                    <XAxis xAxisId="0" dataKey="day" type="number" domain={[8, 14]} tickCount={7}/>
                     <XAxis xAxisId="1" label={{value: lang.getString("graphDay"), position: 'insideBottom', dy: 15}} 
                         height={30}
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[1, 7]} 
+                        domain={[8, 14]} 
                         tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
