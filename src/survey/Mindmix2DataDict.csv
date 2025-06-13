@@ -858,7 +858,7 @@ t1endti,day_1_monday_daily_survey,,text,"<font size=""5.5"">End time:
 t1survt,day_1_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b>  No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t2date,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -2038,7 +2038,7 @@ t2endti,day_2_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 t2survt,day_2_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t3date,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -3292,7 +3292,7 @@ t3endti,day_3_wednesday_daily_survey,,text,"<font size=""5.5"">End time:
 t3survt,day_3_wednesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t4date,day_4_thursday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -4551,7 +4551,7 @@ t4endti,day_4_thursday_daily_survey,,text,"<font size=""5.5"">End time:
 t4survt,day_4_thursday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t5date,day_5_friday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -5813,7 +5813,7 @@ t5endti,day_5_friday_daily_survey,,text,"<font size=""5.5"">End time:
 t5survt,day_5_friday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t6date,day_6_saturday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -7042,7 +7042,7 @@ Es (son) tu(s) medicamento sin receta/suplemento(s) adicional(es) <span style = 
 <font color=""green""><font size=""4.5"">Si tus medicamento sin receta/suplementos adicionales no aparecen o <b>han cambiado hoy</b>, selecciona ""2 No"" para hacer cambios.
 <font color=""red"">Si <b>NO</b> necesitas anotar un medicamento sin receta/suplemento aquí, puedes dejar el espacio vacío y continuar con la encuesta.</font></font></font> 
 </div>
-","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font> | 3, <font size=""4.5""> 3 I did not take/use any Additional Over-the-Counter Medications/Supplements today<br><font color=""green"">No tomé/usé Medicamentos sin Receta/Suplementos Adicionales el día de hoy</font>",,,,,,"[t5qms5]<>""""",,,,,,
+","1, <font size=""4.5""> 1 Yes<br><font color=""green"">Sí</font> | 2, <font size=""4.5"">  2 No<br><font color=""green"">No</font> | 3, <font size=""4.5""> 3 I did not take/use any Additional Over-the-Counter Medications/Supplements today<br><font color=""green"">No tomé/usé Medicamentos sin Receta/Suplementos Adicionales el día de hoy</font>",,,,,,"[t6qms5]<>""""",,,,,,
 t6qot6,day_6_saturday_daily_survey,,notes,"<font size=""5.5"">6. Additional Over-the-Counter Medications/Supplements
 <font color=""green"">Medicamentos sin Receta/Suplementos Adicionales</font></font>
 
@@ -7076,7 +7076,7 @@ t6endti,day_6_saturday_daily_survey,,text,"<font size=""5.5"">End time:
 t6survt,day_6_saturday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t7date,day_7_sunday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -8340,7 +8340,7 @@ t7endti,day_7_sunday_daily_survey,,text,"<font size=""5.5"">End time:
 t7survt,day_7_sunday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t8date,day_8_monday_daily_survey,,text,"<font size=""5.5"">Today's date</font>
@@ -9584,7 +9584,7 @@ t8endti,day_8_monday_daily_survey,,text,"<font size=""5.5"">End time:
 t8survt,day_8_monday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t9date,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -10789,7 +10789,7 @@ t9qot5d,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">Dose for Over-the-C
 
 <font size=""4.5""><span style=""font-weight:normal;"">(Example: 250 mcg/tablet)</font>
 <span style=""font-weight:normal;""><font size=""4.5""><font color=""green"">(Por ejemplo: 250 mcg/tableta)</font></span>
-",,,,,,,[t9qot5]='1',,RH,,,,
+",,,,,,,[t9qmd11]='2',,RH,,,,
 t9qms6,day_9_tuesday_daily_survey,,radio,"<font size=""5.5"">6. Additional Over-the-Counter Medications/Supplements
 Is/are your additional over-the-counter medication/supplement(s) <span style = ""color:orange"">[t9mnq6]</span>?
 
@@ -10838,7 +10838,7 @@ t9endti,day_9_tuesday_daily_survey,,text,"<font size=""5.5"">End time:
 t9survt,day_9_tuesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t10date,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -12104,7 +12104,7 @@ t10endti,day_10_wednesday_daily_survey,,text,"<font size=""5.5"">End time:
 t10survt,day_10_wednesday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 <span style = ""color:green"">
-<b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t11date,day_11_thursday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -13371,7 +13371,7 @@ t11endti,day_11_thursday_daily_survey,,text,"<font size=""5.5"">End time:
 t11survt,day_11_thursday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t12date,day_12_friday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -14640,7 +14640,7 @@ t12endti,day_12_friday_daily_survey,,text,"<font size=""5.5"">End time:
 t12survt,day_12_friday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t13date,day_13_saturday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -15907,7 +15907,7 @@ t13endti,day_13_saturday_daily_survey,,text,"<font size=""5.5"">End time:
 t13survt,day_13_saturday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
 t14date,day_14_sunday_daily_survey,,text,"<font size=""5.5"">Today's date
@@ -17175,6 +17175,6 @@ t14endti,day_14_sunday_daily_survey,,text,"<font size=""5.5"">End time:
 t14survt,day_14_sunday_daily_survey,,descriptive,"<font size=""5.5""> <div style=""background-color:white;border:1px solid black;font-weight:normal"">
  <center><b> Don't forget to keep track of the time you fall asleep and the time you wake up for tomorrow's survey!</b>
 
-<span style = ""color:green""> <b> No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana.
+<span style = ""color:green""> <b> ¡No olvide anotar la hora en que se duerme y la hora en que se despierta para la encuesta de mañana!
 </b></span></center></font>
 </div>",,,,,,,,,,,,,
