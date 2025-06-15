@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
-export default function GraphPoints( {participant, lang, daysToShow = 14} ) {
+export default function GraphPoints( {participant, lang, daysToShow = 14, opt=1} ) {
     // suppress error from defaultProps and Recharts
     const error = console.error;
     console.error = (...args) => {
@@ -8,10 +8,18 @@ export default function GraphPoints( {participant, lang, daysToShow = 14} ) {
     error(...args);
     };
     const rawData = participant.game.getGraphPoints()
-    const startDay = Math.max(0, rawData.length - daysToShow)
+
+    let startDay;
+    if (opt === 2) {
+        startDay = 0; // Show the first N days
+    } else {
+        startDay = Math.max(0, rawData.length - daysToShow); // Show the last N days
+    }
+    //Math.max(0, rawData.length - daysToShow)
+    // startDay = 0 ? opt == 2: startDay;
 
     const data = [] 
-    for (let i = startDay; i < rawData.length; i++) {
+    for (let i = startDay; i < startDay + daysToShow && i < rawData.length; i++) {
         let day = []
         if(rawData[i] === undefined) { 
             data.push(day)
