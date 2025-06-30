@@ -1,5 +1,6 @@
 import Game from "./game";
 import * as dfd from 'danfojs';
+import {format} from 'date-fns';
 
 const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
@@ -13,28 +14,54 @@ export default class FortuneDeck extends Game {
     }  
 
     calculateCompletionsDays() {
-        const EXPECTED_TRIALS = 80
+        const EXPECTED_TRIALS = 80;
         this.count = Array(Game.TotalDays).fill(0);
+        this.completionsDays = Array(Game.TotalDays).fill(0);
+    
         for (let i = 0; i < Game.TotalDays; ++i) {
-            //in case there are multiple sessions //TODO fix multiple sessions by removing it from df? or can find a way to display all?
             let df = this.days[i];
-            let sessions = new dfd.Series(df['session_uuid'].values).unique().values
-            this.completionsDays[i] = 0
+            let sessions = new dfd.Series(df['session_uuid'].values).unique().values;
+    
             for (let j = 0; j < sessions.length; ++j) {
-                let session = sessions[j]
-                let sess_df = df.loc({rows: df['session_uuid'].eq(session)})
-                let count = sess_df.shape[0]
-                let completionRate = (count/EXPECTED_TRIALS * 100)
-                completionRate = parseFloat(completionRate.toFixed(2))
-
+                let session = sessions[j];
+                let sess_df = df.loc({ rows: df['session_uuid'].eq(session) });
+    
+                // If the session has more than EXPECTED_TRIALS, we need to trim it to the most recent block of 80 trials
+                let listVals = sess_df['List1_Sample'].values.map(Number);
+                let lastIdx = listVals.length - 1;
+    
+                // Try to find the last full block of trials from 1–80
+                let trimmed_df = sess_df;
+                if (listVals.length > EXPECTED_TRIALS) {
+                    // Go backwards to find where a new sequence starts from 1
+                    let foundStart = -1;
+                    for (let k = lastIdx; k >= 0; --k) {
+                        if (listVals[k] === 1) {
+                            foundStart = k;
+                            break;
+                        }
+                    }
+                    if (foundStart !== -1 && foundStart + EXPECTED_TRIALS <= sess_df.shape[0]) {
+                        trimmed_df = sess_df.iloc({ rows: [`${foundStart}:${foundStart + EXPECTED_TRIALS}`] });
+                    } else {
+                        // fallback: take last 80 rows if structured poorly
+                        trimmed_df = sess_df.iloc({ rows: [`${Math.max(0, lastIdx - 79)}:${lastIdx + 1}`] });
+                    }
+                }
+    
+                let count = trimmed_df.shape[0];
+                let completionRate = (count / EXPECTED_TRIALS) * 100;
+                completionRate = parseFloat(completionRate.toFixed(2));
+    
                 if (completionRate > this.completionsDays[i]) {
-                    this.completionsDays[i] = completionRate
-                    this.count[i] = count
-                    this.days[i] = sess_df
+                    this.completionsDays[i] = completionRate;
+                    this.count[i] = count;
+                    this.days[i] = trimmed_df;
                 }
             }
         }
     }
+    
 
     calculateScore() {
         this.score = Array(Game.TotalDays).fill(0);
@@ -119,8 +146,9 @@ export default class FortuneDeck extends Game {
     }
 
     getStartPoints() {
-        //TODO: get start points from df
-        return 2000;
+        //TODO: get start points from df - WHAT IN THE WORLD IS THIS FOR
+        // NOT USED
+        return 2500;
     }
 
     getScores() {
@@ -216,5 +244,18 @@ export default class FortuneDeck extends Game {
         let totalAccumulatedBonus = Game.MoneyFormat.format(accumulatedBonuses[accumulatedBonuses.length - 1]);
         
         return [maxPoints, averagePoints.toFixed(2), totalAccumulatedScore, maxBonus, totalAccumulatedBonus]
+    }
+
+    storeCurrentDay() {
+        const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            let df = this.days[i]
+            let currDate = "--";
+            if (df && this.firstTrialTimestamps && this.firstTrialTimestamps[i] instanceof Date && !isNaN(this.firstTrialTimestamps[i])) {
+                currDate = format(this.firstTrialTimestamps[i], 'yyyy-MM-dd');
+            }
+            this.currDays[i] = currDate;
+            this.weekDays[i] = weekdays[i % 7];
+        }        
     }
 }

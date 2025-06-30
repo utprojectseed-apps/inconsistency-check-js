@@ -186,25 +186,25 @@ p {
   width: auto;
 }
 
-#cognitivehighlights, #fortunehighlights {
+#cognitivehighlights, #fortunehighlights, #mindmixhighlights {
   padding: 2rem;
 }
 
-#cognitivehighlights, #fortunehighlights h1{
+#cognitivehighlights h1, #fortunehighlights h1, #mindmixhighlights h1{
   font-size: 3rem;
 }
 
-#cognitivehighlights, #fortunehighlights h2{
+#cognitivehighlights h2, #fortunehighlights h2, #mindmixhighlights h2{
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
-#cognitivehighlights, #fortunehighlights h3{
+#cognitivehighlights h3, #fortunehighlights h3, #mindmixhighlights h3{
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
 
-#cognitivehighlights, #fortunehighlights p{
+#cognitivehighlights p, #fortunehighlights p, #mindmixhighlights p{
   font-size: 2rem;
 }
 

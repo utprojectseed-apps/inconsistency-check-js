@@ -41,7 +41,7 @@ export default function CognitiveSurveyDisplay() {
         <div className='survey'>
             <div className='no-print'>
                 <h1 className='no-print'>Enter data</h1>
-                <CSVReader parentCallback={handleUpload} gameId = "cognitive"/>
+                <CSVReader parentCallback={handleUpload} gameId="cognitive"/>
             </div>
             
             <div className='no-print'>
@@ -49,7 +49,6 @@ export default function CognitiveSurveyDisplay() {
             </div>
 
             {!loading &&!errorMessage && <SurveyFullReport participantList={survey.current} activeIds={selectedIds}/>}
-            
         </div>
     )
 }

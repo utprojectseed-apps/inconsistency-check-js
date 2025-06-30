@@ -16,8 +16,8 @@ export default function RadioHighlightReport({ parentCallback, value }) {
         value={value}
         onChange={(event) => parentCallback(event.target.value)}
       >
-        <FormControlLabel value="first-week" control={<Radio />} label="First week report" />
-        <FormControlLabel value="second-week" control={<Radio />} label="Last report" />
+        <FormControlLabel value="first-week" control={<Radio />} label="Week 1 / Day 8" />
+        <FormControlLabel value="second-week" control={<Radio />} label="Week 2 / Day 15" />
       </RadioGroup>
     </FormControl>
   );
