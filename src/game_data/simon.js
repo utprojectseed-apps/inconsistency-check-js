@@ -2,8 +2,8 @@ import Game from "./game";
 import * as dfd from 'danfojs';
 
 export default class Simon extends Game {
-    constructor(data, participant_id) {
-        super(data);
+    constructor(data, participant_id, fileDate, originalCycleStartDate) {
+        super(data, fileDate, originalCycleStartDate);
         this.participant_id = participant_id;
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);

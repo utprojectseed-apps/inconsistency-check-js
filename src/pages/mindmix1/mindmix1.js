@@ -22,19 +22,19 @@ export default function CognitiveGame() {
     const [errorMessage, setErrorMessage] = React.useState(undefined)   
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
-    const handleUpload = (d, game) => {
+    const handleUpload = (d, game, fileDate) => {
         switch(game) {
             case "bds":
-                setBdsData(d)
+                setBdsData({data: d, fileDate: fileDate})
                 break
             case "simon":
-                setSimonData(d)
+                setSimonData({data: d, fileDate: fileDate})
                 break
             case "cs":
-                setCsData(d)
+                setCsData({data: d, fileDate: fileDate})
                 break
             case "fortune":
-                setFortuneData(d)
+                setFortuneData({data: d, fileDate: fileDate})
                 break
             default:
                 throw new Error("Unknown game: " + game);
@@ -45,17 +45,17 @@ export default function CognitiveGame() {
     }
     useEffect(() => {
         if(bdsData !== undefined) { // fine for mind mix 1 since they start with cog games
-            const subjects = bdsData['Subject']
+            const subjects = bdsData.data['Subject']
             if(subjects === undefined) {
                 setErrorMessage("No 'Subject' column found in data, please make sure you have a bds dataset.")
             } else {
-                let participants = new dfd.Series(bdsData['Subject'].values).unique()
+                let participants = new dfd.Series(bdsData.data['Subject'].values).unique()
                 // jank for rn
                 // eventually should probably be one list but current class infrastructure doesn't support that due to poor planning :(
-                bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData) : null
-                simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData) : null
-                csList.current = csData !== undefined ? new ParticipantList(participants, csData) : null
-                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
+                bdsList.current = bdsData !== undefined ? new ParticipantList(participants, bdsData.data, bdsData.fileDate) : null
+                simonList.current = simonData !== undefined ? new ParticipantList(participants, simonData.data, simonData.fileDate) : null
+                csList.current = csData !== undefined ? new ParticipantList(participants, csData.data, csData.fileDate) : null
+                fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData.data, fortuneData.fileDate) : null
                 let allList = []
                 allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
                 let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))

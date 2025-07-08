@@ -6,8 +6,8 @@ import * as dfd from 'danfojs';
 // the expected num_trials used to be 12 but it was changed to 14 (in the cohort starting Aug 5, 2024)
 
 export default class BDS extends Game {
-    constructor(data, participant_id) {
-        super(data);
+    constructor(data, participant_id, fileDate, originalCycleStartDate) {
+        super(data, fileDate, originalCycleStartDate);
         this.participant_id = participant_id;
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);

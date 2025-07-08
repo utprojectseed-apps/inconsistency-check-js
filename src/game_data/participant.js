@@ -7,9 +7,11 @@ import {FORTUNE_NAME, BDS_NAME, SIMON_NAME, CS_NAME} from "./constants";
 
 
 export default class Participant {
-    constructor(id, data) {
+    constructor(id, data, fileDate, originalCycleStartDate) {
         this.id = id;
         this.data = data;
+        this.fileDate = fileDate;
+        this.originalCycleStartDate = originalCycleStartDate;
         this.#constructGames()
     }
 
@@ -19,19 +21,19 @@ export default class Participant {
             switch(games[i]) {
                 case FORTUNE_NAME:
                     this.gameName = "Fortune Decks";
-                    this.game = new FortuneDeck(this.data, this.id);
+                    this.game = new FortuneDeck(this.data, this.id, this.fileDate, this.originalCycleStartDate);
                     break;
                 case BDS_NAME:
                     this.gameName = "BDS Task";
-                    this.game = new BDS(this.data, this.id);
+                    this.game = new BDS(this.data, this.id, this.fileDate, this.originalCycleStartDate);
                     break;
                 case SIMON_NAME:
                     this.gameName = "Simon Task";
-                    this.game = new Simon(this.data, this.id);
+                    this.game = new Simon(this.data, this.id, this.fileDate, this.originalCycleStartDate);
                     break;
                 case CS_NAME:
                     this.gameName = "CS Task";
-                    this.game = new ColorShape(this.data, this.id);
+                    this.game = new ColorShape(this.data, this.id, this.fileDate, this.originalCycleStartDate);
                     break;
                 default:
                     throw new Error("Unknown experiment: " + games[i]);

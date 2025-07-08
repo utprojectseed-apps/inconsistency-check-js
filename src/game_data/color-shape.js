@@ -4,8 +4,8 @@ import * as dfd from 'danfojs';
 // TODO rename to color-shape
 
 export default class ColorShape extends Game {
-    constructor(data, participant_id) {
-        super(data);
+    constructor(data, participant_id, fileDate, originalCycleStartDate) {
+        super(data, fileDate, originalCycleStartDate);
 
         this.participant_id = participant_id
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);

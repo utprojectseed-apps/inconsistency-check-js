@@ -33,7 +33,7 @@ export default function CSVReader({parentCallback, gameId}) {
 
   return (
     <CSVReader
-      onUploadAccepted={(results) => {
+      onUploadAccepted={(results, file) => {
         const lines = results.data
         const keys = lines[0];
         const array = [];
@@ -46,7 +46,13 @@ export default function CSVReader({parentCallback, gameId}) {
           array.push(dict);
         }
         let df = new dfd.DataFrame(array)
-        parentCallback(df, gameId)
+        
+        // Extract date from filename (format: YYYY-MM-DD-HHMM-gamename.csv)
+        const filename = file?.name || '';
+        console.log("Filename:", filename);
+        // Output arr of matching pattern information with first element having the desired pattern string
+        const dateMatch = filename.match(/(\d{4}-\d{2}-\d{2})/);        
+        parentCallback(df, gameId, dateMatch[0])
       }}
     >
       {({
