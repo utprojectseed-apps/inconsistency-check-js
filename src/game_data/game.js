@@ -2,11 +2,12 @@ import {parseISO, differenceInSeconds, format} from 'date-fns';
 import {REPORT_DT_FORMAT} from './constants.js';
 
 export default class Game {
-    constructor(data) {
+    constructor(data, fileDate) {
         if (this.constructor === Game) {
             throw new Error("Abstract classes can't be instantiated");
         }
         this.data = data;
+        this.fileDate = fileDate;
         this.data = this.data.asType("day", "int32")
         this.days = Array(Game.TotalDays).fill().map(() => []);
         this.setupCycles();
@@ -114,12 +115,12 @@ export default class Game {
     }
 
     setupCycles() {
+        
         this.startDate = new Date(this.data['cycle_start_date'].values[0]+"T00:00:00")
         this.currCycle = 0
-        this.userDate = new Date()
+        this.userDate = new Date(this.fileDate + "T00:00:00")
         let diff = Math.abs(this.startDate - this.userDate)
         let diffDays = Math.floor(diff / (1000 * 60 * 60 * 24))
-        diffDays = Math.min(diffDays, Game.TotalDays)
         this.currCycle = diffDays
     }
 
@@ -169,7 +170,7 @@ export default class Game {
     }
 
     getCurrentCycle() {
-        return Math.min(this.currCycle, Game.TotalDays - 1);
+        return Math.min(this.currCycle, Game.TotalDays);
     }
 
     cyclePassed(day) {

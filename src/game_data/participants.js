@@ -9,10 +9,12 @@ export default class ParticipantList {
      *
      * @param {Array} ids - The list of participant IDs.
      * @param {DataFrame} data - The data containing participant information.
+     * @param {string} fileDate - The date extracted from the CSV filename (optional).
      */
-    constructor(ids, data) {
+    constructor(ids, data, fileDate) {
         this.ids = ids;
         this.data = data; // TODO: become a list of dataframes if bds, simon, cs
+        this.fileDate = fileDate;
         this.participants = [];
         this.participantsMap = new Map()
         this.#constructParticipants(ids);
@@ -32,7 +34,7 @@ export default class ParticipantList {
             } else {
                 throw new Error("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.");
             }
-            const participant = new Participant(id, df);
+            const participant = new Participant(id, df, this.fileDate);
             this.participants.push(participant);
             this.participantsMap.set(id, participant);
         }
