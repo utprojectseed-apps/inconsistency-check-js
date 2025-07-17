@@ -62,8 +62,14 @@ export default function CognitiveGame() {
     return (
         <div>
             <div className="no-print">
-                <h1>Brain Games (BDS, Simon, and Color-Shape) Enter Data:</h1>
-                <h3>* Need to insert the files in order of BDS, Simon, and Color-shape (top to bottom)!</h3>
+                <h1>Brain Games Report (BDS, Simon, and Color-Shape)</h1>
+                <h3>
+                    Reminder that when inputting the CSVs it's in order:
+                    {" "}
+                    <span style={{ color: "red" }}>
+                        BDS, Simon, and Color-Shape (top to bottom)!
+                    </span>
+                </h3>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>

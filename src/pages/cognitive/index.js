@@ -24,7 +24,15 @@ export default function CognitivePage() {
               <h1>Brain Games</h1>
               <Navigation />
               <p>Remember to complete the highlight if it is Monday.</p>
-              <p>Reminder that when inputing the CSVs it is in order: BDS, Simon, Color-Shape (top to bottom)!</p>
+              <p>
+                Reminder that when inputing the CSVs it is in order:
+                {" "}
+                <span style={{color: "red"}}>
+                  <b>
+                    BDS, Simon, Color-Shape (top to bottom)!
+                  </b>
+                </span>
+              </p>
               {new Date().getDay() === 1 && <p style={{color: "red"}}><b>It is Monday!</b></p>}
             </div>}
             <Routes>

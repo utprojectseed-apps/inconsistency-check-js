@@ -68,8 +68,14 @@ export default function CognitiveGame() {
     return (
         <div>
             <div className="no-print">
-                <h1>Mind Mix 1 Games (BDS, Simon, Color-Shape, and Fortune) Enter Data:</h1>
-                <h3>Reminder that when inputing the CSVs its in order: BDS, Simon, Color-Shape, and Fortune (top to bottom)!</h3>
+                <h1>Mind Mix 1 Games Report (BDS, Simon, Color-Shape, and Fortune)</h1>
+                <h3>
+                    Reminder that when inputting the CSVs it's in order:
+                    {" "}
+                    <span style={{ color: "red" }}>
+                        BDS, Simon, Color-Shape, and Fortune (top to bottom)!
+                    </span>
+                </h3>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>

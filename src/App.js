@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { NavLink, Routes, Route, useLocation } from "react-router-dom";
+import Logo from "./favicon.png"; // adjust path if needed
 import FortuneHome from "./pages/fortune";
 import CognitivePage from "./pages/cognitive";
 import MindMix1Page from "./pages/mindmix1";
@@ -27,10 +28,14 @@ const Navigation = () => (
 const Main = () => {
   const location = useLocation();
   const hideNavigation = location.pathname !== "/";
-  console.log(location.pathname);
   return (
     <>
-      {!hideNavigation && <h1>Inconsistency Check v3.1.0</h1>}
+      {!hideNavigation && (
+        <h1 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <img src={Logo} alt="Logo" style={{ height: "40px" }} />
+          Inconsistency Check v3.1.0
+        </h1>
+      )}
       {!hideNavigation && <Navigation />}
       <Routes>
         <Route path={"/"} element={<Home />}></Route>

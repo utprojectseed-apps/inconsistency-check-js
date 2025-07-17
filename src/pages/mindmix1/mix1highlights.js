@@ -86,8 +86,14 @@ export default function CognitiveHighlights() { // should rename this
     return (
         <div>
             <div className="no-print">
-                <h1>Mind Mix 1 Games Highlights</h1>
-                <h3>* Need to insert the files in order of BDS, Simon, Color-shape and Fortune (top to bottom)!</h3>
+                <h1>Mind Mix 1 Highlights</h1>
+                <h3>
+                    Reminder that when inputting the CSVs it's in order:
+                    {" "}
+                    <span style={{ color: "red" }}>
+                        BDS, Simon, Color-Shape, and Fortune (top to bottom)!
+                    </span>
+                </h3>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
