@@ -270,13 +270,13 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
 
                     <div style={{display: "flex", justifyContent: "space-evenly", width: "100%"}}> 
                         <p className="survey-header-element">Compensation so far:<br/>$ {cumComp[CYCLE_DAY]}</p>
-                        <p className="survey-header-element">On track to earn (tonight):{potCumComp[CYCLE_DAY]}<br/>$ </p>
+                        <p className="survey-header-element">On track to earn (tonight):<br/>$ {potCumComp[CYCLE_DAY]}<br/></p>
                         <p className="survey-header-element">On track to earn (14 days):<br/>$ {potCumComp[13]}</p>
                     </div>
                 }
             </div>
 
-            <div className="accuracy-row">
+            <div className="accuracy-row" style={{marginBottom: "20px"}}>
                 <div className="accuracy-item">
                     <div>BDS Overall Accuracy:</div>
                     <div className="accuracy-value">{bdsOverall}%</div>
