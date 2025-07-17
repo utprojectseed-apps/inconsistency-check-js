@@ -138,7 +138,6 @@ function ParticipantReport(props) { // hm should i just pass props into the game
     return (
         <div className="gameparticipantreport">
             <ParticipantHeader2 participant={props.participant} bds={props.bds} simon={props.simon} cs={props.cs}/>
-                <p>need to add table</p>
                 {days} 
         </div>
     )
