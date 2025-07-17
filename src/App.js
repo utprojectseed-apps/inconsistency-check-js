@@ -33,7 +33,7 @@ const Main = () => {
       {!hideNavigation && (
         <h1 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <img src={Logo} alt="Logo" style={{ height: "40px" }} />
-          Inconsistency Check v3.1.0
+          Inconsistency Check v3.1.1
         </h1>
       )}
       {!hideNavigation && <Navigation />}
