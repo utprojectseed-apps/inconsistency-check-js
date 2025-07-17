@@ -6,6 +6,7 @@ import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import {format, differenceInSeconds} from 'date-fns';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
+import { estCompensation } from "../../game_data/compensation";
 // import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
@@ -130,10 +131,93 @@ function ParticipantReport(props) { // hm should i just pass props into the game
     )
     return (
         <div className="gameparticipantreport">
-            <ParticipantHeader2 participant={props.participant} bds={props.bds}/>
+            <ParticipantHeader2 participant={props.participant} bds={props.bds} simon={props.simon} cs={props.cs}/>
+                <p>need to add table</p>
                 {days} 
         </div>
     )
+}
+
+function getAverageCompletionRates(bds, simon, cs) {
+//     const bdsRates = bds.game.getCompletedDays();
+    console.log("bds", bds.game.getCompletedDays())
+    let currCycle = bds.game.getCurrentCycle();
+
+    if (currCycle > 14) {
+        currCycle = 14;
+    }
+    // const simonRates = simon.game.getCompletedDays();
+    // const csRates = cs.game.getCompletedDays();
+    
+    const avgRates = Array(14).fill(0);
+
+    for (let i = 0; i < currCycle; ++i) {
+        let total = 0;
+        let count = 3;
+
+        let curr_bds = bds.game?.getCompletedDays()[i] ?? 0.0;
+        console.log("bds rate", curr_bds)
+        let curr_simon = simon.game?.getCompletedDays()[i] ?? 0.0;
+        console.log("simon rate ", curr_simon)
+        let curr_cs = cs.game?.getCompletedDays()[i] ?? 0.0;
+        console.log("cs rate ", curr_cs)
+        total += curr_bds + curr_simon + curr_cs
+
+        const average = (total / (count * 100)).toFixed(2); // scale down to 0-1
+        console.log("AVERAGE", average)
+        avgRates[i] = (parseFloat(average));
+    }
+
+    return avgRates;
+}
+
+function COGParticipantCompensationTable({bds, day, completionRate, compRate, cumComp, potComp, bonusType }) {
+    return (
+        <div>
+            <div className="survey-compensation-table">
+                {
+                    (() => {
+                        if(completionRate > 0.5) { //.5
+                            let BONUS_TYPE = bonusType
+                            if (BONUS_TYPE !== '') {
+                                return <p>Bonus: {BONUS_TYPE}</p>
+                            } else {
+                                return <p>BASE DAY COMPENSATION</p>
+                            }
+                        } else if (completionRate > 0) {
+                            return <p>No bonus given</p>
+                        } else {
+                            return <p>No compensation earned</p>
+                        }
+                    }) ()
+                }
+
+                <p>Daily Compensation: {compRate}</p>
+                <p></p>
+                {
+                    bds.game.cyclePassed(day - 1) ?
+                    <p>Cumulative compensation<br/>$ {cumComp.toFixed(2)}</p> :
+                    <p>Compensation if completed:<br/>$ {potComp.toFixed(2)}</p>
+                }
+            </div>
+        </div>
+    )
+}
+
+function computeOverallAccuracy(accuracyArray) {
+    let total = 0.0;
+    let count = 0;
+
+    for (let i = 0; i < accuracyArray.length; ++i) {
+        const val = accuracyArray[i];
+        const parsed = parseFloat(val);
+        if (val !== null && val !== "--" && !isNaN(parsed) && parsed !== 0) {
+            total += parsed;
+            count += 1;
+        }
+    }
+
+    return count === 0 ? 0 : (total / count).toFixed(2);
 }
 
 /**
@@ -144,17 +228,68 @@ function ParticipantReport(props) { // hm should i just pass props into the game
  * @param {Object} props.bds - The BDS object.
  * @return {JSX.Element} The participant header JSX element.
  */
-function ParticipantHeader2({participant, bds}) {
+function ParticipantHeader2({participant, bds, simon, cs}) {
     // TODO: need to add missing games/total games based on the current day they are on
     // TODO: need to add missing days/total days
     // TODO: bds overall acc, simon overall acc, cs overall acc might as well add bds,cs,simon
-    // so will need to call a method that just goes thru (1 - curr day) for each game 
+    const bdsAcc = bds.game.getMeanSessionsAccuracys();
+    const simonAcc = simon.game.getMeanSessionsAccuracys();
+    const csAcc = cs.game.getMeanSessionsAccuracys();
+
+    const bdsOverall = computeOverallAccuracy(bdsAcc);
+    const simonOverall = computeOverallAccuracy(simonAcc);
+    const csOverall = computeOverallAccuracy(csAcc);
+
+    const CYCLE_DAY = bds.game.getCurrentCycle();
+    console.log("CYCLE DAY: ",CYCLE_DAY)
+    const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
+
+    const rate = getAverageCompletionRates(bds, simon, cs);
+    // console.log(rate);
+    const [compRates, cumComp, potCumComp, bonusTypes] = estCompensation(rate, bds);
+
     return (
         <div className="participant-header">
             <h1 className="participant-id">Participant ID: {participant}</h1>
-            <h2>Games: BDS, Simon, and Color-Shape</h2>
+            <div style={{display: "flex", justifyContent: "space-evenly"}}>
+                { CYCLE_FINISHED ?
+                    <p className="survey-header-element">Cycle Completed<br/>(14 days)</p> :
+                    <p className="survey-header-element">Upcoming/Current Day:<br/>{bds.game.getCurrentCycle() + 1}</p>
+                }
+            </div>
+
+            <div style={{display: "flex", justifyContent: "space-evenly"}}>
+                { CYCLE_FINISHED ?
+                    <p className="survey-header-element">Total compensation earned:<br/>$ {cumComp[CYCLE_DAY]}</p> :
+
+                    <div style={{display: "flex", justifyContent: "space-evenly", width: "100%"}}> 
+                        <p className="survey-header-element">Compensation so far:<br/>$ {cumComp[CYCLE_DAY]}</p>
+                        <p className="survey-header-element">On track to earn (tonight):{potCumComp[CYCLE_DAY]}<br/>$ </p>
+                        <p className="survey-header-element">On track to earn (14 days):<br/>$ {potCumComp[13]}</p>
+                    </div>
+                }
+            </div>
+
+            <div className="accuracy-row">
+                <div className="accuracy-item">
+                    <div>BDS Overall Accuracy:</div>
+                    <div className="accuracy-value">{bdsOverall}%</div>
+                </div>
+                <div className="accuracy-item">
+                    <div>Simon Overall Accuracy:</div>
+                    <div className="accuracy-value">{simonOverall}%</div>
+                </div>
+                <div className="accuracy-item">
+                    <div>Color-Shape Overall Accuracy:</div>
+                    <div className="accuracy-value">{csOverall}%</div>
+                </div>
+            </div>
+
+            <h3>Games: BDS, Simon, and Color-Shape</h3>
             <h3>Cycle start date: {bds.game.getCycleStartDate()}</h3>
-        </div>) 
+
+        </div>
+    );
 }
 
 /**
@@ -259,7 +394,17 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
         if (stats === "NOT COMPLETED") return "lightcoral";
         return "plum"; // task particially completed
     }
+
+    const rate = getAverageCompletionRates(bds, simon, cs);
+    const [compRates, cumComp, potCumComp, bonusTypes] = estCompensation(rate, bds);
+    // console.log(compRates)
+    // console.log("day", day)
+    // console.log(compRates[day - 1])
+
+    // console.log("Cumulative")
+    // console.log(cumComp)
     return (
+
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                 <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
@@ -269,7 +414,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <h5>Play Time: {playTime} </h5>
                     <h5>Total Time: {totalTime} </h5>
                 </div>
-
+                <COGParticipantCompensationTable bds={bds} day={day} completionRate = {rate[day - 1]}compRate={compRates[day - 1]} cumComp={cumComp[day - 1]} potComp={potCumComp[day - 1]} bonusType={bonusTypes[day - 1]}/>
                 <div className='brain-game-layout'>
                     <h5>BDS Task</h5>
                     <div className="start-end-stamps">

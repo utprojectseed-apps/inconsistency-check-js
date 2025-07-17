@@ -9,6 +9,7 @@ export default class Game {
         this.data = data;
         this.data = this.data.asType("day", "int32")
         this.days = Array(Game.TotalDays).fill().map(() => []);
+        this.setupCycles();
         this.completionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.languagePlayedForSessions = Array(Game.TotalDays).fill().map(() => []);
@@ -26,6 +27,7 @@ export default class Game {
         this.getFirstAndLastTrialTimeStamps();
         this.calculateGameTimes();
         this.storeCurrentDay();
+        
     }
 
     static get TotalDays() {return 14; }
@@ -111,6 +113,28 @@ export default class Game {
         }  
     }
 
+    setupCycles() {
+        let id = this.data['Subject'].values[0]
+        this.startDate = new Date(this.data['cycle_start_date'].values[0]+"T00:00:00")
+        this.currCycle = 0
+
+        // find the last day that the user played the game, this is userDate
+        let lastIndex = -1;
+        const subjects = this.data['Subject'].values;
+        for (let i = subjects.length - 1; i >= 0; i--) {
+            if (subjects[i] === id) {
+                lastIndex = i;
+                break;
+            }
+        }
+
+        this.userDate = new Date(this.data['CurrentDate'].values[lastIndex]);
+        let diff = Math.abs(this.startDate - this.userDate)
+        let diffDays = Math.floor(diff / (1000 * 60 * 60 * 24))
+        diffDays = Math.min(diffDays, Game.TotalDays)
+        this.currCycle = diffDays
+    }
+
     /**
      * Calculates the game times for each day in the game based on the first and last trial timestamps.
      *
@@ -155,6 +179,15 @@ export default class Game {
             this.weekDays[i] = weekdays[i % 7];
         }
     }
+
+    getCurrentCycle() {
+        return Math.min(this.currCycle, Game.TotalDays - 1);
+    }
+
+    cyclePassed(day) {
+        return day < this.currCycle;
+    }
+
 
     getNumberSessionsDays() {
         return this.numberSessionsDays;
