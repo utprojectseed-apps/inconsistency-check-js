@@ -284,7 +284,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                     <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                        <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
+                        <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds?.game?.getWeekDay()?.[day - 1] || ''} {bds?.game?.getCurrentDay()?.[day - 1] || ''}</h5>
                         <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
                         <h5>Started: {started} </h5>
                         <h5>Play Time: {playTime} </h5>
