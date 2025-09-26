@@ -1,82 +1,62 @@
-export default class Strikes {
+class Strikes {
   constructor() {
-    // 9 types of strikes. append each day number to the corresponding strike type
-    this.strikeArray = Array.from({ length: 9 }, () => []);
+    this.strikes = {}; // Example structure: { day: [strike1, strike2, ...] }
   }
 
-  // enum for strike types - might not needed but made it anyway
-  static StrikeType(key) {
-    const StrikeMapping = {
-      A: 0, // Large portion of unanswered questions
-      B: 1, // Duration length (< 3 min)
-      C: 2, // Survey Taken Before 8 P.M.
-      D: 3, // Day of the Week Question
-      E: 4, // COVID Vaccine Question
-      F: 5, // Inconsistent Answers for Sections {sections}
-      G: 5, // Inconsistent Answers for Sections {sections}
-      H: 6, // Duration length (> 45 min)
-      J: 7, // Inconsistent
-      K: 8, // Lights off time 2 hours after survey submission time
-    };
-    return StrikeMapping[key];
-  }
-
-  // Count the total number of strikes
-  CountStrikes() {
-    var totalStrikes = 0;
-    for (let i = 0; i < this.strikeArray.length; i++) {
-      totalStrikes += this.strikeArray[i].length; // count the number of strikes for each day
+  addStrike(day, strikeType) {
+    if (!this.strikes[day]) {
+      this.strikes[day] = [];
     }
-    return totalStrikes;
+    this.strikes[day].push(strikeType);
   }
 
-  // add a strike for large portion of unanswered questions
-  addStrikeA(day) {
-    this.strikeArray[0].push(day);
+  getStrikesForDay(day) {
+    console.log(day, this.strikes[day])
+    return this.strikes[day] || []; // Return strikes for the day or an empty array
   }
 
-  // add a strike for duration length < 3 min
-  addStrikeB(day) {
-    this.strikeArray[1].push(day);
-  }
+  evaluateStrikes(participant) {
+    for (let i = 0; i < participant.constructor.getDays(); ++i) {
+      // Always evaluate Strike A for incomplete days
+      if (participant.percentComplete[i] < 0.75) {
+        this.addStrike(i, "Strike A: Large portion unanswered");
+      }
 
-  // add a strike for survey taken before 8 P.M.
-  addStrikeC(day) {
-    this.strikeArray[2].push(day);
-  }
+      // Skip further checks if the cycle hasn't passed for the day
+      if (!participant.cyclePassed(i)) continue;
 
-  // add a strike for day of the week question
-  addStrikeD(day) {
-    this.strikeArray[3].push(day);
-  }
+      // Strike B: Duration < 3 min
+      let durationMin = participant.durationDeltas[i] / (1000 * 60);
+      if (durationMin < 3) {
+        this.addStrike(i, "Strike B: Duration < 3 min");
+      }
 
-  // add a strike for COVID vaccine question
-  addStrikeE(day) {
-    this.strikeArray[4].push(day);
-  }
+      // Strike C: Submitted before 8 PM
+      let [hourStr, minuteStr] = participant.submitTimes[i].split(":");
+      let hour = parseInt(hourStr);
+      if (!isNaN(hour) && hour < 20) {
+        this.addStrike(i, "Strike C: Submitted before 8 PM");
+      }
 
-  // add a strike for inconsistent answers for sections {sections}
-  addStrikeF(day) {
-    this.strikeArray[5].push(day);
-  }
+      // Strike H: Duration > 45 min
+      if (durationMin > 45) {
+        this.addStrike(i, "Strike H: Duration > 45 min");
+      }
 
-  // add a strike for inconsistent answers for sections {sections}
-  addStrikeG(day) {
-    this.strikeArray[5].push(day);
-  }
-
-  // add a strike for duration length > 45 min
-  addStrikeH(day) {
-    this.strikeArray[6].push(day);
-  }
-
-  // add a strike for inconsistent answers
-  addStrikeJ(day) {
-    this.strikeArray[7].push(day);
-  }
-
-  // add a strike for lights off time 2 hours after survey submission time
-  addStrikeK(day) {
-    this.strikeArray[8].push(day);
+      // Strike K: Lights off 2 hours after survey submission
+      let sleepTimeCol = `t${i + 1}lgtsoffti`;
+      let lightsOff = participant.data[sleepTimeCol]?.values[0];
+      if (lightsOff && participant.submitTimes[i] !== "--:--") {
+        let [submitHour, submitMin] = participant.submitTimes[i].split(":").map(Number);
+        let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
+        let submitTotal = submitHour * 60 + submitMin;
+        let sleepTotal = sleepHour * 60 + sleepMin;
+        if (sleepTotal - submitTotal > 120) {
+          this.addStrike(i, "Strike K: Lights off 2 hours after survey submission");
+        }
+      }
+    }
   }
 }
+
+export default Strikes;

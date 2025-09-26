@@ -1,3 +1,4 @@
+import Strikes from "../survey/surveystrikes.js";
 export default function SurveyDayInfo({day, participant}) {
     const completionRate = (participant.getPercentComplete()[day - 1] * 100).toFixed(2)
     const header_color = (completion) => {
@@ -6,12 +7,13 @@ export default function SurveyDayInfo({day, participant}) {
         if (completionNum >= 90) { return "lightgreen" };
         if (completionNum === 0) { return "lightcoral"};
         return "plum";
-    }
+    };
     const completionText = () => {
         if (participant.getDay(day - 1) === 2) { return "SURVEY COMPLETED" };
         if (participant.getDay(day - 1) === 1) { return "PARTIALLY COMPLETED" };
         return "NOT COMPLETED"
-    }
+    };
+    const strikes = participant.getStrikesForDay(day - 1);
     return (
         <div className='dayinformation'>
             <div className={`day-header ${header_color(completionRate)}`} style={{backgroundColor: `${header_color(completionRate)}`}}>
@@ -23,6 +25,18 @@ export default function SurveyDayInfo({day, participant}) {
             <ParticipantCompensationTable day={day} participant={participant}/>
             <div className="day-details">
                 <p>Completion: {completionRate}%</p>
+            </div>
+            <div className="day-strikes">
+                <h4>Strikes:</h4>
+                {strikes.length > 0 ? (
+                    <ul>
+                        {strikes.map((strike, index) => (
+                            <li key={index} style={{color: "red"}}>{strike}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No strikes for this day.</p>
+                )}
             </div>
         </div>)
 }
