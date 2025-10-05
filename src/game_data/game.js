@@ -185,8 +185,18 @@ export default class Game {
         const task = this.constructor.name;
         for (let i = 0; i < Game.TotalDays; ++i) {
             const day = i + 1;
-
-            const sessions = this.numberSessionsDays?.[i] ?? 0;
+            const sessionsRaw = this.numberSessionsDays?.[i];
+            let sessions = 0;
+            if (Array.isArray(sessionsRaw)) {
+                sessions = sessionsRaw.length;
+            } else if (typeof sessionsRaw === 'number') {
+                sessions = sessionsRaw;
+            } else if (typeof sessionsRaw === 'string') {
+                const n = parseInt(sessionsRaw, 10);
+                sessions = Number.isNaN(n) ? 0 : n;
+            } else {
+                sessions = Number(sessionsRaw) || 0;
+            }
             const completionRaw = this.completionsDays?.[i];
             const accuracyRaw = this.meanSessionsAccuracys?.[i];
 

@@ -16,7 +16,7 @@ export default class GameStrikes {
     },
   };
 
-  static FORTUNE = {
+  static FORTUNE = { //TODO: change to meet real strike criteria
     MAX_POINTS: 5000,
     POINT_CUTOFF: 100,
   };

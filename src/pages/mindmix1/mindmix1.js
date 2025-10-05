@@ -6,6 +6,7 @@ import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import {format, differenceInSeconds} from 'date-fns';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
+import StrikesSummary from '../../components/strikesummary';
 // import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
@@ -356,6 +357,12 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
                         <p data-label="Language:">{csLang}</p>
                         <p data-label="Game Time:">{csGameTime}</p>
                     </div>
+                    {(() => {
+                        const bdsStrikes = bds?.game?.strikes?.getStrikesForDay(day) ?? []
+                        const simonStrikes = simon?.game?.strikes?.getStrikesForDay(day) ?? []
+                        const csStrikes = cs?.game?.strikes?.getStrikesForDay(day) ?? []
+                        return <StrikesSummary strikes={[...bdsStrikes, ...simonStrikes, ...csStrikes]} />
+                    })()}
             </div>
         );
     } else { // day 8 - 14
@@ -394,6 +401,10 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
                     <p>Score: {score}</p>
                     <p>Points: {points}</p>
                 </div>
+                {(() => {
+                    const fortuneStrikes = fortune?.game?.strikes?.getStrikesForDay(day) ?? []
+                    return <StrikesSummary strikes={fortuneStrikes} />
+                })()}
             </div>
         )
     }

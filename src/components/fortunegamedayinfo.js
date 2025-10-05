@@ -1,3 +1,5 @@
+import StrikesSummary from './strikesummary'
+
 export default function FortuneGameDayInfo({day, participant}) {
     const completion = participant.getCompletions()[day - 1] 
     const points = isNaN(participant.game.getPoints()[day - 1]) ? 0 : participant.game.getPoints()[day - 1]
@@ -15,6 +17,10 @@ export default function FortuneGameDayInfo({day, participant}) {
                 <p>Completion: {completion}%</p>
                 <ReportFortuneScore score={participant.game.getScore(day)}/>
                 <p>Points: {points}</p>
+                {(() => {
+                    const strikes = participant.game?.strikes?.getStrikesForDay(day) ?? []
+                    return <StrikesSummary strikes={strikes} />
+                })()}
             </div>
         </div>
     )
