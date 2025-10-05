@@ -16,6 +16,11 @@ export default class GameStrikes {
     },
   };
 
+  static FORTUNE = {
+    MAX_POINTS: 5000,
+    POINT_CUTOFF: 100,
+  };
+
   constructor() {
     // 3 categories: [MISSING, COMPLETION, ACCURACY]
     this.strikeArray = Array.from({ length: 3 }, () => []);
@@ -32,6 +37,33 @@ export default class GameStrikes {
     CONTACT_1: 1, // Low concern
     CONTACT_2: 2, // High concern
   };
+
+  // helpers to normalize and format values coming from existing game code. (sometimes %, fractions, strings, numbers)
+  static _toFraction(value) {
+    if (value === undefined || value === null) return NaN;
+    // if already a number
+    if (typeof value === "number") {
+      if (Number.isNaN(value)) return NaN;
+      return value > 1 ? value / 100 : value;
+    }
+    // string handling
+    if (typeof value === "string") {
+      const s = value.trim();
+      if (s.endsWith("%")) {
+        const n = parseFloat(s.slice(0, -1));
+        return Number.isNaN(n) ? NaN : n / 100;
+      }
+      const n = parseFloat(s);
+      if (Number.isNaN(n)) return NaN;
+      return n > 1 ? n / 100 : n;
+    }
+    return NaN;
+  }
+
+  static _formatPercentFromFraction(frac) {
+    if (typeof frac !== "number" || Number.isNaN(frac)) return "N/A";
+    return (frac * 100).toFixed(2);
+  }
 
   /**
    * @returns {number} Total number of strikes across all categories
@@ -82,14 +114,16 @@ export default class GameStrikes {
    * @param {number} severity - The severity of the strike
    */
   addCompletionStrike(day, task, completionRate, severity) {
+    const frac = GameStrikes._toFraction(completionRate);
+    const pct = GameStrikes._formatPercentFromFraction(frac);
     this.strikeArray[GameStrikes.StrikeType.COMPLETION].push(day);
     this.strikeDetails[GameStrikes.StrikeType.COMPLETION].push({
       day: day,
       task: task,
       scenario: "COMPLETION",
-      message: `Mean session completion (${completionRate.toFixed(
-        2
-      )}% of test trials)`,
+      // store normalized fraction for later business logic
+      value: frac,
+      message: `Mean session completion (${pct}% of test trials)`,
       severity: severity,
     });
   }
@@ -102,14 +136,15 @@ export default class GameStrikes {
    * @param {number} severity - The severity of the strike
    */
   addAccuracyStrike(day, task, accuracyRate, severity) {
+    const frac = GameStrikes._toFraction(accuracyRate);
+    const pct = GameStrikes._formatPercentFromFraction(frac);
     this.strikeArray[GameStrikes.StrikeType.ACCURACY].push(day);
     this.strikeDetails[GameStrikes.StrikeType.ACCURACY].push({
       day: day,
       task: task,
       scenario: "ACCURACY",
-      message: `Mean session accuracy (${accuracyRate.toFixed(
-        2
-      )}% of test trials)`,
+      value: frac,
+      message: `Mean session accuracy (${pct}% of test trials)`,
       severity: severity,
     });
   }

@@ -7,10 +7,12 @@ export default class FortuneDeck extends Game {
     constructor(data, participant_id) {
         super(data);
         this.participant_id = participant_id;
+        this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.calculateCompletionsDays();
         this.calculateScore();
         this.calculateEndPoints();
         this.calculateBonus();
+        this.generateStrikes();
     }  
 
     calculateCompletionsDays() {
@@ -21,6 +23,7 @@ export default class FortuneDeck extends Game {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let sessions = new dfd.Series(df['session_uuid'].values).unique().values;
+            this.numberSessionsDays[i] = sessions.length;
     
             for (let j = 0; j < sessions.length; ++j) {
                 let session = sessions[j];
