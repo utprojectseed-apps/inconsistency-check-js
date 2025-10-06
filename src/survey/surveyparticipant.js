@@ -316,7 +316,7 @@ export default class SurveyParticipant {
     this.cumulativeComp = cumulativeComp;
     this.potentialCumComp = potentialCumComp;
     this.BONUS_TYPES = BONUS_TYPES;
-    console.log(potentialCumComp);
+    // console.log(potentialCumComp);
   }
 
   getCompRate(day) {
@@ -523,6 +523,5 @@ export default class SurveyParticipant {
     return false;
   }
 }
-
 
 
