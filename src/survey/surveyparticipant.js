@@ -15,7 +15,11 @@ export default class SurveyParticipant {
     this.#collectStartEndTimes();
     this.#collectSubmitTimes();
     this.estCompensation();
-    this.strikeArray = new Strikes();
+  // Initialize Strikes instance with mapping enabled so early-morning
+  // submissions (00:00 - graceEndHour) can count for previous day when
+  // that previous day had no submission. This matches the requested
+  // behavior: submit at 02:00 on Oct 6 counts for Oct 5 if Oct 5 had no submission.
+  this.strikeArray = new Strikes({ mapEarlyToPrevDay: true, graceEndHour: 8 });
     this.evaluateStrikes();
   }
 
@@ -241,12 +245,17 @@ export default class SurveyParticipant {
 
   #collectSubmitTimes() {
     this.submitTimes = Array(SurveyParticipant.getDays()).fill("--:--");
+    // store full Date objects for each submit timestamp so strikes can use
+    // accurate comparisons across dates (e.g., submissions after midnight)
+    this.submitDateTimes = Array(SurveyParticipant.getDays()).fill(null);
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
       let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(
         i
       )}_daily_survey_timestamp`;
       let timestamp = this.data[`${timestampCol}`].values[0];
       if (timestamp !== "") {
+        // timestamp expected like "YYYY-MM-DD HH:MM:SS" (no timezone)
+        // store the human-readable HH:MM for display
         let [date, time] = timestamp.split(" ");
         let [hours, minutes, seconds] = time.split(":");
         let submitHour = parseInt(hours);
@@ -255,6 +264,26 @@ export default class SurveyParticipant {
           continue;
         }
         this.submitTimes[i] = hours + ":" + minutes;
+
+        // store a Date object for accurate comparisons. Replace the space
+        // with a 'T' so Date will parse it as local datetime.
+        try {
+          let iso = timestamp.replace(' ', 'T');
+          let submitDate = new Date(iso);
+          if (!isNaN(submitDate.getTime())) {
+            this.submitDateTimes[i] = submitDate;
+          } else {
+            // fallback: try appending seconds if missing
+            let iso2 = `${date}T${hours}:${minutes}:00`;
+            let submitDate2 = new Date(iso2);
+            if (!isNaN(submitDate2.getTime())) {
+              this.submitDateTimes[i] = submitDate2;
+            }
+          }
+        } catch (e) {
+          // leave as null if parsing fails
+          this.submitDateTimes[i] = null;
+        }
       }
     }
   }
@@ -468,48 +497,18 @@ export default class SurveyParticipant {
     }
     return 0;
   }
-  // my idea is to have a function that evaluates the strikes here inside each participant
+
   evaluateStrikes() {
-    for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-      if (!this.cyclePassed(i)) continue;
+    this.strikeArray.evaluateStrikes(this); // Delegate to Strikes class
+  }
 
-      // Strike A: Large portion unanswered
-      if (this.percentComplete[i] < 0.75) {
-        this.strikeArray.addStrikeA(i);
-      }
-
-      // Strike B: Duration < 3 min
-      let durationMin = this.durationDeltas[i] / (1000 * 60);
-      if (durationMin < 3) {
-        this.strikeArray.addStrikeB(i);
-      }
-
-      // Strike C: Submitted before 8 PM
-      let [hourStr, minuteStr] = this.submitTimes[i].split(":");
-      let hour = parseInt(hourStr);
-      if (!isNaN(hour) && hour < 20) {
-        this.strikeArray.addStrikeC(i);
-      }
-
-      // Strike H: Duration > 45 min
-      if (durationMin > 45) {
-        this.strikeArray.addStrikeH(i);
-      }
-
-      // Strike K: Lights off 2 hours after survey submission
-      let sleepTimeCol = `t${i + 1}lgtsoffti`;
-      let lightsOff = this.data[sleepTimeCol]?.values[0];
-      if (lightsOff && this.submitTimes[i] !== "--:--") {
-        let [submitHour, submitMin] = this.submitTimes[i].split(":").map(Number);
-        let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
-        let submitTotal = submitHour * 60 + submitMin;
-        let sleepTotal = sleepHour * 60 + sleepMin;
-        if (sleepTotal - submitTotal > 120) {
-          this.strikeArray.addStrikeK(i);
-        }
-      }
+  getStrikesForDay(day) {
+    if (day > SurveyParticipant.getDays() || day < 0) {
+      throw new Error("Invalid day");
     }
-  };
+    return this.strikeArray.getStrikesForDay(day); // Delegate to Strikes class
+  }
+
   #branchMet(varName) {
     let dictRef = this.dataDict.branchConditions(varName);
     for (let key in dictRef) {
@@ -523,5 +522,4 @@ export default class SurveyParticipant {
     return false;
   }
 }
-
 
