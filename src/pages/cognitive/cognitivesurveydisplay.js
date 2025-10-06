@@ -17,7 +17,6 @@ export default function CognitiveSurveyDisplay() {
     }
     const handleSelected = d => {
         setSelectedIds(d)
-        //TODO: should probably let them select, and then press a button to load the reports
         survey.current.setSelectedIds(d)
     }
     useEffect(() => {

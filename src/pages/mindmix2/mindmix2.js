@@ -68,8 +68,14 @@ export default function CognitiveGame() {
     return (
         <div>
             <div className="no-print">
-                <h1>Mind Mix 2 Games (BDS, Simon, Color-Shape, and Fortune) Enter Data:</h1>
-                <h3>Reminder that when inputing the CSVs its in order: BDS, Simon, Color-Shape, and Fortune (top to bottom)!</h3>
+                <h1>Mind Mix 2 Games Report (BDS, Simon, Color-Shape, and Fortune)</h1>
+                <h3>
+                    Reminder that when inputting the CSVs it's in order:
+                    {" "}
+                    <span style={{ color: "red" }}>
+                        BDS, Simon, Color-Shape, and Fortune (top to bottom)!
+                    </span>
+                </h3>
                 <CSVReader parentCallback={handleUpload} gameId="bds" key="bds"/>
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
@@ -278,7 +284,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
                     <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
-                        <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds.game.getWeekDay()[day - 1]} {bds.game.getCurrentDay()[day - 1]}</h5>
+                        <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds?.game?.getWeekDay()?.[day - 1] || ''} {bds?.game?.getCurrentDay()?.[day - 1] || ''}</h5>
                         <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
                         <h5>Started: {started} </h5>
                         <h5>Play Time: {playTime} </h5>

@@ -33,7 +33,7 @@ export default function FortuneGame() {
     }, [data])
     return (
         <div className='games'>
-            <h1 className='no-print'>Enter data</h1>
+            <h1 className='no-print'>Fortune Game Report</h1>
             <div className='no-print'>
                 <CSVReader parentCallback={handleUpload} gameId = "fortune"/>
                 {new Date().getDay() === 1 && <NavLink to="../highlight">Click here to go to highlights page</NavLink>}

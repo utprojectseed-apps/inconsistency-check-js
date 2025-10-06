@@ -16,6 +16,7 @@ export default class SurveyParticipant {
     this.#collectSubmitTimes();
     this.estCompensation();
     this.strikeArray = new Strikes();
+    this.evaluateStrikes();
   }
 
   static getDays() {
@@ -467,7 +468,48 @@ export default class SurveyParticipant {
     }
     return 0;
   }
+  // my idea is to have a function that evaluates the strikes here inside each participant
+  evaluateStrikes() {
+    for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
+      if (!this.cyclePassed(i)) continue;
 
+      // Strike A: Large portion unanswered
+      if (this.percentComplete[i] < 0.75) {
+        this.strikeArray.addStrikeA(i);
+      }
+
+      // Strike B: Duration < 3 min
+      let durationMin = this.durationDeltas[i] / (1000 * 60);
+      if (durationMin < 3) {
+        this.strikeArray.addStrikeB(i);
+      }
+
+      // Strike C: Submitted before 8 PM
+      let [hourStr, minuteStr] = this.submitTimes[i].split(":");
+      let hour = parseInt(hourStr);
+      if (!isNaN(hour) && hour < 20) {
+        this.strikeArray.addStrikeC(i);
+      }
+
+      // Strike H: Duration > 45 min
+      if (durationMin > 45) {
+        this.strikeArray.addStrikeH(i);
+      }
+
+      // Strike K: Lights off 2 hours after survey submission
+      let sleepTimeCol = `t${i + 1}lgtsoffti`;
+      let lightsOff = this.data[sleepTimeCol]?.values[0];
+      if (lightsOff && this.submitTimes[i] !== "--:--") {
+        let [submitHour, submitMin] = this.submitTimes[i].split(":").map(Number);
+        let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
+        let submitTotal = submitHour * 60 + submitMin;
+        let sleepTotal = sleepHour * 60 + sleepMin;
+        if (sleepTotal - submitTotal > 120) {
+          this.strikeArray.addStrikeK(i);
+        }
+      }
+    }
+  };
   #branchMet(varName) {
     let dictRef = this.dataDict.branchConditions(varName);
     for (let key in dictRef) {
@@ -483,45 +525,4 @@ export default class SurveyParticipant {
 }
 
 
-// my idea is to have a function that evaluates the strikes here inside each participant
-// evaluateStrikes() {
-//   for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-//     if (!this.cyclePassed(i)) continue;
 
-//     // Strike A: Large portion unanswered
-//     if (this.percentComplete[i] < 0.75) {
-//       this.strikeArray.addStrikeA(i);
-//     }
-
-//     // Strike B: Duration < 3 min
-//     let durationMin = this.durationDeltas[i] / (1000 * 60);
-//     if (durationMin < 3) {
-//       this.strikeArray.addStrikeB(i);
-//     }
-
-//     // Strike C: Submitted before 8 PM
-//     let [hourStr, minuteStr] = this.submitTimes[i].split(":");
-//     let hour = parseInt(hourStr);
-//     if (!isNaN(hour) && hour < 20) {
-//       this.strikeArray.addStrikeC(i);
-//     }
-
-//     // Strike H: Duration > 45 min
-//     if (durationMin > 45) {
-//       this.strikeArray.addStrikeH(i);
-//     }
-
-//     // Strike K: Lights off 2 hours after survey submission
-//     let sleepTimeCol = `t${i + 1}lgtsoffti`;
-//     let lightsOff = this.data[sleepTimeCol]?.values[0];
-//     if (lightsOff && this.submitTimes[i] !== "--:--") {
-//       let [submitHour, submitMin] = this.submitTimes[i].split(":").map(Number);
-//       let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
-//       let submitTotal = submitHour * 60 + submitMin;
-//       let sleepTotal = sleepHour * 60 + sleepMin;
-//       if (sleepTotal - submitTotal > 120) {
-//         this.strikeArray.addStrikeK(i);
-//       }
-//     }
-//   }
-// };

@@ -186,6 +186,25 @@ p {
   width: auto;
 }
 
+.accuracy-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.accuracy-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.accuracy-value {
+  font-weight: bold;
+}
+
 #cognitivehighlights, #fortunehighlights, #mindmixhighlights {
   padding: 2rem;
 }
