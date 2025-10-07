@@ -239,28 +239,6 @@ export default class Game {
                     }
                 }
             }
-            if (this.constructor.name === 'FortuneDeck') {
-                const ptsRaw = this.points?.[i];
-                if (typeof ptsRaw !== 'undefined' && !Number.isNaN(ptsRaw)) {
-                    const cutoff = GameStrikes.FORTUNE.POINT_CUTOFF;
-                    const maxPoints = GameStrikes.FORTUNE.MAX_POINTS;
-                    const ptsFrac = Math.max(0, Math.min(1, ptsRaw / maxPoints));
-                    if (typeof cutoff === 'number' && !Number.isNaN(cutoff) && ptsRaw < cutoff) {
-                        this.strikes.addAccuracyStrike(day, task, ptsFrac, GameStrikes.Severity.CONTACT_1);
-                    } else {
-                        let fortuneSeverity = null;
-                        const thresholds = GameStrikes.ACCURACY_THRESHOLDS;
-                        if (ptsFrac < thresholds.CONTACT_2) {
-                            fortuneSeverity = GameStrikes.Severity.CONTACT_2;
-                        } else if (ptsFrac < thresholds.CONTACT_1) {
-                            fortuneSeverity = GameStrikes.Severity.CONTACT_1;
-                        }
-                        if (fortuneSeverity) {
-                            this.strikes.addAccuracyStrike(day, task, ptsFrac, fortuneSeverity);
-                        }
-                    }
-                }
-            }
         }
     }
 
