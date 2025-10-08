@@ -44,16 +44,25 @@ export default function StrikesSummary({ strikes }) {
       </div>
       <ul style={{ listStyle: "none", paddingLeft: 0, marginTop: 6 }}>
         {strikes.map((s, i) => {
-          const color =
-            s.severity === GameStrikes.Severity.CONTACT_2
-              ? "#fe1818ff"
-              : "#c49300ff";
+          const color = "#fe1818";
           const shortLabel = renderLabel(s);
           const taskLabel = s.task || "";
+          const sev =
+            s.severity === GameStrikes.Severity.CONTACT_2
+              ? GameStrikes.Severity.CONTACT_2
+              : GameStrikes.Severity.CONTACT_1;
+          const sevText =
+            sev === GameStrikes.Severity.CONTACT_2
+              ? "PHONE CALL NEEDED"
+              : "TEXT NEEDED";
+          const visible = `(${sevText}) ${shortLabel}${
+            taskLabel ? ` - ${taskLabel}` : ""
+          }`;
+          const titleText = s.message ? `${sevText} — ${s.message}` : sevText;
           return (
             <li
               key={i}
-              title={s.message || ""}
+              title={titleText}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -70,9 +79,9 @@ export default function StrikesSummary({ strikes }) {
                   display: "inline-block",
                 }}
               />
-              <span
-                style={{ fontSize: 13, color, fontWeight: 600 }}
-              >{`${shortLabel} ${taskLabel ? `- ${taskLabel}` : ""}`}</span>
+              <span style={{ fontSize: 13, color, fontWeight: 700 }}>
+                {visible}
+              </span>
             </li>
           );
         })}
