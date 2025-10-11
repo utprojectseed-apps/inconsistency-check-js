@@ -20,6 +20,9 @@ export default class GameStrikes {
     // 3 categories: [MISSING, COMPLETION, ACCURACY]
     this.strikeArray = Array.from({ length: 3 }, () => []);
     this.strikeDetails = Array.from({ length: 3 }, () => []);
+    // Track total missing/incomplete occurrences for escalation (Days 2-10)
+    this.totalMissingTrackingDays = 0;
+    this.firstStrikeGiven = false;
   }
 
   static StrikeType = {
@@ -29,8 +32,15 @@ export default class GameStrikes {
   };
 
   static Severity = {
-    CONTACT_1: 1, // Low concern
-    CONTACT_2: 2, // High concern
+    CONTACT_1: 1, // Text message needed
+    CONTACT_2: 2, // Phone call needed
+  };
+
+  static EscalationRules = {
+    // Days 11-13: ANY missing/incomplete = phone call
+    CRITICAL_DAYS: [11, 12, 13],
+    // Days 2-10: odd occurrences = phone call, even = text
+    TRACKING_DAYS: [2, 3, 4, 5, 6, 7, 8, 9, 10],
   };
 
   // helpers to normalize and format values coming from existing game code. (sometimes %, fractions, strings, numbers)
@@ -60,6 +70,54 @@ export default class GameStrikes {
     return (frac * 100).toFixed(2);
   }
 
+  /**
+   * Determines escalation severity based on missing day criteria
+   * @param {number} day - The day of the strike
+   * @param {string} scenario - MISSING or COMPLETION
+   * @returns {number} GameStrikes.Severity level
+   */
+  _determineEscalationSeverity(day, scenario) {
+    // Days 11-13: any missing/incomplete = phone call needed
+    if (GameStrikes.EscalationRules.CRITICAL_DAYS.includes(day)) {
+      return GameStrikes.Severity.CONTACT_2;
+    }
+
+    // Day 1: any missing/incomplete = phone call needed
+    if (day === 1) {
+      return GameStrikes.Severity.CONTACT_2;
+    }
+
+    // Days 2-10: alternate severity by total missing/incomplete occurrences
+    if (GameStrikes.EscalationRules.TRACKING_DAYS.includes(day)) {
+      this.totalMissingTrackingDays += 1;
+      return this.totalMissingTrackingDays % 2 === 1
+        ? GameStrikes.Severity.CONTACT_2
+        : GameStrikes.Severity.CONTACT_1;
+    }
+
+    // default for other days
+    return GameStrikes.Severity.CONTACT_1;
+  }
+
+  /**
+   * Determines severity for accuracy strikes
+   * @param {number} day - The day of the strike
+   * @param {number} defaultSeverity - The threshold-based severity
+   * @returns {number} Final severity considering escalation rules
+   */
+  _determineAccuracySeverity(day, defaultSeverity) {
+    // first accuracy strike = text message
+    if (!this.firstStrikeGiven) {
+      this.firstStrikeGiven = true;
+      return GameStrikes.Severity.CONTACT_1;
+    }
+    const accuracyCount =
+      this.strikeArray[GameStrikes.StrikeType.ACCURACY].length;
+
+    return accuracyCount % 2 === 0
+      ? GameStrikes.Severity.CONTACT_2
+      : GameStrikes.Severity.CONTACT_1;
+  }
   /**
    * @returns {number} Total number of strikes across all categories
    */
@@ -91,13 +149,14 @@ export default class GameStrikes {
    * @param {string} message - (Optional) message for the strike -> Only if needed later
    */
   addMissingStrike(day, task, message = null) {
+    const severity = this._determineEscalationSeverity(day, "MISSING");
     this.strikeArray[GameStrikes.StrikeType.MISSING].push(day);
     this.strikeDetails[GameStrikes.StrikeType.MISSING].push({
       day: day,
       task: task,
       scenario: "MISSING",
       message: message || `${task} Task was not performed by participant.`,
-      severity: GameStrikes.Severity.CONTACT_1,
+      severity: severity,
     });
   }
 
@@ -106,9 +165,13 @@ export default class GameStrikes {
    * @param {string} day - Day of the strike
    * @param {string} task - The task associated with the strike
    * @param {number} completionRate - The completion rate for the task
-   * @param {number} severity - The severity of the strike
+   * @param {number} severity - The threshold-based severity
    */
   addCompletionStrike(day, task, completionRate, severity) {
+    const escalatedSeverity = this._determineEscalationSeverity(
+      day,
+      "COMPLETION"
+    );
     const frac = GameStrikes._toFraction(completionRate);
     const pct = GameStrikes._formatPercentFromFraction(frac);
     this.strikeArray[GameStrikes.StrikeType.COMPLETION].push(day);
@@ -119,7 +182,7 @@ export default class GameStrikes {
       // store normalized fraction for later business logic
       value: frac,
       message: `Mean session completion (${pct}% of test trials)`,
-      severity: severity,
+      severity: escalatedSeverity,
     });
   }
 
@@ -128,9 +191,10 @@ export default class GameStrikes {
    * @param {number} day - Day of the strike
    * @param {string} task - The task associated with the strike
    * @param {number} accuracyRate - The accuracy rate for the task
-   * @param {number} severity - The severity of the strike
+   * @param {number} severity - The threshold-based severity
    */
   addAccuracyStrike(day, task, accuracyRate, severity) {
+    const finalSeverity = this._determineAccuracySeverity(day, severity);
     const frac = GameStrikes._toFraction(accuracyRate);
     const pct = GameStrikes._formatPercentFromFraction(frac);
     this.strikeArray[GameStrikes.StrikeType.ACCURACY].push(day);
@@ -140,7 +204,7 @@ export default class GameStrikes {
       scenario: "ACCURACY",
       value: frac,
       message: `Mean session accuracy (${pct}% of test trials)`,
-      severity: severity,
+      severity: finalSeverity,
     });
   }
 

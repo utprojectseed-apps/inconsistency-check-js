@@ -54,7 +54,7 @@ export default function StrikesSummary({ strikes }) {
           const sevText =
             sev === GameStrikes.Severity.CONTACT_2
               ? "PHONE CALL NEEDED"
-              : "TEXT NEEDED";
+              : "TEXT MESSAGE NEEDED";
           const visible = `(${sevText}) ${shortLabel}${
             taskLabel ? ` - ${taskLabel}` : ""
           }`;
