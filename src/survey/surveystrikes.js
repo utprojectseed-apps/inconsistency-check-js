@@ -21,129 +21,183 @@ class Strikes {
   }
 
   getStrikesForDay(day) {
-    console.log(day, this.strikes[day])
     return this.strikes[day] || []; // Return strikes for the day or an empty array
   }
 
   evaluateStrikes(participant) {
     const days = participant.constructor.getDays();
 
-    // Pre-pass: determine effective submission for each survey day.
-    // effectiveSubmissions[d] = { submitted: bool, submitDate: Date, localHour: number }
-    const effectiveSubmissions = Array(days).fill(null).map(() => ({ submitted: false, submitDate: null, localHour: null }));
-
-    // First pass: mark same-day submissions
+    // collect all parsed submission datetimes for quick lookup
+    const submissions = [];
     for (let k = 0; k < days; ++k) {
       const sd = participant.submitDateTimes ? participant.submitDateTimes[k] : null;
-      if (sd instanceof Date && !isNaN(sd.getTime())) {
-        const pad = (n) => (n < 10 ? '0' + n : n);
-        const sdDateStr = `${sd.getFullYear()}-${pad(sd.getMonth() + 1)}-${pad(sd.getDate())}`;
-        const participantDayStr = participant.dates ? participant.dates[k] : null;
-        if (participantDayStr && participantDayStr === sdDateStr) {
-          effectiveSubmissions[k] = { submitted: true, submitDate: sd, localHour: sd.getHours() };
-        }
-      }
+      if (sd instanceof Date && !isNaN(sd.getTime())) submissions.push(sd);
     }
 
-    // Second pass: for each survey day, if any submission falls in the window
-    // [survey day 20:00, next day graceEndHour) mark that survey day as submitted/safe
-    for (let i = 0; i < days; ++i) {
-      const participantDayStr = participant.dates ? participant.dates[i] : null;
-      if (!participantDayStr || participantDayStr === 'Skipped' || participantDayStr === 'Unanswered' || participantDayStr === 'Not Started') continue;
-      const parts = participantDayStr.split('-').map(Number);
-      if (parts.length !== 3) continue;
-      const [y, m, d] = parts;
-      const startWindow = new Date(y, m - 1, d, 20, 0, 0);
-      const endWindow = new Date(y, m - 1, d + 1, this.options.graceEndHour, 0, 0);
-      for (let j = 0; j < days; ++j) {
-        const sd = participant.submitDateTimes ? participant.submitDateTimes[j] : null;
-        if (!(sd instanceof Date) || isNaN(sd.getTime())) continue;
-        if (sd >= startWindow && sd < endWindow) {
-          // mark survey day i as submitted and safe (localHour 20)
-          effectiveSubmissions[i] = { submitted: true, submitDate: sd, localHour: 20 };
-          // ensure the submission's own day is also recorded
-          // always mark the submission's own day as submitted and treat it as late/safe
-          effectiveSubmissions[j] = { submitted: true, submitDate: sd, localHour: 20 };
-          break;
-        }
-      }
-    }
+    // helper: returns true if any submission falls in [startMs, endMs) (ms since epoch)
+    const hasSubmissionInWindow = (startMs, endMs) => submissions.some(s => {
+      const t = s.getTime();
+      return t >= startMs && t < endMs;
+    });
 
     for (let i = 0; i < days; ++i) {
-      // Always evaluate Strike A for incomplete days
+  // Always evaluate A for incomplete days
       if (participant.percentComplete[i] < 0.75) {
-        this.addStrike(i, "Strike A: Large portion unanswered");
+  this.addStrike(i, "A: Large portion unanswered");
       }
 
       // Skip further checks if the cycle hasn't passed for the day
       if (!participant.cyclePassed(i)) continue;
 
-      // Strike B: Duration < 3 min
+  // B: Duration < 3 min
       let durationMin = participant.durationDeltas[i] / (1000 * 60);
       if (durationMin < 3) {
-        this.addStrike(i, "Strike B: Duration < 3 min");
+  this.addStrike(i, "B: Duration < 3 min");
       }
 
-      // Strike C: Use effectiveSubmissions computed earlier. If a submission
-      // was mapped to this survey day or recorded on this day, check the
-      // effective local hour. Only flag if local hour < 20. If no effective
-      // submission exists for the day, fall back to a conservative parse
-      // of the raw timestamp but do not map across midnight here.
-      const eff = effectiveSubmissions[i];
-      if (eff && eff.submitted) {
-        if (typeof eff.localHour === 'number' && eff.localHour < 20) {
-          console.log(`[Strikes] Adding Strike C for day ${i}. eff=${JSON.stringify(eff)}, participant.dates[i]=${participant.dates ? participant.dates[i] : 'N/A'}, submitDateTimes[i]=${participant.submitDateTimes ? participant.submitDateTimes[i] : 'N/A'}`);
-          this.addStrike(i, "Strike C: Submitted before 8 PM");
-        }
-      } else {
-        // fallback: parse raw timestamp if available and matches participant.dates
-        try {
-          let timestampCol = `day_${i + 1}_${participant.constructor.getWeekDay(i)}_daily_survey_timestamp`;
-          let rawTs = participant.data[timestampCol]?.values[0];
-          if (rawTs && rawTs !== "" && rawTs !== "[not completed]") {
-            let [datePart, timePart] = rawTs.split(" ");
-            if (datePart && timePart) {
+  // C: For survey day i check if any submission exists in the
+  // 'night window' [surveyDay 20:00, nextDay graceEndHour). If so, it's
+  // considered on-time for the survey day (no C). Otherwise, if
+  // there's a same-day submission before 20:00, it's flagged as C.
+      const participantDayStr = participant.dates ? participant.dates[i] : null;
+      if (participantDayStr && participantDayStr !== 'Skipped' && participantDayStr !== 'Unanswered' && participantDayStr !== 'Not Started') {
+        const parts = participantDayStr.split('-').map(Number);
+        if (parts.length === 3) {
+          const [y, m, d] = parts;
+          // build UTC-based window (participant.dates uses UTC components)
+          const startMs = Date.UTC(y, m - 1, d, 20, 0, 0);
+          const endMs = Date.UTC(y, m - 1, d + 1, this.options.graceEndHour, 0, 0);
+
+          if (hasSubmissionInWindow(startMs, endMs)) {
+            // submission exists in the night window -> safe for this day
+          } else {
+            // no night-window submission; check for same-day submit time (raw or parsed)
+            let flagged = false;
+            // check parsed date for same-day submissions before 20:00
+            submissions.forEach(s => {
+              const pad = n => (n < 10 ? '0' + n : '' + n);
+              // use UTC components to match participantDayStr which was generated with UTC
+              const sDateStr = `${s.getUTCFullYear()}-${pad(s.getUTCMonth() + 1)}-${pad(s.getUTCDate())}`;
+              if (sDateStr === participantDayStr && s.getUTCHours() < 20) flagged = true;
+            });
+            // fallback: check raw timestamp column when parsed submissions don't indicate a same-day submit
+            if (!flagged) {
+              try {
+                let timestampCol = `day_${i + 1}_${participant.constructor.getWeekDay(i)}_daily_survey_timestamp`;
+                let rawTs = participant.data[timestampCol]?.values[0];
+                if (rawTs && rawTs !== "" && rawTs !== "[not completed]") {
+                  let [datePart, timePart] = rawTs.split(" ");
+                  if (datePart === participantDayStr && timePart) {
+                      let [hourStr] = timePart.split(":");
+                      let hour = parseInt(hourStr);
+                      if (!isNaN(hour) && hour < 20) flagged = true;
+                    }
+                }
+              } catch (e) {
+                // ignore
+              }
+            }
+            if (flagged) {
+              // If any submission for this survey day occurred between 20:00 and 08:00 local,
+              // do NOT count C (per new rule: never flag between 8pm and 8am).
               const participantDayStr = participant.dates ? participant.dates[i] : null;
-              if (participantDayStr && participantDayStr === datePart) {
-                let [hourStr, minuteStr] = timePart.split(":");
-                let hour = parseInt(hourStr);
-                if (!isNaN(hour) && hour < 20) {
-                  console.log(`[Strikes] Fallback: adding Strike C for day ${i}. rawTs=${rawTs}, participant.dates[i]=${participant.dates ? participant.dates[i] : 'N/A'}`);
-                  this.addStrike(i, "Strike C: Submitted before 8 PM");
+              let hasNightSubmission = false;
+              if (participantDayStr) {
+                // check parsed submissions
+                for (const s of submissions) {
+                  const pad = n => (n < 10 ? '0' + n : '' + n);
+                  const sDateStr = `${s.getFullYear()}-${pad(s.getMonth() + 1)}-${pad(s.getDate())}`;
+                  if (sDateStr === participantDayStr) {
+                    const h = s.getHours();
+                    if (h >= 20 || h < 8) { hasNightSubmission = true; break; }
+                  }
+                }
+                // fallback: check raw timestamp
+                if (!hasNightSubmission) {
+                  try {
+                    let timestampCol = `day_${i + 1}_${participant.constructor.getWeekDay(i)}_daily_survey_timestamp`;
+                    let rawTs = participant.data[timestampCol]?.values[0];
+                    if (rawTs && rawTs !== "" && rawTs !== "[not completed]") {
+                      let [datePart, timePart] = rawTs.split(" ");
+                      if (datePart === participantDayStr && timePart) {
+                        let [hourStr] = timePart.split(":");
+                        let hour = parseInt(hourStr);
+                        if (!isNaN(hour) && (hour >= 20 || hour < 8)) hasNightSubmission = true;
+                      }
+                    }
+                  } catch (e) {}
+                }
+              }
+
+              if (!hasNightSubmission) {
+                this.addStrike(i, "C: Submitted before 8 PM");
+              }
+            }
+          }
+        }
+      }
+
+  // H: Duration > 45 min
+        if (durationMin > 45) {
+        this.addStrike(i, "H: Duration > 45 min");
+      }
+
+  // K: Lights off 2 hours after survey submission
+  let sleepTimeCol = `t${i + 1}lgtsoffti`;
+      let lightsOff = participant.data[sleepTimeCol]?.values[0];
+      if (lightsOff) {
+  // compute effective submit hour for this day using same logic as C
+        let submitHour = null, submitMin = null;
+
+        // helper: compute the night window for day i
+        const getParticipantDayWindow = (dayIndex) => {
+          const participantDayStr = participant.dates ? participant.dates[dayIndex] : null;
+          if (!participantDayStr) return null;
+          const parts = participantDayStr.split('-').map(Number);
+          if (parts.length !== 3) return null;
+          const [y, m, d] = parts;
+          const startWindow = new Date(y, m - 1, d, 20, 0, 0);
+          const endWindow = new Date(y, m - 1, d + 1, this.options.graceEndHour, 0, 0);
+          return { startWindow, endWindow, participantDayStr };
+        };
+
+        const wnd = getParticipantDayWindow(i);
+        if (wnd) {
+          const startMs = Date.UTC(parseInt(wnd.participantDayStr.split('-')[0],10), parseInt(wnd.participantDayStr.split('-')[1],10)-1, parseInt(wnd.participantDayStr.split('-')[2],10), 20, 0, 0);
+          const endMs = Date.UTC(parseInt(wnd.participantDayStr.split('-')[0],10), parseInt(wnd.participantDayStr.split('-')[1],10)-1, parseInt(wnd.participantDayStr.split('-')[2],10)+1, this.options.graceEndHour, 0, 0);
+          if (hasSubmissionInWindow(startMs, endMs)) {
+            submitHour = 20;
+            submitMin = 0;
+          } else {
+            // look for parsed same-day submission
+            const participantDayStr = wnd.participantDayStr;
+            if (participantDayStr) {
+              for (const s of submissions) {
+                const pad = n => (n < 10 ? '0' + n : '' + n);
+                const sDateStr = `${s.getUTCFullYear()}-${pad(s.getUTCMonth() + 1)}-${pad(s.getUTCDate())}`;
+                if (sDateStr === participantDayStr) {
+                  submitHour = s.getUTCHours();
+                  submitMin = s.getUTCMinutes();
+                  break;
                 }
               }
             }
           }
-        } catch (e) {
-          // swallow parsing errors and do not flag
         }
-      }
+        
 
-      // Strike H: Duration > 45 min
-      if (durationMin > 45) {
-        this.addStrike(i, "Strike H: Duration > 45 min");
-      }
-
-      // Strike K: Lights off 2 hours after survey submission
-      let sleepTimeCol = `t${i + 1}lgtsoffti`;
-      let lightsOff = participant.data[sleepTimeCol]?.values[0];
-      if (lightsOff) {
-        // Prefer effective submission hour if available
-        const effSub = effectiveSubmissions[i];
-        let submitHour = null, submitMin = null;
-        if (effSub && effSub.submitted && typeof effSub.localHour === 'number') {
-          submitHour = effSub.localHour;
-          submitMin = 0;
-        } else if (participant.submitTimes[i] && participant.submitTimes[i] !== "--:--") {
+        // fallback to raw submitTimes string
+        if (submitHour === null && participant.submitTimes[i] && participant.submitTimes[i] !== "--:--") {
           [submitHour, submitMin] = participant.submitTimes[i].split(":").map(Number);
         }
+
         if (submitHour !== null) {
-        let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
-        let submitTotal = submitHour * 60 + submitMin;
-        let sleepTotal = sleepHour * 60 + sleepMin;
-        if (sleepTotal - submitTotal > 120) {
-          this.addStrike(i, "Strike K: Lights off 2 hours after survey submission");
-        }
+          let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
+          let submitTotal = submitHour * 60 + (submitMin || 0);
+          let sleepTotal = sleepHour * 60 + sleepMin;
+          if (sleepTotal - submitTotal > 120) {
+            this.addStrike(i, "K: Lights off 2 hours after survey submission");
+          }
         }
       }
     }

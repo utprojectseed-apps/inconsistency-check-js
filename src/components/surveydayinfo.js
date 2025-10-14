@@ -14,6 +14,7 @@ export default function SurveyDayInfo({day, participant}) {
         return "NOT COMPLETED"
     };
     const strikes = participant.getStrikesForDay(day - 1);
+    const isMissingSurvey = participant.cyclePassed(day - 1) && participant.getPercentComplete()[day - 1] === 0 && participant.getDay(day - 1) === 0;
     return (
         <div className='dayinformation'>
             <div className={`day-header ${header_color(completionRate)}`} style={{backgroundColor: `${header_color(completionRate)}`}}>
@@ -28,14 +29,18 @@ export default function SurveyDayInfo({day, participant}) {
             </div>
             <div className="day-strikes">
                 <h4>Strikes:</h4>
-                {strikes.length > 0 ? (
-                    <ul>
-                        {strikes.map((strike, index) => (
-                            <li key={index} style={{color: "red"}}>{strike}</li>
-                        ))}
-                    </ul>
+                {isMissingSurvey ? (
+                    <p style={{color: 'red'}}>Missing Survey</p>
                 ) : (
-                    <p>No strikes for this day.</p>
+                    strikes.length > 0 ? (
+                        <ul>
+                            {strikes.map((strike, index) => (
+                                <li key={index} style={{color: "red"}}>{strike}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No strikes for this day.</p>
+                    )
                 )}
             </div>
         </div>)
