@@ -1,5 +1,6 @@
 import {parseISO, differenceInSeconds, format} from 'date-fns';
 import {REPORT_DT_FORMAT} from './constants.js';
+import GameStrikes from './gamestrikes.js';
 
 export default class Game {
     constructor(data) {
@@ -27,7 +28,7 @@ export default class Game {
         this.getFirstAndLastTrialTimeStamps();
         this.calculateGameTimes();
         this.storeCurrentDay();
-        
+        this.strikes = new GameStrikes();
     }
 
     static get TotalDays() {return 14; }
@@ -180,6 +181,67 @@ export default class Game {
         }
     }
 
+    generateStrikes() {
+        const task = this.constructor.name;
+        for (let i = 0; i < Game.TotalDays; ++i) {
+            const day = i + 1;
+            const sessionsRaw = this.numberSessionsDays?.[i];
+            let sessions = 0;
+            if (Array.isArray(sessionsRaw)) {
+                sessions = sessionsRaw.length;
+            } else if (typeof sessionsRaw === 'number') {
+                sessions = sessionsRaw;
+            } else if (typeof sessionsRaw === 'string') {
+                const n = parseInt(sessionsRaw, 10);
+                sessions = Number.isNaN(n) ? 0 : n;
+            } else {
+                sessions = Number(sessionsRaw) || 0;
+            }
+            const completionRaw = this.completionsDays?.[i];
+            const accuracyRaw = this.meanSessionsAccuracys?.[i];
+
+            // Missing session
+            if (!sessions || sessions === 0) {
+                this.strikes.addMissingStrike(day, task);
+                continue; // nothing else to check for this day
+            }
+
+            // Completion checks
+            const compFrac = GameStrikes._toFraction(completionRaw);
+            if (!Number.isNaN(compFrac)) {
+                let compSeverity = null;
+                if (compFrac < GameStrikes.COMPLETION_THRESHOLDS.CONTACT_2) {
+                    compSeverity = GameStrikes.Severity.CONTACT_2;
+                } else if (compFrac < GameStrikes.COMPLETION_THRESHOLDS.CONTACT_1) {
+                    compSeverity = GameStrikes.Severity.CONTACT_1;
+                }
+                if (compSeverity) {
+                    this.strikes.addCompletionStrike(day, task, compFrac, compSeverity);
+                }
+            }
+
+            // Accuracy checks
+            if (typeof accuracyRaw !== 'undefined') {
+                const accFrac = GameStrikes._toFraction(accuracyRaw);
+                if (!Number.isNaN(accFrac)) {
+                    let accSeverity = null;
+                    const isBDS = this.constructor.name === 'BDS';
+                    const thresholds = isBDS && GameStrikes.ACCURACY_THRESHOLDS.BDS ? GameStrikes.ACCURACY_THRESHOLDS.BDS : GameStrikes.ACCURACY_THRESHOLDS;
+
+                    if (accFrac < thresholds.CONTACT_2) {
+                        accSeverity = GameStrikes.Severity.CONTACT_2;
+                    } else if (accFrac < thresholds.CONTACT_1) {
+                        accSeverity = GameStrikes.Severity.CONTACT_1;
+                    }
+
+                    if (accSeverity) {
+                        this.strikes.addAccuracyStrike(day, task, accFrac, accSeverity);
+                    }
+                }
+            }
+        }
+    }
+
     getCurrentCycle() { // returns the current cycle for brain games
         return Math.min(this.currCycle, Game.TotalDays - 1);
     }
@@ -232,4 +294,13 @@ export default class Game {
     getEndTimes() {
         return this.endTimes;
     }
+
+    /**
+     * Generate strikes for the game using normalized values.
+     * Reads per-day completion and mean-session accuracy arrays that
+     * subclasses populate, normalizes them and records missing,
+     * completion, and accuracy strikes using thresholds from
+     * `GameStrikes`.
+     */
+    
 }

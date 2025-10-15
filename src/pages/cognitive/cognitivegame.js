@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import ParticipantList from "../../game_data/participants";
 import CheckboxesTags from "../../components/checkboxestags";
 import {format, differenceInSeconds} from 'date-fns';
+import StrikesSummary from '../../components/strikesummary';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
 import { estCompensation } from "../../game_data/compensation";
 // import GamesFullReport from "../../components/gamesfullreport";
@@ -485,6 +486,13 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
                     <p data-label="Language:">{csLang}</p>
                     <p data-label="Game Time:">{csGameTime}</p>
                 </div>
+                {(() => {
+                    const bdsStrikes = bds?.game?.strikes?.getStrikesForDay(day) ?? []
+                    const simonStrikes = simon?.game?.strikes?.getStrikesForDay(day) ?? []
+                    const csStrikes = cs?.game?.strikes?.getStrikesForDay(day) ?? []
+                    const allStrikes = [...bdsStrikes, ...simonStrikes, ...csStrikes]
+                    return <StrikesSummary strikes={allStrikes} />
+                })()}
         </div>
     )
 }

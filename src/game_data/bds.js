@@ -29,6 +29,7 @@ export default class BDS extends Game {
         this.calculatePracticeTrialsAccuracys();
         this.calculateMeanSpans();
         this.calculateTwoErrorStats(); 
+        this.generateStrikes();
     }
 
     /**
