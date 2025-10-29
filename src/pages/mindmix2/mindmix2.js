@@ -189,6 +189,61 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
             <h1 className="participant-id">Participant ID: {participant}</h1>
             <h2>Games: BDS, Simon, Color-Shape, and Fortune</h2>
             <h3>Brain-games Average Accuracy: {avg}</h3>
+            {(() => {
+                // determine the most recent day that any game had activity (1-based)
+                let lastPlayed = 0
+                const totalDays = 14
+                const hasSessions = (game) => {
+                    try {
+                        const ns = game?.getNumberSessionsDays ? game.getNumberSessionsDays() : []
+                        for (let i = 0; i < ns.length; i++) {
+                            const v = ns[i]
+                            if ((Array.isArray(v) && v.length > 0) || (typeof v === 'number' && v > 0)) return true
+                        }
+                        const comps = game?.getCompletedDays ? game.getCompletedDays() : []
+                        for (let i = 0; i < comps.length; i++) {
+                            if (comps[i] && comps[i] > 0) return true
+                        }
+                    } catch (e) {
+                        // ignore
+                    }
+                    return false
+                }
+
+                // scan days from latest to earliest and pick the last index any game shows activity
+                for (let i = totalDays - 1; i >= 0; --i) {
+                    const bdsSessions = bds?.game?.getNumberSessionsDays()?.[i] ?? 0
+                    const simSessions = simon?.game?.getNumberSessionsDays()?.[i] ?? 0
+                    const csSessions = cs?.game?.getNumberSessionsDays()?.[i] ?? 0
+                    const fortuneSessions = fortune?.game?.getNumberSessionsDays()?.[i] ?? 0
+                    const bdsComp = bds?.game?.getCompletedDays()?.[i] ?? 0
+                    const simComp = simon?.game?.getCompletedDays()?.[i] ?? 0
+                    const csComp = cs?.game?.getCompletedDays()?.[i] ?? 0
+                    
+                    const fortuneComp = fortune?.game?.getCompletedDays()?.[i] ?? 0
+                    if ((bdsSessions && bdsSessions > 0) || (simSessions && simSessions > 0) || (csSessions && csSessions > 0) || (fortuneSessions && fortuneSessions > 0) || bdsComp > 0 || simComp > 0 || csComp > 0 || fortuneComp > 0) {
+                        lastPlayed = i + 1
+                        break
+                    }
+                }
+                const dayToCheck = lastPlayed > 0 ? lastPlayed : 1
+                const strikes = []
+                // MindMix2 schedule: Fortune is played days 1-7, brain games (BDS/Simon/CS) are played days 8-14.
+                const isFortuneDay = dayToCheck >= 1 && dayToCheck <= 7
+                const isBrainDay = dayToCheck >= 8 && dayToCheck <= 14
+                if (isBrainDay) {
+                    if (bds?.game?.strikes) strikes.push(...(bds.game.strikes.getStrikesForDay(dayToCheck) || []))
+                    if (simon?.game?.strikes) strikes.push(...(simon.game.strikes.getStrikesForDay(dayToCheck) || []))
+                    if (cs?.game?.strikes) strikes.push(...(cs.game.strikes.getStrikesForDay(dayToCheck) || []))
+                }
+                if (isFortuneDay) {
+                    if (fortune?.game?.strikes) strikes.push(...(fortune.game.strikes.getStrikesForDay(dayToCheck) || []))
+                }
+                const maxSeverity = strikes.reduce((max, s) => Math.max(max, s.severity || 0), 0)
+                if (maxSeverity === 2) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: PHONE CALL</h3>
+                if (maxSeverity === 1) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: TEXT MESSAGE</h3>
+                return <h3>Contact Needed for Day {dayToCheck}: --</h3>
+            })()}
             <h3>Cycle start date: {fortune.game.getCycleStartDate()}</h3>
         </div>) 
 }
