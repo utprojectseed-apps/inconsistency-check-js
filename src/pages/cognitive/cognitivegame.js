@@ -246,6 +246,18 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
     const simonOverall = computeOverallAccuracy(simonAcc);
     const csOverall = computeOverallAccuracy(csAcc);
 
+    // compute aggregated average across the three brain games, ignoring zeros / missing
+    const toNumOrNull = v => {
+        if (v === null || typeof v === 'undefined') return null
+        const p = parseFloat(v)
+        return isNaN(p) || p === 0 ? null : p
+    }
+    const bdsNum = toNumOrNull(bdsOverall)
+    const simNum = toNumOrNull(simonOverall)
+    const csNum = toNumOrNull(csOverall)
+    const avgVals = [bdsNum, simNum, csNum].filter(x => x !== null)
+    const aggregatedAvg = avgVals.length > 0 ? (avgVals.reduce((a, b) => a + b, 0) / avgVals.length).toFixed(2) + '%' : '--'
+
     const CYCLE_DAY = bds.game.getCurrentCycle();
     console.log("CYCLE DAY: ",CYCLE_DAY)
     const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
@@ -288,6 +300,10 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
                 <div className="accuracy-item">
                     <div>Color-Shape Overall Accuracy:</div>
                     <div className="accuracy-value">{csOverall}%</div>
+                </div>
+                <div className="accuracy-item">
+                    <div>Brain-games Average Accuracy:</div>
+                    <div className="accuracy-value">{aggregatedAvg}</div>
                 </div>
             </div>
 

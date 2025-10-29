@@ -148,7 +148,7 @@ function ParticipantReport(props) { // hm should i just pass props into the game
     )
     return (
         <div className="gameparticipantreport">
-            <ParticipantHeader2 participant={props.participant} bds={props.bds}/>
+            <ParticipantHeader2 participant={props.participant} bds={props.bds} simon={props.simon} cs={props.cs}/>
                 {days} 
         </div>
     )
@@ -162,15 +162,33 @@ function ParticipantReport(props) { // hm should i just pass props into the game
  * @param {Object} props.bds - The BDS object.
  * @return {JSX.Element} The participant header JSX element.
  */
-function ParticipantHeader2({participant, bds}) {
+function ParticipantHeader2({participant, bds, simon, cs}) {
     // TODO: need to add missing games/total games based on the current day they are on
     // TODO: need to add missing days/total days
     // TODO: bds overall acc, simon overall acc, cs overall acc might as well add bds,cs,simon
     // so will need to call a method that just goes thru (1 - curr day) for each game 
+    const computeOverall = (arr) => {
+        if (!arr || !Array.isArray(arr)) return null
+        let total = 0
+        let count = 0
+        for (let v of arr) {
+            const p = parseFloat(v)
+            if (!isNaN(p) && p !== 0) { total += p; count++ }
+        }
+        return count === 0 ? null : total / count
+    }
+
+    const bdsVal = computeOverall(bds?.game?.getMeanSessionsAccuracys())
+    const simVal = computeOverall(simon?.game?.getMeanSessionsAccuracys())
+    const csVal = computeOverall(cs?.game?.getMeanSessionsAccuracys())
+    const vals = [bdsVal, simVal, csVal].filter(v => v !== null)
+    const avg = vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) + '%' : '--'
+
     return (
         <div className="participant-header">
             <h1 className="participant-id">Participant ID: {participant}</h1>
             <h2>Games: BDS, Simon, Color-Shape, and Fortune</h2>
+            <h3>Brain-games Average Accuracy: {avg}</h3>
             <h3>Cycle start date: {bds.game.getCycleStartDate()}</h3>
         </div>) 
 }
