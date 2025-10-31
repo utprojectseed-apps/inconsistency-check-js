@@ -13,6 +13,7 @@ const Strikes = fn({}, require);
 
 // Create mock participant where day 1 is survey day 1 (index 0) etc.
 function makeParticipant({ days = 14, submitDates = {} }) {
+  console.log("if you see this then the right code has been deployed")
   const data = { columns: [] };
   const participant = {
     data,
