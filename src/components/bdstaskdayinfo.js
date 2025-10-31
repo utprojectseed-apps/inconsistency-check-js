@@ -18,7 +18,8 @@ export default function BDSGameDayInfo({day, participant}) {
     const averageDigitSpan = participant.getAverageDigitSpans()[day -1]
     const maxDigitSpanLength = participant.getMaxDigitSpans()[day -1]
     const maxCorrectDigitSpanLength = participant.getMaxCorrectDigitSpans()[day -1]
-    
+    console.log("if you see this then the right code has been deployed")
+
     const header_color = (completion) => {
         if (completion >= 100) { return "lightgreen" };
         if (completion === 0) { return "lightcoral"};
