@@ -522,4 +522,3 @@ export default class SurveyParticipant {
     return false;
   }
 }
-
