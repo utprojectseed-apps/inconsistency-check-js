@@ -1,11 +1,12 @@
 import Strikes from "../survey/surveystrikes.js";
+
 export default function SurveyDayInfo({day, participant}) {
     const completionRate = (participant.getPercentComplete()[day - 1] * 100).toFixed(2)
     const header_color = (completion) => {
         let completionNum = parseFloat(completion)
         if (!participant.cyclePassed(day - 1)) { return "orange" };
         if (completionNum >= 90) { return "lightgreen" };
-        if (completionNum === 0) { return "lightcoral"};
+        if (completionNum === 0) { return "lightcoral" };
         return "plum";
     };
     const completionText = () => {
@@ -23,6 +24,7 @@ export default function SurveyDayInfo({day, participant}) {
                 <h4>Survey Duration: {participant.getDuration(day - 1)}</h4>
                 <h4>Submission Time: {participant.getSubmitTime(day - 1)}</h4>
             </div>
+            <DayReportedIssues day={day} participant={participant} />
             <ParticipantCompensationTable day={day} participant={participant}/>
             <div className="day-details">
                 <p>Completion: {completionRate}%</p>
@@ -76,6 +78,37 @@ function ParticipantCompensationTable({day, participant}) {
                         <p>Compensation if completed:<br/>$ {participant.getPotentialCumulativeComp(day - 1).toFixed(2)}</p>
                 }
             </div>
+        </div>
+    )
+}
+
+function DayReportedIssues({day, participant}) {
+
+    if (!participant || !participant.data) return null;
+    const colName = `t${day}qintc`;
+    if (!participant.data.columns.includes(colName)) return null;
+    const rawVal = participant.data[colName].values[0];
+    if (rawVal === undefined || rawVal === null) return null;
+    if (typeof rawVal === 'string' && rawVal.trim() === '') return null;
+    if (rawVal === '[not completed]') return null;
+
+    let displayVal = rawVal;
+    if (participant.dataDict) {
+        try {
+            const answersMap = participant.dataDict.getAnswers(colName);
+            if (answersMap && typeof answersMap === 'object') {
+                const mapped = answersMap[rawVal];
+                if (mapped !== undefined) displayVal = mapped;
+            }
+        } catch (e) {
+
+        }
+    }
+
+    return (
+        <div className="day-reported-issues">
+            <h4>Issue:</h4>
+            <textarea readOnly rows={3} style={{width: '100%'}} value={displayVal}></textarea>
         </div>
     )
 }
