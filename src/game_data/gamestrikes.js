@@ -25,6 +25,17 @@ export default class GameStrikes {
     this.firstStrikeGiven = false;
   }
 
+  /**
+   * Reset all tracked strike state to initial values.
+   * Useful to ensure strike generation is idempotent when called multiple times.
+   */
+  reset() {
+    this.strikeArray = Array.from({ length: 3 }, () => []);
+    this.strikeDetails = Array.from({ length: 3 }, () => []);
+    this.totalMissingTrackingDays = 0;
+    this.firstStrikeGiven = false;
+  }
+
   static StrikeType = {
     MISSING: 0, // Missing game session
     COMPLETION: 1, // Incomplete game session

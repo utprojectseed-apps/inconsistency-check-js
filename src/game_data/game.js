@@ -182,7 +182,13 @@ export default class Game {
     }
 
     generateStrikes() {
-        const task = this.constructor.name;
+        // Ensure strikes are regenerated from a clean state when called repeatedly
+        if (this.strikes && typeof this.strikes.reset === 'function') {
+            this.strikes.reset();
+        }
+
+        // Prefer an explicit stable task name set by subclasses; fall back to constructor name
+        const task = this.taskName || this.constructor.name;
         for (let i = 0; i < Game.TotalDays; ++i) {
             const day = i + 1;
             const sessionsRaw = this.numberSessionsDays?.[i];
@@ -225,7 +231,7 @@ export default class Game {
                 const accFrac = GameStrikes._toFraction(accuracyRaw);
                 if (!Number.isNaN(accFrac)) {
                     let accSeverity = null;
-                    const isBDS = this.constructor.name === 'BDS';
+                    const isBDS = (this.taskName === 'BDS') || (this.constructor.name === 'BDS');
                     const thresholds = isBDS && GameStrikes.ACCURACY_THRESHOLDS.BDS ? GameStrikes.ACCURACY_THRESHOLDS.BDS : GameStrikes.ACCURACY_THRESHOLDS;
 
                     if (accFrac < thresholds.CONTACT_2) {

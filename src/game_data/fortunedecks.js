@@ -6,6 +6,8 @@ const BLOCK_SIZE = 20;
 export default class FortuneDeck extends Game {
     constructor(data, participant_id) {
         super(data);
+        // stable task name used for strikes
+        this.taskName = 'FortuneDeck';
         this.participant_id = participant_id;
         this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
         this.calculateCompletionsDays();
