@@ -182,12 +182,8 @@ export default class Game {
     }
 
     generateStrikes() {
-        // Ensure strikes are regenerated from a clean state when called repeatedly
-        if (this.strikes && typeof this.strikes.reset === 'function') {
-            this.strikes.reset();
-        }
-
-        // Prefer an explicit stable task name set by subclasses; fall back to constructor name
+        // regenerate strikes fresh each time to avoid duplicates when constructors run multiple times
+        this.strikes = new GameStrikes();
         const task = this.taskName || this.constructor.name;
         for (let i = 0; i < Game.TotalDays; ++i) {
             const day = i + 1;
@@ -231,7 +227,7 @@ export default class Game {
                 const accFrac = GameStrikes._toFraction(accuracyRaw);
                 if (!Number.isNaN(accFrac)) {
                     let accSeverity = null;
-                    const isBDS = (this.taskName === 'BDS') || (this.constructor.name === 'BDS');
+                    const isBDS = (this.taskName ? this.taskName === 'BDS' : this.constructor.name === 'BDS');
                     const thresholds = isBDS && GameStrikes.ACCURACY_THRESHOLDS.BDS ? GameStrikes.ACCURACY_THRESHOLDS.BDS : GameStrikes.ACCURACY_THRESHOLDS;
 
                     if (accFrac < thresholds.CONTACT_2) {
@@ -241,9 +237,19 @@ export default class Game {
                     }
 
                     if (accSeverity) {
-                        this.strikes.addAccuracyStrike(day, task, accFrac, accSeverity);
+                        this.strikes.addAccuracyStrike(day, task, accFrac, accSeverity, isBDS);
                     }
                 }
+
+                    // DEBUG: Log per-day normalized inputs and computed strikes (helpful in production bundle)
+                    try {
+                        const dayStrikes = this.strikes.getStrikesForDay(day) || [];
+                        // avoid overwhelming logs — use debug level
+                        console.debug(`[STRIKES DEBUG] ${task} day=${day} sessions=${sessions} completionRaw=${String(completionRaw)} accuracyRaw=${String(accuracyRaw)} strikesCount=${dayStrikes.length} strikeDetails=${JSON.stringify(dayStrikes)}`);
+                    } catch (e) {
+                        // swallow any logging issues
+                        console.debug('[STRIKES DEBUG] logging failed', e);
+                    }
             }
         }
     }

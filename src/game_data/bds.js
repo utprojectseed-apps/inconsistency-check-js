@@ -8,7 +8,8 @@ import * as dfd from 'danfojs';
 export default class BDS extends Game {
     constructor(data, participant_id) {
         super(data);
-        // stable task name used when creating strike objects
+        // stable task identifier (avoid relying on constructor.name which is minified in production)
+        this.taskName = 'BDS';
         this.participant_id = participant_id;
         this.averageDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);
         this.maxDigitSpanDays = Array(Game.TotalDays).fill().map(() => []);

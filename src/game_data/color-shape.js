@@ -7,8 +7,9 @@ export default class ColorShape extends Game {
     constructor(data, participant_id) {
         super(data);
 
-        // stable task name used for strikes
+        // stable task identifier (avoid relying on constructor.name which is minified in production)
         this.taskName = 'ColorShape';
+
         this.participant_id = participant_id
         this.meanSessionsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.meanReactionTime = Array(Game.TotalDays).fill().map(() => []);

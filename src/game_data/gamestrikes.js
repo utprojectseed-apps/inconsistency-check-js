@@ -25,17 +25,6 @@ export default class GameStrikes {
     this.firstStrikeGiven = false;
   }
 
-  /**
-   * Reset all tracked strike state to initial values.
-   * Useful to ensure strike generation is idempotent when called multiple times.
-   */
-  reset() {
-    this.strikeArray = Array.from({ length: 3 }, () => []);
-    this.strikeDetails = Array.from({ length: 3 }, () => []);
-    this.totalMissingTrackingDays = 0;
-    this.firstStrikeGiven = false;
-  }
-
   static StrikeType = {
     MISSING: 0, // Missing game session
     COMPLETION: 1, // Incomplete game session
@@ -161,9 +150,10 @@ export default class GameStrikes {
    */
   addMissingStrike(day, task, message = null) {
     const severity = this._determineEscalationSeverity(day, "MISSING");
-    this.strikeArray[GameStrikes.StrikeType.MISSING].push(day);
+    const dayNum = Number(day);
+    this.strikeArray[GameStrikes.StrikeType.MISSING].push(dayNum);
     this.strikeDetails[GameStrikes.StrikeType.MISSING].push({
-      day: day,
+      day: dayNum,
       task: task,
       scenario: "MISSING",
       message: message || `${task} Task was not performed by participant.`,
@@ -185,9 +175,10 @@ export default class GameStrikes {
     );
     const frac = GameStrikes._toFraction(completionRate);
     const pct = GameStrikes._formatPercentFromFraction(frac);
-    this.strikeArray[GameStrikes.StrikeType.COMPLETION].push(day);
+    const dayNum = Number(day);
+    this.strikeArray[GameStrikes.StrikeType.COMPLETION].push(dayNum);
     this.strikeDetails[GameStrikes.StrikeType.COMPLETION].push({
-      day: day,
+      day: dayNum,
       task: task,
       scenario: "COMPLETION",
       // store normalized fraction for later business logic
@@ -204,18 +195,20 @@ export default class GameStrikes {
    * @param {number} accuracyRate - The accuracy rate for the task
    * @param {number} severity - The threshold-based severity
    */
-  addAccuracyStrike(day, task, accuracyRate, severity) {
+  addAccuracyStrike(day, task, accuracyRate, severity, isBDS = false) {
     const finalSeverity = this._determineAccuracySeverity(day, severity);
     const frac = GameStrikes._toFraction(accuracyRate);
     const pct = GameStrikes._formatPercentFromFraction(frac);
-    this.strikeArray[GameStrikes.StrikeType.ACCURACY].push(day);
+    const dayNum = Number(day);
+    this.strikeArray[GameStrikes.StrikeType.ACCURACY].push(dayNum);
     this.strikeDetails[GameStrikes.StrikeType.ACCURACY].push({
-      day: day,
+      day: dayNum,
       task: task,
       scenario: "ACCURACY",
       value: frac,
       message: `Mean session accuracy (${pct}% of test trials)`,
       severity: finalSeverity,
+      isBDS: Boolean(isBDS),
     });
   }
 
@@ -226,9 +219,12 @@ export default class GameStrikes {
    */
   getStrikesForDay(day) {
     let dayStrikes = [];
+    const dayNum = Number(day);
     for (let i = 0; i < this.strikeDetails.length; i++) {
       dayStrikes.push(
-        ...this.strikeDetails[i].filter((strike) => strike.day === day)
+        ...this.strikeDetails[i].filter(
+          (strike) => Number(strike.day) === dayNum
+        )
       );
     }
     return dayStrikes;

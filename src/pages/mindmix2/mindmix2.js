@@ -239,6 +239,52 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
                 if (isFortuneDay) {
                     if (fortune?.game?.strikes) strikes.push(...(fortune.game.strikes.getStrikesForDay(dayToCheck) || []))
                 }
+                // DEBUG: header-level aggregation for MindMix2
+                try {
+                    console.debug(`[HEADER STRIKES DEBUG] participant=${participant} dayToCheck=${dayToCheck} isFortuneDay=${isFortuneDay} isBrainDay=${isBrainDay} strikes=${JSON.stringify(strikes)}`)
+                } catch (e) {
+                    console.debug('[HEADER STRIKES DEBUG] logging failed', e)
+                }
+
+                // DEBUG: per-game values used to compute strikes for this header day
+                try {
+                    const idx = dayToCheck - 1;
+                    const perGame = {
+                        bds: {
+                            sessions: bds?.game?.getNumberSessionsDays()?.[idx] ?? null,
+                            completion: bds?.game?.getCompletedDays()?.[idx] ?? null,
+                            accuracy: bds?.game?.getMeanSessionsAccuracys()?.[idx] ?? null
+                        },
+                        simon: {
+                            sessions: simon?.game?.getNumberSessionsDays()?.[idx] ?? null,
+                            completion: simon?.game?.getCompletedDays()?.[idx] ?? null,
+                            accuracy: simon?.game?.getMeanSessionsAccuracys()?.[idx] ?? null
+                        },
+                        cs: {
+                            sessions: cs?.game?.getNumberSessionsDays()?.[idx] ?? null,
+                            completion: cs?.game?.getCompletedDays()?.[idx] ?? null,
+                            accuracy: cs?.game?.getMeanSessionsAccuracys()?.[idx] ?? null
+                        },
+                        fortune: {
+                            sessions: fortune?.game?.getNumberSessionsDays()?.[idx] ?? null,
+                            completion: fortune?.game?.getCompletedDays()?.[idx] ?? null,
+                            accuracy: fortune?.game?.getMeanSessionsAccuracys?.()[idx] ?? null
+                        }
+                    };
+                    console.debug(`[HEADER PER-GAME DEBUG] participant=${participant} day=${dayToCheck} perGame=${JSON.stringify(perGame)}`);
+                } catch (e) {
+                    console.debug('[HEADER PER-GAME DEBUG] logging failed', e)
+                }
+                // DEBUG: also dump the raw strikeDetails stored on each game (to see type/contents differences)
+                try {
+                    const bdsDetails = bds?.game?.strikes ? bds.game.strikes.strikeDetails : null;
+                    const simDetails = simon?.game?.strikes ? simon.game.strikes.strikeDetails : null;
+                    const csDetails = cs?.game?.strikes ? cs.game.strikes.strikeDetails : null;
+                    const fortuneDetails = fortune?.game?.strikes ? fortune.game.strikes.strikeDetails : null;
+                    console.debug(`[HEADER STRIKEDETAILS DEBUG] participant=${participant} day=${dayToCheck} bds=${JSON.stringify(bdsDetails)} simon=${JSON.stringify(simDetails)} cs=${JSON.stringify(csDetails)} fortune=${JSON.stringify(fortuneDetails)}`)
+                } catch (e) {
+                    console.debug('[HEADER STRIKEDETAILS DEBUG] logging failed', e)
+                }
                 const maxSeverity = strikes.reduce((max, s) => Math.max(max, s.severity || 0), 0)
                 if (maxSeverity === 2) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: PHONE CALL</h3>
                 if (maxSeverity === 1) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: TEXT MESSAGE</h3>
