@@ -73,8 +73,8 @@ function ParticipantCompensationTable({day, participant}) {
                 <p>Daily Compensation: <br/>{participant.getCompRate(day - 1)}</p>
                 <p></p>
                 {
-                    participant.cyclePassed(day - 1) ? 
-                        <p>Cumulative compensation<br/>$ {participant.getCumulativeComp(day - 1).toFixed(2)}</p> : 
+                    participant.cyclePassed(day - 1) ?
+                        <p>Cumulative compensation<br/>$ {participant.getCumulativeComp(day - 1).toFixed(2)}</p> :
                         <p>Compensation if completed:<br/>$ {participant.getPotentialCumulativeComp(day - 1).toFixed(2)}</p>
                 }
             </div>
@@ -108,7 +108,7 @@ function DayReportedIssues({day, participant}) {
     return (
         <div className="day-reported-issues">
             <h4>Issue:</h4>
-            <textarea readOnly rows={3} style={{width: '100%'}} value={displayVal}></textarea>
+            <textarea readOnly rows={3} style={{width: '100%', color: 'red', fontWeight: 'bold'}} value={displayVal}></textarea>
         </div>
     )
 }
