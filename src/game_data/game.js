@@ -187,6 +187,7 @@ export default class Game {
         const task = this.taskName || this.constructor.name;
         for (let i = 0; i < Game.TotalDays; ++i) {
             const day = i + 1;
+            const isBDS = this.taskName ? this.taskName === 'BDS' : this.constructor.name === 'BDS';
             const sessionsRaw = this.numberSessionsDays?.[i];
             let sessions = 0;
             if (Array.isArray(sessionsRaw)) {
@@ -204,7 +205,7 @@ export default class Game {
 
             // Missing session
             if (!sessions || sessions === 0) {
-                this.strikes.addMissingStrike(day, task);
+                this.strikes.addMissingStrike(day, task, null, isBDS);
                 continue; // nothing else to check for this day
             }
 
@@ -218,7 +219,7 @@ export default class Game {
                     compSeverity = GameStrikes.Severity.CONTACT_1;
                 }
                 if (compSeverity) {
-                    this.strikes.addCompletionStrike(day, task, compFrac, compSeverity);
+                    this.strikes.addCompletionStrike(day, task, compFrac, compSeverity, isBDS);
                 }
             }
 

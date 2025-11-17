@@ -11,8 +11,8 @@ export default class GameStrikes {
 
     // special thresholds
     BDS: {
-      CONTACT_1: 0.25,
-      CONTACT_2: 0.15,
+      CONTACT_1: 0.35,
+      CONTACT_2: 0.25,
     },
   };
 
@@ -158,6 +158,7 @@ export default class GameStrikes {
       scenario: "MISSING",
       message: message || `${task} Task was not performed by participant.`,
       severity: severity,
+      isBDS: false,
     });
   }
 
@@ -185,6 +186,7 @@ export default class GameStrikes {
       value: frac,
       message: `Mean session completion (${pct}% of test trials)`,
       severity: escalatedSeverity,
+      isBDS: false,
     });
   }
 
@@ -196,6 +198,8 @@ export default class GameStrikes {
    * @param {number} severity - The threshold-based severity
    */
   addAccuracyStrike(day, task, accuracyRate, severity, isBDS = false) {
+    // `severity` parameter is the threshold-triggering severity (before escalation rules)
+    const triggerSeverity = severity;
     const finalSeverity = this._determineAccuracySeverity(day, severity);
     const frac = GameStrikes._toFraction(accuracyRate);
     const pct = GameStrikes._formatPercentFromFraction(frac);
@@ -207,7 +211,10 @@ export default class GameStrikes {
       scenario: "ACCURACY",
       value: frac,
       message: `Mean session accuracy (${pct}% of test trials)`,
+      // severity is the final contact severity (after escalation rules)
       severity: finalSeverity,
+      // triggerSeverity is the severity suggested by the measured value vs thresholds
+      triggerSeverity: triggerSeverity,
       isBDS: Boolean(isBDS),
     });
   }

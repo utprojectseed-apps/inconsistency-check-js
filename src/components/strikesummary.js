@@ -22,14 +22,16 @@ export default function StrikesSummary({ strikes }) {
       return `Completion < ${Math.round(thresh * 100)}`;
     }
     if (s.scenario === "ACCURACY") {
-      // use BDS thresholds when the task class name is 'BDS'
-      const isBDS = s.task === "BDS";
+      // detect BDS using explicit flag or stable task name
+      const isBDS = s.isBDS === true || s.task === "BDS" || s.taskName === "BDS";
       const thresholds =
         isBDS && GameStrikes.ACCURACY_THRESHOLDS.BDS
           ? GameStrikes.ACCURACY_THRESHOLDS.BDS
           : GameStrikes.ACCURACY_THRESHOLDS;
+      const displaySeverity =
+        typeof s.triggerSeverity !== "undefined" ? s.triggerSeverity : s.severity;
       const thresh =
-        sev === GameStrikes.Severity.CONTACT_2
+        displaySeverity === GameStrikes.Severity.CONTACT_2
           ? thresholds.CONTACT_2
           : thresholds.CONTACT_1;
       return `Accuracy < ${Math.round(thresh * 100)}`;
@@ -46,7 +48,7 @@ export default function StrikesSummary({ strikes }) {
         {strikes.map((s, i) => {
           const color = "#fe1818";
           const shortLabel = renderLabel(s);
-          const taskLabel = s.task || "";
+          const taskLabel = s.taskName || "";
           const sev =
             s.severity === GameStrikes.Severity.CONTACT_2
               ? GameStrikes.Severity.CONTACT_2
