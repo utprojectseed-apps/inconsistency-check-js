@@ -60,7 +60,8 @@ export default class Survey {
         if (this.data === undefined) {
             return []
         }
-        return this.data['participant_id'].values
+        const ids = this.data['participant_id'].values;
+        return [...new Set(ids)];
     }
 
     /**

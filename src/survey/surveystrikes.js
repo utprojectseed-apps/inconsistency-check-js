@@ -84,7 +84,7 @@ class Strikes {
             if (!flagged) {
               try {
                 let timestampCol = `day_${i + 1}_${participant.constructor.getWeekDay(i)}_daily_survey_timestamp`;
-                let rawTs = participant.data[timestampCol]?.values[0];
+                let rawTs = participant.getValueForDay(timestampCol, i);
                 if (rawTs && rawTs !== "" && rawTs !== "[not completed]") {
                   let [datePart, timePart] = rawTs.split(" ");
                   if (datePart === participantDayStr && timePart) {
@@ -116,7 +116,7 @@ class Strikes {
                 if (!hasNightSubmission) {
                   try {
                     let timestampCol = `day_${i + 1}_${participant.constructor.getWeekDay(i)}_daily_survey_timestamp`;
-                    let rawTs = participant.data[timestampCol]?.values[0];
+                    let rawTs = participant.getValueForDay(timestampCol, i);
                     if (rawTs && rawTs !== "" && rawTs !== "[not completed]") {
                       let [datePart, timePart] = rawTs.split(" ");
                       if (datePart === participantDayStr && timePart) {
@@ -144,7 +144,7 @@ class Strikes {
 
   // K: Lights off 2 hours after survey submission
   let sleepTimeCol = `t${i + 1}lgtsoffti`;
-      let lightsOff = participant.data[sleepTimeCol]?.values[0];
+      let lightsOff = participant.getValueForDay(sleepTimeCol, i);
       if (lightsOff) {
   // compute effective submit hour for this day using same logic as C
         let submitHour = null, submitMin = null;
