@@ -1,9 +1,39 @@
 import Strikes from "./surveystrikes.js";
 
 export default class SurveyParticipant {
+  #rowMap = {};
+
+  #setupRowMapping() {
+    if (!this.data.columns || !this.data.columns.includes("redcap_event_name")) {
+      return;
+    }
+    
+    const eventNames = this.data["redcap_event_name"].values || [];
+    for (let dayNum = 1; dayNum <= SurveyParticipant.getDays(); dayNum++) {
+      for (let rowIdx = 0; rowIdx < eventNames.length; rowIdx++) {
+        const eventName = eventNames[rowIdx] || "";
+        if (eventName.includes(`day_${dayNum}`) || eventName.startsWith(`day_${dayNum}_`)) {
+          this.#rowMap[dayNum - 1] = rowIdx;
+          break;
+        }
+      }
+    }
+  }
+
+  #getValueForDay(columnName, dayIndex) {
+    if (this.data[columnName] === undefined || this.data[columnName].values === undefined) {
+      return "";
+    }
+    
+    const rowIdx = this.#rowMap[dayIndex] !== undefined ? this.#rowMap[dayIndex] : 0;
+    const value = this.data[columnName].values[rowIdx];
+    return value || "";
+  }
+
   constructor(data, dataDict) {
     this.data = data;
     this.dataDict = dataDict;
+    this.#setupRowMapping();
     this.setupCycles();
     this.percentComplete = Array(SurveyParticipant.getDays()).fill(0);
     this.missingQuestions = Array(SurveyParticipant.getDays())
@@ -15,11 +45,7 @@ export default class SurveyParticipant {
     this.#collectStartEndTimes();
     this.#collectSubmitTimes();
     this.estCompensation();
-  // Initialize Strikes instance with mapping enabled so early-morning
-  // submissions (00:00 - graceEndHour) can count for previous day when
-  // that previous day had no submission. This matches the requested
-  // behavior: submit at 02:00 on Oct 6 counts for Oct 5 if Oct 5 had no submission.
-  this.strikeArray = new Strikes({ mapEarlyToPrevDay: true, graceEndHour: 8 });
+    this.strikeArray = new Strikes({ mapEarlyToPrevDay: true, graceEndHour: 8 });
     this.evaluateStrikes();
   }
 
@@ -96,23 +122,24 @@ export default class SurveyParticipant {
       let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(
         i
       )}_daily_survey_timestamp`;
-      if (this.data[`t${i + 1}date`].values[0] !== "") {
-        let date = new Date(this.data[`t${i + 1}date`].values[0] + "T00:00:00");
+      let dateValue = this.#getValueForDay(`t${i + 1}date`, i);
+      if (dateValue !== "") {
+        let date = new Date(dateValue + "T00:00:00");
         this.dates[i] = SurveyParticipant.formatDate(date);
-      } else if (
-        this.data[timestampCol].values[0] !== "" &&
-        this.data[timestampCol].values[0] !== "[not completed]"
-      ) {
-        let date = new Date(this.data[timestampCol].values[0] + "T00:00:00");
-        this.dates[i] = SurveyParticipant.formatDate(date);
-      } else if (this.cyclePassed(i)) {
-        if (this.percentComplete[i] === 0) {
-          this.dates[i] = "Skipped";
-        } else {
-          this.dates[i] = "Unanswered";
-        }
       } else {
-        this.dates[i] = "Not Started";
+        // Fall back to timestamp column
+        let timestampValue = this.#getValueForDay(timestampCol, i);
+        if (timestampValue !== "" && timestampValue !== "[not completed]") {
+          let date = new Date(timestampValue + "T00:00:00");
+          this.dates[i] = SurveyParticipant.formatDate(date);
+        } else {
+          // If no date/timestamp found, check if survey has any data
+          if (this.percentComplete[i] === 0) {
+            this.dates[i] = "Not Submitted";
+          } else {
+            this.dates[i] = "Partial/Completed";
+          }
+        }
       }
     }
   }
@@ -174,64 +201,62 @@ export default class SurveyParticipant {
     this.durationDeltas = Array(SurveyParticipant.getDays()).fill(0);
 
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-      if (this.cyclePassed(i)) {
-        let startTimeCol = `t${i + 1}strti`;
-        let endTimeCol = `t${i + 1}endti`;
+      let startTimeCol = `t${i + 1}strti`;
+      let endTimeCol = `t${i + 1}endti`;
 
-        let startValue = this.data[`${startTimeCol}`].values[0];
-        let endValue = this.data[`${endTimeCol}`].values[0];
-        if (startValue == "" && endValue == "") {
-          this.timeStringArr[i] = "--:--";
-          continue;
+      let startValue = this.#getValueForDay(`${startTimeCol}`, i);
+      let endValue = this.#getValueForDay(`${endTimeCol}`, i);
+      if (startValue == "" && endValue == "") {
+        this.timeStringArr[i] = "--:--";
+        continue;
+      }
+
+      if (startValue !== "") {
+        let [hours, minutes] = startValue.split(":");
+        var start = new Date();
+        start.setHours(hours, minutes, 0, 0);
+        if (5 < start.getHours() && start.getHours() < 12) {
+          start.setHours(start.getHours() + 12);
+        } else if (12 <= start.getHours() && start.getHours() < 17) {
+          start.setHours(start.getHours() - 12);
+        }
+        this.timeStringArr[i] =
+          start.getHours() + ":" + ("0" + start.getMinutes()).slice(-2);
+        this.startTimeArr[i] = start; // TODO, may have a issue with the date being weird as it starts on user date not participant survey date
+      }
+
+      if (endValue !== "") {
+        let [hours, minutes] = endValue.split(":");
+        var end = new Date();
+        end.setHours(hours, minutes, 0, 0);
+        if (5 < end.getHours() && end.getHours() < 12) {
+          end.setHours(end.getHours() + 12);
+        } else if (12 <= end.getHours() && end.getHours() < 17) {
+          end.setHours(end.getHours() - 12);
+        }
+        if (startValue === "") {
+          this.timeStringArr[i] =
+            end.getHours() + ":" + ("0" + end.getMinutes()).slice(-2);
         }
 
         if (startValue !== "") {
-          let [hours, minutes] = startValue.split(":");
-          var start = new Date();
-          start.setHours(hours, minutes, 0, 0);
-          if (5 < start.getHours() && start.getHours() < 12) {
-            start.setHours(start.getHours() + 12);
-          } else if (12 <= start.getHours() && start.getHours() < 17) {
-            start.setHours(start.getHours() - 12);
+          if (end < start) {
+            end.setDate(end.getDate() + 1);
           }
-          this.timeStringArr[i] =
-            start.getHours() + ":" + ("0" + start.getMinutes()).slice(-2);
-          this.startTimeArr[i] = start; // TODO, may have a issue with the date being weird as it starts on user date not participant survey date
         }
+        this.endTimeArr[i] = end;
+      }
 
-        if (endValue !== "") {
-          let [hours, minutes] = endValue.split(":");
-          var end = new Date();
-          end.setHours(hours, minutes, 0, 0);
-          if (5 < end.getHours() && end.getHours() < 12) {
-            end.setHours(end.getHours() + 12);
-          } else if (12 <= end.getHours() && end.getHours() < 17) {
-            end.setHours(end.getHours() - 12);
-          }
-          if (startValue === "") {
-            this.timeStringArr[i] =
-              end.getHours() + ":" + ("0" + end.getMinutes()).slice(-2);
-          }
+      if (startValue !== "" && endValue !== "") {
+        let duration = end - start; // in ms
+        this.durationDeltas[i] = duration;
 
-          if (startValue !== "") {
-            if (end < start) {
-              end.setDate(end.getDate() + 1);
-            }
-          }
-          this.endTimeArr[i] = end;
-        }
+        let durHour = Math.floor(duration / (1000 * 60 * 60));
+        let durMin = Math.floor(duration / (1000 * 60)) % 60;
 
-        if (startValue !== "" && endValue !== "") {
-          let duration = end - start; // in ms
-          this.durationDeltas[i] = duration;
-
-          let durHour = Math.floor(duration / (1000 * 60 * 60));
-          let durMin = Math.floor(duration / (1000 * 60)) % 60;
-
-          durHour = durHour < 10 ? "0" + durHour : durHour;
-          durMin = durMin < 10 ? "0" + durMin : durMin;
-          this.durStringArr[i] = `${durHour}:${durMin}`;
-        }
+        durHour = durHour < 10 ? "0" + durHour : durHour;
+        durMin = durMin < 10 ? "0" + durMin : durMin;
+        this.durStringArr[i] = `${durHour}:${durMin}`;
       }
     }
   }
@@ -252,7 +277,7 @@ export default class SurveyParticipant {
       let timestampCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(
         i
       )}_daily_survey_timestamp`;
-      let timestamp = this.data[`${timestampCol}`].values[0];
+      let timestamp = this.#getValueForDay(`${timestampCol}`, i);
       if (timestamp !== "") {
         // timestamp expected like "YYYY-MM-DD HH:MM:SS" (no timezone)
         // store the human-readable HH:MM for display
@@ -384,11 +409,11 @@ export default class SurveyParticipant {
       .fill()
       .map(() => []);
     // find start and end of each day
-    let dayStartEnd = [];
+    let dayStartEnd = Array(SurveyParticipant.getDays())
+      .fill()
+      .map(() => [-1, -1]);
+    
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-      if (!this.cyclePassed(i)) {
-        continue;
-      }
       let startCol = `day_${i + 1}_${SurveyParticipant.getWeekDay(
         i
       )}_daily_survey_timestamp`;
@@ -397,31 +422,63 @@ export default class SurveyParticipant {
       )}_daily_survey_complete`;
       let startIndex = this.data.columns.indexOf(startCol);
       let endIndex = this.data.columns.indexOf(endCol);
-      dayStartEnd.push([startIndex, endIndex]);
-    }
-    // loop through each day and fill in arrays based on day
-    for (let i = 1; i <= SurveyParticipant.getDays(); ++i) {
-      if (!this.cyclePassed(i - 1)) {
+      
+      // Handle case where columns might not be found (new CSV format)
+      if (startIndex === -1 || endIndex === -1) {
+        // Try alternative approach: collect columns that start with t{i+1}
+        let dayColumns = [];
+        for (let j = 0; j < this.data.columns.length; ++j) {
+          let col = this.data.columns[j];
+          if (col.startsWith(`t${i + 1}`) && !col.includes('timestamp') && !col.includes('complete')) {
+            dayColumns.push({index: j, name: col});
+          }
+        }
+        if (dayColumns.length > 0) {
+          dayStartEnd[i] = [dayColumns[0].index - 1, dayColumns[dayColumns.length - 1].index + 1];
+        }
         continue;
       }
+      
+      dayStartEnd[i] = [startIndex, endIndex];
+    }
+    
+    // loop through each day and fill in arrays based on day
+    for (let i = 1; i <= SurveyParticipant.getDays(); ++i) {
       let startIndex = dayStartEnd[i - 1][0];
       let endIndex = dayStartEnd[i - 1][1];
+      
+      // Skip if indices are invalid
+      if (startIndex === -1 || endIndex === -1) {
+        continue;
+      }
+      
+      const dayRowIdx = this.#rowMap[i - 1] !== undefined ? this.#rowMap[i - 1] : 0;
+      
       for (let j = startIndex + 1; j < endIndex; ++j) {
-        let currentColumn = this.data.columns[j];
-        answerArray[i - 1].push(this.data[currentColumn].values[0]);
-        columnArray[i - 1].push(currentColumn);
+        if (j < this.data.columns.length && j >= 0) {
+          let currentColumn = this.data.columns[j];
+          let value = "";
+          if (this.data[currentColumn] && this.data[currentColumn].values) {
+            value = this.data[currentColumn].values[dayRowIdx] || "";
+          }
+          answerArray[i - 1].push(value);
+          columnArray[i - 1].push(currentColumn);
+        }
       }
     }
 
     // calculate daily percent
     for (let i = 0; i < SurveyParticipant.getDays(); ++i) {
-      if (!this.cyclePassed(i)) {
-        continue;
-      }
       let answersToday = answerArray[i];
       let columnsToday = columnArray[i];
+      
+      if (answersToday.length === 0 || columnsToday.length === 0) {
+        this.percentComplete[i] = 0;
+        continue;
+      }
+      
       let rawArray = answersToday.map((_, index) => {
-        return this.isCompleted(answersToday[index], columnsToday[index]);
+        return this.isCompleted(answersToday[index], columnsToday[index], i);
       });
       let numMissed = 0;
       let possTotal = 0;
@@ -435,11 +492,18 @@ export default class SurveyParticipant {
           ++possTotal;
         }
       }
-      this.percentComplete[i] = (possTotal - numMissed) / possTotal;
+      this.percentComplete[i] = possTotal > 0 ? (possTotal - numMissed) / possTotal : 0;
       for (let j = 0; j < incompletedQuestions.length; ++j) {
-        this.missingQuestions[i].push(
-          this.dataDict.getQuestion(incompletedQuestions[j])
-        );
+        try {
+          // Safely get question text, handling cases where the field might not be in the data dictionary
+          let questionText = this.dataDict.getQuestion(incompletedQuestions[j]);
+          if (questionText) {
+            this.missingQuestions[i].push(questionText);
+          }
+        } catch (e) {
+          // If the question can't be found in the data dictionary, skip it
+          // This can happen with new CSV format fields not yet in the dictionary
+        }
       }
     }
   }
@@ -451,14 +515,14 @@ export default class SurveyParticipant {
    * @param {string} field - The name of the field.
    * @return {number} Returns 0 if the field is not checked, 1 if the field is filled, and 2 if the field is not filled.
    */
-  isCompleted(ans, field) {
+  isCompleted(ans, field, dayIndex) {
     // 0 is not checked, 1 is filled, 2 is not filled
     if (field.includes("___")) {
       let fieldName = field.split("___")[0];
       // if field is branched and met, OR if field does not require branch
       if (
         !this.dataDict.isBranched(fieldName) ||
-        (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName))
+        (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName, dayIndex))
       ) {
         let dictPossVals = this.dataDict.getAnswers(fieldName);
         dictPossVals = Object.keys(dictPossVals);
@@ -467,11 +531,8 @@ export default class SurveyParticipant {
         } else {
           // check if any of field name has an answer
           for (let i = 0; i < dictPossVals.length; ++i) {
-            if (
-              parseInt(
-                this.data[`${fieldName}___${dictPossVals[i]}`].values[0]
-              ) === 1
-            ) {
+            let checkboxValue = this.#getValueForDay(`${fieldName}___${dictPossVals[i]}`, dayIndex);
+            if (parseInt(checkboxValue) === 1) {
               // found an answer that was filled
               return 1;
             }
@@ -486,7 +547,7 @@ export default class SurveyParticipant {
       }
       if (
         !this.dataDict.isBranched(fieldName) ||
-        (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName))
+        (this.dataDict.isBranched(fieldName) && this.#branchMet(fieldName, dayIndex))
       ) {
         if (ans === "") {
           return 2;
@@ -499,7 +560,11 @@ export default class SurveyParticipant {
   }
 
   evaluateStrikes() {
-    this.strikeArray.evaluateStrikes(this); // Delegate to Strikes class
+    this.strikeArray.evaluateStrikes(this);
+  }
+
+  getValueForDay(columnName, dayIndex) {
+    return this.#getValueForDay(columnName, dayIndex);
   }
 
   getStrikesForDay(day) {
@@ -509,13 +574,14 @@ export default class SurveyParticipant {
     return this.strikeArray.getStrikesForDay(day); // Delegate to Strikes class
   }
 
-  #branchMet(varName) {
+  #branchMet(varName, dayIndex) {
     let dictRef = this.dataDict.branchConditions(varName);
     for (let key in dictRef) {
       if (key.includes("(")) {
         continue;
       }
-      if (parseInt(this.data[key].values[0]) === parseInt(dictRef[key])) {
+      let value = this.#getValueForDay(key, dayIndex !== undefined ? dayIndex : 0);
+      if (parseInt(value) === parseInt(dictRef[key])) {
         return true;
       }
     }
