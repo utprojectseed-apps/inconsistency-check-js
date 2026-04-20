@@ -79,21 +79,15 @@ export default class SurveyParticipant {
   getName() {
     let firstName = "FIRST";
     let lastName = "LAST";
-    if (
-      this.data["p1finame"] !== undefined &&
-      this.data["p1finame"] !== null &&
-      this.data["p1finame"].values &&
-      this.data["p1finame"].values[0] != null
-    ) {
-      firstName = this.data["p1finame"].values[0].trim();
+    // TO-DO: Change line below to  if (this.data["tfirname"]!= null) {
+    if (this.data["tfirname"] !== undefined || this.data["tfirname"] !== null) {
+      firstName = this.data["tfirname"].values[0].trim();
     }
     if (
-      this.data["p1laname"] !== undefined &&
-      this.data["p1laname"] !== null &&
-      this.data["p1laname"].values &&
-      this.data["p1laname"].values[0] != null
+      this.data["tlastname"] !== undefined ||
+      this.data["tlastname"] !== null
     ) {
-      lastName = this.data["p1laname"].values[0].trim();
+      lastName = this.data["tlasname"].values[0].trim();
     }
     return firstName + " " + lastName;
   }
@@ -182,7 +176,7 @@ export default class SurveyParticipant {
   }
 
   setupCycles() {
-    this.startDate = new Date(this.data["p1startd"].values[0] + "T00:00:00");
+    this.startDate = new Date(this.data["startdt"].values[0] + "T00:00:00");
     this.currCycle = 0;
     this.userDate = new Date();
     let diff = Math.abs(this.startDate - this.userDate);
