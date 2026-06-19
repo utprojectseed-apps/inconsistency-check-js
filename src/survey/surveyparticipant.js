@@ -27,7 +27,8 @@ export default class SurveyParticipant {
 
     const rowIdx = this.#rowMap[dayIndex] !== undefined ? this.#rowMap[dayIndex] : 0;
     const value = this.data[columnName].values[rowIdx];
-    return value || "";
+    // return value || ""; // BUG: coerces numeric 0 to "", causing '0'-valued answers (e.g. "No alcohol", "0 min") to be counted as missed
+    return value !== null && value !== undefined ? String(value) : "";
   }
 
   constructor(data, dataDict) {
