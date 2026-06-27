@@ -77,6 +77,10 @@ export default class DataDict {
         return resultDict
     }
 
+    exists(varName) {
+        return this.df['Variable / Field Name'].values.indexOf(varName) !== -1;
+    }
+
     isBranched(varName) {
         let index = this.df['Variable / Field Name'].values.indexOf(varName)
         let branch = this.df['Branching Logic (Show field only if...)'].values[index]
