@@ -27,8 +27,7 @@ export default class SurveyParticipant {
 
     const rowIdx = this.#rowMap[dayIndex] !== undefined ? this.#rowMap[dayIndex] : 0;
     const value = this.data[columnName].values[rowIdx];
-    // return value || ""; // BUG: coerces numeric 0 to "", causing '0'-valued answers (e.g. "No alcohol", "0 min") to be counted as missed
-    return value !== null && value !== undefined ? String(value) : "";
+    return (value === 0 || value === "0") ? "0" : (value || "");
   }
 
   constructor(data, dataDict) {
@@ -125,13 +124,14 @@ export default class SurveyParticipant {
       )}_daily_survey_timestamp`;
       let dateValue = this.#getValueForDay(`t${i + 1}date`, i);
       if (dateValue !== "") {
-        let date = new Date(dateValue + "T00:00:00");
+        let date = new Date(dateValue + "T00:00:00Z");
         this.dates[i] = SurveyParticipant.formatDate(date);
       } else {
         // Fall back to timestamp column
         let timestampValue = this.#getValueForDay(timestampCol, i);
         if (timestampValue !== "" && timestampValue !== "[not completed]") {
-          let date = new Date(timestampValue + "T00:00:00");
+          let dateOnly = timestampValue.split(" ")[0];
+          let date = new Date(dateOnly + "T00:00:00Z");
           this.dates[i] = SurveyParticipant.formatDate(date);
         } else {
           // If no date/timestamp found, check if survey has any data
@@ -439,6 +439,35 @@ export default class SurveyParticipant {
     ]);
     */
    const ignoreCols = new Set([
+    // Activity fields 3-5 (optional, no branch logic in data dictionary)
+    't1act3', 't1act3h', 't1act3m', 't1act3p', 't1act4', 't1act4h',
+    't1act4m', 't1act4p', 't1act5', 't1act5h', 't1act5m', 't1act5p',
+    't2act3', 't2act3h', 't2act3m', 't2act3p', 't2act4', 't2act4h',
+    't2act4m', 't2act4p', 't2act5', 't2act5h', 't2act5m', 't2act5p',
+    't3act3', 't3act3h', 't3act3m', 't3act3p', 't3act4', 't3act4h',
+    't3act4m', 't3act4p', 't3act5', 't3act5h', 't3act5m', 't3act5p',
+    't4act3', 't4act3h', 't4act3m', 't4act3p', 't4act4', 't4act4h',
+    't4act4m', 't4act4p', 't4act5', 't4act5h', 't4act5m', 't4act5p',
+    't5act3', 't5act3h', 't5act3m', 't5act3p', 't5act4', 't5act4h',
+    't5act4m', 't5act4p', 't5act5', 't5act5h', 't5act5m', 't5act5p',
+    't6act3', 't6act3h', 't6act3m', 't6act3p', 't6act4', 't6act4h',
+    't6act4m', 't6act4p', 't6act5', 't6act5h', 't6act5m', 't6act5p',
+    't7act3', 't7act3h', 't7act3m', 't7act3p', 't7act4', 't7act4h',
+    't7act4m', 't7act4p', 't7act5', 't7act5h', 't7act5m', 't7act5p',
+    't8act3', 't8act3h', 't8act3m', 't8act3p', 't8act4', 't8act4h',
+    't8act4m', 't8act4p', 't8act5', 't8act5h', 't8act5m', 't8act5p',
+    't9act3', 't9act3h', 't9act3m', 't9act3p', 't9act4', 't9act4h',
+    't9act4m', 't9act4p', 't9act5', 't9act5h', 't9act5m', 't9act5p',
+    't10act3', 't10act3h', 't10act3m', 't10act3p', 't10act4', 't10act4h',
+    't10act4m', 't10act4p', 't10act5', 't10act5h', 't10act5m', 't10act5p',
+    't11act3', 't11act3h', 't11act3m', 't11act3p', 't11act4', 't11act4h',
+    't11act4m', 't11act4p', 't11act5', 't11act5h', 't11act5m', 't11act5p',
+    't12act3', 't12act3h', 't12act3m', 't12act3p', 't12act4', 't12act4h',
+    't12act4m', 't12act4p', 't12act5', 't12act5h', 't12act5m', 't12act5p',
+    't13act3', 't13act3h', 't13act3m', 't13act3p', 't13act4', 't13act4h',
+    't13act4m', 't13act4p', 't13act5', 't13act5h', 't13act5m', 't13act5p',
+    't14act3', 't14act3h', 't14act3m', 't14act3p', 't14act4', 't14act4h',
+    't14act4m', 't14act4p', 't14act5', 't14act5h', 't14act5m', 't14act5p',
     't10asacnt', 't10asmn', 't10asmn1', 't10asn', 't10asn_2', 't10asnc1', 't10asnc2', 't10asnc3', 't10asnc4', 't10asnc5',
     't10cmd', 't10cmk', 't10igtfle', 't10igtfls', 't10mdos1', 't10mdos2', 't10mdos3', 't10mdos4', 't10mdos5', 't10mfre1',
     't10mfre2', 't10mfre3', 't10mfre4', 't10mfre5', 't10mna1', 't10mna2', 't10mna3', 't10mna4', 't10mna5', 't10mna6',
@@ -601,7 +630,8 @@ export default class SurveyParticipant {
           let currentColumn = this.data.columns[j];
           let value = "";
           if (this.data[currentColumn] && this.data[currentColumn].values) {
-            value = this.data[currentColumn].values[dayRowIdx] || "";
+            const rawVal = this.data[currentColumn].values[dayRowIdx];
+            value = (rawVal === 0 || rawVal === "0") ? "0" : (rawVal || "");
           }
           answerArray[i - 1].push(value);
           columnArray[i - 1].push(currentColumn);
@@ -640,6 +670,8 @@ export default class SurveyParticipant {
         }
       }
       this.percentComplete[i] = possTotal > 0 ? (possTotal - numMissed) / possTotal : 0;
+      console.log(`[DEBUG] Day ${i+1}: possTotal=${possTotal}, numMissed=${numMissed}, pct=${(this.percentComplete[i]*100).toFixed(2)}%`);
+      console.log(`[DEBUG] Day ${i+1} missed cols:`, incompletedQuestions);
       for (let j = 0; j < incompletedQuestions.length; ++j) {
         try {
           // Safely get question text, handling cases where the field might not be in the data dictionary
@@ -689,6 +721,9 @@ export default class SurveyParticipant {
       }
     } else {
       let fieldName = field;
+      if (!this.dataDict.exists(fieldName)) {
+        return 0;
+      }
       if (this.dataDict.isHidden(fieldName)) {
         return 0;
       }
