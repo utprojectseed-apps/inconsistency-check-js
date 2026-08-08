@@ -1,3 +1,92 @@
+// ---------------------------------------------------------------------------
+// Strike K support
+// ---------------------------------------------------------------------------
+
+// When true, a blank bedtime answer on day N+1 falls back to the same weekday in
+// the other week of the cycle (day 1 <-> day 8, day 7 <-> day 14, ...), and the
+// substitution is named in the strike text. Set to false to drop the fallback
+// entirely, so Strike K only ever uses the answer for the night in question.
+//
+// Context for whoever flips this: nothing else in the tool reports a missing
+// bedtime answer. t{n}act3h/act3m/act3p sit on the ignoreCols list in
+// surveyparticipant.js, so a blank bedtime is excluded from Strike A's
+// completion percentage and never reaches missingQuestions. The label inside the
+// K strike is the only place a substitution is ever visible.
+const USE_SISTER_DAY_FALLBACK = true;
+
+// Bedtime must be at least this far after the submission to earn a strike.
+const K_THRESHOLD_MINUTES = 120;
+
+// The point past which a stated bedtime stops being taken at face value.
+// Not a tuned number: the two readings of a 12-hour answer sit exactly 12 hours
+// apart, so 6 hours is precisely where the other one becomes the nearer of the
+// two. Inside that window the participant's answer is honoured; outside it, the
+// two readings are genuinely ambiguous and plausibility decides. Judging
+// plausibility by the time itself rather than by nearness to the submission
+// matters here because 45% of these surveys are finished after midnight, which
+// is exactly where a submission-relative test is least able to tell them apart.
+const AMBIGUITY_WINDOW_MINUTES = 6 * 60;
+
+
+// A day's derived clock offset is annotated when it disagrees with the
+// participant's other days by more than this many minutes.
+const ODD_OFFSET_TOLERANCE_MINUTES = 60;
+
+const MS_PER_MINUTE = 60 * 1000;
+const MS_PER_DAY = 24 * 60 * MS_PER_MINUTE;
+
+// JavaScript's % keeps the sign of the dividend; this is a true modulo.
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+// "HH:MM" (or "HH:MM:SS") -> minutes since midnight, or null.
+function parseClock(value) {
+  if (typeof value !== "string") return null;
+  const match = value.trim().match(/^(\d{1,2}):(\d{2})/);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
+  if (hours > 23 || minutes > 59) return null;
+  return hours * 60 + minutes;
+}
+
+// "YYYY-MM-DD HH:MM[:SS]" -> { y, mo, d, h, mi }, or null.
+function parseRedcapTimestamp(value) {
+  if (!value || value === "[not completed]") return null;
+  const match = String(value)
+    .trim()
+    .match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})/);
+  if (!match) return null;
+  return {
+    y: Number(match[1]),
+    mo: Number(match[2]),
+    d: Number(match[3]),
+    h: Number(match[4]),
+    mi: Number(match[5]),
+  };
+}
+
+// Both bedtimes and submissions are built in the UTC frame so that arithmetic is
+// free of the browser's own timezone; the UTC getters read back the participant's
+// wall clock exactly as it went in.
+function formatClock(ms) {
+  const date = new Date(ms);
+  const pad = (n) => (n < 10 ? "0" + n : "" + n);
+  return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`;
+}
+
+function formatGap(minutes) {
+  const whole = Math.round(minutes);
+  const hours = Math.floor(whole / 60);
+  const mins = whole % 60;
+  if (hours <= 0) return `${mins}m`;
+  return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+}
+
+
+
 class Strikes {
   /**
    * options: {
@@ -39,6 +128,13 @@ class Strikes {
       const t = s.getTime();
       return t >= startMs && t < endMs;
     });
+
+    // Strike K works in the participant's own clock. REDCap writes its survey
+    // timestamps on the server clock, so for each day we derive the offset
+    // between the two from that day's own "End time" answer, and use it to
+    // translate that day's timestamp. Nothing is averaged across days, so a
+    // participant who changes timezone mid-cycle still reads correctly.
+    const submitOffsets = this._buildSubmitOffsets(participant);
 
     for (let i = 0; i < days; ++i) {
   // Always evaluate A for incomplete days
@@ -142,65 +238,338 @@ class Strikes {
         this.addStrike(i, "H: Duration > 45 min");
       }
 
-  // K: Lights off 2 hours after survey submission
-  let sleepTimeCol = `t${i + 1}lgtsoffti`;
-      let lightsOff = participant.getValueForDay(sleepTimeCol, i);
-      if (lightsOff) {
-  // compute effective submit hour for this day using same logic as C
-        let submitHour = null, submitMin = null;
+      // K: Lights off 2 hours after survey submission
+      this._evaluateStrikeK(participant, i, submitOffsets);
+    }
+  }
 
-        // helper: compute the night window for day i
-        const getParticipantDayWindow = (dayIndex) => {
-          const participantDayStr = participant.dates ? participant.dates[dayIndex] : null;
-          if (!participantDayStr) return null;
-          const parts = participantDayStr.split('-').map(Number);
-          if (parts.length !== 3) return null;
-          const [y, m, d] = parts;
-          const startWindow = new Date(y, m - 1, d, 20, 0, 0);
-          const endWindow = new Date(y, m - 1, d + 1, this.options.graceEndHour, 0, 0);
-          return { startWindow, endWindow, participantDayStr };
-        };
+  // Raw REDCap survey timestamp string for a day, or null.
+  _rawTimestamp(participant, dayIndex) {
+    try {
+      const column = `day_${dayIndex + 1}_${participant.constructor.getWeekDay(
+        dayIndex
+      )}_daily_survey_timestamp`;
+      return participant.getValueForDay(column, dayIndex);
+    } catch (e) {
+      return null;
+    }
+  }
 
-        const wnd = getParticipantDayWindow(i);
-        if (wnd) {
-          const startMs = Date.UTC(parseInt(wnd.participantDayStr.split('-')[0],10), parseInt(wnd.participantDayStr.split('-')[1],10)-1, parseInt(wnd.participantDayStr.split('-')[2],10), 20, 0, 0);
-          const endMs = Date.UTC(parseInt(wnd.participantDayStr.split('-')[0],10), parseInt(wnd.participantDayStr.split('-')[1],10)-1, parseInt(wnd.participantDayStr.split('-')[2],10)+1, this.options.graceEndHour, 0, 0);
-          if (hasSubmissionInWindow(startMs, endMs)) {
-            submitHour = 20;
-            submitMin = 0;
-          } else {
-            // look for parsed same-day submission
-            const participantDayStr = wnd.participantDayStr;
-            if (participantDayStr) {
-              for (const s of submissions) {
-                const pad = n => (n < 10 ? '0' + n : '' + n);
-                const sDateStr = `${s.getUTCFullYear()}-${pad(s.getUTCMonth() + 1)}-${pad(s.getUTCDate())}`;
-                if (sDateStr === participantDayStr) {
-                  submitHour = s.getUTCHours();
-                  submitMin = s.getUTCMinutes();
-                  break;
-                }
-              }
-            }
-          }
-        }
-        
+  /**
+   * Per-day offset between the server clock and the participant's clock, in
+   * minutes (server minus participant). Derived from each day's own "End time"
+   * answer, so no timezone is ever assumed.
+   */
+  _buildSubmitOffsets(participant) {
+    const days = participant.constructor.getDays();
+    const offsets = Array(days).fill(null);
+    for (let i = 0; i < days; ++i) {
+      const endMinutes = parseClock(
+        participant.getValueForDay(`t${i + 1}endti`, i)
+      );
+      const stamp = parseRedcapTimestamp(this._rawTimestamp(participant, i));
+      if (endMinutes === null || stamp === null) continue;
 
-        // fallback to raw submitTimes string
-        if (submitHour === null && participant.submitTimes[i] && participant.submitTimes[i] !== "--:--") {
-          [submitHour, submitMin] = participant.submitTimes[i].split(":").map(Number);
-        }
+      const serverMinutes = stamp.h * 60 + stamp.mi;
+      // Wrap into (-720, +720] so an overnight submission does not read as ~23h.
+      const raw = mod(serverMinutes - endMinutes + 720, 1440) - 720;
+      offsets[i] = {
+        // Exact difference, used to translate this day's own submission so the
+        // result lands precisely on the finish time the participant entered.
+        raw,
+        // Every real-world clock difference is a multiple of 15 minutes.
+        // Snapping clears the +/-1 minute jitter of HH:MM against HH:MM:SS, and
+        // is what other days borrow and what the "unusual" check compares.
+        snapped: Math.round(raw / 15) * 15,
+      };
+    }
+    return offsets;
+  }
 
-        if (submitHour !== null) {
-          let [sleepHour, sleepMin] = lightsOff.split(":").map(Number);
-          let submitTotal = submitHour * 60 + (submitMin || 0);
-          let sleepTotal = sleepHour * 60 + sleepMin;
-          if (sleepTotal - submitTotal > 120) {
-            this.addStrike(i, "K: Lights off 2 hours after survey submission");
+  /**
+   * The moment the participant finished day i's survey, expressed on their own
+   * clock in the UTC frame. Returns null when it cannot be established.
+   */
+  _localSubmission(participant, dayIndex, offsets) {
+    const stamp = parseRedcapTimestamp(this._rawTimestamp(participant, dayIndex));
+    if (stamp) {
+      // This day recorded its own finish time: use the exact difference, so the
+      // result is precisely the time the participant entered.
+      let offset = offsets[dayIndex] ? offsets[dayIndex].raw : null;
+      let compareOffset = offsets[dayIndex] ? offsets[dayIndex].snapped : null;
+      let borrowedFrom = null;
+      if (offset === null) {
+        // No finish time that day: borrow from the nearest day that has one,
+        // preferring the earlier day when two are equally close.
+        let bestDistance = Infinity;
+        for (let j = 0; j < offsets.length; ++j) {
+          if (!offsets[j]) continue;
+          const distance = Math.abs(j - dayIndex);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            offset = offsets[j].snapped;
+            compareOffset = offsets[j].snapped;
+            borrowedFrom = j;
           }
         }
       }
+      if (offset === null) return null;
+      const serverMs = Date.UTC(
+        stamp.y,
+        stamp.mo - 1,
+        stamp.d,
+        stamp.h,
+        stamp.mi
+      );
+      return {
+        ms: serverMs - offset * MS_PER_MINUTE,
+        offset: compareOffset,
+        borrowedFrom,
+      };
     }
+
+    // No machine timestamp: fall back to the participant's own date + end time.
+    const endMinutes = parseClock(
+      participant.getValueForDay(`t${dayIndex + 1}endti`, dayIndex)
+    );
+    const dateStr = participant.dates ? participant.dates[dayIndex] : null;
+    if (
+      endMinutes !== null &&
+      typeof dateStr === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(dateStr)
+    ) {
+      const [y, mo, d] = dateStr.split("-").map(Number);
+      return {
+        ms: Date.UTC(y, mo - 1, d) + endMinutes * MS_PER_MINUTE,
+        offset: null,
+        borrowedFrom: null,
+      };
+    }
+    return null;
+  }
+
+
+  /**
+   * True when a day's clock offset disagrees with the days on *both* sides of
+   * it, which is the signature of a mistyped finish time.
+   *
+   * Deliberately not a comparison against the participant's median. The REDCap
+   * server clock itself changed partway through December 2025 — from UTC to
+   * local time — so a cycle straddling that switch has one block of days at +6h
+   * and another at 0. Against a median, the later (correct) days look like
+   * outliers and every one of them gets blamed on the participant. Comparing
+   * with immediate neighbours instead lets a sustained shift pass quietly while
+   * still catching a single day that stands alone.
+   */
+  _offsetLooksIsolated(offsets, dayIndex) {
+    const own = offsets[dayIndex] ? offsets[dayIndex].snapped : null;
+    if (own === null) return false;
+
+    let before = null;
+    for (let j = dayIndex - 1; j >= 0; --j) {
+      if (offsets[j]) { before = offsets[j].snapped; break; }
+    }
+    let after = null;
+    for (let j = dayIndex + 1; j < offsets.length; ++j) {
+      if (offsets[j]) { after = offsets[j].snapped; break; }
+    }
+    // With a neighbour missing there is no way to tell an isolated typo from the
+    // start of a sustained shift, so stay quiet.
+    if (before === null || after === null) return false;
+
+    return (
+      Math.abs(own - before) > ODD_OFFSET_TOLERANCE_MINUTES &&
+      Math.abs(own - after) > ODD_OFFSET_TOLERANCE_MINUTES
+    );
+  }
+
+  /**
+   * The lights-off answer from a given survey day, or null if unanswered.
+   * act3h is the hour (1-12), act3m a dropdown index (1 -> :00 ... 6 -> :50),
+   * act3p is coded 1 = PM, 2 = AM.
+   */
+  _readBedtime(participant, dayNumber) {
+    const index = dayNumber - 1;
+    const hour = parseInt(
+      participant.getValueForDay(`t${dayNumber}act3h`, index),
+      10
+    );
+    if (!Number.isFinite(hour) || hour < 1 || hour > 12) return null;
+
+    const minuteCode = parseInt(
+      participant.getValueForDay(`t${dayNumber}act3m`, index),
+      10
+    );
+    const minuteAnswered =
+      Number.isFinite(minuteCode) && minuteCode >= 1 && minuteCode <= 6;
+    const minutes = minuteAnswered ? (minuteCode - 1) * 10 : 0;
+
+    const meridiemCode = parseInt(
+      participant.getValueForDay(`t${dayNumber}act3p`, index),
+      10
+    );
+    const statedPm =
+      meridiemCode === 1 ? true : meridiemCode === 2 ? false : null;
+
+    return { dayNumber, hour, minutes, minuteAnswered, statedPm };
+  }
+
+  /**
+   * Strike K: did the participant turn the lights off two or more hours after
+   * submitting that night's survey?
+   *
+   * The bedtime for the night of day i is reported the next morning, in day
+   * i+1's survey ("Last night, at what time did you turn off the lights?").
+   */
+  _evaluateStrikeK(participant, i, offsets) {
+    const days = participant.constructor.getDays();
+    const isLastDay = i === days - 1;
+
+    let source = null;
+    let usedSister = false;
+
+    if (!isLastDay) {
+      const nextIndex = i + 1;
+      // If the next day's survey has not been collected, the bedtime for this
+      // night simply does not exist yet. Nothing to judge, so no strike.
+      const nextCollected =
+        Array.isArray(participant.days) && !!participant.days[nextIndex];
+      if (!nextCollected) return;
+      source = this._readBedtime(participant, nextIndex + 1);
+    }
+
+    // Day 14 has no following survey by design, and on any other day the
+    // question may simply have been left blank.
+    if (!source && USE_SISTER_DAY_FALLBACK) {
+      const sisterIndex = i < 7 ? i + 7 : i - 7;
+      if (sisterIndex >= 0 && sisterIndex < days) {
+        const sister = this._readBedtime(participant, sisterIndex + 1);
+        if (sister) {
+          source = sister;
+          usedSister = true;
+        }
+      }
+    }
+    if (!source) return;
+
+    const submission = this._localSubmission(participant, i, offsets);
+    if (!submission) return;
+
+    // The bedtime is a bare clock reading, so it has to be placed on a calendar
+    // day. Do not anchor it to a stated date: a participant finishing at 00:40
+    // writes the post-midnight date into "Today's date", which would put the
+    // anchor a day late and turn a 1 AM bedtime into a phantom ~12h gap.
+    //
+    // Instead, place each reading on whichever day puts it nearest the
+    // submission. Bedtime and submission are always within hours of each other,
+    // so the nearest occurrence is the right one, and it needs no date at all.
+    const nearestOccurrence = (clockMinutes) => {
+      const midnight =
+        Math.floor(submission.ms / MS_PER_DAY) * MS_PER_DAY;
+      let best = null;
+      for (const shift of [-MS_PER_DAY, 0, MS_PER_DAY]) {
+        const candidate = midnight + shift + clockMinutes * MS_PER_MINUTE;
+        if (
+          best === null ||
+          Math.abs(candidate - submission.ms) < Math.abs(best - submission.ms)
+        ) {
+          best = candidate;
+        }
+      }
+      return best;
+    };
+
+    // The same answer read two ways, always exactly 12 hours apart.
+    const hour12 = source.hour % 12; // 12 -> 0, so 12 AM is midnight, 12 PM noon
+    const pmClock = (hour12 + 12) * 60 + source.minutes;
+    const amClock = hour12 * 60 + source.minutes;
+    const asPm = nearestOccurrence(pmClock);
+    const asAm = nearestOccurrence(amClock);
+
+    // How plausible a reading is as a bedtime, judged by nearness to midnight.
+    // A "10 in the morning" bedtime is almost always a mis-tapped 10 at night.
+    const fromMidnight = (clock) => Math.min(clock, 1440 - clock);
+
+    let chosenIsPm;
+    if (source.statedPm === null) {
+      // Nothing was stated, so there is nothing to honour.
+      chosenIsPm = fromMidnight(pmClock) <= fromMidnight(amClock);
+    } else {
+      const statedMs = source.statedPm ? asPm : asAm;
+      const statedGap = Math.abs(statedMs - submission.ms);
+      if (statedGap <= AMBIGUITY_WINDOW_MINUTES * MS_PER_MINUTE) {
+        // Their answer gives a sane result: take them at their word.
+        chosenIsPm = source.statedPm;
+      } else {
+        // Beyond this point the other reading would sit closer to the
+        // submission, so the two are genuinely ambiguous. Break the tie on
+        // which is a more plausible time to go to bed rather than on which is
+        // nearer the submission, keeping their answer when it is a draw.
+        const statedClock = source.statedPm ? pmClock : amClock;
+        const otherClock = source.statedPm ? amClock : pmClock;
+        chosenIsPm =
+          fromMidnight(statedClock) <= fromMidnight(otherClock)
+            ? source.statedPm
+            : !source.statedPm;
+      }
+    }
+    const bedtimeMs = chosenIsPm ? asPm : asAm;
+
+    const gapMinutes = (bedtimeMs - submission.ms) / MS_PER_MINUTE;
+    if (!(gapMinutes >= K_THRESHOLD_MINUTES)) return;
+
+    const notes = [];
+    if (usedSister) {
+      notes.push(
+        `substituted day ${source.dayNumber}'s answer${
+          isLastDay ? "" : ` (day ${i + 2} left it blank)`
+        }`
+      );
+    }
+    if (source.statedPm !== null && source.statedPm !== chosenIsPm) {
+      const stated = `${source.hour}${source.minutes ? ":" + String(source.minutes).padStart(2, "0") : ""} ${
+        source.statedPm ? "PM" : "AM"
+      }`;
+      notes.push(
+        `bedtime was answered as ${stated} but read as ${
+          chosenIsPm ? "PM" : "AM"
+        }, because ${stated} is not a plausible time to go to bed — treated as a mis-tapped AM/PM`
+      );
+    }
+    if (source.statedPm === null) {
+      notes.push(
+        `bedtime AM/PM unanswered, read as ${chosenIsPm ? "PM" : "AM"}`
+      );
+    }
+    if (!source.minuteAnswered) {
+      notes.push("bedtime minutes unanswered, treated as :00");
+    }
+    if (submission.borrowedFrom !== null && submission.borrowedFrom !== undefined) {
+      notes.push(
+        "participant did not record what time they finished the survey today, " +
+          `so the submission time was worked out using day ${
+            submission.borrowedFrom + 1
+          }'s recorded finish time as a reference`
+      );
+    }
+    if (this._offsetLooksIsolated(offsets, i)) {
+      notes.push(
+        "the finish time the participant entered today does not match the days " +
+          "either side of it, so it may be a typo — worth checking before acting " +
+          "on this strike"
+      );
+    }
+
+    // Verdict first, then the numbers, then each caveat on its own line. The
+    // day card renders strikes with white-space: pre-wrap, so the newlines and
+    // the two-space indent survive.
+    let message = "K: Lights off 2 hours after survey submission";
+    message += `\n  submitted ${formatClock(submission.ms)} → lights off ${formatClock(
+      bedtimeMs
+    )}  (gap ${formatGap(gapMinutes)})`;
+    for (const note of notes) message += `\n  ⚠ ${note}`;
+
+    this.addStrike(i, message);
   }
 }
 

@@ -37,7 +37,7 @@ export default function SurveyDayInfo({day, participant}) {
                     strikes.length > 0 ? (
                         <ul>
                             {strikes.map((strike, index) => (
-                                <li key={index} style={{color: "red"}}>{strike}</li>
+                                <li key={index} style={{color: "red", whiteSpace: "pre-wrap"}}>{strike}</li>
                             ))}
                         </ul>
                     ) : (
