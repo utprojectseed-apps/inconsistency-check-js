@@ -2,17 +2,15 @@
 // Strike K support
 // ---------------------------------------------------------------------------
 
-// When true, a blank bedtime answer on day N+1 falls back to the same weekday in
-// the other week of the cycle (day 1 <-> day 8, day 7 <-> day 14, ...), and the
-// substitution is named in the strike text. Set to false to drop the fallback
-// entirely, so Strike K only ever uses the answer for the night in question.
+// Strike K never substitutes a bedtime from another night. If the survey that
+// would have reported this night's bedtime was completed and the question was
+// left blank, that is itself the finding and the strike says so.
 //
-// Context for whoever flips this: nothing else in the tool reports a missing
-// bedtime answer. t{n}act3h/act3m/act3p sit on the ignoreCols list in
+// Worth knowing for whoever revisits this: nothing else in the tool reports a
+// missing bedtime. t{n}act3h/act3m/act3p sit on the ignoreCols list in
 // surveyparticipant.js, so a blank bedtime is excluded from Strike A's
-// completion percentage and never reaches missingQuestions. The label inside the
-// K strike is the only place a substitution is ever visible.
-const USE_SISTER_DAY_FALLBACK = true;
+// completion percentage and never reaches missingQuestions. This strike is the
+// only place it is ever surfaced.
 
 // Bedtime must be at least this far after the submission to earn a strike.
 const K_THRESHOLD_MINUTES = 120;
@@ -238,9 +236,37 @@ class Strikes {
         this.addStrike(i, "H: Duration > 45 min");
       }
 
+      // D: Day of the week question
+      this._evaluateStrikeD(participant, i);
+
       // K: Lights off 2 hours after survey submission
       this._evaluateStrikeK(participant, i, submitOffsets);
     }
+  }
+
+  /**
+   * Strike D: Day of the week question.
+   *
+   * Only the missing-answer half is implemented. The desktop tool also compares
+   * the answer against the study day, allowing the following day when the
+   * survey was finished between midnight and 05:00 — that comparison is
+   * deliberately not ported, so a wrong answer is not flagged here, only an
+   * absent one.
+   */
+  _evaluateStrikeD(participant, i) {
+    // Only judge a day the participant actually took; an unfilled survey is
+    // Strike A's business.
+    if (!this._surveyHappened(participant, i)) return;
+
+    const answer = participant.getValueForDay(`t${i + 1}dowee`, i);
+    if (answer !== "" && answer !== null && answer !== undefined) return;
+
+    this.addStrike(
+      i,
+      "D: Day of the week question" +
+        "\n  not checked — this day's survey was completed but the day-of-week" +
+        " answer was left blank"
+    );
   }
 
   // Raw REDCap survey timestamp string for a day, or null.
@@ -384,6 +410,24 @@ class Strikes {
   }
 
   /**
+   * Whether a day's survey was genuinely taken, rather than merely opened.
+   *
+   * participant.days[] is only percentComplete > 0, so a participant who
+   * answered two questions and stopped counts as "collected" there. Treating
+   * that as a completed survey turns every abandoned day into a missing-bedtime
+   * strike. A submission timestamp, or the same 75% bar Strike A uses, is the
+   * honest test of whether the bedtime question was ever reached.
+   */
+  _surveyHappened(participant, dayIndex) {
+    const stamp = parseRedcapTimestamp(this._rawTimestamp(participant, dayIndex));
+    if (stamp) return true;
+    const pct = Array.isArray(participant.percentComplete)
+      ? participant.percentComplete[dayIndex]
+      : 0;
+    return typeof pct === "number" && pct >= 0.75;
+  }
+
+  /**
    * The lights-off answer from a given survey day, or null if unanswered.
    * act3h is the hour (1-12), act3m a dropdown index (1 -> :00 ... 6 -> :50),
    * act3p is coded 1 = PM, 2 = AM.
@@ -423,37 +467,35 @@ class Strikes {
    */
   _evaluateStrikeK(participant, i, offsets) {
     const days = participant.constructor.getDays();
-    const isLastDay = i === days - 1;
 
-    let source = null;
-    let usedSister = false;
+    // The bedtime for this night is reported the next morning. Day 14 has no
+    // following survey by design, so it can never be evaluated.
+    if (i === days - 1) return;
+    const nextIndex = i + 1;
 
-    if (!isLastDay) {
-      const nextIndex = i + 1;
-      // If the next day's survey has not been collected, the bedtime for this
-      // night simply does not exist yet. Nothing to judge, so no strike.
-      const nextCollected =
-        Array.isArray(participant.days) && !!participant.days[nextIndex];
-      if (!nextCollected) return;
-      source = this._readBedtime(participant, nextIndex + 1);
-    }
-
-    // Day 14 has no following survey by design, and on any other day the
-    // question may simply have been left blank.
-    if (!source && USE_SISTER_DAY_FALLBACK) {
-      const sisterIndex = i < 7 ? i + 7 : i - 7;
-      if (sisterIndex >= 0 && sisterIndex < days) {
-        const sister = this._readBedtime(participant, sisterIndex + 1);
-        if (sister) {
-          source = sister;
-          usedSister = true;
-        }
-      }
-    }
-    if (!source) return;
+    // Both days have to have actually happened. Not collected yet, or barely
+    // opened, means the bedtime answer does not exist through no fault of the
+    // participant on this day; a survey they never did is Strike A's business,
+    // not this one.
+    if (!this._surveyHappened(participant, nextIndex)) return;
+    if (!this._surveyHappened(participant, i)) return;
 
     const submission = this._localSubmission(participant, i, offsets);
     if (!submission) return;
+
+    const source = this._readBedtime(participant, nextIndex + 1);
+    if (!source) {
+      // The survey that should carry this night's bedtime was completed and the
+      // question was left blank. There is nothing to compare, and nothing else
+      // in the report would ever mention it.
+      this.addStrike(
+        i,
+        "K: Lights off 2 hours after survey submission" +
+          `\n  not checked — day ${nextIndex + 1}'s survey was completed but the` +
+          " lights-off time was left blank, so this night's bedtime is unknown"
+      );
+      return;
+    }
 
     // The bedtime is a bare clock reading, so it has to be placed on a calendar
     // day. Do not anchor it to a stated date: a participant finishing at 00:40
@@ -519,13 +561,6 @@ class Strikes {
     if (!(gapMinutes >= K_THRESHOLD_MINUTES)) return;
 
     const notes = [];
-    if (usedSister) {
-      notes.push(
-        `substituted day ${source.dayNumber}'s answer${
-          isLastDay ? "" : ` (day ${i + 2} left it blank)`
-        }`
-      );
-    }
     if (source.statedPm !== null && source.statedPm !== chosenIsPm) {
       const stated = `${source.hour}${source.minutes ? ":" + String(source.minutes).padStart(2, "0") : ""} ${
         source.statedPm ? "PM" : "AM"
