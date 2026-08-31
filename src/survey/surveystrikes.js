@@ -30,6 +30,25 @@ const AMBIGUITY_WINDOW_MINUTES = 6 * 60;
 // participant's other days by more than this many minutes.
 const ODD_OFFSET_TOLERANCE_MINUTES = 60;
 
+// t{n}dowee is coded 1 = Monday through 7 = Sunday.
+const WEEKDAY_NAMES = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+// A survey finished at or before this time may name the following day for
+// Strike D without being wrong, since the participant is up past midnight.
+const EARLY_HOURS_CUTOFF_MINUTES = 5 * 60;
+
+// Strikes F and G tolerate up to this many off-baseline answers in a section
+// before treating the block as inconsistent.
+const SECTION_INCONSISTENCY_ALLOWANCE = 3;
+
 const MS_PER_MINUTE = 60 * 1000;
 const MS_PER_DAY = 24 * 60 * MS_PER_MINUTE;
 
@@ -133,6 +152,10 @@ class Strikes {
     // translate that day's timestamp. Nothing is averaged across days, so a
     // participant who changes timezone mid-cycle still reads correctly.
     const submitOffsets = this._buildSubmitOffsets(participant);
+
+    // Strike J compares every day against the first answer the participant gave,
+    // so the baseline has to be found before the per-day loop starts.
+    const sexBaseline = this._findSexBaseline(participant);
 
     for (let i = 0; i < days; ++i) {
   // Always evaluate A for incomplete days
@@ -239,34 +262,242 @@ class Strikes {
       // D: Day of the week question
       this._evaluateStrikeD(participant, i);
 
+      // F / G: inconsistent answers across the parent sections
+      this._evaluateStrikeFG(participant, i);
+
+      // J: sex answered inconsistently across the cycle
+      this._evaluateStrikeJ(participant, i, sexBaseline);
+
       // K: Lights off 2 hours after survey submission
       this._evaluateStrikeK(participant, i, submitOffsets);
     }
   }
 
   /**
-   * Strike D: Day of the week question.
+   * Strike D: does the participant know what day it is?
    *
-   * Only the missing-answer half is implemented. The desktop tool also compares
-   * the answer against the study day, allowing the following day when the
-   * survey was finished between midnight and 05:00 — that comparison is
-   * deliberately not ported, so a wrong answer is not flagged here, only an
-   * absent one.
+   * t{n}dowee is a 1-7 radio (1 = Monday). A blank answer is flagged, and so is
+   * one that does not match the study day. A survey finished between midnight
+   * and 05:00 may legitimately name the following day, so that is accepted too.
    */
   _evaluateStrikeD(participant, i) {
     // Only judge a day the participant actually took; an unfilled survey is
     // Strike A's business.
     if (!this._surveyHappened(participant, i)) return;
 
-    const answer = participant.getValueForDay(`t${i + 1}dowee`, i);
-    if (answer !== "" && answer !== null && answer !== undefined) return;
+    const raw = participant.getValueForDay(`t${i + 1}dowee`, i);
+    if (raw === "" || raw === null || raw === undefined) {
+      this.addStrike(
+        i,
+        "D: Day of the week question" +
+          "\n  this day's survey was completed but the day-of-week answer was" +
+          " left blank"
+      );
+      return;
+    }
+
+    const answer = parseInt(raw, 10);
+    if (!Number.isFinite(answer) || answer < 1 || answer > 7) return;
+
+    const expected = (i % 7) + 1;
+    // A survey finished in the small hours may name the next day instead.
+    const start = parseClock(participant.getValueForDay(`t${i + 1}strti`, i));
+    const end = parseClock(participant.getValueForDay(`t${i + 1}endti`, i));
+    const finishedOvernight =
+      (start !== null && start <= EARLY_HOURS_CUTOFF_MINUTES) ||
+      (end !== null && end <= EARLY_HOURS_CUTOFF_MINUTES);
+    const tolerated = ((i + 1) % 7) + 1;
+
+    if (answer === expected) return;
+    if (finishedOvernight && answer === tolerated) return;
 
     this.addStrike(
       i,
       "D: Day of the week question" +
-        "\n  not checked — this day's survey was completed but the day-of-week" +
-        " answer was left blank"
+        `\n  answered ${WEEKDAY_NAMES[answer - 1]}, but day ${i + 1} is a ${
+          WEEKDAY_NAMES[expected - 1]
+        }` +
+        (finishedOvernight
+          ? `\n  ⚠ finished after midnight, so ${WEEKDAY_NAMES[tolerated - 1]} would also have been accepted`
+          : "")
     );
+  }
+
+  /**
+   * The first sex answer the participant gave, which every later day is judged
+   * against. Returns null when they never answered it at all.
+   */
+  _findSexBaseline(participant) {
+    const days = participant.constructor.getDays();
+    for (let i = 0; i < days; ++i) {
+      const raw = participant.getValueForDay(`t${i + 1}sexo`, i);
+      if (raw !== "" && raw !== null && raw !== undefined) {
+        return { value: String(raw), dayNumber: i + 1 };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Strike J: the sex question is asked every day and should never change. A
+   * day that disagrees with the first answer given, or that leaves it blank,
+   * is flagged.
+   *
+   * Unlike the desktop tool, a participant who never answered it at all is
+   * flagged only on the days they actually took, rather than on all fourteen.
+   */
+  _evaluateStrikeJ(participant, i, baseline) {
+    if (!this._surveyHappened(participant, i)) return;
+
+    if (baseline === null) {
+      this.addStrike(
+        i,
+        "J: Sex question answered inconsistently" +
+          "\n  no answer to the sex question was given on any day of the cycle"
+      );
+      return;
+    }
+
+    const raw = participant.getValueForDay(`t${i + 1}sexo`, i);
+    if (raw === "" || raw === null || raw === undefined) {
+      this.addStrike(
+        i,
+        "J: Sex question answered inconsistently" +
+          "\n  this day's survey was completed but the sex question was left blank"
+      );
+      return;
+    }
+
+    if (String(raw) === baseline.value) return;
+
+    this.addStrike(
+      i,
+      "J: Sex question answered inconsistently" +
+        `\n  answered ${this._answerLabel(participant, `t${i + 1}sexo`, raw)}` +
+        `, but day ${baseline.dayNumber} answered ${this._answerLabel(
+          participant,
+          `t${baseline.dayNumber}sexo`,
+          baseline.value
+        )}`
+    );
+  }
+
+  /**
+   * Strikes F and G: too many off-baseline answers inside the repeated parent
+   * sections, which is what straight-lining or careless clicking looks like.
+   *
+   * The four sections are found by field prefix rather than by column position
+   * (the desktop tool scans the export header for offsets, which breaks the
+   * moment REDCap reorders anything). A section is only judged when the
+   * participant said they did NOT translate for that parent, matching the
+   * desktop's tranm/tranf == 2 gate.
+   *
+   * F is one side, G is both.
+   */
+  _evaluateStrikeFG(participant, i) {
+    if (!this._surveyHappened(participant, i)) return;
+
+    const n = i + 1;
+    // tranm / tranf are 1 = Yes, 2 = No. The desktop gates on == 2, i.e. only
+    // judges a section when the participant said they did NOT translate it.
+    const motherApplies =
+      String(participant.getValueForDay(`t${n}tranm`, i)) === "2";
+    const fatherApplies =
+      String(participant.getValueForDay(`t${n}tranf`, i)) === "2";
+
+    const sections = [
+      { label: "1A", prefix: `t${n}mstr`, baseline: "1", enabled: motherApplies, side: "mother" },
+      { label: "1B", prefix: `t${n}fstr`, baseline: "1", enabled: fatherApplies, side: "father" },
+      { label: "2A", prefix: `t${n}mag`, baseline: "0", enabled: motherApplies, side: "mother" },
+      { label: "2B", prefix: `t${n}fag`, baseline: "0", enabled: fatherApplies, side: "father" },
+    ];
+
+    const flagged = [];
+    let motherFlagged = false;
+    let fatherFlagged = false;
+
+    for (const section of sections) {
+      if (!section.enabled) continue;
+      const offBaseline = this._countOffBaseline(
+        participant,
+        i,
+        section.prefix,
+        section.baseline
+      );
+      if (offBaseline > SECTION_INCONSISTENCY_ALLOWANCE) {
+        flagged.push({ label: section.label, side: section.side, count: offBaseline });
+        if (section.side === "mother") motherFlagged = true;
+        else fatherFlagged = true;
+      }
+    }
+
+    if (!flagged.length) return;
+
+    const bothSides = motherFlagged && fatherFlagged;
+    const letter = bothSides ? "G" : "F";
+    const sides = bothSides
+      ? "their mother or their father"
+      : motherFlagged
+      ? "their mother"
+      : "their father";
+
+    this.addStrike(
+      i,
+      `${letter}: Inconsistent answers for sections ${flagged
+        .map((f) => f.label)
+        .join(", ")}` +
+        `\n  said they did not translate for ${sides} today, but still answered` +
+        ` ${flagged
+          .map((f) => `${f.count} questions about it in section ${f.label}`)
+          .join(" and ")}` +
+        (bothSides
+          ? "\n  ⚠ both the mother and the father sections contradict the answer"
+          : "")
+    );
+  }
+
+  /**
+   * How many answers in a section are valid but differ from the section's
+   * baseline value. Fields are enumerated from the export's own column list, so
+   * a section that is absent simply contributes nothing.
+   */
+  _countOffBaseline(participant, dayIndex, prefix, baseline) {
+    const columns =
+      participant.data && Array.isArray(participant.data.columns)
+        ? participant.data.columns
+        : [];
+    const pattern = new RegExp(`^${prefix}\\d+$`);
+    let count = 0;
+    for (const column of columns) {
+      if (!pattern.test(column)) continue;
+      const value = participant.getValueForDay(column, dayIndex);
+      if (value === "" || value === null || value === undefined) continue;
+      if (!this._isValidAnswer(participant, column, value)) continue;
+      if (String(value) !== baseline) count++;
+    }
+    return count;
+  }
+
+  // Whether a value is one of the coded answers the data dictionary allows.
+  _isValidAnswer(participant, field, value) {
+    try {
+      const answers = participant.dataDict.getAnswers(field);
+      return !!answers && answers[String(value)] !== undefined;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // The human-readable label for a coded answer, falling back to the code.
+  _answerLabel(participant, field, value) {
+    try {
+      const answers = participant.dataDict.getAnswers(field);
+      const label = answers && answers[String(value)];
+      if (label) return `${String(label).trim()} (${value})`;
+    } catch (e) {
+      /* fall through */
+    }
+    return String(value);
   }
 
   // Raw REDCap survey timestamp string for a day, or null.
