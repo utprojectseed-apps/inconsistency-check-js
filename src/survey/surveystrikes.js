@@ -41,8 +41,9 @@ const WEEKDAY_NAMES = [
   "Sunday",
 ];
 
-// A survey finished at or before this time may name the following day for
-// Strike D without being wrong, since the participant is up past midnight.
+// A Strike D finish time at or before this is reported as an after-midnight
+// finish. It is context for a human reviewer only and never excuses a wrong
+// answer.
 const EARLY_HOURS_CUTOFF_MINUTES = 5 * 60;
 
 // Strikes F and G tolerate up to this many off-baseline answers in a section
@@ -277,8 +278,10 @@ class Strikes {
    * Strike D: does the participant know what day it is?
    *
    * t{n}dowee is a 1-7 radio (1 = Monday). A blank answer is flagged, and so is
-   * one that does not match the study day. A survey finished between midnight
-   * and 05:00 may legitimately name the following day, so that is accepted too.
+   * any answer that does not match the study day exactly. There is no leeway
+   * for a survey finished after midnight: the participant is expected to name
+   * the study day itself. A late finish is noted on the strike as context for
+   * whoever reviews it, but it never excuses the answer.
    */
   _evaluateStrikeD(participant, i) {
     // Only judge a day the participant actually took; an unfilled survey is
@@ -300,16 +303,13 @@ class Strikes {
     if (!Number.isFinite(answer) || answer < 1 || answer > 7) return;
 
     const expected = (i % 7) + 1;
-    // A survey finished in the small hours may name the next day instead.
-    const start = parseClock(participant.getValueForDay(`t${i + 1}strti`, i));
-    const end = parseClock(participant.getValueForDay(`t${i + 1}endti`, i));
-    const finishedOvernight =
-      (start !== null && start <= EARLY_HOURS_CUTOFF_MINUTES) ||
-      (end !== null && end <= EARLY_HOURS_CUTOFF_MINUTES);
-    const tolerated = ((i + 1) % 7) + 1;
-
     if (answer === expected) return;
-    if (finishedOvernight && answer === tolerated) return;
+
+    // Not a reprieve, just context: a survey finished in the small hours is
+    // worth knowing about when someone reviews the strike by hand.
+    const end = parseClock(participant.getValueForDay(`t${i + 1}endti`, i));
+    const finishedAfterMidnight =
+      end !== null && end <= EARLY_HOURS_CUTOFF_MINUTES;
 
     this.addStrike(
       i,
@@ -317,8 +317,10 @@ class Strikes {
         `\n  answered ${WEEKDAY_NAMES[answer - 1]}, but day ${i + 1} is a ${
           WEEKDAY_NAMES[expected - 1]
         }` +
-        (finishedOvernight
-          ? `\n  ⚠ finished after midnight, so ${WEEKDAY_NAMES[tolerated - 1]} would also have been accepted`
+        (finishedAfterMidnight
+          ? `\n  ⚠ finished at ${formatClock(
+              end * MS_PER_MINUTE
+            )}, after midnight; the study day is still what should have been answered`
           : "")
     );
   }
