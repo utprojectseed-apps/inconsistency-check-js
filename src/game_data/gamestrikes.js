@@ -32,6 +32,11 @@ export default class GameStrikes {
   };
 
   static Severity = {
+    // A strike worth showing in the report that does not ask anyone to reach
+    // out. The day's contact banner reduces with `Math.max(max, s.severity || 0)`
+    // and falls through to "--" at zero, so a strike at this level never
+    // escalates a day on its own.
+    NONE: 0, // No contact needed
     CONTACT_1: 1, // Text message needed
     CONTACT_2: 2, // Phone call needed
   };
@@ -243,6 +248,9 @@ export default class GameStrikes {
   getStrikeSummary() {
     return {
       totalStrikes: this.countStrikes(),
+      noContactStrikes: this.countStrikesBySeverity(
+        GameStrikes.Severity.NONE
+      ),
       contact1Strikes: this.countStrikesBySeverity(
         GameStrikes.Severity.CONTACT_1
       ),
