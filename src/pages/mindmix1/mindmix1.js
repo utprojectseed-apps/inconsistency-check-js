@@ -7,6 +7,7 @@ import CheckboxesTags from "../../components/checkboxestags";
 import {format, differenceInSeconds} from 'date-fns';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
 import StrikesSummary from '../../components/strikesummary';
+import LightsOut from '../../game_data/lightsout';
 // import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
@@ -14,13 +15,19 @@ export default function CognitiveGame() {
     const [simonData, setSimonData] = React.useState(undefined)
     const [csData, setCsData] = React.useState(undefined)
     const [fortuneData, setFortuneData] =  React.useState(undefined)
+    const [surveyData, setSurveyData] = React.useState(undefined)
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const bdsList = useRef(null)
     const simonList = useRef(null)
     const csList = useRef(null)
     const fortuneList = useRef(null)
+    // Strike L only exists once the REDCap export has been supplied. Without it
+    // this stays null and every lights-out check is skipped, so the four game
+    // CSVs on their own still produce exactly the report they always did.
+    const lightsOut = useRef(null)
 
-    const [errorMessage, setErrorMessage] = React.useState(undefined)   
+    const [errorMessage, setErrorMessage] = React.useState(undefined)
+    const [surveyWarning, setSurveyWarning] = React.useState(undefined)
     const [selectedIds, setSelectedIds] = React.useState([])
     const [allParticipantsIds, setAllParticipantsIds] = React.useState(undefined)
     const handleUpload = (d, game) => {
@@ -36,6 +43,9 @@ export default function CognitiveGame() {
                 break
             case "fortune":
                 setFortuneData(d)
+                break
+            case "survey":
+                setSurveyData(d)
                 break
             default:
                 throw new Error("Unknown game: " + game);
@@ -66,6 +76,21 @@ export default function CognitiveGame() {
             forceUpdate()
         }
     }, [bdsData, simonData, csData, fortuneData])
+    useEffect(() => {
+        if (surveyData === undefined) {
+            lightsOut.current = null
+        } else {
+            const index = new LightsOut(surveyData)
+            // An export with no participant_id column is the wrong file. Warn,
+            // but never through errorMessage — that suppresses the whole report,
+            // and the four game CSVs are still perfectly readable without this.
+            lightsOut.current = index.hasData() ? index : null
+            setSurveyWarning(index.hasData()
+                ? undefined
+                : "That file does not look like a REDCap export (no 'participant_id' column). Strike L will be skipped; the rest of the report is unaffected.")
+        }
+        forceUpdate()
+    }, [surveyData])
     return (
         <div>
             <div className="no-print">
@@ -81,14 +106,23 @@ export default function CognitiveGame() {
                 <CSVReader parentCallback={handleUpload} gameId="simon" key="simon"/>
                 <CSVReader parentCallback={handleUpload} gameId="cs" key="cs"/>
                 <CSVReader parentCallback={handleUpload} gameId="fortune" key="fortune"/>
+                <h4 style={{ marginBottom: 4 }}>
+                    Optional: the REDCap survey export, for the lights-off check (Strike L) on days 1-7.
+                    {" "}
+                    <span style={{ fontWeight: 400 }}>
+                        Leave this empty and the report is exactly as before.
+                    </span>
+                </h4>
+                <CSVReader parentCallback={handleUpload} gameId="survey" key="survey"/>
                 {new Date().getDay() === 1 && <NavLink to="../highlight">Click here to go to highlights page</NavLink>}
                 <div className='no-print' style={{display: 'flex'}}>
                     <CheckboxesTags ids={allParticipantsIds || []} parentCallback={handleSelected}/>
                 </div>
             </div>
             {errorMessage && <h2>{errorMessage}</h2>}
+            {surveyWarning && <h3 style={{ color: "#8a6d1f" }}>{surveyWarning}</h3>}
             <div id="cognitiveGames">
-                {!errorMessage && <CognitiveGamesReport bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} fortuneList={fortuneList.current} activeIds={selectedIds}/>}
+                {!errorMessage && <CognitiveGamesReport bdsList={bdsList.current} simonList={simonList.current} csList={csList.current} fortuneList={fortuneList.current} lightsOut={lightsOut.current} activeIds={selectedIds}/>}
             </div>
         </div>
     )
@@ -123,10 +157,48 @@ function CognitiveGamesReport(props) {
         bds={bdsList && bdsList.getParticipant(participant)} 
         simon={simonList && simonList.getParticipant(participant)} 
         cs={csList && csList.getParticipant(participant)}
-        fortune={fortuneList && fortuneList.getParticipant(participant)}/>)
+        fortune={fortuneList && fortuneList.getParticipant(participant)}
+        lightsOut={props.lightsOut}/>)
     return (
         participants
     )
+}
+
+/**
+ * When did this participant stop playing on this day?
+ *
+ * Strike L is anchored to the end of the day's last game, not its first: the
+ * latest last-trial timestamp across BDS, Simon and Color-Shape, compared
+ * rather than assumed, because games do get played out of order (there is a
+ * whole strike about it).
+ *
+ * Only the brain-games half of the cycle is checked. Days 8-14 are Fortune and
+ * are deliberately left alone.
+ *
+ * @returns {Date|null} null when nothing was played that day.
+ */
+function lastPlayEnd(day, games) {
+    let latest = null
+    for (const holder of games) {
+        const stamps = holder?.game?.getLastTrialTimestamps?.()
+        const value = stamps && stamps[day - 1]
+        // Days with no data are filled with a placeholder string, not a Date.
+        if (!(value instanceof Date) || isNaN(value.getTime())) continue
+        if (latest === null || value.getTime() > latest.getTime()) latest = value
+    }
+    return latest
+}
+
+/**
+ * Strike L for one day, or an empty list. Returns strike-shaped objects so they
+ * drop straight into StrikesSummary alongside the per-game strikes.
+ */
+function lightsOutStrikesForDay(day, participant, lightsOut, games) {
+    if (!lightsOut) return []
+    const anchor = lastPlayEnd(day, games)
+    if (anchor === null) return []
+    const strike = lightsOut.evaluate(participant, day, anchor)
+    return strike ? [strike] : []
 }
 
 /**
@@ -143,6 +215,7 @@ function ParticipantReport(props) { // hm should i just pass props into the game
     const days = props.bds.game.getCompletedDays().map(
         (day, i) => {
             return <CognitiveGameDayInfo key={i} day={i + 1} bds={props.bds} simon={props.simon} cs={props.cs} fortune={props.fortune}
+            participant={props.participant} lightsOut={props.lightsOut}
             />
         }
     )
@@ -242,7 +315,7 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
  * @param {Object} props.cs - The Color-Shape object.
  * @return {JSX.Element} The JSX element representing the day information.
  */
-function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i just pass props into the game day stuff
+function CognitiveGameDayInfo({day, bds, simon, cs, fortune, participant, lightsOut}) { // hm should i just pass props into the game day stuff
 
     if (day <= 7){
         console.log("bds")
@@ -418,7 +491,8 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
                         const bdsStrikes = bds?.game?.strikes?.getStrikesForDay(day) ?? []
                         const simonStrikes = simon?.game?.strikes?.getStrikesForDay(day) ?? []
                         const csStrikes = cs?.game?.strikes?.getStrikesForDay(day) ?? []
-                        return <StrikesSummary strikes={[...bdsStrikes, ...simonStrikes, ...csStrikes]} />
+                        const lStrikes = lightsOutStrikesForDay(day, participant, lightsOut, [bds, simon, cs])
+                        return <StrikesSummary strikes={[...bdsStrikes, ...simonStrikes, ...csStrikes, ...lStrikes]} />
                     })()}
             </div>
         );
@@ -459,6 +533,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
                     <p>Points: {points}</p>
                 </div>
                 {(() => {
+                    // No lights-out check on the Fortune half of the cycle.
                     const fortuneStrikes = fortune?.game?.strikes?.getStrikesForDay(day) ?? []
                     return <StrikesSummary strikes={fortuneStrikes} />
                 })()}
