@@ -21,7 +21,6 @@ export default class Simon extends Game {
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
         this.countNoInputTrialsDays();
-        this.getHighlights();
         this.generateStrikes();
     }
 

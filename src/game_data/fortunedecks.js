@@ -224,7 +224,6 @@ export default class FortuneDeck extends Game {
     }
 
     getHighlights(selectedReport) {
-        this.getGraphPoints()
         let points = this.points
         let trialCounts = this.count
         let accumulatedScores = this.accumulatedScore

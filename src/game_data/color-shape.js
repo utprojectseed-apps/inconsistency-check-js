@@ -24,7 +24,6 @@ export default class ColorShape extends Game {
         this.countPracticeTrialsAmountDays();
         this.calculatePracticeTrialsAccuracys();
         this.countNoInputTrialsDays();
-        this.getHighlights();
         this.generateStrikes();
     }
 
