@@ -8,7 +8,6 @@ import {format, differenceInSeconds} from 'date-fns';
 import StrikesSummary from '../../components/strikesummary';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
 import { estCompensation } from "../../game_data/compensation";
-// import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
     const [bdsData, setBdsData] = React.useState(undefined)
@@ -145,14 +144,11 @@ function ParticipantReport(props) { // hm should i just pass props into the game
 }
 
 function getAverageCompletionRates(bds, simon, cs) {
-//     const bdsRates = bds.game.getCompletedDays();
     let currCycle = bds.game.getCurrentCycle();
 
     if (currCycle > 14) {
         currCycle = 14;
     }
-    // const simonRates = simon.game.getCompletedDays();
-    // const csRates = cs.game.getCompletedDays();
     
     const avgRates = Array(14).fill(0);
 
@@ -257,7 +253,6 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
     const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
 
     const rate = getAverageCompletionRates(bds, simon, cs);
-    // console.log(rate);
     const [compRates, cumComp, potCumComp, bonusTypes] = estCompensation(rate, bds);
 
     return (
@@ -413,12 +408,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs}) { // hm should i just pass 
 
     const rate = getAverageCompletionRates(bds, simon, cs);
     const [compRates, cumComp, potCumComp, bonusTypes] = estCompensation(rate, bds);
-    // console.log(compRates)
-    // console.log("day", day)
-    // console.log(compRates[day - 1])
 
-    // console.log("Cumulative")
-    // console.log(cumComp)
     return (
 
         <div className='dayinformation'>

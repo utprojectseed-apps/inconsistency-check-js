@@ -52,7 +52,6 @@ function FortuneAllGraph(props) {
             data[day - 1][participant.getId()] = score[day - 1]
         }
     }
-    // const lines = participantList.getIds().map(id => <Line type="monotone" datakey={id+""} name={id} activeDot={{ r: 8 }} />)
     const hexColors = ["#519DE9", "#7CC674", "#8481DD", "#F6D173", "#EF9234", "#A30000", "#6A6E73", "#73C5C5"]
 
     return (

@@ -1,4 +1,3 @@
-//import * as dfd from 'danfojs';
 import Participant from "./participant";
 
 

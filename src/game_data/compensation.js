@@ -8,11 +8,8 @@ export function estCompensation(avgCompletionRates, bds) {
     const cumulativeComp = Array(14).fill(0);
     const potentialCumComp = Array(14).fill(0);
 
-    //console.log("we are in est")
     for (let i = 0; i < 14; ++i) {
-        //console.log("inside loop")
         if (avgCompletionRates[i] > 0.5) { // .5
-            //console.log("HERE")
             compRates[i] = `$ ${(BASE_COMP + BONUS_AMOUNTS[i]).toFixed(2)}`;
             cumulativeComp[i] = BASE_COMP + BONUS_AMOUNTS[i];
         } else if (avgCompletionRates[i] > 0) {

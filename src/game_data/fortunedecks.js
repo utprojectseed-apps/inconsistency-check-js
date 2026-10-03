@@ -150,26 +150,12 @@ export default class FortuneDeck extends Game {
         return this.points
     }
 
-    getStartPoints() {
-        //TODO: get start points from df - WHAT IN THE WORLD IS THIS FOR
-        // NOT USED
-        return 2500;
-    }
-
     getScores() {
         return this.score
     }
 
     getScore(day) {
         return this.score[day - 1]
-    }
-
-    getCounts() {
-        return this.count
-    }
-
-    getCount(day) {
-        return this.count[day - 1]
     }
 
     getPoints() {

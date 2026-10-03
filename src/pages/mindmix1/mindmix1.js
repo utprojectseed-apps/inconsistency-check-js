@@ -8,7 +8,6 @@ import {format, differenceInSeconds} from 'date-fns';
 import {REPORT_DT_HM_FORMAT} from '../../game_data/constants';
 import StrikesSummary from '../../components/strikesummary';
 import LightsOut from '../../game_data/lightsout';
-// import GamesFullReport from "../../components/gamesfullreport";
 
 export default function CognitiveGame() {
     const [bdsData, setBdsData] = React.useState(undefined)
