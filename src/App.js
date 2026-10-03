@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { NavLink, Routes, Route, useLocation } from "react-router-dom";
-import Logo from "./favicon.png"; // adjust path if needed
+import Logo from "./favicon.png";
 import FortuneHome from "./pages/fortune";
 import CognitivePage from "./pages/cognitive";
 import MindMix1Page from "./pages/mindmix1";
