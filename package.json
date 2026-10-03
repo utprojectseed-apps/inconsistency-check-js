@@ -1,7 +1,7 @@
 {
   "name": "inconsistency-check-js",
-  "version": "0.1.0",
-  "private": false,
+  "version": "3.1.1",
+  "private": true,
   "homepage": "https://utprojectseed-apps.github.io/inconsistency-check-js",
   "dependencies": {
     "@emotion/react": "^11.11.4",
