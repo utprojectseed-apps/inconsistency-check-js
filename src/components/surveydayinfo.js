@@ -1,4 +1,3 @@
-import Strikes from "../survey/surveystrikes.js";
 
 export default function SurveyDayInfo({day, participant}) {
     const completionRate = (participant.getPercentComplete()[day - 1] * 100).toFixed(2)

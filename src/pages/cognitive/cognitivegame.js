@@ -253,7 +253,7 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
     const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
 
     const rate = getAverageCompletionRates(bds, simon, cs);
-    const [compRates, cumComp, potCumComp, bonusTypes] = estCompensation(rate, bds);
+    const [, cumComp, potCumComp] = estCompensation(rate, bds);
 
     return (
         <div className="participant-header">

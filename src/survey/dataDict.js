@@ -1,5 +1,4 @@
 import * as dfd from 'danfojs';
-import data from './FortuneDataDict.csv'
 
 
 export default class DataDict {

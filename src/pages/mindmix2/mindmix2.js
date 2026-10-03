@@ -192,22 +192,6 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
                 // determine the most recent day that any game had activity (1-based)
                 let lastPlayed = 0
                 const totalDays = 14
-                const hasSessions = (game) => {
-                    try {
-                        const ns = game?.getNumberSessionsDays ? game.getNumberSessionsDays() : []
-                        for (let i = 0; i < ns.length; i++) {
-                            const v = ns[i]
-                            if ((Array.isArray(v) && v.length > 0) || (typeof v === 'number' && v > 0)) return true
-                        }
-                        const comps = game?.getCompletedDays ? game.getCompletedDays() : []
-                        for (let i = 0; i < comps.length; i++) {
-                            if (comps[i] && comps[i] > 0) return true
-                        }
-                    } catch (e) {
-                        // ignore
-                    }
-                    return false
-                }
 
                 // scan days from latest to earliest and pick the last index any game shows activity
                 for (let i = totalDays - 1; i >= 0; --i) {

@@ -7,7 +7,6 @@ import SurveyFullReport from "../../components/surveyfullreport";
 export default function Mindmix1SurveyDisplay() {
   const [data, setData] = React.useState(undefined);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [errorMessage, setErrorMessage] = React.useState(undefined);
   const [ids, setIds] = React.useState(undefined);
   const [selectedIds, setSelectedIds] = React.useState(undefined);
   const [loading, setLoading] = React.useState(false);
@@ -48,7 +47,7 @@ export default function Mindmix1SurveyDisplay() {
         <CheckboxesTags className="no-print" ids={ids} parentCallback={handleSelected}/>
       </div>
 
-      {!loading && !errorMessage && <SurveyFullReport participantList={survey.current} activeIds={selectedIds}/>}
+      {!loading && <SurveyFullReport participantList={survey.current} activeIds={selectedIds}/>}
     </div>
   );
 }

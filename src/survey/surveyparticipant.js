@@ -283,7 +283,7 @@ export default class SurveyParticipant {
         // timestamp expected like "YYYY-MM-DD HH:MM:SS" (no timezone)
         // store the human-readable HH:MM for display
         let [date, time] = timestamp.split(" ");
-        let [hours, minutes, seconds] = time.split(":");
+        let [hours, minutes] = time.split(":");
         let submitHour = parseInt(hours);
         if (isNaN(submitHour)) {
           this.submitTimes[i] = "--:--";
