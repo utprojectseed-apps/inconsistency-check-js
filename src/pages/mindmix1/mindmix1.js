@@ -318,7 +318,6 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
 function CognitiveGameDayInfo({day, bds, simon, cs, fortune, participant, lightsOut}) { // hm should i just pass props into the game day stuff
 
     if (day <= 7){
-        console.log("bds")
         const bdsSessions = bds.game?.getNumberSessionsDays()?.[day - 1] ?? '0'
         const bdsCompletion = bds.game?.getCompletedDays()?.[day - 1] ?? 0
         const bdsSessionAccuracy = bds.game?.getMeanSessionsAccuracys()?.[day - 1] ?? '0'
@@ -497,7 +496,6 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune, participant, lights
             </div>
         );
     } else { // day 8 - 14
-        console.log("fortune")
         const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         const weekday = weekdays[(day - 1) % 7]
         const fortuneCompletion = fortune.game?.getCompletedDays()?.[day - 1] ?? 0

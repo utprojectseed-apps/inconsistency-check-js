@@ -146,7 +146,6 @@ function ParticipantReport(props) { // hm should i just pass props into the game
 
 function getAverageCompletionRates(bds, simon, cs) {
 //     const bdsRates = bds.game.getCompletedDays();
-    console.log("bds", bds.game.getCompletedDays())
     let currCycle = bds.game.getCurrentCycle();
 
     if (currCycle > 14) {
@@ -162,15 +161,11 @@ function getAverageCompletionRates(bds, simon, cs) {
         let count = 3;
 
         let curr_bds = bds.game?.getCompletedDays()[i] ?? 0.0;
-        console.log("bds rate", curr_bds)
         let curr_simon = simon.game?.getCompletedDays()[i] ?? 0.0;
-        console.log("simon rate ", curr_simon)
         let curr_cs = cs.game?.getCompletedDays()[i] ?? 0.0;
-        console.log("cs rate ", curr_cs)
         total += curr_bds + curr_simon + curr_cs
 
         const average = (total / (count * 100)).toFixed(2); // scale down to 0-1
-        console.log("AVERAGE", average)
         avgRates[i] = (parseFloat(average));
     }
 
@@ -259,7 +254,6 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
     const aggregatedAvg = avgVals.length > 0 ? (avgVals.reduce((a, b) => a + b, 0) / avgVals.length).toFixed(2) + '%' : '--'
 
     const CYCLE_DAY = bds.game.getCurrentCycle();
-    console.log("CYCLE DAY: ",CYCLE_DAY)
     const CYCLE_FINISHED = bds.game.getCurrentCycle() >= 13;
 
     const rate = getAverageCompletionRates(bds, simon, cs);

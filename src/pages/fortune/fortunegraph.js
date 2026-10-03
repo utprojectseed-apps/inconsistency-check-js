@@ -53,7 +53,6 @@ function FortuneAllGraph(props) {
         }
     }
     // const lines = participantList.getIds().map(id => <Line type="monotone" datakey={id+""} name={id} activeDot={{ r: 8 }} />)
-    console.log(data)
     const hexColors = ["#519DE9", "#7CC674", "#8481DD", "#F6D173", "#EF9234", "#A30000", "#6A6E73", "#73C5C5"]
 
     return (

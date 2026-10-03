@@ -220,7 +220,6 @@ export default class FortuneDeck extends Game {
             // points = simplify(points) removed package for now.
             allPoints[i] = points
         }
-        console.log(allPoints)
         return allPoints
     }
 

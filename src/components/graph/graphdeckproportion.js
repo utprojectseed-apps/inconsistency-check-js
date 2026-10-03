@@ -25,7 +25,6 @@ export default function GraphDeckProportion( {participant} ) {
         }
         data.push(day)
     }
-    console.log(rawData.length, rawData[0].length)
     const daysGraphs = data.map((day, index) => <GraphSingleDay key={index} data={day} day={index} id={participant.getId()}/>)
     return (
         <div className="proportion-graph">

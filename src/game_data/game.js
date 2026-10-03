@@ -241,16 +241,6 @@ export default class Game {
                         this.strikes.addAccuracyStrike(day, task, accFrac, accSeverity, isBDS);
                     }
                 }
-
-                    // DEBUG: Log per-day normalized inputs and computed strikes (helpful in production bundle)
-                    try {
-                        const dayStrikes = this.strikes.getStrikesForDay(day) || [];
-                        // avoid overwhelming logs — use debug level
-                        console.debug(`[STRIKES DEBUG] ${task} day=${day} sessions=${sessions} completionRaw=${String(completionRaw)} accuracyRaw=${String(accuracyRaw)} strikesCount=${dayStrikes.length} strikeDetails=${JSON.stringify(dayStrikes)}`);
-                    } catch (e) {
-                        // swallow any logging issues
-                        console.debug('[STRIKES DEBUG] logging failed', e);
-                    }
             }
         }
     }

@@ -670,8 +670,6 @@ export default class SurveyParticipant {
         }
       }
       this.percentComplete[i] = possTotal > 0 ? (possTotal - numMissed) / possTotal : 0;
-      console.log(`[DEBUG] Day ${i+1}: possTotal=${possTotal}, numMissed=${numMissed}, pct=${(this.percentComplete[i]*100).toFixed(2)}%`);
-      console.log(`[DEBUG] Day ${i+1} missed cols:`, incompletedQuestions);
       for (let j = 0; j < incompletedQuestions.length; ++j) {
         try {
           // Safely get question text, handling cases where the field might not be in the data dictionary
