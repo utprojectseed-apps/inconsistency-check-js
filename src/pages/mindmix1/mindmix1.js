@@ -68,7 +68,7 @@ export default function CognitiveGame() {
                 fortuneList.current = fortuneData !== undefined ? new ParticipantList(participants, fortuneData) : null
                 let allList = []
                 allList.push(...[bdsList.current, simonList.current, csList.current, fortuneList.current].filter(list => list !== null && list !== undefined))
-                let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
+                let participantIds = new Set(allList.flatMap(participantList => participantList.participants.map(participant => participant.id)))
                 setAllParticipantsIds([...participantIds])
                 setErrorMessage(undefined)
             }
@@ -146,7 +146,7 @@ function CognitiveGamesReport(props) {
     let allList = []
     allList.push(...[bdsList, simonList, csList, fortuneList].filter(list => list !== null && list !== undefined))
 
-    let participantIds = new Set(...allList.map(participantList => participantList.participants.map(participant => participant.id)))
+    let participantIds = new Set(allList.flatMap(participantList => participantList.participants.map(participant => participant.id)))
     const filteredParticipants = Array.from(participantIds).filter(participant => {
         return props.activeIds.includes(participant)})
 
