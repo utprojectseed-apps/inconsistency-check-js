@@ -17,7 +17,7 @@ export default function SimonGameDayInfo({day, participant}) {
     return (
         <div className='dayinformation'>
             <div className='day-bar' style={{width: `${completion}%`}}></div>
-            <h2 className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(completion)}`}}>Day: {day}</h2>
+            <h2 className="day-header" style={{backgroundColor: `${header_color(completion)}`}}>Day: {day}</h2>
             <h4>Simon Task:</h4>
             <div className="day-details">
                 <p>Sessions started: {numberSessions}</p>

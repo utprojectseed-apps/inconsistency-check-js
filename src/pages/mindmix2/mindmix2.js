@@ -339,7 +339,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
         return (
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${bdsCompletion}%`}}></div>
-                    <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
+                    <div className="day-header" style={{backgroundColor: `${header_color(bdsCompletion, simonCompletion, csCompletion)}`}}>
                         <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {bds?.game?.getWeekDay()?.[day - 1] || ''} {bds?.game?.getCurrentDay()?.[day - 1] || ''}</h5>
                         <h5>{(completionText(bdsCompletion, simonCompletion, csCompletion))}</h5>
                         <h5>Started: {started} </h5>
@@ -446,7 +446,7 @@ function CognitiveGameDayInfo({day, bds, simon, cs, fortune}) { // hm should i j
         return ( // day 1 - 7 fortune fortune.game.getCurrentDay()[day - 1] -.-
             <div className='dayinformation'>
                 <div className='day-bar' style={{width: `${fortuneCompletion}%`}}></div>
-                <div className={`day-header ${header_color}`} style={{backgroundColor: `${header_color(fortuneCompletion)}`}}> 
+                <div className="day-header" style={{backgroundColor: `${header_color(fortuneCompletion)}`}}> 
                     <h5>Day {day} - W{Math.floor((day - 1) / 7) + 1} {weekday} {fortune.game?.getCurrentDay()?.[day - 1] || '--'}</h5> 
                     <h5>{(completionText(fortuneCompletion))}</h5>
                 </div>
