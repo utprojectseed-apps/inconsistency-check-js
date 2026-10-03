@@ -1,12 +1,13 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
-export default function GraphPoints( {participant, lang, daysToShow = 14, opt=1} ) {
-    // suppress error from defaultProps and Recharts
-    const error = console.error;
-    console.error = (...args) => {
+// suppress error from defaultProps and Recharts
+const error = console.error;
+console.error = (...args) => {
     if (/defaultProps/.test(args[0])) return;
     error(...args);
-    };
+};
+
+export default function GraphPoints( {participant, lang, daysToShow = 14, opt=1} ) {
     const rawData = participant.game.getGraphPoints()
 
     let startDay;
