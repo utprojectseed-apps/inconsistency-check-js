@@ -22,7 +22,8 @@
     "deploy": "pnpm test --run && pnpm run build && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf build"
   },
   "eslintConfig": {
     "extends": [
