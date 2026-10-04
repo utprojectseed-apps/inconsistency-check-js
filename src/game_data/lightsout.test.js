@@ -9,6 +9,7 @@ const lights = new LightsOut(
     startdt: "2026-09-07",
     days: {
       2: { timestamp: "2026-09-08 21:30:00", act3h: 10, act3m: 4, act3p: 1 }, // 10:30 PM
+      5: { timestamp: "2026-09-11 21:30:00", act3h: 11 }, // "11", no minutes or AM/PM
       8: { timestamp: "2026-09-14 21:30:00" }, // lights-off left blank
     },
   })
@@ -27,6 +28,13 @@ describe("LightsOut", () => {
 
   it("stays silent under 2 hours", () => {
     expect(lights.evaluate("9001", 1, finished(1, 21))).toBeNull();
+  });
+
+  it("reads a bare hour as the one nearer midnight, and says so", () => {
+    expect(lights.evaluate("9001", 4, finished(4, 20))).toMatchObject({
+      message: "finished playing 20:00 → lights off 23:00 (gap 3h), reported on day 5",
+      notes: ["bedtime AM/PM unanswered, read as PM", "bedtime minutes unanswered, treated as :00"],
+    });
   });
 
   it("strikes a blank answer on a survey that was taken", () => {
