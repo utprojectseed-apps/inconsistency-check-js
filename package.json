@@ -19,7 +19,7 @@
     "recharts": "^2.12.7"
   },
   "scripts": {
-    "deploy": "pnpm run build && gh-pages -d build",
+    "deploy": "pnpm test --run && pnpm run build && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "vitest"

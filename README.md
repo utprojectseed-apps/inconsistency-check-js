@@ -9,7 +9,7 @@ participant exports.
 pnpm install
 pnpm start                  # http://localhost:3000
 pnpm test                   # watch mode; `pnpm test --run` runs once
-pnpm run deploy             # builds and publishes to gh-pages (`pnpm deploy` is a different, built-in command)
+pnpm run deploy             # tests, builds and publishes to gh-pages (`pnpm deploy` is a different, built-in command)
 ```
 
 - Strike rules: `src/survey/surveystrikes.js`, `src/game_data/gamestrikes.js`, `src/game_data/lightsout.js`
