@@ -32,20 +32,20 @@ def stamp(dt):
     return dt.strftime("%Y-%m-%d %H:%M:%S") + " (Central Daylight Time)"
 
 
-def common(day, session_uuid, began, experiment_name):
+def common(day, session_uuid, began, experiment_name, pid=PID):
     return dict(
         cycle_start_date=START, connectivity=None, role="adolescent", day=str(day),
         last_commit="abc1234", lang="eng", experiment_name=experiment_name,
-        subject_id=PID, study_id="77897789", session_id=session_uuid,
+        subject_id=pid, study_id="77897789", session_id=session_uuid,
         session_uuid=session_uuid, CurrentDate=stamp(began), useragent=UA,
         on_mobile=True, screen_availHeight=844, screen_availWidth=390,
-        Subject=PID, stimulus_load_time=12,
+        Subject=pid, stimulus_load_time=12,
     )
 
 
-def record(activity_id, task_version, session_uuid, began, trials, **extra):
+def record(activity_id, task_version, session_uuid, began, trials, pid=PID, **extra):
     return dict(
-        study_uid="Project SEED", user_uid=PID, session_uid=session_uuid,
+        study_uid="Project SEED", user_uid=pid, session_uid=session_uuid,
         session_uuid=session_uuid, role="adolescent", activity_id=activity_id,
         timestamp_start=began.isoformat(), task_version=task_version,
         useragent=UA, debug_flag="false", event_type="on_finish()",
@@ -63,10 +63,10 @@ def instructions(base, began, index):
 BDS_LENGTHS = [2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
 
 
-def bds_session(day, began, n_test, n_correct, n_training=4):
-    su = new_uuid()
+def bds_session(day, began, n_test, n_correct, n_training=4, pid=PID, su=None):
+    su = su or new_uuid()
     # the task's jsPsych addProperties defaults, which every trial carries
-    base = dict(common(day, su, began, "projectseed-bds-production"),
+    base = dict(common(day, su, began, "projectseed-bds-production", pid),
                 ExperimentName="BDS-Seed", Session=1, List=str(day), Trial=None,
                 TestTrial=None, accuracy=None, response=None)
     trials = [instructions(base, began, 0)]
@@ -252,6 +252,9 @@ def fortune_records():
 if __name__ == "__main__":
     os.chdir(tempfile.mkdtemp())  # json2csv writes timestamped folders into the cwd
     cog = {**bds_records(), **simon_records(), **cs_records()}
-    j2c.process_data("Mind Mix 1", data=[{PID: {"cog": cog, "igt": fortune_records()}}])
+    # a second QA participant who played BDS once, to check rows stay apart
+    su, trials = bds_session(1, datetime(2026, 9, 7, 19, 0), 14, 14, pid="9002", su="second-participant")
+    other = {f"bds-{su}": record("projectseed-bds-production", "0.3a", su, datetime(2026, 9, 7, 19, 0), trials, pid="9002")}
+    j2c.process_data("Mind Mix 1", data=[{PID: {"cog": cog, "igt": fortune_records()}, "9002": {"cog": other}}])
     for path in j2c._LAST_OUTPUT_FILES:  # ".../2026-10-03-1933-bds.csv" -> "bds.csv"
         shutil.copy(path, HERE / path.rsplit("-", 1)[1])

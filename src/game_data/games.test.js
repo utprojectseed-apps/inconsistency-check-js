@@ -6,11 +6,11 @@ import { readFixture } from "../testing";
 // The fixtures are QA participant 9001's Mind Mix 1 cycle (brain games days
 // 1-7, Fortune Decks days 8-14), made by running synthetic Firebase records
 // through json2csv-cogtask. See fixtures/generate.py for the day-by-day plan.
-function load(name, idColumn) {
+function load(name, idColumn, id = "9001") {
   const data = readFixture(new URL(`./fixtures/${name}.csv`, import.meta.url));
   // the same steps a report page takes after an upload
   const ids = new dfd.Series(data[idColumn].values).unique();
-  return new ParticipantList(ids, data).getParticipant("9001").game;
+  return new ParticipantList(ids, data).getParticipant(id).game;
 }
 
 const firstWeek = (values) => values.slice(0, 7);
@@ -45,6 +45,14 @@ describe("BDS", () => {
     // day 7 was played at 00:20 on the calendar date of day 8
     expect(bds.getStartTimes()[6]).toBe("09/14/2026 00:20");
     expect(bds.getNumberSessionsDays()[7]).toBe(0);
+  });
+
+  it("keeps each participant's rows apart", () => {
+    // 9002 played day 1 only, at 19:00, getting every trial right
+    const other = load("bds", "Subject", "9002");
+    expect(firstWeek(other.getCompletedDays())).toEqual([100, 0, 0, 0, 0, 0, 0]);
+    expect(other.getMeanSessionsAccuracys()[0]).toBe("100.00");
+    expect(other.getStartTimes()[0]).toBe("09/07/2026 19:00");
   });
 });
 
