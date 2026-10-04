@@ -1,5 +1,5 @@
 import React from 'react';
-import * as dfd from 'danfojs'
+import rowsToFrame from './csvframe';
 import { useCSVReader } from 'react-papaparse';
 
 const styles = {
@@ -35,19 +35,7 @@ export default function CSVReader({parentCallback, gameId}) {
   return (
     <CSVReader
       onUploadAccepted={(results) => {
-        const lines = results.data
-        const keys = lines[0];
-        const array = [];
-        for(let i = 1 ; i < lines.length; ++i) {
-          const values = lines[i]
-          const dict = {};
-          for(let k = 0; k < keys.length; ++k) {
-            dict[keys[k]] = values[k];
-          }
-          array.push(dict);
-        }
-        let df = new dfd.DataFrame(array)
-        parentCallback(df, gameId)
+        parentCallback(rowsToFrame(results.data), gameId)
       }}
     >
       {({
