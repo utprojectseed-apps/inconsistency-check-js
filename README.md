@@ -8,7 +8,6 @@ participant exports.
 ```bash
 pnpm install
 pnpm start                  # http://localhost:3000
-pnpm test --watchAll=false
 pnpm run deploy             # builds and publishes to gh-pages (`pnpm deploy` is a different, built-in command)
 ```
 
