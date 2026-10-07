@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/inconsistency-check-js/static/css/main.cc0d1ef4.css",
-    "main.js": "/inconsistency-check-js/static/js/main.48482e3b.js",
+    "main.js": "/inconsistency-check-js/static/js/main.f54d55f5.js",
     "static/js/899.2debb479.chunk.js": "/inconsistency-check-js/static/js/899.2debb479.chunk.js",
     "static/js/497.4742f5f5.chunk.js": "/inconsistency-check-js/static/js/497.4742f5f5.chunk.js",
     "static/media/CognitiveDataDict.csv": "/inconsistency-check-js/static/media/CognitiveDataDict.777fc1336b699c97b58f.csv",
@@ -13,6 +13,6 @@
   },
   "entrypoints": [
     "static/css/main.cc0d1ef4.css",
-    "static/js/main.48482e3b.js"
+    "static/js/main.f54d55f5.js"
   ]
 }
