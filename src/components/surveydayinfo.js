@@ -14,11 +14,14 @@ export default function SurveyDayInfo({day, participant}) {
         return "NOT COMPLETED"
     };
     const strikes = participant.getStrikesForDay(day - 1);
+    const scheduledDate = participant.getScheduledDate(day - 1);
+    const enteredDate = participant.getDate(day - 1);
+    const showEntered = /^\d{4}-\d{2}-\d{2}$/.test(enteredDate) && enteredDate !== scheduledDate;
     const isMissingSurvey = participant.cyclePassed(day - 1) && participant.getPercentComplete()[day - 1] === 0 && participant.getDay(day - 1) === 0;
     return (
         <div className='dayinformation'>
             <div className={`day-header ${header_color(completionRate)}`} style={{backgroundColor: `${header_color(completionRate)}`}}>
-                <h4>Day {day} - W{Math.floor((day - 1) / 7) + 1} ({participant.getDate(day - 1)})</h4>
+                <h4>Day {day} - W{Math.floor((day - 1) / 7) + 1} ({scheduledDate}){showEntered && <><br/><i>(submitted {enteredDate})</i></>}</h4>
                 <h4>{(completionText())} ({completionRate}%)</h4>
                 <h4>Survey Duration: {participant.getDuration(day - 1)}</h4>
                 <h4>Submission Time: {participant.getSubmitTime(day - 1)}</h4>

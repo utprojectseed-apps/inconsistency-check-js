@@ -122,6 +122,8 @@ describe("SurveyParticipant", () => {
 
   it("shows each day's date, submit time and duration", () => {
     expect([0, 4, 5].map((i) => participant.getDate(i))).toEqual(["2026-09-07", "Not Submitted", "2026-09-12"]);
+    // the header uses the schedule, not the typed date, so after-midnight days don't repeat a date
+    expect([0, 5, 13].map((i) => participant.getScheduledDate(i))).toEqual(["2026-09-07", "2026-09-12", "2026-09-20"]);
     expect([0, 4].map((i) => participant.getSubmitTime(i))).toEqual(["21:30", "--:--"]);
     expect([0, 12].map((i) => participant.getDuration(i))).toEqual(["00:10", "00:50"]);
   });

@@ -104,6 +104,16 @@ export default class SurveyParticipant {
     return this.dates[day];
   }
 
+  // The calendar date the schedule assigns to a day: startdt + day. Unlike
+  // getDate(), which is the participant's own "Today's date" answer and reads
+  // a day late when they start after midnight.
+  getScheduledDate(day) {
+    const date = new Date(this.data["startdt"].values[0] + "T00:00:00Z");
+    if (isNaN(date.getTime())) return "--";
+    date.setUTCDate(date.getUTCDate() + day);
+    return SurveyParticipant.formatDate(date);
+  }
+
   static formatDate(date) {
     return (
       date.getUTCFullYear() +
