@@ -46,10 +46,6 @@ const WEEKDAY_NAMES = [
 // answer.
 const EARLY_HOURS_CUTOFF_MINUTES = 5 * 60;
 
-// Strikes F and G tolerate up to this many off-baseline answers in a section
-// before treating the block as inconsistent.
-const SECTION_INCONSISTENCY_ALLOWANCE = 3;
-
 const MS_PER_MINUTE = 60 * 1000;
 const MS_PER_DAY = 24 * 60 * MS_PER_MINUTE;
 
@@ -385,73 +381,98 @@ class Strikes {
   }
 
   /**
-   * Strikes F and G: too many off-baseline answers inside the repeated parent
-   * sections, which is what straight-lining or careless clicking looks like.
+   * Strikes F and G: parent sections that contradict the "did you translate
+   * for your mother / father today?" answer.
    *
    * The four sections are found by field prefix rather than by column position
    * (the desktop tool scans the export header for offsets, which breaks the
-   * moment REDCap reorders anything). A section is only judged when the
-   * participant said they did NOT translate for that parent, matching the
-   * desktop's tranm/tranf == 2 gate.
+   * moment REDCap reorders anything). REDCap has no branching on these
+   * sections, so both directions of contradiction can happen:
+   *  - said No (tranm/tranf == 2) but gave any answer other than "I didn't
+   *    translate" for that parent;
+   *  - said Yes (== 1) but answered any question for that parent as "I
+   *    didn't translate".
    *
-   * F is one side, G is both.
+   * F is one parent (1A/2A or 1B/2B), G is both. Confirmed with the RAs.
    */
   _evaluateStrikeFG(participant, i) {
     if (!this._surveyHappened(participant, i)) return;
 
     const n = i + 1;
-    // tranm / tranf are 1 = Yes, 2 = No. The desktop gates on == 2, i.e. only
-    // judges a section when the participant said they did NOT translate it.
-    const motherApplies =
-      String(participant.getValueForDay(`t${n}tranm`, i)) === "2";
-    const fatherApplies =
-      String(participant.getValueForDay(`t${n}tranf`, i)) === "2";
-
-    const sections = [
-      { label: "1A", prefix: `t${n}mstr`, baseline: "1", enabled: motherApplies, side: "mother" },
-      { label: "1B", prefix: `t${n}fstr`, baseline: "1", enabled: fatherApplies, side: "father" },
-      { label: "2A", prefix: `t${n}mag`, baseline: "0", enabled: motherApplies, side: "mother" },
-      { label: "2B", prefix: `t${n}fag`, baseline: "0", enabled: fatherApplies, side: "father" },
+    const parents = [
+      {
+        side: "mother",
+        answer: String(participant.getValueForDay(`t${n}tranm`, i)),
+        sections: [
+          { label: "1A", prefix: `t${n}mstr`, baseline: "1" },
+          { label: "2A", prefix: `t${n}mag`, baseline: "0" },
+        ],
+      },
+      {
+        side: "father",
+        answer: String(participant.getValueForDay(`t${n}tranf`, i)),
+        sections: [
+          { label: "1B", prefix: `t${n}fstr`, baseline: "1" },
+          { label: "2B", prefix: `t${n}fag`, baseline: "0" },
+        ],
+      },
     ];
 
-    const flagged = [];
-    let motherFlagged = false;
-    let fatherFlagged = false;
+    const flagged = []; // sections answered after saying No
+    const unused = []; // parents said Yes to, with every answer saying No
 
-    for (const section of sections) {
-      if (!section.enabled) continue;
-      const offBaseline = this._countOffBaseline(
-        participant,
-        i,
-        section.prefix,
-        section.baseline
-      );
-      if (offBaseline > SECTION_INCONSISTENCY_ALLOWANCE) {
-        flagged.push({ label: section.label, side: section.side, count: offBaseline });
-        if (section.side === "mother") motherFlagged = true;
-        else fatherFlagged = true;
+    for (const parent of parents) {
+      const counts = parent.sections.map((s) => ({
+        ...s,
+        ...this._countSection(participant, i, s.prefix, s.baseline),
+      }));
+      if (parent.answer === "2") {
+        for (const c of counts) {
+          if (c.offBaseline > 0) {
+            flagged.push({ label: c.label, side: parent.side, count: c.offBaseline });
+          }
+        }
+      } else if (parent.answer === "1") {
+        const notTranslated = counts.filter((c) => c.answered > c.offBaseline);
+        if (notTranslated.length) {
+          unused.push({
+            labels: notTranslated.map((c) => c.label),
+            side: parent.side,
+            count: notTranslated.reduce((sum, c) => sum + c.answered - c.offBaseline, 0),
+            answered: counts.reduce((sum, c) => sum + c.answered, 0),
+          });
+        }
       }
     }
 
-    if (!flagged.length) return;
+    if (!flagged.length && !unused.length) return;
 
-    const bothSides = motherFlagged && fatherFlagged;
+    const flaggedSides = new Set([...flagged, ...unused].map((f) => f.side));
+    const bothSides = flaggedSides.size === 2;
     const letter = bothSides ? "G" : "F";
-    const sides = bothSides
-      ? "their mother or their father"
-      : motherFlagged
-      ? "their mother"
-      : "their father";
+    const labels = [...flagged.map((f) => f.label), ...unused.flatMap((u) => u.labels)].sort();
+
+    let detail = "";
+    if (flagged.length) {
+      const sides = new Set(flagged.map((f) => f.side));
+      const who =
+        sides.size === 2 ? "their mother or their father" : `their ${flagged[0].side}`;
+      detail +=
+        `\n  said they did not translate for ${who} today, but still answered` +
+        ` ${flagged
+          .map((f) => `${f.count} question${f.count === 1 ? "" : "s"} about it in section ${f.label}`)
+          .join(" and ")}`;
+    }
+    for (const u of unused) {
+      detail +=
+        `\n  said they translated for their ${u.side} today, but answered ${u.count} of` +
+        ` ${u.answered} questions in sections ${u.labels.join(", ")} as not translating`;
+    }
 
     this.addStrike(
       i,
-      `${letter}: Inconsistent answers for sections ${flagged
-        .map((f) => f.label)
-        .join(", ")}` +
-        `\n  said they did not translate for ${sides} today, but still answered` +
-        ` ${flagged
-          .map((f) => `${f.count} questions about it in section ${f.label}`)
-          .join(" and ")}` +
+      `${letter}: Inconsistent answers for sections ${labels.join(", ")}` +
+        detail +
         (bothSides
           ? "\n  ⚠ both the mother and the father sections contradict the answer"
           : "")
@@ -459,25 +480,27 @@ class Strikes {
   }
 
   /**
-   * How many answers in a section are valid but differ from the section's
-   * baseline value. Fields are enumerated from the export's own column list, so
-   * a section that is absent simply contributes nothing.
+   * How many valid answers a section has, and how many of them differ from the
+   * section's baseline value. Fields are enumerated from the export's own
+   * column list, so a section that is absent simply contributes nothing.
    */
-  _countOffBaseline(participant, dayIndex, prefix, baseline) {
+  _countSection(participant, dayIndex, prefix, baseline) {
     const columns =
       participant.data && Array.isArray(participant.data.columns)
         ? participant.data.columns
         : [];
     const pattern = new RegExp(`^${prefix}\\d+$`);
-    let count = 0;
+    let answered = 0;
+    let offBaseline = 0;
     for (const column of columns) {
       if (!pattern.test(column)) continue;
       const value = participant.getValueForDay(column, dayIndex);
       if (value === "" || value === null || value === undefined) continue;
       if (!this._isValidAnswer(participant, column, value)) continue;
-      if (String(value) !== baseline) count++;
+      answered++;
+      if (String(value) !== baseline) offBaseline++;
     }
-    return count;
+    return { answered, offBaseline };
   }
 
   // Whether a value is one of the coded answers the data dictionary allows.

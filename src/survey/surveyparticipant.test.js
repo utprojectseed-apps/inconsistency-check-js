@@ -66,10 +66,12 @@ const days = {
   9: taken(9, answers("mstr", [1, 2, 3, 4], [2, 3, 2, 4])),
   // the same for both parents
   10: taken(10, { ...answers("mstr", [1, 2, 3, 4], [2, 2, 2, 2]), ...answers("fstr", [1, 2, 3, 4], [3, 3, 3, 3]) }),
-  // translated for mother, so the stress answers are expected
-  11: taken(11, { tranm: 1, ...answers("mstr", [1, 2, 3, 4], [2, 3, 2, 4]) }),
-  // only 3 off, which is allowed
-  12: taken(12, answers("mstr", [1, 2, 3, 4], [2, 2, 2, 1])),
+  // translated for mother, and answered every mother question accordingly
+  11: taken(11, {
+    tranm: 1, ...answers("mstr", [1, 2, 3, 4], [2, 3, 2, 4]), ...answers("mag", AG, [1, 2, 3, 4]),
+  }),
+  // no translating for mother, but one agreement answer about it
+  12: taken(12, answers("mag", AG, [0, 0, 3, 0])),
   13: taken(13, { strti: "20:40" }), // took 50 minutes
   14: taken(14),
 };
@@ -83,6 +85,12 @@ const clockDays = {
   // night 2: 11:30 AM, surely a mis-tapped PM; and no finish time today
   3: taken(3, { act3h: 11, act3m: 4, act3p: 2, endti: "" }),
   4: taken(4, { act3h: 1, act3m: 1, act3p: 2 }), // night 3: 1:00 AM
+  // translated for father, then answered every father question as not translating
+  5: taken(5, { tranf: 1 }),
+  // translated for mother, but one task answered as not translated
+  6: taken(6, {
+    tranm: 1, ...answers("mstr", [1, 2, 3, 4], [2, 3, 1, 4]), ...answers("mag", AG, [1, 2, 3, 4]),
+  }),
 };
 
 class StudySurvey extends Survey {}
@@ -149,9 +157,24 @@ describe("SurveyParticipant", () => {
     expect(strikes(10)).toEqual([expect.stringMatching(
       /^G: Inconsistent answers for sections 1A, 1B\n.*\n {2}⚠ both the mother and the father sections contradict/
     )]);
-    // translated, so the section applies; and 3 off-baseline answers are allowed
+    // a single stray answer is enough
+    expect(strikes(12)).toEqual([
+      "F: Inconsistent answers for sections 2A" +
+        "\n  said they did not translate for their mother today, but still answered 1 question about it in section 2A",
+    ]);
+    // translated, and every answer agrees
     expect(strikes(11)).toEqual([]);
-    expect(strikes(12)).toEqual([]);
+  });
+
+  it("F: flags saying they translated, then answering any question as not translating", () => {
+    expect(strikes(5, clocks)).toEqual([
+      "F: Inconsistent answers for sections 1B, 2B" +
+        "\n  said they translated for their father today, but answered 8 of 8 questions in sections 1B, 2B as not translating",
+    ]);
+    expect(strikes(6, clocks)).toEqual([
+      "F: Inconsistent answers for sections 1A" +
+        "\n  said they translated for their mother today, but answered 1 of 8 questions in sections 1A as not translating",
+    ]);
   });
 
   it("K: flags lights off 2+ hours after the survey, using the next day's answer", () => {
