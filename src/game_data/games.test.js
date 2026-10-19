@@ -7,7 +7,7 @@ import { readFixture } from "../testing";
 // 1-7, Fortune Decks days 8-14), made by running synthetic Firebase records
 // through json2csv-cogtask. See fixtures/generate.py for the day-by-day plan.
 function load(name, idColumn, id = "9001") {
-  const data = readFixture(new URL(`./fixtures/${name}.csv`, import.meta.url));
+  const data = readFixture(new URL(`fixtures/${name}.csv`, import.meta.url));
   // the same steps a report page takes after an upload
   const ids = new dfd.Series(data[idColumn].values).unique();
   return new ParticipantList(ids, data).getParticipant(id).game;

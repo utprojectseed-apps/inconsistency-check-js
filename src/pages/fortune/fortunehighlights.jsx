@@ -77,7 +77,7 @@ export default function FortuneHighlights() {
 
 function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    var element = document.getElementById("fortunehighlights");
+    var element = document.querySelector("#fortunehighlights");
     var opt = {
         filename: "fortunehighlights-" + idString + ".pdf",
         image: { type: "png" },

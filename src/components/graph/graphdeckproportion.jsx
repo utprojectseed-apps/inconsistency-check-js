@@ -33,7 +33,7 @@ export default function GraphDeckProportion( {participant} ) {
     )
 }
 
-const GraphSingleDay = ({data, day, id}) => {
+const GraphSingleDay = ({data, day}) => {
     return (
         <div >
             <h3 style={{marginLeft: 20}}>Deck Choice Day: {day + 1}</h3>

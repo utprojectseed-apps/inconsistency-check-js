@@ -316,7 +316,7 @@ export default class SurveyParticipant {
               this.submitDateTimes[i] = submitDate2;
             }
           }
-        } catch (e) {
+        } catch {
           // leave as null if parsing fails
           this.submitDateTimes[i] = null;
         }
@@ -686,7 +686,7 @@ export default class SurveyParticipant {
           if (questionText) {
             this.missingQuestions[i].push(questionText);
           }
-        } catch (e) {
+        } catch {
           // If the question can't be found in the data dictionary, skip it
           // This can happen with new CSV format fields not yet in the dictionary
         }

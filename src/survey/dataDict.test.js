@@ -6,7 +6,7 @@ import { dataDictFromCsv } from "../testing";
 // REDCap form that renames a field or recodes an answer would quietly break
 // them, so check the dictionaries that ship with the report.
 describe.each(["Cognitive", "Fortune", "Mindmix1", "Mindmix2"])("%s data dictionary", (study) => {
-  const dict = dataDictFromCsv(readFileSync(new URL(`./${study}DataDict.csv`, import.meta.url), "utf8"));
+  const dict = dataDictFromCsv(readFileSync(new URL(`${study}DataDict.csv`, import.meta.url), "utf8"));
   const label = (field, code) => dict.getAnswers(field)[code];
 
   it("has every field the strike rules read, on every day", () => {

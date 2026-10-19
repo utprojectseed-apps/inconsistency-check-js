@@ -102,8 +102,8 @@ function DayReportedIssues({day, participant}) {
                 const mapped = answersMap[rawVal];
                 if (mapped !== undefined) displayVal = mapped;
             }
-        } catch (e) {
-
+        } catch {
+            // no answer map for this column: show the raw value
         }
     }
 

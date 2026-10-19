@@ -8,7 +8,7 @@ export default class DataDict {
     }
 
     static stripTags(text) {
-        return text.replace(/<[^>]*>/g, '')
+        return text.replaceAll(/<[^>]*>/g, '')
     }
 
     async readDataDict(form) {
@@ -77,7 +77,7 @@ export default class DataDict {
     }
 
     exists(varName) {
-        return this.df['Variable / Field Name'].values.indexOf(varName) !== -1;
+        return this.df['Variable / Field Name'].values.includes(varName);
     }
 
     isBranched(varName) {
@@ -109,7 +109,7 @@ export default class DataDict {
             let currentCondition = condition.match(/\[(.*?)\]/)[1];
             let afterBracket = condition.split("]")[1]
             if(afterBracket.includes("=")) {
-                afterBracket = afterBracket.replace(/['"=]/g, '') // removes ', ", =
+                afterBracket = afterBracket.replaceAll(/['"=]/g, '') // removes ', ", =
                 resultDict[currentCondition] = parseInt(afterBracket)
             } else {
                 resultDict[currentCondition] = "<>"

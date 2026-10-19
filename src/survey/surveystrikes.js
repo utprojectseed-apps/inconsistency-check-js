@@ -207,7 +207,7 @@ class Strikes {
                       if (!isNaN(hour) && hour < 20) flagged = true;
                     }
                 }
-              } catch (e) {
+              } catch {
                 // ignore
               }
             }
@@ -239,7 +239,9 @@ class Strikes {
                         if (!isNaN(hour) && (hour >= 20 || hour < 8)) hasNightSubmission = true;
                       }
                     }
-                  } catch (e) {}
+                  } catch {
+                    // unparseable timestamp: treat as no night submission
+                  }
                 }
               }
 
@@ -434,7 +436,7 @@ class Strikes {
         }
       } else if (parent.answer === "1") {
         const notTranslated = counts.filter((c) => c.answered > c.offBaseline);
-        if (notTranslated.length) {
+        if (notTranslated.length > 0) {
           unused.push({
             labels: notTranslated.map((c) => c.label),
             side: parent.side,
@@ -445,7 +447,7 @@ class Strikes {
       }
     }
 
-    if (!flagged.length && !unused.length) return;
+    if (flagged.length === 0 && unused.length === 0) return;
 
     const flaggedSides = new Set([...flagged, ...unused].map((f) => f.side));
     const bothSides = flaggedSides.size === 2;
@@ -453,7 +455,7 @@ class Strikes {
     const labels = [...flagged.map((f) => f.label), ...unused.flatMap((u) => u.labels)].sort();
 
     let detail = "";
-    if (flagged.length) {
+    if (flagged.length > 0) {
       const sides = new Set(flagged.map((f) => f.side));
       const who =
         sides.size === 2 ? "their mother or their father" : `their ${flagged[0].side}`;
@@ -489,7 +491,7 @@ class Strikes {
       participant.data && Array.isArray(participant.data.columns)
         ? participant.data.columns
         : [];
-    const pattern = new RegExp(`^${prefix}\\d+$`);
+    const pattern = new RegExp(String.raw`^${prefix}\d+$`);
     let answered = 0;
     let offBaseline = 0;
     for (const column of columns) {
@@ -508,7 +510,7 @@ class Strikes {
     try {
       const answers = participant.dataDict.getAnswers(field);
       return !!answers && answers[String(value)] !== undefined;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
@@ -519,7 +521,7 @@ class Strikes {
       const answers = participant.dataDict.getAnswers(field);
       const label = answers && answers[String(value)];
       if (label) return `${String(label).trim()} (${value})`;
-    } catch (e) {
+    } catch {
       /* fall through */
     }
     return String(value);
@@ -532,7 +534,7 @@ class Strikes {
         dayIndex
       )}_daily_survey_timestamp`;
       return participant.getValueForDay(column, dayIndex);
-    } catch (e) {
+    } catch {
       return null;
     }
   }

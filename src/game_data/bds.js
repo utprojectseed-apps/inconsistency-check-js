@@ -255,9 +255,8 @@ export default class BDS extends Game {
 
             let currTEML = 0;
             let currTETT = 0;
-            let previousLen = 0;
             for (let j = 0; j < listValues.length; ++j) {
-                previousLen = parseInt(listValues[j]);
+                let previousLen = parseInt(listValues[j]);
                 let currLen = parseInt(listValues[j]);
                 let previousAcc = accuracyValues[j - 1] === 'True' || accuracyValues[j - 1] === 'TRUE';
                 let currAcc = accuracyValues[j] === 'True' || accuracyValues[j] === 'TRUE';

@@ -239,7 +239,7 @@ function ParticipantHeader2({participant, bds, simon, cs}) {
 
     // compute aggregated average across the three brain games, ignoring zeros / missing
     const toNumOrNull = v => {
-        if (v === null || typeof v === 'undefined') return null
+        if (v === null || v === undefined) return null
         const p = parseFloat(v)
         return isNaN(p) || p === 0 ? null : p
     }

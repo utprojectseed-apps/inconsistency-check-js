@@ -108,7 +108,7 @@ export default function CognitiveHighlights() {
 
 async function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    var element = document.getElementById("cognitivehighlights");
+    var element = document.querySelector("#cognitivehighlights");
     var opt = {
         filename: "cognitivehighlights-" + idString + ".pdf",
         image: { type: "png" },

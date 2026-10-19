@@ -1,4 +1,3 @@
-import React from 'react';
 import rowsToFrame from './csvframe';
 import { useCSVReader } from 'react-papaparse';
 

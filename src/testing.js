@@ -33,10 +33,10 @@ export function dataDictFromCsv(text) {
 export function toCsv(columns, rows) {
   const cell = (value) => {
     const s = value === undefined || value === null ? "" : String(value);
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    return /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
   };
   return [columns, ...rows.map((row) => columns.map((c) => row[c]))]
-    .map((line) => line.map(cell).join(","))
+    .map((line) => line.map((value) => cell(value)).join(","))
     .join("\n") + "\n";
 }
 

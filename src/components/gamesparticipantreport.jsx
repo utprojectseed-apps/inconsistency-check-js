@@ -42,7 +42,7 @@ function ParticipantHeader({participant}) {
     const dayToCheck = lastPlayed > 0 ? lastPlayed : 1
 
     const strikes = participant.game?.strikes ? participant.game.strikes.getStrikesForDay(dayToCheck) : []
-    const maxSeverity = (strikes || []).reduce((max, s) => Math.max(max, s && typeof s.severity !== 'undefined' ? s.severity : 0), 0)
+    const maxSeverity = (strikes || []).reduce((max, s) => Math.max(max, s && s.severity !== undefined ? s.severity : 0), 0)
     let contactText = '--'
     if (maxSeverity === 2) contactText = 'PHONE CALL'
     else if (maxSeverity === 1) contactText = 'TEXT MESSAGE'

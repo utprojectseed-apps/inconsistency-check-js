@@ -167,7 +167,7 @@ export default class Game {
             const day = i + 1;
             const isBDS = this.taskName ? this.taskName === 'BDS' : this.constructor.name === 'BDS';
             const sessionsRaw = this.numberSessionsDays?.[i];
-            let sessions = 0;
+            let sessions;
             if (Array.isArray(sessionsRaw)) {
                 sessions = sessionsRaw.length;
             } else if (typeof sessionsRaw === 'number') {
@@ -202,7 +202,7 @@ export default class Game {
             }
 
             // Accuracy checks
-            if (typeof accuracyRaw !== 'undefined') {
+            if (accuracyRaw !== undefined) {
                 const accFrac = GameStrikes._toFraction(accuracyRaw);
                 if (!Number.isNaN(accFrac)) {
                     let accSeverity = null;

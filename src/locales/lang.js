@@ -28,8 +28,7 @@ export default class Lang {
         if (args === null) {
             return this.map[key];
         } else {
-            //eslint-disable-next-line
-            return this.map[key].replace(new RegExp("\{([^\{]+)\}", "g"), function(_unused, varName){
+            return this.map[key].replaceAll(/\{([^{]+)\}/g, function(_unused, varName){
                 return args[varName];
             });
         }

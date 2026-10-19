@@ -43,7 +43,7 @@ export default function GraphPoints( {participant, lang, daysToShow = 14, opt=1}
     )
 }
 
-const GraphSingleDay = ({data, day, id, lang}) => {
+const GraphSingleDay = ({data, day, lang}) => {
 
     return (
         <div>

@@ -1,4 +1,3 @@
-import React from "react";
 import GameStrikes from "../game_data/gamestrikes";
 
 // Compact strikes summary: shows very short reasons like "MISSING" or "<80".
@@ -49,7 +48,7 @@ export default function StrikesSummary({ strikes }) {
           ? GameStrikes.ACCURACY_THRESHOLDS.BDS
           : GameStrikes.ACCURACY_THRESHOLDS;
       const displaySeverity =
-        typeof s.triggerSeverity !== "undefined" ? s.triggerSeverity : s.severity;
+        s.triggerSeverity !== undefined ? s.triggerSeverity : s.severity;
       const thresh =
         displaySeverity === GameStrikes.Severity.CONTACT_2
           ? thresholds.CONTACT_2

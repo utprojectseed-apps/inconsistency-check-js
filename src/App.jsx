@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { NavLink, Routes, Route, useLocation } from "react-router-dom";
 import Logo from "./favicon.png";

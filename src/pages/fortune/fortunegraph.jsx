@@ -43,7 +43,7 @@ function FortuneAllGraph(props) {
     if(participantList === null) {
         return null
     }
-    const data = Array(14).fill({}).map((_, i) => ({ index: i + 1 }))
+    const data = Array.from({length: 14}, (_, i) => ({ index: i + 1 }))
     const allParticipants = participantList.participants;
     for(let i = 0; i < allParticipants.length; i++) {
         let participant = allParticipants[i]

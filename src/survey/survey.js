@@ -27,7 +27,7 @@ export default class Survey {
      * @return {string} The text without HTML tags.
      */
     static stripTags(text) {
-        return text.replace(/<[^>]*>/g, '')
+        return text.replaceAll(/<[^>]*>/g, '')
     }
 
     /**

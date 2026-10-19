@@ -46,8 +46,10 @@ const WEEKDAYS = [
 function neededColumns() {
   const columns = ["participant_id"];
   for (let n = 1; n <= TOTAL_DAYS; ++n) {
-    columns.push(`t${n}act3h`, `t${n}act3m`, `t${n}act3p`);
-    columns.push(`day_${n}_${WEEKDAYS[(n - 1) % 7]}_daily_survey_timestamp`);
+    columns.push(
+      `t${n}act3h`, `t${n}act3m`, `t${n}act3p`,
+      `day_${n}_${WEEKDAYS[(n - 1) % 7]}_daily_survey_timestamp`,
+    );
   }
   return columns;
 }
