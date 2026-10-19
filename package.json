@@ -18,13 +18,14 @@
     "recharts": "^2.12.7"
   },
   "scripts": {
-    "deploy": "pnpm lint && pnpm test --run && pnpm run build && gh-pages -d build",
+    "deploy": "pnpm test --run && pnpm run build && gh-pages -d build",
     "start": "vite",
     "build": "vite build",
     "test": "vitest",
     "clean": "rm -rf build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
