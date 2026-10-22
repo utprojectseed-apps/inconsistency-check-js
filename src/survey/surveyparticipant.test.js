@@ -213,4 +213,14 @@ describe("SurveyParticipant", () => {
     expect(participant.getCumulativeComp(13)).toBe(43);
     expect(participant.getPotentialCumulativeComp(13)).toBe(43);
   });
+
+  it("projects full pay for a cycle that starts today", () => {
+    const fresh = new StudySurvey();
+    fresh.dataDict = survey.dataDict;
+    fresh.setData(redcapExport({ id: "9003", startdt: "2026-09-25", days: {} }));
+    fresh.setSelectedIds(["9003"]);
+    const [today] = fresh.getParticipants();
+    expect(today.getPotentialCumulativeComp(0)).toBe(3);
+    expect(today.getPotentialCumulativeComp(13)).toBe(50);
+  });
 });

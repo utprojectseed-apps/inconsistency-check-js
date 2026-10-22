@@ -373,7 +373,7 @@ export default class SurveyParticipant {
       if (this.cyclePassed(i)) {
         potentialCumComp[i] = cumulativeComp[i];
       } else {
-        potentialCumComp[i] = potentialCumComp[i - 1] + BASE_COMP + BONUSES[i];
+        potentialCumComp[i] = (i === 0 ? 0 : potentialCumComp[i - 1]) + BASE_COMP + BONUSES[i];
       }
     }
 
