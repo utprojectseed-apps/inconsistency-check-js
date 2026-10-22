@@ -117,7 +117,7 @@ export default function CognitiveHighlights() { // should rename this
 
 async function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    var element = document.querySelector("#cognitivehighlights");
+    var element = document.querySelector("#mindmixhighlights");
     var opt = {
         filename: "mix1highlights-" + idString + ".pdf",
         image: { type: "png" },

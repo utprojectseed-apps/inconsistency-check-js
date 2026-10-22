@@ -118,9 +118,9 @@ export default function CognitiveHighlights() { // should rename this
 
 async function printPlease(selectedIds) {
     var idString = selectedIds[0]
-    var element = document.querySelector("#cognitivehighlights");
+    var element = document.querySelector("#mindmixhighlights");
     var opt = {
-        filename: "mix1highlights-" + idString + ".pdf",
+        filename: "mix2highlights-" + idString + ".pdf",
         image: { type: "png" },
         html2canvas: { scale: 1 },
         jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
