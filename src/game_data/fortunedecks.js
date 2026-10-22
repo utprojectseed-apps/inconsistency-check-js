@@ -9,8 +9,6 @@ export default class FortuneDeck extends Game {
         // stable task identifier (avoid relying on constructor.name which is minified in production)
         this.taskName = 'FortuneDeck';
         this.participant_id = participant_id;
-        this.numberSessionsDays = Array(Game.TotalDays).fill().map(() => []);
-        this.calculateCompletionsDays();
         this.calculateScore();
         this.calculateEndPoints();
         this.calculateBonus();

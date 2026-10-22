@@ -14,7 +14,6 @@ export default class Simon extends Game {
         this.practiceTrialsAccuracys = Array(Game.TotalDays).fill().map(() => []);
         this.noInputTrialsDays = Array(Game.TotalDays).fill().map(() => []);
         
-        this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateMeanReactionTime();
         this.calculateMeanCorrectReactionTime();

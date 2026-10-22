@@ -26,6 +26,7 @@ describe("BDS", () => {
     // day 2 missed, day 3 stopped at 7 of 14 trials, day 4 an abandoned
     // session followed by a full one
     expect(firstWeek(bds.getCompletedDays())).toEqual([100, 0, 50, 100, 100, 100, 100]);
+    expect(firstWeek(bds.getNumberSessionsDays())).toEqual([1, 0, 1, 2, 1, 1, 1]);
     expect(firstWeek(bds.getMeanSessionsAccuracys())).toEqual(
       ["71.43", 0, "100.00", "85.71", "21.43", "100.00", "78.57"]
     );

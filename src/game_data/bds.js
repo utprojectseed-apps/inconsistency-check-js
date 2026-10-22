@@ -22,7 +22,6 @@ export default class BDS extends Game {
         this.twoErrorTotalTrials = Array(Game.TotalDays).fill().map(() => []);
         this.setUpCycles();
 
-        this.calculateCompletionsDays();
         this.calculateSessionAccuracyDays();
         this.calculateAverageDigitSpanDays();
         this.calculateMaxDigitSpanDays();
