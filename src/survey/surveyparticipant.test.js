@@ -119,6 +119,10 @@ describe("SurveyParticipant", () => {
     expect([participant.getParticipantId(), clocks.getParticipantId()]).toEqual(["9001", "9002"]);
   });
 
+  it("shows placeholders for a de-identified export's names", () => {
+    expect(participant.getName()).toBe("FIRST LAST");
+  });
+
   it("A: measures how much of each day was answered", () => {
     const pct = participant.getPercentComplete();
     // 24 questions count; the lights-off answers are optional

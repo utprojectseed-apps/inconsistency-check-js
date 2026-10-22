@@ -76,20 +76,13 @@ export default class SurveyParticipant {
     return this.getName() + " " + this.getParticipantId();
   }
 
+  // De-identified exports have no name columns, so fall back to placeholders.
   getName() {
-    let firstName = "FIRST";
-    let lastName = "LAST";
-    // TO-DO: Change line below to  if (this.data["tfirname"]!= null) {
-    if (this.data["tfirname"] !== undefined || this.data["tfirname"] !== null) {
-      firstName = this.data["tfirname"].values[0].trim();
-    }
-    if (
-      this.data["tlastname"] !== undefined ||
-      this.data["tlastname"] !== null
-    ) {
-      lastName = this.data["tlasname"].values[0].trim();
-    }
-    return firstName + " " + lastName;
+    const name = (column, placeholder) => {
+      const value = this.data[column]?.values[0];
+      return typeof value === "string" ? value.trim() : placeholder;
+    };
+    return name("tfirname", "FIRST") + " " + name("tlasname", "LAST");
   }
 
   getParticipantId() {
