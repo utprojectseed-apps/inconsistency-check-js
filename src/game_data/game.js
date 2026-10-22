@@ -2,6 +2,9 @@ import {parseISO, differenceInSeconds, format} from 'date-fns';
 import {REPORT_DT_FORMAT} from './constants.js';
 import GameStrikes from './gamestrikes.js';
 
+// Accuracy cells. Exports have said both True and TRUE.
+export const isTrue = (value) => String(value).toLowerCase() === 'true';
+
 export default class Game {
     constructor(data) {
         if (this.constructor === Game) {

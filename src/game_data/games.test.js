@@ -6,13 +6,15 @@ import { frameFromCsv, readFixture } from "../testing";
 // The fixtures are QA participant 9001's Mind Mix 1 cycle (brain games days
 // 1-7, Fortune Decks days 8-14), made by running synthetic Firebase records
 // through json2csv-cogtask. See fixtures/generate.py for the day-by-day plan.
-function load(name, idColumn, id = "9001") {
-  const data = readFixture(new URL(`fixtures/${name}.csv`, import.meta.url));
+function load(name, idColumn, id = "9001", edit) {
+  const data = readFixture(new URL(`fixtures/${name}.csv`, import.meta.url), edit);
   // the same steps a report page takes after an upload
   const ids = new dfd.Series(data[idColumn].values).unique();
   return new ParticipantList(ids, data).getParticipant(id).game;
 }
 
+// BDS exports have been seen with TRUE/FALSE instead of True/False
+const uppercaseTrue = (text) => text.replaceAll(",True", ",TRUE");
 const firstWeek = (values) => values.slice(0, 7);
 const strikesOn = (game, day) =>
   game.strikes.getStrikesForDay(day).map((s) => [s.scenario, s.severity]);
@@ -65,6 +67,13 @@ describe("Simon", () => {
     expect(simon.getNoInputTrialsDays().slice(0, 2)).toEqual(["0 out of 32", "2 out of 16"]);
     expect(simon.getPracticeTrialsAmountDays()[0]).toBe(4);
   });
+
+  it("scores TRUE the same as True", () => {
+    const upper = load("simon", "Subject", "9001", uppercaseTrue);
+    for (const stat of ["getMeanSessionsAccuracys", "getMeanCorrectReactionTime", "getPracticeTrialsAccuracyDays"]) {
+      expect(upper[stat]()).toEqual(simon[stat]());
+    }
+  });
 });
 
 describe("Color-Shape", () => {
@@ -74,6 +83,13 @@ describe("Color-Shape", () => {
     expect(cs.getCompletedDays()[0]).toBe(100);
     expect(cs.getMeanSessionsAccuracys()[0]).toBe("90.91");
     expect(cs.getNoInputTrialsDays()[0]).toBe("1 out of 33");
+  });
+
+  it("scores TRUE the same as True", () => {
+    const upper = load("cs", "Subject", "9001", uppercaseTrue);
+    for (const stat of ["getMeanSessionsAccuracys", "getMeanCorrectReactionTime", "getPracticeTrialsAccuracyDays"]) {
+      expect(upper[stat]()).toEqual(cs[stat]());
+    }
   });
 });
 

@@ -13,8 +13,8 @@ export function frameFromCsv(text) {
   return rowsToFrame(rows);
 }
 
-export function readFixture(url) {
-  return frameFromCsv(readFileSync(url, "utf8"));
+export function readFixture(url, edit = (text) => text) {
+  return frameFromCsv(edit(readFileSync(url, "utf8")));
 }
 
 /** A REDCap data dictionary, parsed the way dfd.readCSV parses the bundled ones. */

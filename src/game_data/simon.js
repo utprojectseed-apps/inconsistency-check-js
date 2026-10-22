@@ -1,4 +1,4 @@
-import Game from "./game";
+import Game, { isTrue } from "./game";
 import * as dfd from 'danfojs';
 
 export default class Simon extends Game {
@@ -84,7 +84,7 @@ export default class Simon extends Game {
             let count = 0.0;
 
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') {
+                if (isTrue(accuracyValues[j])) {
                     count++;
                 }
             } 
@@ -114,7 +114,7 @@ export default class Simon extends Game {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            testing_df = testing_df.loc({rows: testing_df['Slide1.ACC'].eq('True')});
+            testing_df = testing_df.loc({rows: testing_df['Slide1.ACC'].values.map((value) => isTrue(value))});
             let reactionTimes = testing_df['Slide1.RT'].values;
 
             let count = 0;
@@ -147,7 +147,7 @@ export default class Simon extends Game {
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // TODO: check
+                if (isTrue(accuracyValues[j])) { // TODO: check
                     count++;
                 }
             }

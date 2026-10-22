@@ -1,4 +1,4 @@
-import Game from "./game";
+import Game, { isTrue } from "./game";
 import * as dfd from 'danfojs';
 
 // TODO rename to color-shape
@@ -84,7 +84,7 @@ export default class ColorShape extends Game {
             
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') { // need to check 
+                if (isTrue(accuracyValues[j])) { // need to check 
                     count++;
                 }
             } 
@@ -124,7 +124,7 @@ export default class ColorShape extends Game {
         for (let i = 0; i < Game.TotalDays; ++i) {
             let df = this.days[i];
             let testing_df = df.loc({rows: df['task_section'].eq('test')});
-            testing_df = testing_df.loc({rows: testing_df['CriticalSlide.ACC'].eq('True')});
+            testing_df = testing_df.loc({rows: testing_df['CriticalSlide.ACC'].values.map((value) => isTrue(value))});
             let reactionTimes = testing_df['CriticalSlide.RT'].values;
 
             let count = 0;
@@ -175,7 +175,7 @@ export default class ColorShape extends Game {
 
             let count = 0.0;
             for (let j = 0; j < accuracyValues.length; ++j) {
-                if (accuracyValues[j] === 'True') {
+                if (isTrue(accuracyValues[j])) {
                     count++;
                 }
             }
