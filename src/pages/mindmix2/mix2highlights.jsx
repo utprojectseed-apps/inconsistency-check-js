@@ -489,7 +489,7 @@ function FortunePointsGraph(props) {
                         dy={-10}
                         dataKey="day" 
                         type="number" 
-                        domain={[1, ]} 
+                        domain={[1, 7]} 
                         tickCount={7} 
                         tickFormatter={(day) => DAYSOFWEEK[(day - 1) % 7]}
                         axisLine={false}
