@@ -52,7 +52,7 @@ export default function CognitiveHighlights() {
         if(bdsData !== undefined) {
             const subjects = bdsData['Subject']
             if(subjects === undefined) {
-                setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
+                setErrorMessage("No 'Subject' column found in data, please make sure you have a bds dataset.")
             } else {
                 let participants = new dfd.Series(bdsData['Subject'].values).unique()
                 // a bit jank so it will have to do for now

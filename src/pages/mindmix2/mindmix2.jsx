@@ -47,7 +47,7 @@ export default function CognitiveGame() {
         if(fortuneData !== undefined) {
             const subjects = fortuneData['subject_id']
             if(subjects === undefined) {
-                setErrorMessage("No 'subject_id' column found in data, please make sure you have a bds dataset.")
+                setErrorMessage("No 'subject_id' column found in data, please make sure you have a fortune deck dataset.")
             } else {
                 let participants = new dfd.Series(fortuneData['subject_id'].values).unique()
                 // jank for rn

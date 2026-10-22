@@ -296,7 +296,7 @@ function ParticipantHeader2({participant, bds, simon, cs, fortune}) {
                 }
 
                 const maxSeverity = strikes.reduce((max, s) => Math.max(max, s.severity || 0), 0)
-                if (maxSeverity === 2) return <h3 style={{color: 'crimson'}}>CContact Needed for Day {dayToCheck}: PHONE CALL</h3>
+                if (maxSeverity === 2) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: PHONE CALL</h3>
                 if (maxSeverity === 1) return <h3 style={{color: 'crimson'}}>Contact Needed for Day {dayToCheck}: TEXT MESSAGE</h3>
                 return <h3>Contact Needed for Day {dayToCheck}: --</h3>
             })()}
