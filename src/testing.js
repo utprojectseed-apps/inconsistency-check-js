@@ -3,13 +3,13 @@
 import { readFileSync } from "node:fs";
 import * as dfd from "danfojs";
 import { readString } from "react-papaparse";
-import rowsToFrame from "./components/csvframe";
+import rowsToFrame, { PARSE_CONFIG } from "./components/csvframe";
 import DataDict from "./survey/dataDict";
 
 /** CSV text -> DataFrame, exactly as an uploaded file is read. */
 export function frameFromCsv(text) {
   let rows;
-  readString(text, { complete: (results) => { rows = results.data; } });
+  readString(text, { ...PARSE_CONFIG, complete: (results) => { rows = results.data; } });
   return rowsToFrame(rows);
 }
 

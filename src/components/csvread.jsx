@@ -1,4 +1,4 @@
-import rowsToFrame from './csvframe';
+import rowsToFrame, { PARSE_CONFIG } from './csvframe';
 import { useCSVReader } from 'react-papaparse';
 
 const styles = {
@@ -33,6 +33,7 @@ export default function CSVReader({parentCallback, gameId}) {
 
   return (
     <CSVReader
+      config={PARSE_CONFIG}
       onUploadAccepted={(results) => {
         parentCallback(rowsToFrame(results.data), gameId)
       }}

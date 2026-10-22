@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as dfd from "danfojs";
 import ParticipantList from "./participants";
-import { readFixture } from "../testing";
+import { frameFromCsv, readFixture } from "../testing";
 
 // The fixtures are QA participant 9001's Mind Mix 1 cycle (brain games days
 // 1-7, Fortune Decks days 8-14), made by running synthetic Firebase records
@@ -91,5 +91,13 @@ describe("Fortune Decks", () => {
     expect(strikesOn(fortune, 8)).toEqual([]);
     expect(strikesOn(fortune, 9).map(([scenario]) => scenario)).toEqual(["MISSING"]);
     expect(strikesOn(fortune, 10).map(([scenario]) => scenario)).toEqual(["COMPLETION"]);
+  });
+});
+
+describe("uploads", () => {
+  it("ignore blank lines, so a trailing one can't become a participant", () => {
+    // with the id column first, a blank row used to give a participant ""
+    const data = frameFromCsv("Subject,day\n9001,1\n\n");
+    expect(data["Subject"].values).toEqual(["9001"]);
   });
 });

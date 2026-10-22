@@ -1,5 +1,9 @@
 import * as dfd from 'danfojs'
 
+// Papa Parse options for every upload. A trailing blank line would otherwise
+// become a row, and with the id column first, a participant "".
+export const PARSE_CONFIG = { skipEmptyLines: 'greedy' }
+
 // Papa Parse rows (header row first) -> DataFrame, exactly as an upload is read.
 export default function rowsToFrame(lines) {
   const keys = lines[0];
