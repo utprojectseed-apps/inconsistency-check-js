@@ -23,7 +23,7 @@ export function estCompensation(avgCompletionRates, bds) {
     }
 
     for (let i = 0; i < 14; ++i) {
-        if (i < bds.game.cyclePassed(i)) {
+        if (bds.game.cyclePassed(i)) {
             potentialCumComp[i] = cumulativeComp[i];
         } else {
             potentialCumComp[i] = (i === 0 ? 0 : potentialCumComp[i - 1]) + BASE_COMP + BONUS_AMOUNTS[i];
